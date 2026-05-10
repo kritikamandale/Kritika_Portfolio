@@ -1,0 +1,84 @@
+/* src/sections/Philosophy/Philosophy.module.css */
+/* ============================================================
+   PHILOSOPHY SECTION — Sunset Bliss Light
+   ============================================================ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.block {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-clay);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition:
+    border-color var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+.block:hover {
+  border-color: var(--color-card-border-hover);
+  box-shadow: var(--shadow-clay-lg);
+}
+
+.icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--space-4);
+  background: linear-gradient(135deg, var(--banana-cream), var(--pumpkin-spice));
+  box-shadow: 0 4px 16px rgba(255, 140, 66, 0.3);
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1A1D20;
+  transition: transform var(--transition-spring);
+}
+
+.block:hover .icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.block:global(.visible) .icon {
+  animation: floatIcon 3s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.heading {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-4);
+}
+
+.text {
+  font-size: var(--text-md);
+  line-height: 1.8;
+  color: var(--color-text-secondary);
+}
+
+.text em {
+  color: var(--pumpkin-spice);
+  font-weight: var(--font-semibold);
+  font-style: normal;
+}
+
+@media (min-width: 768px) {
+  .block { flex-direction: row; text-align: left; align-items: flex-start; gap: var(--space-6); }
+  .icon { margin-bottom: 0; flex-shrink: 0; }
+}

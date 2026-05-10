@@ -1,0 +1,125 @@
+/* src/sections/Achievements/Achievements.module.css */
+/* ============================================================
+   ACHIEVEMENTS SECTION — Sunset Bliss Light
+   ============================================================ */
+
+.list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-6) var(--space-8);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-clay);
+  transition: transform var(--transition-spring), box-shadow var(--transition-base), border-color var(--transition-base);
+  text-align: left;
+}
+
+.card:hover {
+  transform: translateX(10px);
+  border-color: var(--pumpkin-spice);
+  box-shadow: var(--shadow-clay-lg);
+}
+
+.iconWrapper {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--banana-cream), var(--pumpkin-spice));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  box-shadow: 0 8px 16px rgba(255, 140, 66, 0.2);
+  z-index: 2;
+}
+
+.content {
+  flex-grow: 1;
+  z-index: 2;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.eventWrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.event {
+  font-size: var(--text-md);
+  font-weight: var(--font-bold);
+  color: var(--cinnabar);
+}
+
+.category {
+  font-size: var(--text-xs);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-2);
+  color: var(--dusty-mauve);
+  border: 1px solid var(--color-card-border);
+  font-weight: var(--font-semibold);
+}
+
+.desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* Watermark */
+.watermark {
+  position: absolute;
+  right: -20px;
+  bottom: -40px;
+  font-size: 10rem;
+  opacity: 0.10; /* Increased opacity to make it darker/more visible */
+  pointer-events: none;
+  transform: rotate(-15deg);
+  transition: transform var(--transition-spring), opacity var(--transition-base);
+  z-index: 0;
+}
+
+.card:hover .watermark {
+  transform: rotate(0deg) scale(1.1);
+  opacity: 0.20; /* Darker on hover */
+}
+
+@media (max-width: 768px) {
+  .list {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--space-4);
+  }
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  .eventWrap {
+    justify-content: center;
+  }
+}

@@ -1,0 +1,173 @@
+/* src/components/ScrollReveal/ScrollReveal.module.css */
+/* ============================================================
+   SCROLL REVEAL — v2 REWRITE
+   CRITICAL RULES:
+   ✓  .overlay background is ALWAYS transparent — never dark
+   ✓  .shape owns all colour — it is the only coloured element
+   ✓  .name floats above .shape at z-index 2
+   ✓  .content has NO opacity/display tricks — always visible
+   ============================================================ */
+
+/* ── Scroll-trigger spacer ────────────────────────────────────
+   An empty, transparent block in normal flow. Its height is
+   the "scroll budget" — all 4 phases happen as the user scrolls
+   through this invisible space. The JS sets --trigger-height.
+   ──────────────────────────────────────────────────────────── */
+.trigger {
+  height: var(--trigger-height, 400vh);
+  position: relative;
+  /* Completely invisible — it is just scroll space */
+  background: transparent;
+  /* Never intercept mouse events */
+  pointer-events: none;
+}
+
+/* ── Fixed overlay wrapper ────────────────────────────────────
+   Covers the viewport while the animation runs.
+   BACKGROUND: transparent — the page shows through the gaps
+   around the shape during Phase 1.
+   pointer-events: none — portfolio is always clickable.
+   ──────────────────────────────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;                   /* top:0 right:0 bottom:0 left:0 */
+  z-index: 100;               /* above portfolio (z:0), below Loader (z:999) */
+  background: transparent;    /* ← THE FIX for BUG 1. Never dark. */
+  pointer-events: none;       /* let clicks through to portfolio */
+  /* No transition — JS owns every value */
+}
+
+/* ── Morphing clay shape ──────────────────────────────────────
+   Starts as a small pill, grows to fill 100vw × 100vh.
+   All geometry (width, height, border-radius, background-color,
+   opacity) is written directly by JS each animation frame.
+   ──────────────────────────────────────────────────────────── */
+.shape {
+  position: absolute;
+  /* Anchor at exact viewport centre */
+  left: 50%;
+  top: 50%;
+  /* Pull back by half its own size — keeps it centred at any size */
+  transform: translate(-50%, -50%);
+
+  z-index: 1;           /* below .name (z:2) */
+
+  /* Clip the gloss highlight to the rounded shape */
+  overflow: hidden;
+
+  /* Tell the compositor which properties will change */
+  will-change: width, height, border-radius, background-color, opacity;
+
+  /* Prevent subpixel shimmer on transform */
+  backface-visibility: hidden;
+}
+
+/* Claymorphism top-left gloss highlight
+   Inherits border-radius from parent via 'inherit' */
+.shape::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* Light source hits top-left corner */
+  width: 60%;
+  height: 45%;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.50) 0%,
+    rgba(255, 255, 255, 0.00) 100%
+  );
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* ── Name text ────────────────────────────────────────────────
+   Appears centred inside/over the shape at Phase 2.
+   Opacity is driven by JS (starts at 0, JS raises it).
+   ──────────────────────────────────────────────────────────── */
+.name {
+  position: absolute;
+  /* Same centring trick as the shape */
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  z-index: 2;           /* above .shape (z:1) */
+
+  /* Typography */
+  font-family: var(--font-sans, 'Poppins', system-ui, sans-serif);
+  /* fluid: 48px at small screens, 10vw in mid, 96px max */
+  font-size: clamp(52px, 11vw, 110px);
+  font-weight: 800;
+  /* Deep purple — readable against all palette pastels */
+  color: #26215c;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  white-space: nowrap;
+
+  /* Never block pointer-events (overlay already handles this) */
+  pointer-events: none;
+  /* Prevent text selection during scroll */
+  user-select: none;
+
+  /* JS starts this at 0 — no transition */
+  will-change: opacity;
+}
+
+/* ── Portfolio content wrapper ────────────────────────────────
+   THE FIX FOR BUG 2:
+   No opacity, no visibility, no display manipulation here.
+   The content is always fully visible and interactive.
+   The overlay sits on top during the animation; once it is
+   removed (display:none), the content is naturally exposed.
+   ──────────────────────────────────────────────────────────── */
+.content {
+  position: relative;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+/* Soft launch — fades in when the name zoom completes */
+.contentVisible {
+  opacity: 1;
+}
+
+/* ── Skip intro button ────────────────────────────────────────
+   Accessible escape hatch. Scrolls past the trigger section.
+   Uses a single CSS transition (it is not part of the animation
+   — it is UI chrome and transition is appropriate here).
+   ──────────────────────────────────────────────────────────── */
+.skipBtn {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 101;   /* above overlay */
+
+  padding: 0.45rem 1.1rem;
+  border-radius: 9999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: rgba(38, 33, 92, 0.8);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+
+  /* CSS transition OK here — this is UI chrome, not the animation */
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.skipBtn:hover {
+  background: rgba(255, 255, 255, 0.30);
+  transform: translateY(-2px);
+}
+
+/* Hide for users who prefer reduced motion — they bypass
+   the whole animation and land directly on the portfolio */
+@media (prefers-reduced-motion: reduce) {
+  .skipBtn { display: none; }
+}
