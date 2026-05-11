@@ -16,16 +16,16 @@
   position: absolute;
   top: 10px;
   left: 10px;
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  height: 300px;
   color: var(--banana-cream);
   z-index: 1;
 }
 
 .blobWrapper {
   position: absolute;
-  bottom: -20px;
-  right: -20px;
+  bottom: 10px;
+  right: 10px;
   width: 140px;
   height: 140px;
   color: var(--pumpkin-spice);
@@ -36,7 +36,8 @@
 .glassCard {
   position: relative;
   z-index: 2;
-  margin: 24px;
+  margin: 24px auto;
+  max-width: 1000px;
   background: rgba(253, 238, 238, 0.08);
   border: 1px solid rgba(253, 238, 238, 0.15);
   border-radius: var(--radius-2xl);
@@ -138,6 +139,17 @@
   margin: 0;
   line-height: 1.1;
   color: var(--color-footer-text);
+}
+
+.tagline {
+  position: relative;
+  z-index: 1;
+  font-size: var(--text-sm, 14px);
+  color: var(--color-footer-text);
+  opacity: 0.7;
+  margin-top: 12px;
+  margin-left: 3px;
+  letter-spacing: 0.02em;
 }
 
 /* Bottom Row */

@@ -1,69 +1,72 @@
 /* src/sections/Philosophy/Philosophy.module.css */
 /* ============================================================
-   PHILOSOPHY SECTION — Sunset Bliss Light
+   PHILOSOPHY SECTION — High-End Editorial
    ============================================================ */
 
 .container {
   display: flex;
   flex-direction: column;
-  gap: var(--space-8);
   max-width: 800px;
   margin: 0 auto;
 }
 
-.block {
-  background: var(--color-surface);
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-2xl);
-  padding: var(--space-8);
-  box-shadow: var(--shadow-clay);
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-6);
+  padding: var(--space-8) 0;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.15);
+}
+
+/* Fallback for dark mode, assuming var(--color-divider) exists. If not, fallback works mostly for light theme. */
+@media (prefers-color-scheme: dark) {
+  .item {
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.15);
+  }
+}
+
+:global(body.dark-mode) .item {
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.15);
+}
+
+.item:first-child {
+  padding-top: 0;
+}
+
+.item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.indexNum {
+  min-width: 24px;
+  color: var(--dusty-mauve, #a18a96);
+  font-size: var(--text-sm, 14px);
+  font-weight: var(--font-medium);
+  padding-top: 4px; /* Align nicely with the text/quote */
+}
+
+.content {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  transition:
-    border-color var(--transition-base),
-    box-shadow var(--transition-base);
 }
 
-.block:hover {
-  border-color: var(--color-card-border-hover);
-  box-shadow: var(--shadow-clay-lg);
-}
-
-.icon {
-  font-size: 2.5rem;
-  margin-bottom: var(--space-4);
-  background: linear-gradient(135deg, var(--banana-cream), var(--pumpkin-spice));
-  box-shadow: 0 4px 16px rgba(255, 140, 66, 0.3);
-  width: 80px;
-  height: 80px;
-  border-radius: var(--radius-full);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #1A1D20;
-  transition: transform var(--transition-spring);
-}
-
-.block:hover .icon {
-  transform: scale(1.1) rotate(5deg);
-}
-
-.block:global(.visible) .icon {
-  animation: floatIcon 3s ease-in-out infinite;
-}
-
-@keyframes floatIcon {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+.quote {
+  color: #c47a3a;
+  font-size: 13px;
+  font-style: italic;
+  font-weight: bold;
+  margin-bottom: 6px;
+  display: block;
 }
 
 .heading {
-  font-family: var(--font-heading);
-  font-size: var(--text-2xl);
+  font-family: 'Georgia', serif;
+  font-size: 22px;
+  font-weight: 700;
   color: var(--color-text-primary);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-3);
+  line-height: 1.2;
 }
 
 .text {
@@ -72,13 +75,9 @@
   color: var(--color-text-secondary);
 }
 
-.text em {
-  color: var(--pumpkin-spice);
-  font-weight: var(--font-semibold);
-  font-style: normal;
-}
-
-@media (min-width: 768px) {
-  .block { flex-direction: row; text-align: left; align-items: flex-start; gap: var(--space-6); }
-  .icon { margin-bottom: 0; flex-shrink: 0; }
+@media (max-width: 768px) {
+  .item {
+    gap: var(--space-4);
+    padding: var(--space-6) 0;
+  }
 }
