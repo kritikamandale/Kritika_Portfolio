@@ -53,7 +53,7 @@ const Footer = () => {
             <AsteriskLogo />
             <span className={styles.nameSmall}>KRITIKA MANDALE</span>
           </div>
-          
+
           <div className={styles.linksContainer}>
             <div className={styles.linkCol}>
               <a href="#hero">Home</a>
@@ -76,13 +76,14 @@ const Footer = () => {
         {/* Big Name Row */}
         <div className={styles.bigNameContainer}>
           <div className={styles.glowBlob}></div>
-          <h1 className={styles.bigName}>Kritika Mandale</h1>
+          <h1 className={styles.bigName}>KRITIKALOG</h1>
+          <p className={styles.tagline}>Every project. Every lesson. Catalogued.</p>
         </div>
 
         {/* Bottom Row */}
         <div className={styles.divider}></div>
         <div className={styles.bottomRow}>
-          <span className={styles.copyright}>© 2025 KRITIKA MANDALE. All Rights Reserved.</span>
+          <span className={styles.copyright}>© 2026 Kritikalog All Rights Reserved.</span>
           <span className={styles.legal}>Privacy Policy · Open to Work</span>
         </div>
       </div>

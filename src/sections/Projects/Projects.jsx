@@ -47,7 +47,7 @@ const PROJECTS = [
     tags: ['PyTorch', 'SMP', 'Albumentations', 'Gemini API', 'Python'],
     githubUrl: 'https://github.com/kritikamandale/HackDaysNagpur',
     liveUrl: '#',
-    featured: false,
+    featured: true,
   },
   {
     id: 'p3',
@@ -60,7 +60,7 @@ const PROJECTS = [
     tags: ['Python', 'NLP', 'Full-Stack', 'Machine Learning'],
     githubUrl: '#',
     liveUrl: '#',
-    featured: false,
+    featured: true,
   },
 ];
 

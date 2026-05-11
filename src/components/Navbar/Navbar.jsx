@@ -10,25 +10,25 @@ import Button from '../Button/Button';
 import styles from './Navbar.module.css';
 
 const NAV_LINKS = [
-  { label: 'Home',       href: '#hero'       },
-  { label: 'About',      href: '#about'      },
+  { label: 'Home', href: '#hero' },
+  { label: 'About', href: '#about' },
   { label: 'Experience', href: '#experience' },
-  { label: 'Projects',   href: '#projects'   },
-  { label: 'GitHub',     href: '#github'     },
-  { label: 'Achievements',href: '#achievements'},
-  { label: 'Skills',     href: '#skills'     },
+  { label: 'Projects', href: '#projects' },
+  { label: 'GitHub', href: '#github' },
+  { label: 'Achievements', href: '#achievements' },
+  { label: 'Skills', href: '#skills' },
   { label: 'Philosophy', href: '#philosophy' },
-  { label: 'Contact',    href: '#contact'    },
+  { label: 'Contact', href: '#contact' },
 ];
 
 const Navbar = () => {
-  const [active, setActive]   = useState('hero');
-  const [menuOpen, setMenu]   = useState(false);
+  const [active, setActive] = useState('hero');
+  const [menuOpen, setMenu] = useState(false);
 
   /* ── Active section detection ── */
   useEffect(() => {
     const sectionIds = NAV_LINKS.map((l) => l.href.slice(1));
-    
+
     // Use a single observer for better performance and consistency
     const observer = new IntersectionObserver(
       (entries) => {
@@ -72,7 +72,7 @@ const Navbar = () => {
       <div className={styles.inner}>
         {/* Logo */}
         <a href="#hero" className={styles.logo}>
-          ✦ <span>Critika</span>
+          ✦ <span>kritikalog</span>
         </a>
 
         {/* Desktop links */}

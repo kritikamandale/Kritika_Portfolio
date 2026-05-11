@@ -33,7 +33,7 @@ const Hero = ({ revealDone }) => {
           {/* Greeting badge */}
           <div className={styles.greeting}>
             <span className={styles.wave} aria-hidden="true">👋</span>
-            Hi there, I'm Kritika
+            Hi there...
           </div>
 
           {/* Main heading — name with scribble doodles & wavy underline */}
@@ -60,6 +60,9 @@ const Hero = ({ revealDone }) => {
           {/* Role tagline */}
           <p className={styles.sub}>
             Full Stack Developer &amp; AI/ML Engineer, building end-to-end intelligent applications.
+          </p>
+          <p className={styles.heroTagline}>
+            Every project. Every lesson. Catalogued.
           </p>
 
           {/* CTA Buttons */}

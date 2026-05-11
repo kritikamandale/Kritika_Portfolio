@@ -168,13 +168,13 @@
   position: relative;
   display: inline-block;
   margin: var(--space-4) 0;
-  padding: 40px 60px;
+  padding: clamp(20px, 3vw, 40px) clamp(30px, 5vw, 60px);
   z-index: 2;
 }
 
 /* Name display */
 .nameTitle {
-  font-size: clamp(4rem, 9vw, 7rem);
+  font-size: clamp(3.5rem, 8vw, 12rem);
   font-family: var(--font-heading);
   font-weight: var(--font-extrabold);
   line-height: 1.05;
@@ -222,12 +222,21 @@
 
 /* Role tagline */
 .sub {
-  font-size: var(--text-sm);
+  font-size: clamp(0.875rem, 1.2vw, 1.125rem);
   color: var(--color-text-secondary);
-  max-width: 460px;
+  max-width: clamp(320px, 40vw, 560px);
   line-height: 1.6;
   letter-spacing: 0.01em;
   margin: 0 auto;
+}
+
+.heroTagline {
+  font-size: 14px;
+  color: #999;
+  letter-spacing: 0.09em;
+  font-weight: 400;
+  text-align: center;
+  margin: -12px auto 0; /* Pull slightly closer to the sub, since the container has a gap */
 }
 
 /* CTA buttons row */
