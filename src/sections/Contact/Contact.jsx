@@ -49,6 +49,16 @@ const SOCIALS = [
   { icon: <XIcon />,           label: 'Twitter',      href: 'https://twitter.com/kritikamandale' },
 ];
 
+const getContactEndpoint = () => {
+  const apiBaseUrl = import.meta.env.VITE_API_URL?.replace(/\/$/, '');
+
+  if (apiBaseUrl) {
+    return `${apiBaseUrl}/api/contact`;
+  }
+
+  return '/api/contact';
+};
+
 const Contact = () => {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
   const [status, setStatus] = useState({ type: null, message: '' });
@@ -64,7 +74,7 @@ const Contact = () => {
     setStatus({ type: null, message: '' });
 
     try {
-      const response = await fetch('http://localhost:3001/api/contact', {
+      const response = await fetch(getContactEndpoint(), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)
