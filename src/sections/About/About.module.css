@@ -20,8 +20,8 @@
   --color-text-secondary: #b3b3b3;
   --color-text-muted: #808080;
   --color-bg: #0d0d0d;
-  --about-body-lg: var(--text-md);
-  --about-body-md: var(--text-sm);
+  --about-body-lg: var(--text-sm);
+  --about-body-md: var(--text-xs);
   --about-body-xs: var(--text-xs);
 }
 
