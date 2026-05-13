@@ -43,10 +43,10 @@ const HuggingFaceIcon = () => (
 );
 
 const SOCIALS = [
-  { icon: <LinkedInIcon />,    label: 'LinkedIn',     href: 'https://linkedin.com/in/kritikamandale' },
-  { icon: <GitHubIcon />,      label: 'GitHub',       href: 'https://github.com/iamkritika' },
-  { icon: <HuggingFaceIcon />, label: 'Hugging Face', href: 'https://huggingface.co/kritikamandale' },
-  { icon: <XIcon />,           label: 'Twitter',      href: 'https://twitter.com/kritikamandale' },
+  { icon: <LinkedInIcon />,    label: 'LinkedIn',     href: 'https://www.linkedin.com/in/kritikamandale' },
+  { icon: <GitHubIcon />,      label: 'GitHub',       href: 'https://github.com/kritikamandale' },
+  { icon: <HuggingFaceIcon />, label: 'Hugging Face', href: 'https://huggingface.co/Critika' },
+  { icon: <XIcon />,           label: 'Twitter',      href: 'https://x.com/KritikaMandale' },
 ];
 
 const getContactEndpoint = () => {
