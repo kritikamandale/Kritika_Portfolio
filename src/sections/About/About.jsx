@@ -58,6 +58,7 @@ const About = () => {
       label="What I bring"
       title="The person behind the code"
       subtitle=""
+      align="left"
       alt
     >
       <div className={`${styles.statsRow} reveal`}>

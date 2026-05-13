@@ -20,9 +20,9 @@
   --color-text-secondary: #b3b3b3;
   --color-text-muted: #808080;
   --color-bg: #0d0d0d;
-  --about-body-lg: calc(var(--text-md) + 3px);
-  --about-body-md: calc(var(--text-sm) + 3px);
-  --about-body-xs: calc(var(--text-xs) + 3px);
+  --about-body-lg: calc(var(--text-md) + 5px);
+  --about-body-md: calc(var(--text-sm) + 5px);
+  --about-body-xs: calc(var(--text-xs) + 5px);
 }
 
 .grid {
