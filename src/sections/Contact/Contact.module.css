@@ -62,7 +62,7 @@
 
 .formCard h3 {
   font-family: var(--font-heading);
-  font-size: clamp(2rem, 5vw, 3rem);
+  font-size: clamp(2.625rem, 5vw, 3.625rem);
   font-weight: var(--font-bold);
   color: var(--color-text-primary);
   margin-bottom: var(--space-8);

@@ -20,9 +20,9 @@
   --color-text-secondary: #b3b3b3;
   --color-text-muted: #808080;
   --color-bg: #0d0d0d;
-  --about-body-lg: calc(var(--text-md) + 7px);
-  --about-body-md: calc(var(--text-sm) + 7px);
-  --about-body-xs: calc(var(--text-xs) + 7px);
+  --about-body-lg: var(--text-md);
+  --about-body-md: var(--text-sm);
+  --about-body-xs: var(--text-xs);
 }
 
 .grid {
@@ -243,7 +243,7 @@
 
 .cardTitle {
   font-family: var(--font-heading);
-  font-size: calc(var(--text-sm) + 2px);
+  font-size: var(--text-sm);
   font-weight: var(--font-bold);
   color: var(--color-text-primary);
 }
