@@ -20,6 +20,9 @@
   --color-text-secondary: #b3b3b3;
   --color-text-muted: #808080;
   --color-bg: #0d0d0d;
+  --about-body-lg: calc(var(--text-md) + 3px);
+  --about-body-md: calc(var(--text-sm) + 3px);
+  --about-body-xs: calc(var(--text-xs) + 3px);
 }
 
 .grid {
@@ -41,7 +44,7 @@
   align-items: center;
   gap: var(--space-2);
   font-family: var(--font-heading);
-  font-size: var(--text-sm);
+  font-size: var(--about-body-md);
   font-weight: var(--font-semibold);
   color: var(--dusty-mauve);
   background: var(--color-surface);
@@ -52,7 +55,7 @@
 }
 
 .bio {
-  font-size: var(--text-md);
+  font-size: var(--about-body-lg);
   color: var(--color-text-secondary);
   line-height: 1.8;
 }
@@ -71,7 +74,7 @@
 }
 
 .techTag {
-  font-size: var(--text-xs);
+  font-size: var(--about-body-xs);
   font-weight: var(--font-medium);
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-full);
@@ -142,7 +145,7 @@
 }
 
 .statLabel {
-  font-size: var(--text-xs);
+  font-size: var(--about-body-xs);
   color: var(--color-text-muted);
   font-weight: var(--font-semibold);
   letter-spacing: 0.05em;
@@ -246,7 +249,7 @@
 }
 
 .cardDesc {
-  font-size: var(--text-sm);
+  font-size: var(--about-body-md);
   color: var(--color-text-secondary);
   line-height: 1.6;
 }
