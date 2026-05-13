@@ -53,7 +53,7 @@
 
 .quote {
   color: #c47a3a;
-  font-size: 13px;
+  font-size: 23px;
   font-style: italic;
   font-weight: bold;
   margin-bottom: 6px;
@@ -62,7 +62,7 @@
 
 .heading {
   font-family: 'Georgia', serif;
-  font-size: 22px;
+  font-size: 32px;
   font-weight: 700;
   color: var(--color-text-primary);
   margin-bottom: var(--space-3);

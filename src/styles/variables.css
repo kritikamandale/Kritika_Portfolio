@@ -42,16 +42,16 @@
   --font-heading: 'Outfit', system-ui, sans-serif;
   --font-mono: 'Fira Code', 'Courier New', monospace;
 
-  --text-xs:   0.75rem;
-  --text-sm:   0.875rem;
-  --text-base: 1rem;
-  --text-md:   1.125rem;
-  --text-lg:   1.25rem;
-  --text-xl:   1.5rem;
-  --text-2xl:  1.875rem;
-  --text-3xl:  2.25rem;
-  --text-4xl:  3rem;
-  --text-5xl:  3.75rem;
+  --text-xs:   calc(0.75rem + 10px);
+  --text-sm:   calc(0.875rem + 10px);
+  --text-base: calc(1rem + 10px);
+  --text-md:   calc(1.125rem + 10px);
+  --text-lg:   calc(1.25rem + 10px);
+  --text-xl:   calc(1.5rem + 10px);
+  --text-2xl:  calc(1.875rem + 10px);
+  --text-3xl:  calc(2.25rem + 10px);
+  --text-4xl:  calc(3rem + 10px);
+  --text-5xl:  calc(3.75rem + 10px);
 
   --font-light:     300;
   --font-regular:   400;
