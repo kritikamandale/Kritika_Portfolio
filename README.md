@@ -4,19 +4,6 @@ A modern, interactive personal portfolio website built with React and Vite. Show
 
 ---
 
-## 🚀 Features
-
-- **Interactive Sections** – Hero, About, Experience, Skills, Projects, Achievements, and Contact sections
-- **Scroll Animations** – Custom scroll reveal effects and progress tracking
-- **GitHub Integration** – Embedded GitHub contributions graph
-- **Interactive Graph** – Data visualization component
-- **Fully Responsive** – Mobile-friendly design with CSS modules
-- **Fast Performance** – Built with Vite for optimized build times
-- **Contact API** – Backend integration for contact form submissions
-- **Social Links** – Quick links to LinkedIn, GitHub, Hugging Face, and Twitter/X
-
----
-
 ## 🛠️ Tech Stack
 
 - **Frontend**: React 18
@@ -29,7 +16,6 @@ A modern, interactive personal portfolio website built with React and Vite. Show
 ---
 
 ## 📦 Installation
-
 ### Prerequisites
 - Node.js (v16 or higher)
 - npm or yarn
@@ -47,13 +33,7 @@ A modern, interactive personal portfolio website built with React and Vite. Show
    npm install
    ```
 
-3. **Start the development server**
-   ```bash
-   npm run dev
-   ```
-   The app will be available at `http://localhost:5173`
-
-4. **(Optional) Start the backend API**
+3. **(Optional) Start the backend API**
    ```bash
    node server/index.js
    ```
@@ -105,30 +85,6 @@ Portfolio/
 └── package.json           # Project dependencies
 ```
 
----
-
-## 🎨 Customization
-
-### Update Social Links
-Edit [src/sections/Contact/Contact.jsx](src/sections/Contact/Contact.jsx) to update your social media profiles in the `SOCIALS` array.
-
-### Modify Colors & Fonts
-Update CSS variables in [src/styles/variables.css](src/styles/variables.css) to customize the design theme.
-
-### Add Your Content
-Replace placeholder content in each section with your actual:
-- Projects
-- Experience
-- Skills
-- Achievements
-- Contact information
-
-### Contact Form API
-Configure the backend endpoint in [api/contact.js](api/contact.js) to handle form submissions.
-
----
-
-## 🚀 Build & Deployment
 
 ### Build for Production
 ```bash
@@ -141,15 +97,6 @@ This creates an optimized production build in the `dist/` folder.
 npm run preview
 ```
 
-### Deploy
-The `dist/` folder can be deployed to:
-- Vercel
-- Netlify
-- GitHub Pages
-- Any static hosting service
-
----
-
 ## 📝 Available Scripts
 
 - `npm run dev` – Start development server
@@ -157,15 +104,7 @@ The `dist/` folder can be deployed to:
 - `npm run preview` – Preview production build
 - `npm run lint` – Run ESLint
 
----
 
-## 🔗 Live Links
-
-- **Portfolio**: [Portfolio Website](#)
-- **GitHub**: [kritikamandale](https://github.com/kritikamandale)
-- **LinkedIn**: [kritikamandale](https://www.linkedin.com/in/kritikamandale)
-- **Hugging Face**: [Critika](https://huggingface.co/Critika)
-- **Twitter/X**: [@KritikaMandale](https://x.com/KritikaMandale)
 
 ---
 
