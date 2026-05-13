@@ -243,7 +243,7 @@
 
 .cardTitle {
   font-family: var(--font-heading);
-  font-size: var(--text-sm);
+  font-size: var(--text-md);
   font-weight: var(--font-bold);
   color: var(--color-text-primary);
 }
