@@ -1,12 +1,12 @@
 // src/sections/Projects/Projects.jsx
 // ============================================================
 // PROJECTS SECTION — Asymmetric Bento Grid
-// 6 dummy project cards of varying sizes for editorial feel.
 // ── Edit: PROJECTS array below ─────────────────────────────
 // ============================================================
 
 import React from 'react';
 import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';
+import RevealGroup from '../../components/RevealGroup/RevealGroup';
 import styles from './Projects.module.css';
 
 const PROJECTS = [
@@ -64,21 +64,15 @@ const PROJECTS = [
   },
 ];
 
-const ProjectCard = ({ project, i }) => {
+const ProjectCard = ({ project }) => {
   const {
-    color, icon, title, subtitle, desc, tags, liveUrl, demoVideoUrl, githubUrl, featured, image
+    color, title, subtitle, desc, tags, liveUrl, githubUrl, featured, image
   } = project;
 
   return (
     <div
-      className={[
-        styles.card,
-        styles[color],
-        'reveal',
-        `reveal-delay-${i + 1}`
-      ]
-        .filter(Boolean)
-        .join(' ')}
+      className={[styles.card, styles[color]].filter(Boolean).join(' ')}
+      data-hover="true"
     >
       <div className={styles.imageWrapper}>
         <img src={image} alt={title} className={styles.projectImage} />
@@ -105,16 +99,21 @@ const ProjectCard = ({ project, i }) => {
 
         <div className={styles.links}>
           {githubUrl && (
-            <a href={githubUrl} className={styles.linkBtn} target="_blank" rel="noopener noreferrer">
+            <a href={githubUrl} className={styles.linkBtn} target="_blank" rel="noopener noreferrer" data-hover="true">
               ⌥ Code
             </a>
           )}
           {liveUrl && (
-            <a href={liveUrl} className={styles.linkBtn} target="_blank" rel="noopener noreferrer">
+            <a href={liveUrl} className={styles.linkBtn} target="_blank" rel="noopener noreferrer" data-hover="true">
               ↗ Live Demo
             </a>
           )}
         </div>
+      </div>
+
+      {/* Hover overlay with arrow indicator */}
+      <div className={styles.cardOverlay} aria-hidden="true">
+        <span className={styles.cardOverlayArrow}>↗</span>
       </div>
     </div>
   );
@@ -128,11 +127,11 @@ const Projects = () => {
       title="My Projects"
       subtitle="Engineering intelligent systems at the intersection of AI, Full-Stack, and High-Performance Web."
     >
-      <div className={styles.projectsGrid}>
-        {PROJECTS.map((project, i) => (
-          <ProjectCard key={project.id} project={project} i={i} />
+      <RevealGroup staggerDelay={90} className={styles.projectsGrid}>
+        {PROJECTS.map((project) => (
+          <ProjectCard key={project.id} project={project} />
         ))}
-      </div>
+      </RevealGroup>
     </SectionWrapper>
   );
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';
+import RevealGroup from '../../components/RevealGroup/RevealGroup';
 import styles from './Achievements.module.css';
 
 const ACHIEVEMENTS = [
@@ -22,7 +23,7 @@ const ACHIEVEMENTS = [
     title: '1st Runner-Up',
     event: 'NASA Space Apps Challenge',
     category: 'Nagpur Chapter',
-    desc: 'Developed a creative, data-driven solution utilizing NASA’s open-source space and Earth datasets.',
+    desc: "Developed a creative, data-driven solution utilizing NASA\u2019s open-source space and Earth datasets.",
   },
   {
     icon: '🥈',
@@ -42,14 +43,13 @@ const Achievements = () => {
       subtitle="A showcase of national recognition, coding sprints, and competitive milestones."
       maxWidth="1400px"
     >
-      <div className={styles.list}>
+      <RevealGroup staggerDelay={90} className={styles.list}>
         {ACHIEVEMENTS.map((item, i) => (
-          <div key={i} className={`${styles.card} reveal reveal-delay-${i + 1}`}>
-            
+          <div key={i} className={styles.card}>
             <div className={styles.iconWrapper} aria-hidden="true">
               {item.icon}
             </div>
-            
+
             <div className={styles.content}>
               <h3 className={styles.title}>{item.title}</h3>
               <div className={styles.eventWrap}>
@@ -65,7 +65,7 @@ const Achievements = () => {
             </div>
           </div>
         ))}
-      </div>
+      </RevealGroup>
     </SectionWrapper>
   );
 };

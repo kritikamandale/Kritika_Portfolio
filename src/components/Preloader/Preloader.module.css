@@ -1,13 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,900;1,400&display=swap');
 
+/* ── Container ─────────────────────────────────────────────── */
 .container {
   position: fixed;
   inset: 0;
   z-index: 9999;
   overflow: hidden;
+  pointer-events: all;
+  /* Fade-out is handled by .containerExit */
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 400ms ease-out, visibility 400ms ease-out;
+}
+
+.containerExit {
+  opacity: 0;
+  visibility: hidden;
   pointer-events: none;
 }
 
+/* ── Canvas ripple ─────────────────────────────────────────── */
 .canvas {
   position: absolute;
   inset: 0;
@@ -17,19 +29,18 @@
   pointer-events: none;
 }
 
+/* ── Content layer ─────────────────────────────────────────── */
 .contentLayer {
   position: absolute;
   inset: 0;
   z-index: 30;
-  width: 100%;
-  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   pointer-events: none;
 }
 
-/* Split exit panels */
+/* ── Split panels ──────────────────────────────────────────── */
 .panelLeft,
 .panelRight {
   position: absolute;
@@ -38,11 +49,19 @@
   height: 100%;
   background-color: var(--color-bg);
   z-index: 20;
-  pointer-events: all;
+  transition: transform 850ms cubic-bezier(0.76, 0, 0.24, 1);
 }
-.panelLeft  { left: 0; }
-.panelRight { right: 0; }
 
+.panelLeft  { left: 0;  transform: translateX(0); }
+.panelRight { right: 0; transform: translateX(0); }
+
+.panelLeftExit  { transform: translateX(-100%); }
+.panelRightExit {
+  transform: translateX(100%);
+  transition-delay: 40ms;
+}
+
+/* ── Counter ───────────────────────────────────────────────── */
 .counter {
   font-family: 'Playfair Display', serif;
   font-weight: 900;
@@ -51,6 +70,12 @@
   display: flex;
   align-items: baseline;
   position: absolute;
+  animation: slideInLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-20vw); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
 }
 
 .percent {
@@ -59,6 +84,7 @@
   line-height: 0;
 }
 
+/* ── 100% split number ─────────────────────────────────────── */
 .splitHundred {
   display: flex;
   align-items: baseline;
@@ -67,42 +93,89 @@
   font-size: 11rem;
   color: var(--color-text-primary);
   position: absolute;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-.digitBox {
+.splitHundredVisible {
+  opacity: 1;
+  transform: scale(1);
+  animation: pulseSplit 0.9s ease both;
+}
+
+.splitHundredExit {
+  opacity: 0;
+  transform: scale(0.85);
+}
+
+@keyframes pulseSplit {
+  0%   { transform: scale(1);    }
+  40%  { transform: scale(1.08); }
+  100% { transform: scale(1);    }
+}
+
+/* Individual digit animations */
+.digitDrop {
   display: inline-block;
-  line-height: 1;
+  animation: dropIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) var(--delay, 0ms) both;
 }
 
+.digitRise {
+  display: inline-block;
+  animation: riseIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) var(--delay, 0ms) both;
+}
+
+.digitPop {
+  display: inline-block;
+  font-size: 0.45em;
+  vertical-align: super;
+  line-height: 0;
+  margin-left: 0.05em;
+  animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) var(--delay, 0ms) both;
+}
+
+@keyframes dropIn {
+  from { transform: translateY(-120vh); }
+  to   { transform: translateY(0); }
+}
+
+@keyframes riseIn {
+  from { transform: translateY(120vh); }
+  to   { transform: translateY(0); }
+}
+
+@keyframes popIn {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* ── Bubbles ───────────────────────────────────────────────── */
 .bubble {
   position: absolute;
   border-radius: 50%;
-  opacity: 0.78;
+  opacity: 0;
+  transform: translate(0px, 0px) scale(0);
+  transition:
+    transform 800ms cubic-bezier(0.34, 1.56, 0.64, 1) var(--delay, 0ms),
+    opacity   400ms ease var(--delay, 0ms);
 }
 
-.nameWrapper {
-  position: absolute;
-  top: 55%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.bubbleVisible {
+  opacity: 0.85;
+  transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(1);
 }
 
-.name {
-  font-family: 'Playfair Display', serif;
-  font-weight: 400;
-  font-size: 110px;
-  letter-spacing: 0.15em;
-  color: var(--color-text-primary);
-  text-transform: uppercase;
-  line-height: 1;
+.bubbleExit {
+  opacity: 0;
+  transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(0);
+  transition:
+    transform 600ms ease-out,
+    opacity   600ms ease-out;
 }
 
+/* ── Responsive ────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .counter {
-    font-size: 4rem;
-  }
-  .splitHundred {
-    font-size: 7rem;
-  }
+  .counter     { font-size: 4rem; }
+  .splitHundred { font-size: 7rem; }
 }
