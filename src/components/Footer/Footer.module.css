@@ -3,7 +3,8 @@
 .outerContainer {
   width: 100%;
   background-color: var(--dusty-mauve);
-  padding: 60px 80px;
+  padding: var(--space-3xl, 96px) 80px 60px;
+  border-top: 1px solid var(--color-border, var(--color-divider));
   position: relative;
   overflow: hidden;
   font-family: var(--font-sans);
@@ -119,6 +120,11 @@
   text-transform: uppercase;
   text-decoration: underline;
   text-underline-offset: 4px;
+  padding: 12px;
+  margin: -12px;
+  display: inline-block;
+  min-height: 44px;
+  min-width: 44px;
 }
 
 /* Big Name Row */
@@ -184,6 +190,16 @@
 .legal {
   display: flex;
   gap: 16px;
+  align-items: center;
+}
+
+.badge {
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  color: var(--color-accent);
+  border-radius: var(--radius-full, 9999px);
+  font-size: 12px;
+  padding: 4px 14px;
+  font-weight: 500;
 }
 
 /* Responsive */
