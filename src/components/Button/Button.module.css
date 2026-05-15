@@ -1,30 +1,32 @@
 /* src/components/Button/Button.module.css */
 /* ============================================================
-   BUTTON COMPONENT — Sunset Bliss Variants
+   BUTTON COMPONENT — primary (filled) + secondary (outline)
+   Tokens used are the REAL ones from variables.css:
+     --radius-full, --text-sm, --font-medium, --color-card-border
    ============================================================ */
 
+/* ── Shared base ──────────────────────────────────────────── */
 .btn {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  padding: var(--space-3) var(--space-8);
+  padding: 14px 32px;
   border-radius: var(--radius-full);
   font-family: var(--font-sans);
   font-size: var(--text-sm);
-  font-weight: var(--font-semibold);
-  letter-spacing: 0.02em;
+  font-weight: var(--font-medium);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   cursor: pointer;
-  border: none;
-  transition:
-    transform var(--transition-spring),
-    box-shadow var(--transition-base),
-    background var(--transition-base);
+  white-space: nowrap;
+  text-decoration: none;
   position: relative;
   overflow: hidden;
-  white-space: nowrap;
+  border: none;
+  /* Shimmer pseudo-element will use ::after */
 }
 
-/* Shine shimmer on hover */
+/* Shine shimmer sweep on hover */
 .btn::after {
   content: '';
   position: absolute;
@@ -35,7 +37,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0.28),
     transparent
   );
   transition: left 0.5s ease;
@@ -48,53 +50,63 @@
 
 /* ── Primary ──────────────────────────────────────────────── */
 .primary {
-  background: linear-gradient(135deg, var(--pumpkin-spice), var(--cinnabar));
-  color: #ffffff;
-  box-shadow: 0 4px 16px rgba(255, 60, 56, 0.25);
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  transition:
+    transform var(--transition-fast),
+    opacity  var(--transition-fast);
 }
 
 .primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(255, 60, 56, 0.40);
+  opacity: 0.88;
 }
 
 .primary:active {
   transform: translateY(0);
+  opacity: 1;
 }
 
-/* ── Ghost / Outline ──────────────────────────────────────── */
-.ghost {
+/* Animated → arrow inside primary */
+.arrow {
+  display: inline-block;
+  transition: transform 200ms ease-out;
+}
+
+.primary:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* ── Secondary ────────────────────────────────────────────── */
+/* Uses --color-card-border (the real border token) */
+.secondary {
   background: transparent;
-  color: var(--dusty-mauve);
-  border: 1.5px solid var(--dusty-mauve);
+  border: 1px solid var(--color-card-border);
+  color: var(--color-text-primary);
+  transition:
+    border-color var(--transition-base),
+    color       var(--transition-base),
+    transform   var(--transition-fast);
 }
 
-.ghost:hover {
-  background: rgba(162, 62, 72, 0.08);
+.secondary:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
   transform: translateY(-2px);
 }
 
-.ghost:active {
+.secondary:active {
   transform: translateY(0);
 }
 
-/* ── Small variant ────────────────────────────────────────── */
+/* ── Size overrides ───────────────────────────────────────── */
 .sm {
   padding: var(--space-2) var(--space-5);
   font-size: var(--text-xs);
 }
 
-/* ── Large variant ────────────────────────────────────────── */
 .lg {
   padding: var(--space-4) var(--space-10);
   font-size: var(--text-md);
-}
-
-/* ── Icon only ────────────────────────────────────────────── */
-.icon {
-  width: 42px;
-  height: 42px;
-  padding: 0;
-  border-radius: var(--radius-lg);
-  justify-content: center;
 }

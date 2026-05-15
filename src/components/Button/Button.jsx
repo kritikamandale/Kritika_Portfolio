@@ -1,25 +1,24 @@
 // src/components/Button/Button.jsx
 // ============================================================
 // BUTTON COMPONENT
-// Reusable claymorphic button with primary/ghost variants and
-// optional size modifiers. Accepts onClick, href, and icon slot.
+// Two variants: primary (filled accent) and secondary (outline).
+// Primary auto-appends an animated → arrow span.
+// Renders as <a> when href is supplied.
 // ============================================================
 
 import React from 'react';
 import styles from './Button.module.css';
 
 /**
- * @param {object}   props
- * @param {'primary'|'ghost'} [props.variant='primary'] - visual style
- * @param {'sm'|'md'|'lg'}   [props.size='md']          - size preset
- * @param {string}           [props.href]               - renders as <a> if provided
- * @param {Function}         [props.onClick]
- * @param {React.ReactNode}  [props.children]
- * @param {string}           [props.className]          - extra class names
+ * @param {object}                props
+ * @param {'primary'|'secondary'} [props.variant='primary']
+ * @param {string}                [props.href]
+ * @param {Function}              [props.onClick]
+ * @param {React.ReactNode}       [props.children]
+ * @param {string}                [props.className]
  */
 const Button = ({
   variant = 'primary',
-  size = 'md',
   href,
   onClick,
   children,
@@ -28,25 +27,32 @@ const Button = ({
 }) => {
   const classes = [
     styles.btn,
-    styles[variant],
-    size !== 'md' ? styles[size] : '',
+    styles[variant] ?? styles.primary,
     className,
   ]
     .filter(Boolean)
     .join(' ');
 
-  // Render as anchor tag when href is provided
+  const inner = (
+    <>
+      {children}
+      {variant === 'primary' && (
+        <span className={styles.arrow} aria-hidden="true">→</span>
+      )}
+    </>
+  );
+
   if (href) {
     return (
-      <a href={href} className={classes} {...rest}>
-        {children}
+      <a href={href} className={classes} data-hover="true" {...rest}>
+        {inner}
       </a>
     );
   }
 
   return (
-    <button className={classes} onClick={onClick} {...rest}>
-      {children}
+    <button className={classes} onClick={onClick} data-hover="true" {...rest}>
+      {inner}
     </button>
   );
 };

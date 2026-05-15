@@ -3,7 +3,6 @@
    PROJECTS SECTION — Aesthetic Image-Focused Grid
    ============================================================ */
 
-
 .projectsGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -21,17 +20,18 @@
   position: relative;
   overflow: hidden;
   transition:
-    transform var(--transition-spring),
-    border-color var(--transition-base),
-    box-shadow var(--transition-base);
+    transform var(--transition-base),
+    box-shadow var(--transition-base),
+    border-color var(--transition-base);
   cursor: pointer;
   height: 100%;
 }
 
-.card:hover {
-  transform: translateY(-8px);
-  border-color: var(--color-card-border-hover);
-  box-shadow: var(--shadow-clay-lg);
+.card:hover,
+.card:focus-visible {
+  transform: translateY(-6px);
+  border-color: var(--color-accent);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.10);
 }
 
 /* ── Image Section ────────────────────────────────────────── */
@@ -79,6 +79,36 @@
   padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-full);
   box-shadow: 0 4px 12px rgba(255, 60, 56, 0.3);
+}
+
+/* ── Hover overlay (dim + arrow indicator) ───────────────── */
+.cardOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  opacity: 0;
+  border-radius: inherit;
+  transition: opacity 200ms ease-out, background 200ms ease-out;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card:hover .cardOverlay {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.cardOverlayArrow {
+  font-size: 20px;
+  color: var(--color-accent);
+  opacity: 0;
+  transition: opacity 200ms ease-out 60ms;
+}
+
+.card:hover .cardOverlayArrow {
+  opacity: 1;
 }
 
 /* ── Content Section ──────────────────────────────────────── */
@@ -156,7 +186,6 @@
   flex-wrap: wrap;
 }
 
-/* Base pill button */
 .linkBtn {
   font-size: var(--text-xs);
   font-weight: var(--font-bold);
@@ -175,6 +204,8 @@
     transform var(--transition-base);
   cursor: pointer;
   white-space: nowrap;
+  position: relative;
+  z-index: 1;
 }
 
 .linkBtn:hover {

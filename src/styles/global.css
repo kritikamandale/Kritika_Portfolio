@@ -63,10 +63,10 @@ hr {
 }
 
 /* ── Scroll-reveal animation ──────────────────────────────── */
+/* Default: elements are fully visible (reduced-motion / fallback) */
 .reveal {
-  opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  opacity: 1;
+  transform: none;
 }
 
 .reveal.visible {
@@ -74,11 +74,27 @@ hr {
   transform: translateY(0);
 }
 
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
-.reveal-delay-4 { transition-delay: 0.4s; }
-.reveal-delay-5 { transition-delay: 0.5s; }
+/* Only animate when user has NOT opted out of motion */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity  500ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-delay-1 { transition-delay: 90ms; }
+  .reveal-delay-2 { transition-delay: 180ms; }
+  .reveal-delay-3 { transition-delay: 270ms; }
+  .reveal-delay-4 { transition-delay: 360ms; }
+  .reveal-delay-5 { transition-delay: 450ms; }
+}
 
 /* ── Scroll Progress Bar ──────────────────────────────────── */
 #scroll-progress {

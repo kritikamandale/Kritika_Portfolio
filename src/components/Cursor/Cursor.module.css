@@ -1,0 +1,50 @@
+/* src/components/Cursor/Cursor.module.css */
+/* ============================================================
+   CUSTOM CURSOR
+   Both elements are fixed, pointer-events: none, z-index: 9999.
+   Dot: 8px solid fill, no lag.
+   Ring: 32px outline, lerped in JS.
+   ============================================================ */
+
+.cursorDot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent, #a23e48);
+  pointer-events: none;
+  z-index: 9999;
+  /* Offset so the centre of the dot is at the cursor tip */
+  margin-top: -4px;
+  margin-left: -4px;
+  will-change: transform;
+  /* No transition — follows instantly */
+}
+
+.cursorRing {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-accent, #a23e48);
+  background: transparent;
+  pointer-events: none;
+  z-index: 9998;
+  /* translate(-50%,-50%) is applied via JS so ring centre = cursor */
+  will-change: transform, opacity;
+  /* Smooth scale/opacity transitions only — position lerped in rAF */
+  transition: opacity 200ms ease, scale 200ms ease;
+  opacity: 1;
+}
+
+/* Hide both on touch/stylus devices */
+@media (hover: none), (pointer: coarse) {
+  .cursorDot,
+  .cursorRing {
+    display: none;
+  }
+}
