@@ -155,23 +155,36 @@
   position: absolute;
   border-radius: 50%;
   opacity: 0;
-  transform: translate(0px, 0px) scale(0);
-  transition:
-    transform 800ms cubic-bezier(0.34, 1.56, 0.64, 1) var(--delay, 0ms),
-    opacity   400ms ease var(--delay, 0ms);
 }
 
 .bubbleVisible {
-  opacity: 0.85;
-  transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(1);
+  animation: flyInBubble 1200ms cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0ms) both;
 }
 
 .bubbleExit {
-  opacity: 0;
-  transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(0);
-  transition:
-    transform 600ms ease-out,
-    opacity   600ms ease-out;
+  animation: flyOutBubble 600ms ease-out forwards;
+}
+
+@keyframes flyInBubble {
+  0% {
+    opacity: 0;
+    transform: translate(var(--sx, 0vw), var(--sy, 0vh));
+  }
+  100% {
+    opacity: 0.85;
+    transform: translate(var(--tx, 0px), var(--ty, 0px));
+  }
+}
+
+@keyframes flyOutBubble {
+  0% {
+    opacity: 0.85;
+    transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(0);
+  }
 }
 
 /* ── Responsive ────────────────────────────────────────────── */
