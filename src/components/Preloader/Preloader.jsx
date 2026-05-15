@@ -11,12 +11,12 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styles from './Preloader.module.css';
 
 const BUBBLES = [
-  { id: 1, color: 'var(--blue-grey)',     size: 110, cx: -60,  cy: -80  },
-  { id: 2, color: 'var(--pumpkin-spice)', size: 95,  cx: 80,   cy: -40  },
-  { id: 3, color: 'var(--dusty-mauve)',   size: 80,  cx: -50,  cy: 90   },
-  { id: 4, color: 'var(--banana-cream)',  size: 65,  cx: 60,   cy: 70   },
-  { id: 5, color: 'var(--cinnabar)',      size: 50,  cx: 20,   cy: 110  },
-  { id: 6, color: 'var(--pumpkin-spice)', size: 40,  cx: -90,  cy: 20   },
+  { id: 1, color: 'var(--blue-grey)',     size: 110, cx: -60,  cy: -80, sx: '-50vw', sy: '-50vh' },
+  { id: 2, color: 'var(--pumpkin-spice)', size: 95,  cx: 80,   cy: -40, sx: '50vw',  sy: '-50vh' },
+  { id: 3, color: 'var(--dusty-mauve)',   size: 80,  cx: -50,  cy: 90,  sx: '-50vw', sy: '50vh'  },
+  { id: 4, color: 'var(--banana-cream)',  size: 65,  cx: 60,   cy: 70,  sx: '50vw',  sy: '50vh'  },
+  { id: 5, color: 'var(--cinnabar)',      size: 50,  cx: 20,   cy: 110, sx: '0vw',   sy: '60vh'  },
+  { id: 6, color: 'var(--pumpkin-spice)', size: 40,  cx: -90,  cy: 20,  sx: '-60vw', sy: '0vh'   },
 ];
 
 const Preloader = ({ onComplete }) => {
@@ -157,6 +157,8 @@ const Preloader = ({ onComplete }) => {
               left:   '50%',
               marginTop:  -(b.size / 2),
               marginLeft: -(b.size / 2),
+              '--sx': b.sx,
+              '--sy': b.sy,
               '--tx': `${b.cx}px`,
               '--ty': `${b.cy}px`,
               '--delay': `${i * 80}ms`,
