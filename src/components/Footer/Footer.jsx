@@ -83,8 +83,11 @@ const Footer = () => {
         {/* Bottom Row */}
         <div className={styles.divider}></div>
         <div className={styles.bottomRow}>
-          <span className={styles.copyright}>© 2026 Kritikalog All Rights Reserved.</span>
-          <span className={styles.legal}>Privacy Policy · Open to Work</span>
+          <span className={styles.copyright}>© {new Date().getFullYear()} Kritikalog All Rights Reserved.</span>
+          <span className={styles.legal}>
+            <span className={styles.badge}>Available for work · {new Date().getFullYear()}</span>
+            <span>Privacy Policy</span>
+          </span>
         </div>
       </div>
     </footer>
