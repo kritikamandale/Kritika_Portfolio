@@ -85,6 +85,9 @@ const ProjectCard = ({ project }) => {
     <div
       className={[styles.card, styles[color]].filter(Boolean).join(' ')}
       data-hover="true"
+      tabIndex={0}
+      role="article"
+      aria-label={title}
     >
       <div className={styles.imageWrapper}>
         <img src={image} alt={title} className={styles.projectImage} />

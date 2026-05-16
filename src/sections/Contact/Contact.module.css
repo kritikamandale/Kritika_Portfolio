@@ -1,13 +1,13 @@
 /* src/sections/Contact/Contact.module.css */
 /* ============================================================
-   CONTACT SECTION — Confident & Centered
+   CONTACT SECTION — Confident, centred, editorial
    ============================================================ */
 
 .contactSection {
-  background-color: var(--color-bg-alt, var(--color-surface));
-  padding: var(--space-3xl, 96px) 24px;
+  background: var(--color-bg-alt);
+  padding: var(--space-3xl) 24px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   text-align: center;
 }
@@ -18,67 +18,74 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-10, 48px);
+  gap: 40px;
 }
 
+/* ── Main heading ─────────────────────────────────────────── */
 .mainHeading {
-  font-size: var(--font-size-hero, clamp(3.5rem, 8vw, 12rem));
   font-family: var(--font-heading);
-  font-weight: var(--font-extrabold);
+  font-size: clamp(48px, 7vw, 88px);
+  font-weight: 300;
+  letter-spacing: -0.02em;
   line-height: 1.05;
-  letter-spacing: -0.04em;
   color: var(--color-text-primary);
-  margin-bottom: var(--space-4, 16px);
+  text-align: center;
+  width: 100%;
 }
 
+/* ── Subtext ──────────────────────────────────────────────── */
 .subtext {
-  font-size: var(--font-size-h3, var(--text-3xl, 2.25rem));
+  font-size: clamp(18px, 2.5vw, 24px);
   color: var(--color-text-secondary);
-  line-height: 1.4;
-  margin-bottom: var(--space-8, 32px);
+  margin-top: 16px;
+  max-width: 540px;
+  line-height: 1.5;
 }
 
+/* ── Form ─────────────────────────────────────────────────── */
 .form {
   width: 100%;
-  max-width: 600px;
+  max-width: 560px;
   display: flex;
   flex-direction: column;
-  gap: var(--space-5, 20px);
+  gap: 20px;
   text-align: left;
 }
 
 .row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-4, 16px);
+  gap: 16px;
 }
 
 .field {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2, 8px);
+  gap: 8px;
 }
 
 .label {
-  font-size: var(--text-sm, 14px);
-  font-weight: var(--font-medium);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--color-text-secondary);
 }
 
 .input,
 .textarea {
   width: 100%;
-  padding: var(--space-4, 16px) var(--space-5, 20px);
-  border-radius: var(--radius-lg, 12px);
+  padding: 14px 20px;
+  border-radius: 12px;
   border: 1px solid var(--color-card-border);
-  background: var(--color-bg);
+  background: var(--color-surface);
   color: var(--color-text-primary);
-  font-size: var(--text-sm, 14px);
+  font-size: 14px;
   font-family: var(--font-sans);
   outline: none;
   transition:
-    border-color var(--transition-base),
-    box-shadow var(--transition-base);
+    border-color 200ms ease-out,
+    box-shadow   200ms ease-out;
 }
 
 .input::placeholder,
@@ -88,9 +95,8 @@
 
 .input:focus,
 .textarea:focus {
-  border-color: var(--color-accent, #ff6b35);
-  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.15);
-  background: var(--color-surface);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(162, 62, 72, 0.12);
 }
 
 .textarea {
@@ -99,24 +105,27 @@
   line-height: 1.6;
 }
 
+/* ── Submit row ───────────────────────────────────────────── */
 .submitRow {
   display: flex;
   justify-content: center;
-  margin-top: var(--space-4, 16px);
+  margin-top: 8px;
 }
 
-.successMsg, .errorMsg {
+/* ── Status messages ──────────────────────────────────────── */
+.successMsg,
+.errorMsg {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-3, 12px);
-  padding: var(--space-4, 16px) var(--space-5, 20px);
-  border-radius: var(--radius-lg, 12px);
-  font-size: var(--text-sm, 14px);
-  font-weight: var(--font-medium);
+  gap: 12px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
   animation: fadeInUp 0.4s ease;
   width: 100%;
-  max-width: 600px;
+  max-width: 560px;
 }
 
 .successMsg {
@@ -136,8 +145,7 @@
   to   { opacity: 1; transform: translateY(0);   }
 }
 
+/* ── Responsive ───────────────────────────────────────────── */
 @media (max-width: 600px) {
   .row { grid-template-columns: 1fr; }
-  .mainHeading { font-size: clamp(3rem, 10vw, 4rem); }
-  .subtext { font-size: var(--text-xl, 1.5rem); }
 }

@@ -85,7 +85,7 @@ const Footer = () => {
         <div className={styles.bottomRow}>
           <span className={styles.copyright}>© {new Date().getFullYear()} Kritikalog All Rights Reserved.</span>
           <span className={styles.legal}>
-            <span className={styles.badge}>Available for work · {new Date().getFullYear()}</span>
+            <span className={styles.badge}>Available for work</span>
             <span>Privacy Policy</span>
           </span>
         </div>

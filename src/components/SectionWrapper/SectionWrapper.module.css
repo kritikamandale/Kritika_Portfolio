@@ -6,7 +6,19 @@
 
 .section {
   width: 100%;
-  padding: var(--section-pad-y) var(--section-pad-x);
+  padding: var(--space-2xl) 0;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: var(--space-xl) 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: var(--space-lg) 0;
+  }
 }
 
 /* Alternate section gets a very subtle tinted background */
