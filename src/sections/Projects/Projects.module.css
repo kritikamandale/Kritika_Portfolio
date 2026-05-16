@@ -20,9 +20,9 @@
   position: relative;
   overflow: hidden;
   transition:
-    transform var(--transition-base),
-    box-shadow var(--transition-base),
-    border-color var(--transition-base);
+    transform 250ms ease-out,
+    box-shadow 250ms ease-out,
+    border-color 250ms ease-out;
   cursor: pointer;
   height: 100%;
 }
@@ -30,8 +30,9 @@
 .card:hover,
 .card:focus-visible {
   transform: translateY(-6px);
-  border-color: var(--color-accent);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.10);
+  border-color: rgba(0, 0, 0, 0.25);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.09);
+  outline: none;
 }
 
 /* ── Image Section ────────────────────────────────────────── */
@@ -104,11 +105,16 @@
   font-size: 20px;
   color: var(--color-accent);
   opacity: 0;
-  transition: opacity 200ms ease-out 60ms;
+  transform: translateX(0) translateY(0);
+  transition:
+    opacity  200ms ease-out 60ms,
+    transform 250ms ease-out 60ms;
 }
 
-.card:hover .cardOverlayArrow {
+.card:hover .cardOverlayArrow,
+.card:focus-visible .cardOverlayArrow {
   opacity: 1;
+  transform: translateX(3px) translateY(-3px);
 }
 
 /* ── Content Section ──────────────────────────────────────── */

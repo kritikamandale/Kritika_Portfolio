@@ -13,7 +13,6 @@ const TECH_TAGS = [
   { label: 'LLMs & GenAI', hot: true },
   { label: 'Full Stack Dev', hot: true },
   { label: 'ML Engineering', hot: true },
-  { label: 'System Design', hot: true },
   { label: 'React/Node', hot: true },
   { label: 'Python', hot: true },
 ];
@@ -58,7 +57,7 @@ const About = () => {
       label="What I bring"
       title="The person behind the code"
       subtitle=""
-      align="left"
+      align="center"
       alt
     >
       <div className={`${styles.statsRow} reveal`}>

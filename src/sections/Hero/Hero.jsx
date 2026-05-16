@@ -74,22 +74,6 @@ const Hero = ({ revealDone }) => {
               Let's Talk →
             </Button>
           </div>
-
-          {/* Stats row */}
-          <div className={styles.stats}>
-            <div className={styles.stat}>
-              <span className={styles.statNum}>2+</span>
-              <span className={styles.statLabel}>Years Exp.</span>
-            </div>
-            <div className={styles.stat}>
-              <span className={styles.statNum}>10+</span>
-              <span className={styles.statLabel}>Projects</span>
-            </div>
-            <div className={styles.stat}>
-              <span className={styles.statNum}>3</span>
-              <span className={styles.statLabel}>Major Hackathon Wins</span>
-            </div>
-          </div>
         </motion.div>
       </div>
 
