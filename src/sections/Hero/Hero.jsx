@@ -5,7 +5,6 @@
 // ============================================================
 
 import React from 'react';
-// eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
 import Button from '../../components/Button/Button';
 import styles from './Hero.module.css';
