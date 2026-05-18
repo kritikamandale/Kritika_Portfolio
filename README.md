@@ -11,7 +11,7 @@ A modern, interactive personal portfolio website built with React and Vite. Show
 - **Styling**: CSS Modules
 - **Backend**: Node.js Express (for contact form API)
 - **Linting**: ESLint
-- **Deployment**: Ready for production deployment
+- **Deployment**: vercel
 
 ---
 
