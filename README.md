@@ -92,10 +92,7 @@ npm run build
 ```
 This creates an optimized production build in the `dist/` folder.
 
-### Preview Production Build
-```bash
-npm run preview
-```
+
 
 ## 📝 Available Scripts
 
@@ -104,8 +101,6 @@ npm run preview
 - `npm run preview` – Preview production build
 - `npm run lint` – Run ESLint
 
-
-
 ---
 
 ## 📄 License
@@ -113,7 +108,3 @@ npm run preview
 This project is open source and available under the MIT License.
 
 ---
-
-## 💬 Contact
-
-For questions or feedback, feel free to reach out through the contact section or any of the social links above.
