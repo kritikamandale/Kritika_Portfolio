@@ -1,23 +1,10 @@
 'use client';
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React from 'react';
 import Button from '../../components/Button/Button';
-import useTextScramble from '../../hooks/useTextScramble';
 
 const HERO_NAME = 'Kritika Mandale';
 
-const Hero = ({ revealDone: propRevealDone }) => {
-  const [localReveal, setLocalReveal] = useState(false);
-  const revealDone = propRevealDone !== undefined ? propRevealDone : localReveal;
-
-  useEffect(() => {
-    if (propRevealDone === undefined) {
-      const t = setTimeout(() => setLocalReveal(true), 3800);
-      return () => clearTimeout(t);
-    }
-  }, [propRevealDone]);
-
-  const scrambleRef = useTextScramble(HERO_NAME, revealDone);
+const Hero = () => {
 
   return (
     <>
@@ -61,11 +48,8 @@ const Hero = ({ revealDone: propRevealDone }) => {
 
         <div className="max-w-[800px] mx-auto w-full flex flex-col items-center text-center relative z-[2]">
           {/* ── Copy ── */}
-          <motion.div
+          <div
             className="flex flex-col items-center gap-6 relative z-[2]"
-            initial={{ opacity: 0, y: 40 }}
-            animate={revealDone ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-            transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1], delay: 0 }}
           >
             {/* Greeting badge */}
             <div className="inline-flex items-center gap-2 bg-white dark:bg-bg-dark-alt border border-border-light dark:border-border-dark shadow-clay-sm dark:shadow-none rounded-pill px-5 py-2 w-fit font-heading text-sm font-semibold text-brand-mauve dark:text-brand-yellow">
@@ -81,7 +65,6 @@ const Hero = ({ revealDone: propRevealDone }) => {
               </svg>
 
               <h1
-                ref={scrambleRef}
                 className="text-[clamp(3.5rem,8vw,12rem)] font-heading font-extrabold leading-[1.05] tracking-[-0.04em] whitespace-nowrap text-center relative z-[2] text-text-primary dark:text-text-dark-primary"
                 aria-label={HERO_NAME}
               >
@@ -111,20 +94,17 @@ const Hero = ({ revealDone: propRevealDone }) => {
                 Let's Talk →
               </Button>
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Scroll indicator */}
-        <motion.div
+        <div
           className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-brand-mauve dark:text-brand-orange text-xs font-medium tracking-[0.1em]"
           aria-hidden="true"
-          initial={{ opacity: 0, y: 12 }}
-          animate={revealDone ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-          transition={{ duration: 1.0, ease: 'easeOut', delay: 0.5 }}
         >
           <span>scroll</span>
           <div className="w-[2px] h-[48px] bg-[linear-gradient(to_bottom,var(--brand-red,#FF3C38),transparent)] animate-[scrollPulse_1.5s_ease-in-out_infinite]" />
-        </motion.div>
+        </div>
       </section>
     </>
   );
