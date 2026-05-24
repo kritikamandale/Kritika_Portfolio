@@ -4,7 +4,7 @@
 // ── Edit: PROJECTS array below ─────────────────────────────
 // ============================================================
 
-import React from 'react';
+import React, { useRef } from 'react';
 import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';
 import RevealGroup from '../../components/RevealGroup/RevealGroup';
 import styles from './Projects.module.css';
@@ -81,14 +81,52 @@ const ProjectCard = ({ project }) => {
     color, title, subtitle, desc, tags, liveUrl, githubUrl, featured, image
   } = project;
 
+  const cardRef = useRef(null);
+  const specRef = useRef(null);
+
+  const prefersReduced =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const handleMouseMove = (e) => {
+    if (prefersReduced) return;
+    const card = cardRef.current;
+    const spec = specRef.current;
+    if (!card || !spec) return;
+    const rect = card.getBoundingClientRect();
+    const nx = ((e.clientX - rect.left) / rect.width  - 0.5) * 2;
+    const ny = ((e.clientY - rect.top)  / rect.height - 0.5) * 2;
+    const rotY =  nx * 8;
+    const rotX = -ny * 8;
+    card.style.transform =
+      `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-6px)`;
+    spec.style.opacity = '1';
+    spec.style.background =
+      `radial-gradient(circle at ${50 - nx * 30}% ${50 - ny * 30}%, rgba(255,255,255,0.22) 0%, transparent 65%)`;
+  };
+
+  const handleMouseLeave = () => {
+    const card = cardRef.current;
+    const spec = specRef.current;
+    if (!card || !spec) return;
+    card.style.transform = '';
+    spec.style.opacity = '0';
+  };
+
   return (
     <div
+      ref={cardRef}
       className={[styles.card, styles[color]].filter(Boolean).join(' ')}
       data-hover="true"
       tabIndex={0}
       role="article"
       aria-label={title}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
     >
+      {/* Specular highlight — moves opposite to tilt */}
+      <div ref={specRef} className={styles.specular} aria-hidden="true" />
+
       <div className={styles.imageWrapper}>
         <img src={image} alt={title} className={styles.projectImage} />
         <div className={styles.imageOverlay}>
@@ -135,7 +173,6 @@ const ProjectCard = ({ project }) => {
         </div>
       </div>
 
-      {/* Hover overlay with arrow indicator */}
       <div className={styles.cardOverlay} aria-hidden="true">
         <span className={styles.cardOverlayArrow}>↗</span>
       </div>

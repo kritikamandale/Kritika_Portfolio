@@ -7,7 +7,24 @@
 import React from 'react';
 import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';
 import Button from '../../components/Button/Button';
+import useCountUp from '../../hooks/useCountUp';
 import styles from './About.module.css';
+
+// ── Animated stat block ──────────────────────────────────────
+// Extracts numeric part and suffix (e.g. "10+" → 10, "+")
+const StatBlock = ({ num, label }) => {
+  const match   = num.match(/^(\d+)(.*)$/);
+  const target  = match ? parseInt(match[1], 10) : 0;
+  const suffix  = match ? match[2] : '';
+  const { ref, display } = useCountUp(target, 1400);
+  return (
+    <div ref={ref} className={styles.statBlock}>
+      <span className={styles.statNum}>{display}{suffix}</span>
+      <span className={styles.statLabel}>{label}</span>
+    </div>
+  );
+};
+
 
 const TECH_TAGS = [
   { label: 'LLMs & GenAI', hot: true },
@@ -62,10 +79,7 @@ const About = () => {
     >
       <div className={`${styles.statsRow} reveal`}>
         {STATS.map((stat, i) => (
-          <div key={i} className={styles.statBlock}>
-            <span className={styles.statNum}>{stat.num}</span>
-            <span className={styles.statLabel}>{stat.label}</span>
-          </div>
+          <StatBlock key={i} num={stat.num} label={stat.label} />
         ))}
       </div>
 

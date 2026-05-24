@@ -7,9 +7,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Button from '../../components/Button/Button';
+import useTextScramble from '../../hooks/useTextScramble';
 import styles from './Hero.module.css';
 
+const HERO_NAME = 'Kritika Mandale';
+
 const Hero = ({ revealDone }) => {
+  // Scramble the name when the hero reveals
+  const scrambleRef = useTextScramble(HERO_NAME, revealDone);
+
   return (
     <section id="hero" className={styles.hero}>
       {/* ── Dot Background & Faded Mask ── */}
@@ -35,7 +41,6 @@ const Hero = ({ revealDone }) => {
             Hi there...
           </div>
 
-          {/* Main heading — name with scribble doodles & wavy underline */}
           <div className={styles.nameWrap}>
 
             {/* Scribble squiggle */}
@@ -44,10 +49,12 @@ const Hero = ({ revealDone }) => {
                 stroke="var(--cinnabar)" strokeWidth="3" strokeLinecap="round" fill="none" />
             </svg>
 
-            <h1 className={styles.nameTitle}>
-              <span className={styles.highlightName}>Kritika</span>
-              {' '}
-              <span className={styles.lastName}>Mandale</span>
+            <h1
+              ref={scrambleRef}
+              className={styles.nameTitle}
+              aria-label={HERO_NAME}
+            >
+              {HERO_NAME}
             </h1>
 
             {/* Wavy underline under Kritika */}

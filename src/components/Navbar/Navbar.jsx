@@ -7,6 +7,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Button from '../Button/Button';
+import ThemeToggle from '../ThemeToggle/ThemeToggle';
 import styles from './Navbar.module.css';
 
 const NAV_LINKS = [
@@ -105,6 +106,7 @@ const Navbar = () => {
           >
             Resume ↗
           </Button>
+          <ThemeToggle />
         </div>
 
         {/* Mobile hamburger */}
