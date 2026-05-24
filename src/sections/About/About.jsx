@@ -79,7 +79,7 @@ const CARDS = [
 
 const About = () => {
   return (
-    <div className="sticky top-0 z-[9] -mt-[100vh] min-h-screen rounded-t-[32px] overflow-hidden bg-bg-light dark:bg-bg-dark shadow-[0_-20px_40px_rgba(0,0,0,0.1)] dark:shadow-none">
+    <div className="relative z-[9] min-h-screen rounded-t-[32px] overflow-hidden bg-bg-light dark:bg-bg-dark shadow-[0_-20px_40px_rgba(0,0,0,0.1)] dark:shadow-none">
       <SectionWrapper
         id="about"
         label="What I bring"
