@@ -97,6 +97,32 @@
   transform: translateY(0);
 }
 
+/* ── Ghost ────────────────────────────────────────────────── */
+/* Transparent with a warm pumpkin-spice border. Used in Hero
+   secondary CTA and Navbar Resume button. */
+.ghost {
+  background: transparent;
+  border: 1.5px solid rgba(255, 140, 66, 0.4);
+  color: var(--color-text-primary);
+  transition:
+    background    200ms ease-out,
+    border-color  200ms ease-out,
+    color         200ms ease-out,
+    transform     200ms ease-out;
+}
+
+.ghost:hover {
+  background: rgba(255, 140, 66, 0.08);
+  border-color: var(--pumpkin-spice);
+  color: var(--pumpkin-spice);
+  transform: translateY(-2px);
+}
+
+.ghost:active {
+  transform: translateY(0);
+}
+
+
 /* ── Size overrides ───────────────────────────────────────── */
 .sm {
   padding: var(--space-2) var(--space-5);

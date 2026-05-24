@@ -20,6 +20,7 @@ import Preloader from './components/Preloader/Preloader';
 import Cursor    from './components/Cursor/Cursor';
 import Navbar    from './components/Navbar/Navbar';
 import Footer    from './components/Footer/Footer';
+import AvailabilityBanner from './components/AvailabilityBanner/AvailabilityBanner';
 
 // Sections
 import Hero                from './sections/Hero/Hero';
@@ -51,7 +52,8 @@ const App = () => {
     const onScroll = () => {
       const scrolled = window.scrollY;
       const total    = document.documentElement.scrollHeight - window.innerHeight;
-      bar.style.width = `${total > 0 ? (scrolled / total) * 100 : 0}%`;
+      const ratio = total > 0 ? scrolled / total : 0;
+      bar.style.transform = `scaleX(${Math.min(1, Math.max(0, ratio))})`;
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -86,8 +88,11 @@ const App = () => {
       {/* Custom cursor — renders nothing on touch devices */}
       <Cursor />
 
+      {/* Availability banner — appears after 3s, sessionStorage-dismissed */}
+      {!isLoading && <AvailabilityBanner />}
+
       {/* Scroll progress bar */}
-      <div id="scroll-progress" ref={progressRef} style={{ width: '0%' }} />
+      <div id="scroll-progress" ref={progressRef} style={{ transform: 'scaleX(0)' }} />
 
       {/* Preloader — stays in DOM for 400ms fade-out, then unmounts */}
       {showPreloader && (

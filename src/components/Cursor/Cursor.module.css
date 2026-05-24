@@ -44,7 +44,22 @@
 /* Hide both on touch/stylus devices */
 @media (hover: none), (pointer: coarse) {
   .cursorDot,
-  .cursorRing {
+  .cursorRing,
+  .trailDot {
     display: none;
   }
+}
+
+/* ── Trail dots ───────────────────────────────────────────── */
+/* Size and opacity set inline per-dot. Colour fades from
+   pumpkin-spice (head) toward transparent (tail). */
+.trailDot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  background: var(--pumpkin-spice, #FF8C42);
+  pointer-events: none;
+  z-index: 9997;
+  will-change: transform;
 }
