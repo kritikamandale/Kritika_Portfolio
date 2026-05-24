@@ -1,3 +1,4 @@
+'use client';
 // src/sections/Skills/Skills.jsx
 // ============================================================
 // SKILLS SECTION

@@ -1,3 +1,4 @@
+'use client';
 // src/components/Preloader/Preloader.jsx
 // ============================================================
 // PRELOADER — pure CSS + vanilla JS, no animation libraries.

@@ -1,3 +1,4 @@
+'use client';
 // src/sections/Contact/Contact.jsx
 // ============================================================
 // CONTACT SECTION — single pill CTA, centred editorial layout
@@ -21,7 +22,7 @@ const Contact = () => {
     setStatus({ type: null, message: '' });
 
     try {
-      const apiBase = import.meta.env.VITE_API_URL?.replace(/\/$/, '') ?? '';
+      const apiBase = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') ?? '';
       const res  = await fetch(`${apiBase}/api/contact`, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },

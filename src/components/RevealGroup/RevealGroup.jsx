@@ -1,3 +1,4 @@
+'use client';
 // src/components/RevealGroup/RevealGroup.jsx
 // ============================================================
 // REVEAL GROUP — IntersectionObserver stagger wrapper

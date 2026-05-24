@@ -1,3 +1,4 @@
+'use client';
 // src/sections/Hero/Hero.jsx
 // ============================================================
 // HERO SECTION

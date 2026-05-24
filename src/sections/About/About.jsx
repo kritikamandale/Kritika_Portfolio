@@ -1,3 +1,4 @@
+'use client';
 // src/sections/About/About.jsx
 // ============================================================
 // ABOUT SECTION

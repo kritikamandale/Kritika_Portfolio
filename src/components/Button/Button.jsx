@@ -1,3 +1,4 @@
+'use client';
 // src/components/Button/Button.jsx
 // ============================================================
 // BUTTON COMPONENT

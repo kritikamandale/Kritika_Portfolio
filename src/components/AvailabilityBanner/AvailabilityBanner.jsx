@@ -1,3 +1,4 @@
+'use client';
 // src/components/AvailabilityBanner/AvailabilityBanner.jsx
 // ============================================================
 // AVAILABILITY BANNER

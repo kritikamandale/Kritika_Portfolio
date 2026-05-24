@@ -1,3 +1,4 @@
+'use client';
 // src/sections/Projects/Projects.jsx
 // ============================================================
 // PROJECTS SECTION — Asymmetric Bento Grid

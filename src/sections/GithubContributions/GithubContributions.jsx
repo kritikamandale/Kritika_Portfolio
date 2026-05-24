@@ -1,3 +1,4 @@
+'use client';
 import React, { useState, useEffect } from 'react';
 import { GitHubCalendar } from 'react-github-calendar';
 import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';

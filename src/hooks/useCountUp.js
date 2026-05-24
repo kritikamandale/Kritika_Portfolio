@@ -1,3 +1,4 @@
+'use client';
 // src/hooks/useCountUp.js
 // ============================================================
 // COUNT-UP HOOK
