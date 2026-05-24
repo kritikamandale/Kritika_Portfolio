@@ -76,7 +76,7 @@ const PILL_H = 48;
 // This is the text that appears in Phase 2 over the shape.
 const DISPLAY_NAME = 'Kritika Mandale';
 
-const ScrollReveal = ({ children, onDone }) => {
+const ScrollReveal = ({ children, onDone, staggerDelay = 0 }) => {
   // ── DOM refs ──────────────────────────────────────────────
   const triggerRef = useRef(null); // the tall scroll-spacer div
   const overlayRef = useRef(null); // position:fixed wrapper (transparent bg)
@@ -271,7 +271,18 @@ const ScrollReveal = ({ children, onDone }) => {
       )}
 
       <div className={`${styles.content} ${isDone ? styles.contentVisible : ''}`}>
-        {children}
+        {staggerDelay > 0
+          ? React.Children.map(children, (child, index) =>
+              child
+                ? React.cloneElement(child, {
+                    style: {
+                      ...(child.props.style || {}),
+                      animationDelay: `${index * staggerDelay}ms`,
+                    },
+                  })
+                : child
+            )
+          : children}
       </div>
     </>
   );
