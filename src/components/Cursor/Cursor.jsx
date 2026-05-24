@@ -11,7 +11,6 @@
 // ============================================================
 
 import React, { useEffect, useRef } from 'react';
-import styles from './Cursor.module.css';
 
 const isDesktopPointer = () =>
   typeof window !== 'undefined' &&
@@ -112,13 +111,21 @@ const Cursor = () => {
 
   return (
     <>
-      <div ref={dotRef}  className={styles.cursorDot}  aria-hidden="true" />
-      <div ref={ringRef} className={styles.cursorRing} aria-hidden="true" />
+      <div 
+        ref={dotRef}  
+        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-accent pointer-events-none z-[9999] -mt-1 -ml-1 will-change-transform hidden md:block"  
+        aria-hidden="true" 
+      />
+      <div 
+        ref={ringRef} 
+        className="fixed top-0 left-0 w-8 h-8 rounded-full border-[1.5px] border-accent bg-transparent pointer-events-none z-[9998] will-change-[transform,opacity] transition-all duration-200 ease opacity-100 hidden md:block" 
+        aria-hidden="true" 
+      />
       {Array.from({ length: TRAIL_COUNT }, (_, i) => (
         <div
           key={i}
           ref={(el) => { trailRefs.current[i] = { current: el }; }}
-          className={styles.trailDot}
+          className="fixed top-0 left-0 rounded-full bg-brand-orange pointer-events-none z-[9997] will-change-transform hidden md:block"
           aria-hidden="true"
           style={{
             width:   TRAIL_SIZES[i],

@@ -1,20 +1,11 @@
 'use client';
-// src/components/Button/Button.jsx
-// ============================================================
-// BUTTON COMPONENT
-// Two variants: primary (filled accent) and secondary (outline).
-// Primary auto-appends an animated → arrow span.
-// Renders as <a> when href is supplied.
-// Magnetic attraction effect on primary + ghost variants.
-// ============================================================
-
 import React from 'react';
 import useMagnetic from '../../hooks/useMagnetic';
-import styles from './Button.module.css';
 
 /**
  * @param {object}                props
  * @param {'primary'|'secondary'|'ghost'} [props.variant='primary']
+ * @param {'sm'|'base'|'lg'}      [props.size='base']
  * @param {string}                [props.href]
  * @param {Function}              [props.onClick]
  * @param {React.ReactNode}       [props.children]
@@ -22,6 +13,7 @@ import styles from './Button.module.css';
  */
 const Button = ({
   variant = 'primary',
+  size = 'base',
   href,
   onClick,
   children,
@@ -30,24 +22,40 @@ const Button = ({
 }) => {
   const magneticRef = useMagnetic();
 
+  const baseClasses = "inline-flex items-center gap-2 rounded-pill font-medium tracking-widest uppercase transition-all duration-200 ease-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer group relative overflow-hidden";
+  
+  const variantClasses = {
+    primary: "bg-accent text-white hover:-translate-y-0.5 hover:opacity-90",
+    secondary: "bg-transparent text-text-primary dark:text-text-dark-primary border border-border-light dark:border-border-dark hover:border-accent hover:text-accent hover:-translate-y-0.5",
+    ghost: "bg-transparent border-[1.5px] border-brand-orange/40 text-text-primary dark:text-text-dark-primary hover:bg-brand-orange/10 hover:border-brand-orange hover:text-brand-orange hover:-translate-y-0.5"
+  };
+
+  const sizeClasses = {
+    sm: "px-4 py-1.5 text-xs",
+    base: "px-9 py-3.5 text-sm",
+    lg: "px-8 py-3 text-md",
+  };
+
   const classes = [
-    styles.btn,
-    styles[variant] ?? styles.primary,
+    baseClasses,
+    variantClasses[variant] || variantClasses.primary,
+    sizeClasses[size] || sizeClasses.base,
     className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  ].filter(Boolean).join(' ');
 
   const inner = (
     <>
-      {children}
-      {variant === 'primary' && (
-        <span className={styles.arrow} aria-hidden="true">→</span>
-      )}
+      <span className="relative z-10 flex items-center gap-2">
+        {children}
+        {variant === 'primary' && (
+          <span className="inline-block transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">→</span>
+        )}
+      </span>
+      {/* Shine shimmer sweep on hover */}
+      <div className="absolute inset-y-0 -left-full w-[60%] bg-gradient-to-r from-transparent via-white/30 to-transparent transition-[left] duration-500 ease-smooth pointer-events-none group-hover:left-[150%]"></div>
     </>
   );
 
-  // Apply magnetic ref only on primary and ghost (CTA buttons)
   const isMagnetic = variant === 'primary' || variant === 'ghost';
 
   if (href) {

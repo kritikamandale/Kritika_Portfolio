@@ -9,23 +9,24 @@ import React from 'react';
 import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';
 import Button from '../../components/Button/Button';
 import useCountUp from '../../hooks/useCountUp';
-import styles from './About.module.css';
 
 // ── Animated stat block ──────────────────────────────────────
-// Extracts numeric part and suffix (e.g. "10+" → 10, "+")
 const StatBlock = ({ num, label }) => {
   const match   = num.match(/^(\d+)(.*)$/);
   const target  = match ? parseInt(match[1], 10) : 0;
   const suffix  = match ? match[2] : '';
   const { ref, display } = useCountUp(target, 1400);
   return (
-    <div ref={ref} className={styles.statBlock}>
-      <span className={styles.statNum}>{display}{suffix}</span>
-      <span className={styles.statLabel}>{label}</span>
+    <div ref={ref} className="flex flex-col items-center gap-4 group cursor-default">
+      <span className="text-2xl w-[90px] h-[90px] max-sm:text-2xl rounded-full bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex items-center justify-center font-heading font-extrabold text-text-primary dark:text-text-dark-primary leading-none shadow-clay-sm dark:shadow-none transition-all duration-300 relative group-hover:scale-[1.08] group-hover:-translate-y-1 group-hover:border-brand-orange group-hover:shadow-clay group-hover:text-brand-orange before:content-[''] before:absolute before:-inset-[10px] before:rounded-full before:bg-[radial-gradient(circle,rgba(255,140,66,0.12)_0%,transparent_70%)] before:-z-10 before:opacity-0 group-hover:before:opacity-100 before:transition-opacity">
+        {display}{suffix}
+      </span>
+      <span className="text-[14px] text-text-muted dark:text-text-dark-muted font-semibold tracking-[0.05em] uppercase">
+        {label}
+      </span>
     </div>
   );
 };
-
 
 const TECH_TAGS = [
   { label: 'LLMs & GenAI', hot: true },
@@ -46,92 +47,116 @@ const CARDS = [
     icon: '🏆',
     title: 'Proven under pressure',
     desc: 'From OpenPools to NASA Space Apps, I thrive in high-stakes environments, rapid prototyping, and delivering winning solutions under tight 30-hour deadlines.',
-    colorClass: styles.cardColor1, // Cinnabar
+    barColor: 'bg-brand-red',
+    iconBg: 'bg-brand-red/10',
+    iconColor: 'text-brand-red',
   },
   {
     icon: '🧠',
     title: 'AI-first thinking',
     desc: 'I don\'t just write code; I architect intelligent systems. My philosophy revolves around leveraging LLMs and ML models to solve real-world problems efficiently.',
-    colorClass: styles.cardColor2, // Pumpkin
+    barColor: 'bg-brand-orange',
+    iconBg: 'bg-brand-orange/10',
+    iconColor: 'text-brand-orange',
   },
   {
     icon: '🤝',
     title: 'Community builder',
     desc: 'Co-coordinating HackronyX and leading student tech communities taught me that the most impactful innovations stem from collaboration and shared knowledge.',
-    colorClass: styles.cardColor3, // Banana Cream
+    barColor: 'bg-brand-yellow',
+    iconBg: 'bg-brand-yellow/20',
+    iconColor: 'text-brand-yellow', // note: might be hard to see yellow on light, but it was like this
   },
   {
     icon: '⚙️',
     title: 'End-to-end ownership',
     desc: 'I close the full loop—from conceptualizing complex AI algorithms to deploying scalable web interfaces that users actually love to interact with.',
-    colorClass: styles.cardColor4, // Blue-grey
+    barColor: 'bg-brand-blue',
+    iconBg: 'bg-brand-blue/10',
+    iconColor: 'text-brand-blue',
   },
 ];
 
 const About = () => {
   return (
-    <SectionWrapper
-      id="about"
-      label="What I bring"
-      title="The person behind the code"
-      subtitle=""
-      align="center"
-      alt
-    >
-      <div className={`${styles.statsRow} reveal`}>
-        {STATS.map((stat, i) => (
-          <StatBlock key={i} num={stat.num} label={stat.label} />
-        ))}
-      </div>
-
-      <div className={styles.grid}>
-
-        {/* ── LEFT COLUMN ── */}
-        <div className={`${styles.leftCol} reveal`}>
-          <div className={styles.locationRow}>
-            📍 Nagpur · Open to opportunities
-          </div>
-
-          <p className={styles.bio}>
-            Technology started as curiosity for me, but it quickly evolved into a relentless drive to build intelligent systems that matter. As an <strong>AI/ML Engineer and Full-Stack Developer</strong>, my edge lies in bridging the gap between cutting-edge artificial intelligence and robust, scalable web architectures.
-          </p>
-          <p className={styles.bio}>
-            Whether I'm fine-tuning machine learning models or engineering seamless user interfaces, I approach every problem with an <strong>AI-first, end-to-end mindset</strong>. I thrive on rapid execution, learning by building, and turning complex ideas into award-winning digital realities.
-          </p>
-
-          <div className={styles.tagsContainer}>
-            {TECH_TAGS.map((tag, i) => (
-              <span key={i} className={`${styles.techTag} ${tag.hot ? styles.hotTag : ''}`}>
-                {tag.label}
-              </span>
-            ))}
-          </div>
-
-
-
-          <div className={`${styles.ctaRow} reveal reveal-delay-3`}>
-            <Button variant="primary" href="#contact" className={styles.hireBtn} size="lg">
-              Work with me →
-            </Button>
-            <Button variant="ghost" href="/Kritika_Resume.pdf" target="_blank" rel="noopener noreferrer" className={styles.resumeBtn} size="lg">
-              Download Resume ↗
-            </Button>
-          </div>
-        </div>
-
-        {/* ── RIGHT COLUMN ── */}
-        <div className={styles.rightCol}>
-          {CARDS.map((card, i) => (
-            <div key={i} className={`${styles.featureCard} ${card.colorClass} reveal reveal-delay-${i + 1}`}>
-              <div className={styles.cardIcon}>{card.icon}</div>
-              <h3 className={styles.cardTitle}>{card.title}</h3>
-              <p className={styles.cardDesc}>{card.desc}</p>
-            </div>
+    <div className="sticky top-0 z-[9] -mt-[100vh] min-h-screen rounded-t-[32px] overflow-hidden bg-bg-light dark:bg-bg-dark shadow-[0_-20px_40px_rgba(0,0,0,0.1)] dark:shadow-none">
+      <SectionWrapper
+        id="about"
+        label="What I bring"
+        title="The person behind the code"
+        subtitle=""
+        align="center"
+        alt
+      >
+        <div className="flex flex-wrap justify-center gap-8 sm:gap-16 mb-10 w-full reveal">
+          {STATS.map((stat, i) => (
+            <StatBlock key={i} num={stat.num} label={stat.label} />
           ))}
         </div>
 
-      </div>
-    </SectionWrapper>
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-12 items-start">
+          {/* ── LEFT COLUMN ── */}
+          <div className="flex flex-col gap-6 reveal">
+            <div className="inline-flex items-center gap-2 font-heading text-[14px] font-semibold text-brand-mauve dark:text-brand-yellow bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark px-4 py-2 rounded-pill w-fit">
+              📍 Nagpur · Open to opportunities
+            </div>
+
+            <p className="text-[16px] text-text-secondary dark:text-text-dark-secondary leading-[1.8]">
+              Technology started as curiosity for me, but it quickly evolved into a relentless drive to build intelligent systems that matter. As an <strong className="text-text-primary dark:text-text-dark-primary font-bold">AI/ML Engineer and Full-Stack Developer</strong>, my edge lies in bridging the gap between cutting-edge artificial intelligence and robust, scalable web architectures.
+            </p>
+            <p className="text-[16px] text-text-secondary dark:text-text-dark-secondary leading-[1.8]">
+              Whether I'm fine-tuning machine learning models or engineering seamless user interfaces, I approach every problem with an <strong className="text-text-primary dark:text-text-dark-primary font-bold">AI-first, end-to-end mindset</strong>. I thrive on rapid execution, learning by building, and turning complex ideas into award-winning digital realities.
+            </p>
+
+            <div className="flex flex-wrap gap-3 mt-2">
+              {TECH_TAGS.map((tag, i) => (
+                <span 
+                  key={i} 
+                  className={`
+                    text-[14px] font-medium px-4 py-2 rounded-pill transition-all duration-250
+                    ${tag.hot 
+                      ? 'bg-[linear-gradient(135deg,var(--brand-orange,#FF8C42),var(--brand-red,#FF3C38))] text-white font-semibold shadow-[0_4px_12px_rgba(255,60,56,0.2)]' 
+                      : 'bg-surface-light dark:bg-surface-dark text-text-secondary dark:text-text-dark-secondary border border-divider-light dark:border-divider-dark'}
+                  `}
+                >
+                  {tag.label}
+                </span>
+              ))}
+            </div>
+
+            <div className="flex gap-4 mt-4 reveal reveal-delay-3">
+              <Button variant="primary" href="#contact" size="lg">
+                Work with me →
+              </Button>
+              <Button variant="ghost" href="/Kritika_Resume.pdf" target="_blank" rel="noopener noreferrer" size="lg">
+                Download Resume ↗
+              </Button>
+            </div>
+          </div>
+
+          {/* ── RIGHT COLUMN ── */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {CARDS.map((card, i) => (
+              <div 
+                key={i} 
+                className={`bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl p-6 flex flex-col gap-3 transition-[transform,box-shadow,border-color] duration-300 relative overflow-hidden h-full hover:-translate-y-1 hover:shadow-clay-lg dark:hover:shadow-none hover:border-black/25 dark:hover:border-white/25 reveal reveal-delay-${i + 1}`}
+              >
+                <div className={`absolute top-0 left-0 right-0 h-1 ${card.barColor}`}></div>
+                <div className={`w-12 h-12 rounded-lg flex items-center justify-center text-xl mb-2 ${card.iconBg} ${card.iconColor}`}>
+                  {card.icon}
+                </div>
+                <h3 className="font-heading text-md font-bold text-text-primary dark:text-text-dark-primary">
+                  {card.title}
+                </h3>
+                <p className="text-[14px] text-text-secondary dark:text-text-dark-secondary leading-[1.6]">
+                  {card.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </SectionWrapper>
+    </div>
   );
 };
 

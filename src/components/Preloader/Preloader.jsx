@@ -8,16 +8,15 @@
 //       can begin the <main> fade-in immediately.
 // ============================================================
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import styles from './Preloader.module.css';
+import React, { useState, useEffect, useRef } from 'react';
 
 const BUBBLES = [
-  { id: 1, color: 'var(--blue-grey)',     size: 110, cx: -60,  cy: -80, sx: '-50vw', sy: '-50vh' },
-  { id: 2, color: 'var(--pumpkin-spice)', size: 95,  cx: 80,   cy: -40, sx: '50vw',  sy: '-50vh' },
-  { id: 3, color: 'var(--dusty-mauve)',   size: 80,  cx: -50,  cy: 90,  sx: '-50vw', sy: '50vh'  },
-  { id: 4, color: 'var(--banana-cream)',  size: 65,  cx: 60,   cy: 70,  sx: '50vw',  sy: '50vh'  },
-  { id: 5, color: 'var(--cinnabar)',      size: 50,  cx: 20,   cy: 110, sx: '0vw',   sy: '60vh'  },
-  { id: 6, color: 'var(--pumpkin-spice)', size: 40,  cx: -90,  cy: 20,  sx: '-60vw', sy: '0vh'   },
+  { id: 1, color: 'var(--brand-blue, #6699CC)',     size: 110, cx: -60,  cy: -80, sx: '-50vw', sy: '-50vh' },
+  { id: 2, color: 'var(--brand-orange, #FF8C42)', size: 95,  cx: 80,   cy: -40, sx: '50vw',  sy: '-50vh' },
+  { id: 3, color: 'var(--brand-mauve, #A23E48)',   size: 80,  cx: -50,  cy: 90,  sx: '-50vw', sy: '50vh'  },
+  { id: 4, color: 'var(--brand-yellow, #FFF275)',  size: 65,  cx: 60,   cy: 70,  sx: '50vw',  sy: '50vh'  },
+  { id: 5, color: 'var(--brand-red, #FF3C38)',      size: 50,  cx: 20,   cy: 110, sx: '0vw',   sy: '60vh'  },
+  { id: 6, color: 'var(--brand-orange, #FF8C42)', size: 40,  cx: -90,  cy: 20,  sx: '-60vw', sy: '0vh'   },
 ];
 
 const Preloader = ({ onComplete }) => {
@@ -33,8 +32,6 @@ const Preloader = ({ onComplete }) => {
     const t2 = setTimeout(() => setPhase('bubbles'), 2400);
     const t3 = setTimeout(() => {
       setPhase('exit');
-      // Fire onComplete at the START of the exit so App.jsx
-      // can begin its own fade-in during the 400ms fade-out.
       if (onComplete) onComplete();
     }, 3800);
     const t4 = setTimeout(() => setPhase('done'), 4200);
@@ -52,7 +49,6 @@ const Preloader = ({ onComplete }) => {
 
     const tick = (now) => {
       const t = Math.min((now - start) / dur, 1);
-      // easeInOut cubic
       const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
       setCount(Math.round(from + (to - from) * eased));
       if (t < 1) rafCountRef.current = requestAnimationFrame(tick);
@@ -110,35 +106,38 @@ const Preloader = ({ onComplete }) => {
 
   return (
     <div
-      className={[styles.container, isExit ? styles.containerExit : ''].filter(Boolean).join(' ')}
+      className={`
+        fixed inset-0 z-[9999] overflow-hidden pointer-events-auto transition-[opacity,visibility] duration-400 ease-out
+        ${isExit ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}
+      `}
       aria-hidden="true"
     >
       {/* Split exit panels */}
-      <div className={[styles.panelLeft,  isExit ? styles.panelLeftExit  : ''].filter(Boolean).join(' ')} />
-      <div className={[styles.panelRight, isExit ? styles.panelRightExit : ''].filter(Boolean).join(' ')} />
+      <div className={`absolute top-0 h-full w-1/2 bg-bg-light dark:bg-bg-dark z-20 transition-transform duration-[850ms] ease-[cubic-bezier(0.76,0,0.24,1)] left-0 ${isExit ? '-translate-x-full' : 'translate-x-0'}`} />
+      <div className={`absolute top-0 h-full w-1/2 bg-bg-light dark:bg-bg-dark z-20 transition-transform duration-[850ms] ease-[cubic-bezier(0.76,0,0.24,1)] right-0 delay-40 ${isExit ? 'translate-x-full' : 'translate-x-0'}`} />
 
       {/* Canvas ripple */}
-      <canvas ref={canvasRef} className={styles.canvas} />
+      <canvas ref={canvasRef} className="absolute inset-0 z-[25] w-full h-full pointer-events-none" />
 
-      <div className={styles.contentLayer}>
+      <div className="absolute inset-0 z-[30] flex justify-center items-center pointer-events-none">
         {/* Counting phase */}
         {phase === 'counting' && (
-          <div className={styles.counter}>
-            {formatted}<span className={styles.percent}>%</span>
+          <div className="font-['Playfair_Display',serif] font-black text-[6.5rem] max-md:text-[4rem] text-text-primary dark:text-text-dark-primary flex items-baseline absolute animate-slide-in-left">
+            {formatted}<span className="text-[0.4em] align-super leading-none">%</span>
           </div>
         )}
 
         {/* 100% display */}
         {showHundred && (
           <div
-            className={[
-              styles.splitHundred,
-              isExit ? styles.splitHundredExit : styles.splitHundredVisible,
-            ].filter(Boolean).join(' ')}
+            className={`
+              flex items-baseline font-['Playfair_Display',serif] font-black text-[11rem] max-md:text-[7rem] text-text-primary dark:text-text-dark-primary absolute transition-[opacity,transform] duration-400 ease
+              ${isExit ? 'opacity-0 scale-[0.85]' : 'opacity-100 scale-100 animate-pulse-split'}
+            `}
           >
-            <span className={styles.digitDrop} style={{ '--delay': '0ms' }}>1</span>
-            <span className={styles.digitRise} style={{ '--delay': '50ms' }}>00</span>
-            <span className={styles.digitPop}  style={{ '--delay': '150ms' }}>%</span>
+            <span className="inline-block animate-drop-in" style={{ '--delay': '0ms' }}>1</span>
+            <span className="inline-block animate-rise-in" style={{ '--delay': '50ms' }}>00</span>
+            <span className="inline-block text-[0.45em] align-super leading-none ml-[0.05em] animate-pop-in" style={{ '--delay': '150ms' }}>%</span>
           </div>
         )}
 
@@ -146,10 +145,10 @@ const Preloader = ({ onComplete }) => {
         {showBubbles && BUBBLES.map((b, i) => (
           <div
             key={b.id}
-            className={[
-              styles.bubble,
-              isExit ? styles.bubbleExit : styles.bubbleVisible,
-            ].filter(Boolean).join(' ')}
+            className={`
+              absolute rounded-full opacity-0
+              ${isExit ? 'animate-fly-out-bubble' : 'animate-fly-in-bubble'}
+            `}
             style={{
               backgroundColor: b.color,
               width:  b.size,

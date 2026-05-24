@@ -7,7 +7,6 @@
 // ============================================================
 
 import React from 'react';
-import styles from './SectionWrapper.module.css';
 
 const HeadingStar = () => (
   <svg viewBox="0 0 100 100" className="heading-star" fill="currentColor">
@@ -44,18 +43,24 @@ const SectionWrapper = ({
   return (
     <section
       id={id}
-      className={[styles.section, alt ? styles.alt : ''].filter(Boolean).join(' ')}
+      className={`
+        w-full
+        py-20 md:py-16 sm:py-10
+        transition-colors duration-400
+        ${alt ? 'bg-surface-2-light dark:bg-surface-2-dark' : 'bg-bg-light dark:bg-bg-dark'}
+      `}
     >
-      <div className={styles.inner} style={maxWidth ? { maxWidth } : {}}>
+      <div 
+        className="max-w-6xl mx-auto px-6 md:px-8 w-full"
+        style={maxWidth ? { maxWidth } : {}}
+      >
         {/* Section header block */}
         {(label || title || subtitle) && (
           <div
-            className={[
-              styles.header,
-              align === 'left' ? styles.left : '',
-            ]
-              .filter(Boolean)
-              .join(' ')}
+            className={`
+              mb-16 flex flex-col
+              ${align === 'left' ? 'text-left items-start' : 'text-center items-center'}
+            `}
           >
             {label && (
               <span className="section-label">{label}</span>

@@ -9,7 +9,6 @@ import React from 'react';
 import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';
 import InteractiveGraph from '../../components/InteractiveGraph/InteractiveGraph';
 import RevealGroup from '../../components/RevealGroup/RevealGroup';
-import styles from './Skills.module.css';
 
 const Skills = () => {
   return (
@@ -20,7 +19,7 @@ const Skills = () => {
       subtitle="An interactive map of the tools I reach for to bring ideas to life."
       alt
     >
-      <RevealGroup staggerDelay={90} className={styles.graphWrapper}>
+      <RevealGroup staggerDelay={90} className="mt-8">
         <InteractiveGraph />
       </RevealGroup>
     </SectionWrapper>

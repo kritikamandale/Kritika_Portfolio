@@ -9,7 +9,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../Button/Button';
 import ThemeToggle from '../ThemeToggle/ThemeToggle';
-import styles from './Navbar.module.css';
 
 const NAV_LINKS = [
   { label: 'Home', href: '#hero' },
@@ -31,7 +30,6 @@ const Navbar = () => {
   useEffect(() => {
     const sectionIds = NAV_LINKS.map((l) => l.href.slice(1));
 
-    // Use a single observer for better performance and consistency
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -40,8 +38,6 @@ const Navbar = () => {
           }
         });
       },
-      // rootMargin helps trigger active state when section is near center of viewport
-      // threshold: 0.1 ensures tall sections still trigger
       { rootMargin: '-20% 0px -60% 0px', threshold: 0 }
     );
 
@@ -64,40 +60,46 @@ const Navbar = () => {
 
   const handleMobileLink = (href) => {
     setMenu(false);
-    // Smooth scroll
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <nav className={styles.navbar} aria-label="Primary navigation">
-      <div className={styles.inner}>
+    <nav 
+      className="fixed top-4 left-1/2 -translate-x-1/2 z-[100] w-max max-w-[calc(100%-2rem)] md:max-w-none md:w-max max-md:w-[calc(100%-2rem)]" 
+      aria-label="Primary navigation"
+    >
+      <div className="flex items-center justify-between gap-6 px-3.75 py-10px bg-navbar-light dark:bg-navbar-dark backdrop-blur-md rounded-pill shadow-navbar dark:shadow-none border border-border-light dark:border-border-dark">
         {/* Logo */}
-        <a href="#hero" className={styles.logo}>
-          ✦ <span>kritikalog</span>
+        <a href="#hero" className="font-heading text-15 font-bold text-text-primary dark:text-text-dark-primary tracking-[-0.02em] flex items-center gap-2">
+          ✦ <span className="text-brand-orange">kritikalog</span>
         </a>
 
         {/* Desktop links */}
-        <ul className={styles.links} role="list">
-          {NAV_LINKS.map(({ label, href }) => (
-            <li key={href}>
-              <a
-                href={href}
-                className={[
-                  styles.link,
-                  active === href.slice(1) ? styles.active : '',
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
-              >
-                {label}
-              </a>
-            </li>
-          ))}
+        <ul className="hidden md:flex items-center gap-1" role="list">
+          {NAV_LINKS.map(({ label, href }) => {
+            const isActive = active === href.slice(1);
+            return (
+              <li key={href}>
+                <a
+                  href={href}
+                  className={`
+                    text-13 px-14px py-1.5 rounded-pill transition-colors duration-250 relative
+                    ${isActive 
+                      ? 'text-brand-red bg-brand-orange/15 font-semibold' 
+                      : 'font-medium text-text-secondary dark:text-text-dark-secondary hover:text-brand-red hover:bg-brand-orange/10'
+                    }
+                  `}
+                >
+                  {label}
+                </a>
+              </li>
+            );
+          })}
         </ul>
 
         {/* Desktop CTA */}
-        <div className={styles.navCta}>
+        <div className="hidden md:flex items-center gap-4">
           <Button
             variant="ghost"
             size="sm"
@@ -112,42 +114,65 @@ const Navbar = () => {
 
         {/* Mobile hamburger */}
         <button
-          className={[styles.hamburger, menuOpen ? styles.open : '']
-            .filter(Boolean)
-            .join(' ')}
+          className={`
+            md:hidden flex flex-col gap-[5px] cursor-pointer p-2 rounded-md transition-colors duration-250 hover:bg-brand-orange/10
+          `}
           onClick={() => setMenu((p) => !p)}
           aria-label="Toggle mobile menu"
           aria-expanded={menuOpen}
         >
-          <span />
-          <span />
-          <span />
+          <span className={`block w-[22px] h-[2px] bg-brand-mauve rounded-sm transition-all duration-250 ${menuOpen ? 'translate-y-[7px] rotate-45' : ''}`} />
+          <span className={`block w-[22px] h-[2px] bg-brand-mauve rounded-sm transition-all duration-250 ${menuOpen ? 'opacity-0 scale-x-0' : ''}`} />
+          <span className={`block w-[22px] h-[2px] bg-brand-mauve rounded-sm transition-all duration-250 ${menuOpen ? '-translate-y-[7px] -rotate-45' : ''}`} />
         </button>
       </div>
 
       {/* Mobile dropdown menu */}
       <div
-        className={[styles.mobileMenu, menuOpen ? styles.open : '']
-          .filter(Boolean)
-          .join(' ')}
+        className={`
+          ${menuOpen ? 'flex' : 'hidden'}
+          absolute top-[calc(100%+0.5rem)] left-0 right-0 
+          bg-white/98 dark:bg-bg-dark/98 backdrop-blur-md rounded-xl 
+          shadow-clay dark:shadow-none p-4 flex-col gap-1 
+          border border-border-light dark:border-border-dark
+        `}
         role="menu"
       >
-        {NAV_LINKS.map(({ label, href }) => (
-          <a
-            key={href}
-            href={href}
-            className={[
-              styles.mobileLink,
-              active === href.slice(1) ? styles.active : '',
-            ]
-              .filter(Boolean)
-              .join(' ')}
-            onClick={() => handleMobileLink(href)}
-            role="menuitem"
+        <div className="flex justify-end mb-2">
+          <ThemeToggle />
+        </div>
+        {NAV_LINKS.map(({ label, href }) => {
+          const isActive = active === href.slice(1);
+          return (
+            <a
+              key={href}
+              href={href}
+              className={`
+                text-base px-4 py-3 rounded-lg transition-colors duration-250
+                ${isActive
+                  ? 'text-brand-red bg-brand-orange/10 font-semibold'
+                  : 'font-medium text-text-secondary dark:text-text-dark-secondary hover:text-brand-red hover:bg-brand-orange/10'
+                }
+              `}
+              onClick={() => handleMobileLink(href)}
+              role="menuitem"
+            >
+              {label}
+            </a>
+          );
+        })}
+        <div className="mt-2 pt-2 border-t border-border-light dark:border-border-dark">
+          <Button
+            variant="ghost"
+            size="sm"
+            href="/Kritika_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full justify-center"
           >
-            {label}
-          </a>
-        ))}
+            Resume ↗
+          </Button>
+        </div>
       </div>
     </nav>
   );

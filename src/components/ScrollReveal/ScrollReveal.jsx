@@ -21,7 +21,6 @@ import React, { useRef, useEffect, useState } from 'react';
 
 import useScrollProgress from '../../hooks/useScrollProgress';
 import { colorLerp, REVEAL_PALETTE } from '../../utils/colorLerp';
-import styles from './ScrollReveal.module.css';
 
 // ─────────────────────────────────────────────────────────────
 // lerp — linear interpolation between two numbers
@@ -35,9 +34,7 @@ const lerp = (a, b, t) => a + (b - a) * t;
 //   e.g. mapRange(0.6, 0.5, 0.8, 0, 1) → 0.333...
 // ─────────────────────────────────────────────────────────────
 const mapRange = (value, inMin, inMax, outMin, outMax) => {
-  // Normalise value to 0–1 within the input range, clamped
   const t = Math.max(0, Math.min(1, (value - inMin) / (inMax - inMin)));
-  // Apply to output range
   return lerp(outMin, outMax, t);
 };
 
@@ -46,25 +43,14 @@ const mapRange = (value, inMin, inMax, outMin, outMax) => {
 // Change these to adjust the feel/pacing of the animation.
 // ─────────────────────────────────────────────────────────────
 const P = {
-  // Phase 1: shape grows to 70% of viewport (quick)
   PHASE1_END: 0.20,
-
-  // Phase 2: shape fills 100vw×100vh
   PHASE2_END: 0.45,
-
-  // Name fades IN softly in the first scroll (0–33%)
-  NAME_FADE_IN_START: 0.10,  // name starts appearing very early
-  NAME_FADE_IN_END: 0.35,  // fully visible after ~1 scroll
-
-  // Shape fades OUT
+  NAME_FADE_IN_START: 0.10,
+  NAME_FADE_IN_END: 0.35,
   SHAPE_FADE_START: 0.45,
   SHAPE_FADE_END: 0.72,
-
-  // Name zooms and fades OUT over scrolls 2–3
   NAME_FADE_OUT_START: 0.50,
   NAME_FADE_OUT_END: 0.88,
-
-  // Hero fires here — while name is almost gone, feels simultaneous
   DONE_AT: 0.88,
 };
 
@@ -214,7 +200,7 @@ const ScrollReveal = ({ children, onDone, staggerDelay = 0 }) => {
 
   // ── Reduced-motion bypass ─────────────────────────────────
   if (prefersReduced.current) {
-    return <div className={styles.content}>{children}</div>;
+    return <div className="relative z-0 opacity-100 transition-opacity duration-800 ease">{children}</div>;
   }
 
   // ── Initial inline styles (synchronised with p=0) ────────
@@ -234,26 +220,26 @@ const ScrollReveal = ({ children, onDone, staggerDelay = 0 }) => {
     <>
       <div
         ref={triggerRef}
-        className={styles.trigger}
+        className="relative bg-transparent pointer-events-none"
         aria-hidden="true"
-        style={{ '--trigger-height': triggerHeight }}
+        style={{ height: triggerHeight }}
       />
 
       <div
         ref={overlayRef}
-        className={styles.overlay}
+        className="fixed inset-0 z-[100] bg-transparent pointer-events-none"
         aria-hidden="true"
         role="presentation"
       >
         <div
           ref={shapeRef}
-          className={styles.shape}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[1] overflow-hidden will-change-[width,height,border-radius,background-color,opacity] backface-hidden before:content-[''] before:absolute before:top-0 before:left-0 before:w-[60%] before:h-[45%] before:bg-[linear-gradient(135deg,rgba(255,255,255,0.50)_0%,rgba(255,255,255,0.00)_100%)] before:pointer-events-none"
           style={initialShape}
         />
 
         <div
           ref={nameRef}
-          className={styles.name}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[2] font-sans text-[clamp(52px,11vw,110px)] font-extrabold text-[#26215c] tracking-[-0.03em] leading-none whitespace-nowrap pointer-events-none select-none will-change-[opacity]"
           style={initialName}
         >
           {DISPLAY_NAME}
@@ -262,7 +248,7 @@ const ScrollReveal = ({ children, onDone, staggerDelay = 0 }) => {
 
       {!isDone && (
         <button
-          className={styles.skipBtn}
+          className="max-md:hidden fixed bottom-6 right-6 z-[101] px-[1.1rem] py-[0.45rem] rounded-pill border-[1.5px] border-white/35 bg-white/15 backdrop-blur-md text-[#26215c]/80 font-sans text-xs font-semibold tracking-[0.06em] cursor-pointer transition-all duration-200 ease hover:bg-white/30 hover:-translate-y-[2px]"
           onClick={skip}
           aria-label="Skip intro animation and jump to portfolio"
         >
@@ -270,7 +256,7 @@ const ScrollReveal = ({ children, onDone, staggerDelay = 0 }) => {
         </button>
       )}
 
-      <div className={`${styles.content} ${isDone ? styles.contentVisible : ''}`}>
+      <div className={`relative z-0 transition-opacity duration-800 ease ${isDone ? 'opacity-100' : 'opacity-0'}`}>
         {staggerDelay > 0
           ? React.Children.map(children, (child, index) =>
               child
