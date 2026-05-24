@@ -1,3 +1,4 @@
+'use client';
 // src/components/Cursor/Cursor.jsx
 // ============================================================
 // CUSTOM CURSOR — desktop only (hover: hover) & (pointer: fine)

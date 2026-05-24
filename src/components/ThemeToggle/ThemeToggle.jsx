@@ -1,3 +1,4 @@
+'use client';
 // src/components/ThemeToggle/ThemeToggle.jsx
 // ============================================================
 // DARK / LIGHT MODE TOGGLE

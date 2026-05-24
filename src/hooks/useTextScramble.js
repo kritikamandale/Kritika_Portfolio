@@ -1,3 +1,4 @@
+'use client';
 // src/hooks/useTextScramble.js
 // ============================================================
 // TEXT SCRAMBLE HOOK

@@ -1,3 +1,4 @@
+'use client';
 // src/hooks/useMagnetic.js
 // ============================================================
 // MAGNETIC BUTTON HOOK

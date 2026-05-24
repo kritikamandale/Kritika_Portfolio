@@ -1,0 +1,39 @@
+import Preloader from '../src/components/Preloader/Preloader'
+import Cursor from '../src/components/Cursor/Cursor'
+import AvailabilityBanner from '../src/components/AvailabilityBanner/AvailabilityBanner'
+import Navbar from '../src/components/Navbar/Navbar'
+import Hero from '../src/sections/Hero/Hero'
+import About from '../src/sections/About/About'
+import Skills from '../src/sections/Skills/Skills'
+import Projects from '../src/sections/Projects/Projects'
+import Experience from '../src/sections/Experience/Experience'
+import Achievements from '../src/sections/Achievements/Achievements'
+import Philosophy from '../src/sections/Philosophy/Philosophy'
+import Contact from '../src/sections/Contact/Contact'
+import GithubContributions from '../src/sections/GithubContributions/GithubContributions'
+import Footer from '../src/components/Footer/Footer'
+import PageClient from '../src/components/PageClient/PageClient'
+
+export default function Home() {
+  return (
+    <>
+      <PageClient />
+      <Cursor />
+      <AvailabilityBanner />
+      <Preloader />
+      <Navbar />
+      <main id="main-content">
+        <Hero />
+        <About />
+        <Experience />
+        <Projects />
+        <GithubContributions />
+        <Achievements />
+        <Skills />
+        <Philosophy />
+        <Contact />
+      </main>
+      <Footer />
+    </>
+  )
+}
