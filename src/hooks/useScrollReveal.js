@@ -11,27 +11,43 @@ import { useEffect } from 'react';
 
 const useScrollReveal = () => {
   useEffect(() => {
-    const elements = document.querySelectorAll('.reveal');
+    let observer;
+    let timer;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            // Un-observe after animation so it doesn't re-trigger
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        threshold: 0.12, // trigger when 12% of element is visible
-        rootMargin: '0px 0px -40px 0px', // slight bottom offset
+    const initObserver = () => {
+      const elements = document.querySelectorAll('.reveal');
+      
+      // If elements aren't in the DOM yet, retry shortly.
+      if (elements.length === 0) {
+        timer = setTimeout(initObserver, 100);
+        return;
       }
-    );
 
-    elements.forEach((el) => observer.observe(el));
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.12,
+          rootMargin: '0px 0px -40px 0px',
+        }
+      );
 
-    return () => observer.disconnect();
+      elements.forEach((el) => observer.observe(el));
+    };
+
+    // Delay slightly to let hydration finish painting the DOM
+    timer = setTimeout(initObserver, 50);
+
+    return () => {
+      clearTimeout(timer);
+      if (observer) observer.disconnect();
+    };
   }, []);
 };
 

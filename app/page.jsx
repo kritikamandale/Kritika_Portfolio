@@ -13,6 +13,7 @@ import Contact from '../src/sections/Contact/Contact'
 import GithubContributions from '../src/sections/GithubContributions/GithubContributions'
 import Footer from '../src/components/Footer/Footer'
 import PageClient from '../src/components/PageClient/PageClient'
+import ScrollReveal from '../src/components/ScrollReveal/ScrollReveal'
 
 export default function Home() {
   return (
@@ -22,17 +23,19 @@ export default function Home() {
       <AvailabilityBanner />
       <Preloader />
       <Navbar />
-      <main id="main-content">
-        <Hero />
-        <About />
-        <Experience />
-        <Projects />
-        <GithubContributions />
-        <Achievements />
-        <Skills />
-        <Philosophy />
-        <Contact />
-      </main>
+      <ScrollReveal staggerDelay={0}>
+        <main id="main-content">
+          <Hero />
+          <About />
+          <Experience />
+          <Projects />
+          <GithubContributions />
+          <Achievements />
+          <Skills />
+          <Philosophy />
+          <Contact />
+        </main>
+      </ScrollReveal>
       <Footer />
     </>
   )

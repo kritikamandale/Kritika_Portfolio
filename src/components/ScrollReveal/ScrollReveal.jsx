@@ -1,3 +1,4 @@
+'use client';
 // src/components/ScrollReveal/ScrollReveal.jsx
 // ============================================================
 // SCROLL-DRIVEN REVEAL — v2 REWRITE
@@ -200,7 +201,7 @@ const ScrollReveal = ({ children, onDone, staggerDelay = 0 }) => {
 
   // ── Reduced-motion bypass ─────────────────────────────────
   if (prefersReduced.current) {
-    return <div className="relative z-0 opacity-100 transition-opacity duration-800 ease">{children}</div>;
+    return <div className="relative z-0 opacity-100 transition-opacity duration-[800ms] ease">{children}</div>;
   }
 
   // ── Initial inline styles (synchronised with p=0) ────────
@@ -256,7 +257,7 @@ const ScrollReveal = ({ children, onDone, staggerDelay = 0 }) => {
         </button>
       )}
 
-      <div className={`relative z-0 transition-opacity duration-800 ease ${isDone ? 'opacity-100' : 'opacity-0'}`}>
+      <div className={`relative z-0 transition-opacity duration-[800ms] ease ${isDone ? 'opacity-100' : 'opacity-0'}`}>
         {staggerDelay > 0
           ? React.Children.map(children, (child, index) =>
               child
