@@ -7,7 +7,6 @@
 
 import React from 'react';
 import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';
-import styles from './Experience.module.css';
 
 // ── Edit your experience here ────────────────────────────────
 const EXPERIENCE = [
@@ -74,45 +73,45 @@ const Experience = () => {
       subtitle="My professional journey — the roles, companies, and impact I've made along the way."
       alt
     >
-      <div className={styles.timeline}>
+      <div className="relative max-w-[1000px] mx-auto flex flex-col gap-0 before:content-[''] before:absolute before:top-0 before:bottom-0 before:left-[31px] max-sm:before:left-[15px] before:w-[2px] before:bg-[linear-gradient(to_bottom,transparent,var(--brand-yellow,#FFF275)_10%,var(--brand-orange,#FF8C42)_50%,var(--brand-red,#FF3C38)_90%,transparent)] before:z-0">
         {EXPERIENCE.map(({ id, role, company, companyTag, period, desc, achievements, tags }, i) => (
           <div
             key={id}
-            className={`${styles.item} reveal reveal-delay-${(i % 4) + 1}`}
+            className={`grid grid-cols-[64px_1fr] max-sm:grid-cols-[36px_1fr] gap-6 max-sm:gap-4 pb-16 last:pb-0 relative z-[1] group reveal reveal-delay-${(i % 4) + 1}`}
           >
             {/* Left: dot column */}
-            <div className={styles.dotCol}>
-              <div className={styles.dot} aria-hidden="true" />
+            <div className="flex flex-col items-center gap-2">
+              <div className="w-[22px] h-[22px] rounded-full bg-[linear-gradient(135deg,var(--brand-orange,#FF8C42),var(--brand-red,#FF3C38))] shadow-[0_0_0_4px_rgba(255,140,66,0.2),0_4px_12px_rgba(255,140,66,0.3)] shrink-0 mt-4 relative transition-all duration-300 group-hover:scale-125 group-hover:shadow-[0_0_0_6px_rgba(255,140,66,0.25),0_6px_18px_rgba(255,140,66,0.4)]" aria-hidden="true" />
             </div>
 
             {/* Right: card */}
-            <div className={styles.card}>
+            <div className="bg-surface-light dark:bg-surface-dark rounded-xl p-5 sm:p-8 border border-border-light dark:border-border-dark shadow-clay dark:shadow-none relative overflow-hidden transition-all duration-300 group-hover:translate-x-1.5 group-hover:border-black/25 dark:group-hover:border-white/25 group-hover:shadow-clay-lg dark:group-hover:shadow-none before:content-[''] before:absolute before:top-0 before:left-0 before:bottom-0 before:w-1 before:bg-[linear-gradient(to_bottom,var(--brand-orange,#FF8C42),var(--brand-red,#FF3C38))] before:rounded-l-xl">
               {/* Header: role + period */}
-              <div className={styles.cardHeader}>
-                <h3 className={styles.role}>{role}</h3>
-                <span className={styles.period}>{period}</span>
+              <div className="flex items-start justify-between flex-wrap gap-3 mb-3">
+                <h3 className="font-heading text-lg font-bold text-text-primary dark:text-text-dark-primary">{role}</h3>
+                <span className="text-xs font-medium text-brand-orange bg-brand-orange/10 border border-brand-orange/15 px-3 py-1 rounded-full whitespace-nowrap">{period}</span>
               </div>
 
               {/* Company */}
-              <div className={styles.company}>
+              <div className="text-sm font-semibold text-text-secondary dark:text-text-dark-secondary mb-3 flex items-center gap-2">
                 {company}
-                <span className={styles.companyTag}>{companyTag}</span>
+                <span className="text-[11px] bg-surface-2-light dark:bg-surface-2-dark border border-border-light dark:border-border-dark px-2 py-[1px] rounded-full text-text-muted dark:text-text-dark-muted">{companyTag}</span>
               </div>
 
               {/* Description */}
-              <p className={styles.desc}>{desc}</p>
+              <p className="text-sm text-text-secondary dark:text-text-dark-secondary leading-[1.75] mb-4">{desc}</p>
 
               {/* Key achievements */}
-              <ul className={styles.achievements} aria-label="Key achievements">
+              <ul className="flex flex-col gap-2 pl-4" aria-label="Key achievements">
                 {achievements.map((a) => (
-                  <li key={a} className={styles.achievement}>{a}</li>
+                  <li key={a} className="text-sm text-text-secondary dark:text-text-dark-secondary leading-[1.5] flex items-start gap-2 before:content-['✦'] before:text-brand-orange before:text-[10px] before:shrink-0 before:mt-[4px]">{a}</li>
                 ))}
               </ul>
 
               {/* Tech tags */}
-              <div className={styles.cardTags} aria-label="Technologies used">
+              <div className="flex flex-wrap gap-2 mt-4" aria-label="Technologies used">
                 {tags.map((tag) => (
-                  <span key={tag} className={styles.cardTag}>{tag}</span>
+                  <span key={tag} className="text-[11px] text-text-secondary dark:text-text-dark-secondary bg-surface-2-light dark:bg-surface-2-dark border border-border-light dark:border-border-dark px-3 py-[2px] rounded-full">{tag}</span>
                 ))}
               </div>
             </div>

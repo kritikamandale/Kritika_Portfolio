@@ -1,6 +1,28 @@
 'use client';
-import React, { useEffect, useRef, useState, useMemo } from 'react';
-import styles from './InteractiveGraph.module.css';
+import React, { useEffect, useRef, useState } from 'react';
+
+const CATEGORY_STYLES = {
+  frontend: {
+    base: 'border-[#8baef0]/60 shadow-[0_0_12px_rgba(139,174,240,0.2)]',
+    glow: 'border-[#8baef0] shadow-[0_0_20px_rgba(139,174,240,0.6),inset_0_0_10px_rgba(139,174,240,0.3),0_15px_35px_rgba(0,0,0,0.15)] dark:shadow-[0_0_20px_rgba(139,174,240,0.6),inset_0_0_10px_rgba(139,174,240,0.3)] bg-white/70 dark:bg-black/70'
+  },
+  ai: {
+    base: 'border-[#a88bf0]/60 shadow-[0_0_12px_rgba(168,139,240,0.2)]',
+    glow: 'border-[#a88bf0] shadow-[0_0_20px_rgba(168,139,240,0.6),inset_0_0_10px_rgba(168,139,240,0.3),0_15px_35px_rgba(0,0,0,0.15)] dark:shadow-[0_0_20px_rgba(168,139,240,0.6),inset_0_0_10px_rgba(168,139,240,0.3)] bg-white/70 dark:bg-black/70'
+  },
+  data: {
+    base: 'border-[#8bf0b8]/60 shadow-[0_0_12px_rgba(139,240,184,0.2)]',
+    glow: 'border-[#8bf0b8] shadow-[0_0_20px_rgba(139,240,184,0.6),inset_0_0_10px_rgba(139,240,184,0.3),0_15px_35px_rgba(0,0,0,0.15)] dark:shadow-[0_0_20px_rgba(139,240,184,0.6),inset_0_0_10px_rgba(139,240,184,0.3)] bg-white/70 dark:bg-black/70'
+  },
+  llms: {
+    base: 'border-[#f08bba]/60 shadow-[0_0_12px_rgba(240,139,186,0.2)]',
+    glow: 'border-[#f08bba] shadow-[0_0_20px_rgba(240,139,186,0.6),inset_0_0_10px_rgba(240,139,186,0.3),0_15px_35px_rgba(0,0,0,0.15)] dark:shadow-[0_0_20px_rgba(240,139,186,0.6),inset_0_0_10px_rgba(240,139,186,0.3)] bg-white/70 dark:bg-black/70'
+  },
+  backend: {
+    base: 'border-[#f0b88b]/60 shadow-[0_0_12px_rgba(240,184,139,0.2)]',
+    glow: 'border-[#f0b88b] shadow-[0_0_20px_rgba(240,184,139,0.6),inset_0_0_10px_rgba(240,184,139,0.3),0_15px_35px_rgba(0,0,0,0.15)] dark:shadow-[0_0_20px_rgba(240,184,139,0.6),inset_0_0_10px_rgba(240,184,139,0.3)] bg-white/70 dark:bg-black/70'
+  }
+};
 
 const InteractiveGraph = () => {
   const containerRef = useRef(null);
@@ -157,17 +179,18 @@ const InteractiveGraph = () => {
 
   const HOVER_RADIUS = 160;
   const STRING_HOVER_RADIUS = 80;
+  const hasHover = !!mousePos;
 
   return (
     <div 
-      className={`${styles.container} ${mousePos ? styles.hasHover : ''}`} 
+      className="w-full h-[calc(100vh-150px)] min-h-[600px] max-h-[900px] max-md:h-[500px] max-md:min-h-[500px] relative bg-transparent overflow-hidden rounded-2xl font-sans cursor-grab active:cursor-grabbing"
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
       {nodes.length > 0 && (
         <>
-          <svg className={styles.svgLayer}>
+          <svg className="absolute inset-0 w-full h-full pointer-events-none z-[1]">
             <g>
               {links.map((link, i) => {
                 let isActive = false;
@@ -181,6 +204,10 @@ const InteractiveGraph = () => {
                   isActive = dist < STRING_HOVER_RADIUS || sourceDist < HOVER_RADIUS || targetDist < HOVER_RADIUS;
                 }
 
+                const edgeOpacity = hasHover ? (isActive ? 'opacity-100' : 'opacity-[0.15]') : 'opacity-50';
+                const edgeStrokeWidth = isActive ? 'stroke-[2.5px]' : 'stroke-[1.2px]';
+                const edgeStrokeColor = isActive ? 'stroke-zinc-900 dark:stroke-white' : 'stroke-[#c8bcb0] dark:stroke-white/20';
+
                 return (
                   <line
                     key={i}
@@ -188,18 +215,16 @@ const InteractiveGraph = () => {
                     y1={link.source.y}
                     x2={link.target.x}
                     y2={link.target.y}
-                    className={`${styles.edge} ${isActive ? styles.active : ''}`}
+                    className={`fill-none transition-all duration-300 ease ${edgeOpacity} ${edgeStrokeWidth} ${edgeStrokeColor}`}
                   />
                 );
               })}
             </g>
           </svg>
           
-          <div className={styles.htmlLayer}>
+          <div className="absolute inset-0 w-full h-full origin-top-left z-[2] pointer-events-none">
             {nodes.map((node) => {
               let isHovered = false;
-              let isConnected = false; // Using connected class as a "soft" glow if we wanted, but let's just use hovered
-              
               if (mousePos) {
                 const dist = Math.hypot(node.x - mousePos.x, node.y - mousePos.y);
                 if (dist < HOVER_RADIUS) {
@@ -207,19 +232,23 @@ const InteractiveGraph = () => {
                 }
               }
               
-              let glowClass = '';
-              if (isHovered) {
-                glowClass = styles[`glow-${node.category}`];
-              }
+              const catStyles = CATEGORY_STYLES[node.category] || CATEGORY_STYLES.backend;
+              const dynamicStyle = isHovered ? catStyles.glow : catStyles.base;
+              const hoverTransform = isHovered ? 'z-10 !scale-[1.15] !-translate-y-2' : 'z-[2]';
+              const opacityStyle = hasHover ? (isHovered ? 'opacity-100' : 'opacity-[0.15] !shadow-none') : 'opacity-100';
               
               return (
                 <div
                   key={node.id}
                   className={`
-                    ${styles.node} 
-                    ${styles[node.category]}
-                    ${isHovered ? styles.hovered : ''}
-                    ${glowClass}
+                    absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 
+                    bg-white/45 dark:bg-black/45 backdrop-blur-[12px] 
+                    border-[1.5px] border-white/80 dark:border-white/20 
+                    rounded-[40px] flex items-center justify-center gap-2 
+                    px-[18px] py-[8px] text-[13px] font-semibold tracking-[0.02em] 
+                    text-[#1a1a1a] dark:text-white pointer-events-auto cursor-default 
+                    transition-all duration-300 ease select-none
+                    ${dynamicStyle} ${hoverTransform} ${opacityStyle}
                   `}
                   style={{ 
                     left: `${node.x}px`, 
