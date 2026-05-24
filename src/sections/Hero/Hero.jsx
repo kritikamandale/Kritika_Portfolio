@@ -5,7 +5,7 @@
 // Full-viewport landing. Centered name, tagline, CTA buttons, stats.
 // ============================================================
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Button from '../../components/Button/Button';
 import useTextScramble from '../../hooks/useTextScramble';
@@ -13,7 +13,18 @@ import styles from './Hero.module.css';
 
 const HERO_NAME = 'Kritika Mandale';
 
-const Hero = ({ revealDone }) => {
+const Hero = ({ revealDone: propRevealDone }) => {
+  const [localReveal, setLocalReveal] = useState(false);
+  const revealDone = propRevealDone !== undefined ? propRevealDone : localReveal;
+
+  useEffect(() => {
+    if (propRevealDone === undefined) {
+      // 3800ms is when the Preloader begins its exit fade.
+      const t = setTimeout(() => setLocalReveal(true), 3800);
+      return () => clearTimeout(t);
+    }
+  }, [propRevealDone]);
+
   // Scramble the name when the hero reveals
   const scrambleRef = useTextScramble(HERO_NAME, revealDone);
 
