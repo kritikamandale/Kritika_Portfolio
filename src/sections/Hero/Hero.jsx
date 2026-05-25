@@ -114,7 +114,7 @@ const Hero = () => {
           className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:[@media(min-height:750px)]:flex flex-col items-center gap-2 text-brand-mauve dark:text-brand-orange text-xs font-medium tracking-[0.1em]"
           aria-hidden="true"
         >
-          <span>scroll</span>
+
           <div className="w-[2px] h-[48px] bg-[linear-gradient(to_bottom,var(--brand-red,#FF3C38),transparent)] animate-[scrollPulse_1.5s_ease-in-out_infinite]" />
         </div>
       </section>
