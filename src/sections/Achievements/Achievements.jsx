@@ -12,27 +12,27 @@ if (typeof window !== 'undefined') {
 const CARDS = [
   {
     category: 'National Level Hackathon',
-    title: 'Top Finalist — Hackwise, IIM Indore',
-    context: 'High-intensity, national competitive build bridging engineering and commercial logic.',
-    focus: 'Built advanced architecture models unifying predictive data workflows and machine learning systems under rigorous constraints.'
+    title: 'National Finalist — Hackwise 2026, IIM Indore',
+    context: 'Selected among the top teams nationwide for delivering an innovative and highly technical solution.',
+    focus: 'Demonstrated rapid prototyping and robust system architecture under high-stakes competitive evaluation.'
   },
   {
-    category: 'Engineering Excellence',
-    title: 'Outstanding Performer — National AI Innovation Challenge',
-    context: 'Evaluated against hundreds of technical submissions for robust system scalability.',
-    focus: 'Recognized for deploying optimized natural language processing (NLP) architectures and high-throughput data parsing systems.'
+    category: '30-Hour Hackathon',
+    title: '1st Runner-Up — Openpools Doppelganger',
+    context: 'Engineered an outstanding project under extreme time constraints during a continuous 30-hour coding sprint.',
+    focus: 'Optimized development workflows for rapid iteration and stable deployment in a high-pressure environment.'
   },
   {
-    category: 'Full-Stack Systems',
-    title: 'First Place — Advanced SaaS Buildathon',
-    context: 'Fast-paced product cycle evaluating architecture maturity and interface design.',
-    focus: 'Architected an autonomous workflow engine integrated with interactive real-time telemetry dashboards and dynamic metrics.'
+    category: 'Nagpur Chapter',
+    title: '1st Runner-Up — NASA Space Apps Challenge',
+    context: 'Developed a creative, data-driven solution utilizing NASA’s open-source space and Earth datasets.',
+    focus: 'Engineered data parsing pipelines to process and visualize complex open-source satellite telemetry.'
   },
   {
-    category: 'Open Source Contribution',
-    title: 'Technical Innovation Honor — Elite Developer Summit',
-    context: 'Awarded for excellence in creative automation and tool optimization.',
-    focus: 'Engineered an automated pipeline toolkit designed to streamline third-party API dependencies and data visualizations.'
+    category: 'Blockchain Event',
+    title: '1st Runner-Up — Stellar Ragnarok',
+    context: 'Secured top honors by conceptualizing and building an innovative decentralized application on the blockchain.',
+    focus: 'Architected secure smart contracts and seamless Web3 wallet integrations for a decentralized ecosystem.'
   }
 ];
 
