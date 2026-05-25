@@ -71,9 +71,9 @@ const Services = () => {
   return (
     <SectionWrapper
       id="services"
-      label="What I Offer"
-      title="Services"
-      subtitle="From AI systems to full-stack products — here is what I can build for you."
+      label="Domains"
+      title="What I Build"
+      subtitle="A breakdown of the domains I work across and the kind of problems I enjoy solving"
       alt
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-2">
