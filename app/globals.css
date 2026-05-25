@@ -259,12 +259,4 @@ section[id] {
   scroll-margin-top: 112px;
 }
 
-#achievements {
-  position: relative !important;
-  overflow: hidden !important;
-}
 
-#achievements .mb-16 {
-  position: relative !important;
-  z-index: 10 !important;
-}
