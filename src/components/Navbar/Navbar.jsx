@@ -20,7 +20,7 @@ const NAV_LINKS = [
   { label: 'GitHub', href: '#github' },
   { label: 'Achievements', href: '#achievements' },
 
-  { label: 'Philosophy', href: '#philosophy' },
+
   { label: 'Contact', href: '#contact' },
 ];
 
