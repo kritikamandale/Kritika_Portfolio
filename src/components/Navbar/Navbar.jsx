@@ -19,7 +19,7 @@ const NAV_LINKS = [
   { label: 'Projects', href: '#projects' },
   { label: 'GitHub', href: '#github' },
   { label: 'Achievements', href: '#achievements' },
-  { label: 'Skills', href: '#skills' },
+
   { label: 'Philosophy', href: '#philosophy' },
   { label: 'Contact', href: '#contact' },
 ];

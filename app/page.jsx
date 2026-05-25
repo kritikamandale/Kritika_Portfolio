@@ -6,7 +6,6 @@ import Hero from '../src/sections/Hero/Hero'
 import About from '../src/sections/About/About'
 import Services from '../src/sections/Services/index'
 import Stack from '../src/sections/Stack/index'
-import Skills from '../src/sections/Skills/Skills'
 import Projects from '../src/sections/Projects/Projects'
 import Experience from '../src/sections/Experience/Experience'
 import Achievements from '../src/sections/Achievements/Achievements'
@@ -33,7 +32,7 @@ export default function Home() {
         <Projects />
         <GithubContributions />
         <Achievements />
-        <Skills />
+
         <Philosophy />
         <Contact />
       </main>

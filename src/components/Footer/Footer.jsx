@@ -55,7 +55,7 @@ const Footer = () => {
               <a href="#projects" className="text-footer-text text-sm font-medium opacity-85 no-underline leading-loose transition-all duration-250 hover:opacity-100 hover:text-brand-yellow">Projects</a>
             </div>
             <div className="flex flex-col gap-3">
-              <a href="#skills" className="text-footer-text text-sm font-medium opacity-85 no-underline leading-loose transition-all duration-250 hover:opacity-100 hover:text-brand-yellow">Skills</a>
+              <a href="#stack" className="text-footer-text text-sm font-medium opacity-85 no-underline leading-loose transition-all duration-250 hover:opacity-100 hover:text-brand-yellow">My Stack</a>
               <a href="#experience" className="text-footer-text text-sm font-medium opacity-85 no-underline leading-loose transition-all duration-250 hover:opacity-100 hover:text-brand-yellow">Experience</a>
               <a href="#contact" className="text-footer-text text-sm font-medium opacity-85 no-underline leading-loose transition-all duration-250 hover:opacity-100 hover:text-brand-yellow">Contact</a>
             </div>
