@@ -25,6 +25,16 @@ const NAV_LINKS = [
 const Navbar = () => {
   const [active, setActive] = useState('hero');
   const [menuOpen, setMenu] = useState(false);
+  const [bannerActive, setBannerActive] = useState(false);
+
+  /* ── Banner change event listener ── */
+  useEffect(() => {
+    const handleBannerChange = (e) => {
+      setBannerActive(e.detail.visible);
+    };
+    window.addEventListener('banner-change', handleBannerChange);
+    return () => window.removeEventListener('banner-change', handleBannerChange);
+  }, []);
 
   /* ── Active section detection ── */
   useEffect(() => {
@@ -66,7 +76,7 @@ const Navbar = () => {
 
   return (
     <nav 
-      className="fixed top-4 left-1/2 -translate-x-1/2 z-[100] w-max max-w-[calc(100%-2rem)] md:max-w-none md:w-max max-md:w-[calc(100%-2rem)]" 
+      className={`fixed left-1/2 -translate-x-1/2 z-[100] w-max max-w-[calc(100%-2rem)] md:max-w-none md:w-max max-md:w-[calc(100%-2rem)] transition-all duration-300 ${bannerActive ? 'top-[60px] md:top-[56px]' : 'top-4'}`} 
       aria-label="Primary navigation"
     >
       <div className="flex items-center justify-between gap-6 px-3.75 py-10px bg-navbar-light dark:bg-navbar-dark backdrop-blur-md rounded-pill shadow-navbar dark:shadow-none border border-border-light dark:border-border-dark">

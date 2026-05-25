@@ -5,11 +5,16 @@ export default function ThemeToggle() {
   const [dark, setDark] = useState(false)
 
   useEffect(() => {
-    /* Default is light — only apply dark if explicitly saved */
-    const saved = localStorage.getItem('theme')
-    if (saved === 'dark') {
+    const savedTheme = localStorage.getItem('theme')
+    const defaultTheme = savedTheme || 'light'
+    if (defaultTheme === 'dark') {
       document.documentElement.classList.add('dark')
+      document.documentElement.setAttribute('data-theme', 'dark')
       setDark(true)
+    } else {
+      document.documentElement.classList.remove('dark')
+      document.documentElement.removeAttribute('data-theme')
+      setDark(false)
     }
   }, [])
 
@@ -18,9 +23,11 @@ export default function ThemeToggle() {
     setDark(next)
     if (next) {
       document.documentElement.classList.add('dark')
+      document.documentElement.setAttribute('data-theme', 'dark')
       localStorage.setItem('theme', 'dark')
     } else {
       document.documentElement.classList.remove('dark')
+      document.documentElement.removeAttribute('data-theme')
       localStorage.setItem('theme', 'light')
     }
   }

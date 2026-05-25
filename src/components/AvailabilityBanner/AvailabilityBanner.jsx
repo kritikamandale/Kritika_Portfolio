@@ -16,6 +16,12 @@ const AvailabilityBanner = () => {
   const [exiting, setExiting] = useState(false);
 
   useEffect(() => {
+    if (visible) {
+      window.dispatchEvent(new CustomEvent('banner-change', { detail: { visible: true } }));
+    }
+  }, [visible]);
+
+  useEffect(() => {
     // Don't show if already dismissed this session
     if (sessionStorage.getItem(STORAGE_KEY)) return;
 
@@ -26,6 +32,7 @@ const AvailabilityBanner = () => {
   const dismiss = () => {
     setExiting(true);
     sessionStorage.setItem(STORAGE_KEY, '1');
+    window.dispatchEvent(new CustomEvent('banner-change', { detail: { visible: false } }));
     setTimeout(() => setVisible(false), 350); // wait for slide-out
   };
 
