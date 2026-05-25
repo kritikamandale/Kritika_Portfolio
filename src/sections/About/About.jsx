@@ -125,10 +125,10 @@ const About = () => {
             </div>
 
             <div className="flex gap-4 mt-4 reveal reveal-delay-3">
-              <Button variant="primary" href="#contact" size="lg">
+              <Button variant="primary" href="#contact" className="!px-4 !py-2 !text-14">
                 Work with me →
               </Button>
-              <Button variant="ghost" href="/Kritika_Resume.pdf" target="_blank" rel="noopener noreferrer" size="lg">
+              <Button variant="ghost" href="/Kritika_Resume.pdf" target="_blank" rel="noopener noreferrer" className="!px-4 !py-2 !text-14">
                 Download Resume ↗
               </Button>
             </div>

@@ -1,23 +1,33 @@
 # Kritika's Portfolio
 
-A modern, interactive personal portfolio website built with React and Vite. Showcasing projects, experience, skills, and achievements with smooth animations and responsive design.
+A modern, interactive personal portfolio website built with Next.js 14 (App Router) and React 18. Showcasing projects, experience, skills, and achievements with premium 3D elements, interactive graphs, and smooth animations.
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React 18
-- **Build Tool**: Vite
-- **Styling**: CSS Modules
-- **Backend**: Node.js Express (for contact form API)
-- **Linting**: ESLint
-- **Deployment**: vercel
+### Frontend & UI
+- **Framework**: **Next.js 14 (App Router)** with Static Site Generation (SSG) for fast rendering and optimal SEO.
+- **Core Library**: **React 18** (incorporating Server & Client Components dynamically).
+- **Styling**: **Tailwind CSS (v3)** & **CSS Modules** for responsive utility-first layouts and scoped component styling.
+- **Animations**: **Framer Motion** for smooth transitions and scroll-reveals.
+- **3D Graphics**: **Spline** (`@splinetool/react-spline`) for embedding interactive 3D elements.
+- **Data Visualization**: **D3.js (v7)** for the interactive graph components.
+
+### Third-Party Integrations
+- **GitHub Activity Grid**: **React GitHub Calendar** for showing live contribution stats.
+- **Email Delivery**: **Resend SDK** for handling message submissions via the contact form.
+
+### Backend & API
+- **Express.js (v5)**: A minimal backend server (running independently) using CORS middleware to handle server-side actions.
+- **Serverless Endpoint**: Located in `/api/contact.js` for handling contact submissions in cloud/serverless deployments.
 
 ---
 
-## 📦 Installation
+## 📦 Installation & Setup
+
 ### Prerequisites
-- Node.js (v16 or higher)
+- Node.js (v18 or higher recommended)
 - npm or yarn
 
 ### Steps
@@ -33,10 +43,17 @@ A modern, interactive personal portfolio website built with React and Vite. Show
    npm install
    ```
 
-3. **(Optional) Start the backend API**
+3. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) to view the application in the browser.
+
+4. **(Optional) Run the backend server**
    ```bash
    node server/index.js
    ```
+   This runs the local contact form server on port `5000`.
 
 ---
 
@@ -44,62 +61,36 @@ A modern, interactive personal portfolio website built with React and Vite. Show
 
 ```
 Portfolio/
-├── src/
-│   ├── components/        # Reusable UI components
-│   │   ├── Button/
-│   │   ├── Card/
-│   │   ├── Footer/
-│   │   ├── Navbar/
-│   │   ├── Preloader/
-│   │   ├── ScrollReveal/
-│   │   ├── SectionWrapper/
-│   │   ├── Loader/
-│   │   └── InteractiveGraph/
-│   ├── sections/          # Page sections
-│   │   ├── Hero/
-│   │   ├── About/
-│   │   ├── Experience/
-│   │   ├── Skills/
-│   │   ├── Projects/
-│   │   ├── Achievements/
-│   │   ├── Philosophy/
-│   │   ├── Contact/
-│   │   └── GithubContributions/
-│   ├── hooks/             # Custom React hooks
-│   │   ├── useScrollProgress.js
-│   │   └── useScrollReveal.js
-│   ├── utils/             # Utility functions
-│   │   └── colorLerp.js
-│   ├── styles/            # Global styles
-│   │   ├── global.css
-│   │   └── variables.css
-│   ├── App.jsx
-│   └── main.jsx
+├── app/                  # Next.js App Router
+│   ├── globals.css       # Next.js global styling
+│   ├── layout.jsx        # Root HTML layout and metadata configuration
+│   ├── page.jsx          # Root page (renders all portfolio sections)
+│   ├── robots.js         # SEO robots.txt generation
+│   └── sitemap.js        # SEO sitemap.xml generation
+├── src/                  # Application source code
+│   ├── components/       # Reusable UI components (InteractiveGraph, Preloader, ThemeToggle)
+│   ├── sections/         # Page sections (Hero, Experience, Projects, GitHub Contributions)
+│   ├── hooks/            # Custom React hooks (useScrollReveal, etc.)
+│   ├── utils/            # Utility functions (color math, logic helpers)
+│   └── styles/           # CSS Modules and global variables
 ├── api/
-│   └── contact.js         # Contact form API endpoint
+│   └── contact.js        # Serverless API endpoint
 ├── server/
-│   └── index.js           # Backend server
-├── public/                # Static assets
-├── vite.config.js         # Vite configuration
-├── eslint.config.js       # ESLint configuration
-└── package.json           # Project dependencies
+│   └── index.js          # Express.js backend server
+├── public/               # Static assets (images, icons, vectors)
+├── next.config.js        # Next.js configuration
+├── eslint.config.js      # ESLint configuration
+└── package.json          # Dependencies and scripts
 ```
 
-
-### Build for Production
-```bash
-npm run build
-```
-This creates an optimized production build in the `dist/` folder.
-
-
+---
 
 ## 📝 Available Scripts
 
-- `npm run dev` – Start development server
-- `npm run build` – Build for production
-- `npm run preview` – Preview production build
-- `npm run lint` – Run ESLint
+- `npm run dev` – Starts the Next.js development server.
+- `npm run build` – Pre-renders the website via Static Site Generation (SSG) into the static `out/` folder.
+- `npm run start` – Starts a production Next.js server locally.
+- `npm run lint` – Runs ESLint syntax and code quality checks.
 
 ---
 
@@ -107,4 +98,3 @@ This creates an optimized production build in the `dist/` folder.
 
 This project is open source and available under the MIT License.
 
----
