@@ -18,9 +18,11 @@ const PROJECTS = [
     subtitle: 'AI Student Identity Verification',
     image: '/secureid.jpg',
     desc: 'A full-stack, production-style platform for secure university student verification using KYC and AI facial authentication (DeepFace). Includes an admin analytics dashboard, microservices architecture, Docker orchestration, and Terraform IaC.',
-    problem: 'Traditional KYC and student verifications are slow, prone to human error, and easily spoofed.',
-    approach: 'Developed an automated FastAPI microservice using DeepFace for biometric matching and Terraform for scalable deployment.',
-    outcome: 'Achieved sub-second verification times and integrated successfully into a production-grade admin dashboard.',
+    problem: 'Traditional student KYC is slow, error-prone, and easy to spoof.',
+    approach: 'Built a production-grade AI identity verification platform using facial biometrics and microservices.',
+    outcome: 'Sub-second verification times with a full admin analytics dashboard.',
+    builtFor: 'Universities · EdTech Platforms · Identity Verification Startups',
+    businessValue: 'Eliminates manual KYC overhead and prevents identity fraud at scale.',
     tags: ['FastAPI', 'React', 'Docker', 'Terraform', 'PostgreSQL', 'DeepFace'],
     githubUrl: 'https://github.com/kritikamandale/SecureID',
     liveUrl: '#',
@@ -34,9 +36,11 @@ const PROJECTS = [
     subtitle: 'Epidemic Spread Prediction',
     image: '/Codecure.png',
     desc: 'An end-to-end AI-powered system for forecasting epidemic outbreaks, analyzing transmission dynamics, and generating actionable public health insights using ARIMA, LSTM, and SEIR models.',
-    problem: 'Public health officials lack accessible, predictive tools to anticipate and respond to local epidemic outbreaks.',
-    approach: 'Built an end-to-end pipeline leveraging ARIMA/LSTM for forecasting and Streamlit for interactive geographic visualization.',
-    outcome: 'Provided actionable insights with SHAP explainability, reducing time to identify high-risk zones.',
+    problem: 'Public health teams lack accessible tools to forecast local epidemic outbreaks.',
+    approach: 'End-to-end AI forecasting system using ARIMA and LSTM models with interactive geographic dashboards.',
+    outcome: 'Identifies high-risk zones faster with SHAP-powered explainability.',
+    builtFor: 'Public Health Organisations · Research Teams · Government Analytics',
+    businessValue: 'Gives health officials a head start on outbreak containment.',
     tags: ['Python', 'TensorFlow', 'Streamlit', 'Folium', 'SHAP'],
     liveUrl: 'https://codecuree.streamlit.app',
     githubUrl: 'https://github.com/kritikamandale/CodeCure',
@@ -50,9 +54,11 @@ const PROJECTS = [
     subtitle: 'Autonomous Terrain Segmentation',
     image: 'Offroad_segmentation.jpg',
     desc: 'A hackathon project (Duality AI, Nagpur) featuring a glassmorphic UI to visualize offroad semantic segmentation. Upload terrain images, view side-by-side masks & overlays, and get Gemini-powered terrain risk insights.',
-    problem: 'Navigating unstructured off-road environments is challenging for autonomous agents without clear lane markings.',
-    approach: 'Trained a semantic segmentation model using PyTorch and SMP, and created a glassmorphic UI for side-by-side analysis.',
-    outcome: 'Enhanced terrain understanding and risk assessment via Gemini AI integration in a hackathon-winning prototype.',
+    problem: 'Autonomous agents struggle to navigate unstructured terrain without lane markings.',
+    approach: 'Trained a semantic segmentation model and built a glassmorphic UI for side-by-side terrain analysis.',
+    outcome: 'Hackathon-winning prototype with Gemini AI-powered terrain risk insights.',
+    builtFor: 'Autonomous Vehicle Teams · AI Research Labs · Defence Tech',
+    businessValue: 'Reduces terrain mapping time for autonomous navigation systems.',
     tags: ['PyTorch', 'SMP', 'Albumentations', 'Gemini API', 'Python'],
     githubUrl: 'https://github.com/kritikamandale/HackDaysNagpur',
     liveUrl: '#',
@@ -66,9 +72,11 @@ const PROJECTS = [
     subtitle: 'NLP Public Triage',
     image: '/SmartGrievance.png',
     desc: 'An automated public grievance triaging system. Uses Natural Language Processing to instantly categorize and route complaints to relevant departments.',
-    problem: 'Citizen complaints are often misrouted or delayed due to manual triaging across multiple government departments.',
-    approach: 'Implemented a full-stack NLP system to automatically classify, prioritize, and route grievances based on text context.',
-    outcome: 'Decreased manual triage time significantly and improved tracking transparency for the public.',
+    problem: 'Citizen complaints are misrouted and delayed due to manual government triaging.',
+    approach: 'Automated NLP system that classifies, prioritises, and routes grievances by text context.',
+    outcome: 'Significantly reduces manual effort and improves public tracking transparency.',
+    builtFor: 'Government Bodies · Municipal Corporations · Enterprise HR',
+    businessValue: 'Cuts complaint resolution time and improves citizen trust.',
     tags: ['Python', 'NLP', 'Full-Stack', 'Machine Learning'],
     githubUrl: '#',
     liveUrl: '#',
@@ -120,6 +128,18 @@ const ProjectCard = ({ project }) => {
               {tag}
             </span>
           ))}
+        </div>
+
+        {/* Built for + Business value metadata rows */}
+        <div className="flex flex-col gap-1.5 pt-1 border-t border-divider-light dark:border-divider-dark">
+          <div className="flex items-start gap-2">
+            <span className="text-[10px] font-semibold tracking-[0.08em] uppercase text-text-muted dark:text-text-dark-muted whitespace-nowrap pt-[1px]">Built for:</span>
+            <span className="text-[12px] text-text-secondary dark:text-text-dark-secondary leading-[1.5] opacity-80">{project.builtFor}</span>
+          </div>
+          <div className="flex items-start gap-2">
+            <span className="text-[10px] font-semibold tracking-[0.08em] uppercase text-text-muted dark:text-text-dark-muted whitespace-nowrap pt-[1px]">Business value:</span>
+            <span className="text-[12px] text-text-secondary dark:text-text-dark-secondary leading-[1.5] opacity-80">{project.businessValue}</span>
+          </div>
         </div>
 
         <div className="flex flex-wrap gap-3 pt-3">

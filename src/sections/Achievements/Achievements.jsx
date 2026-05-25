@@ -4,7 +4,7 @@ import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';
 import RevealGroup from '../../components/RevealGroup/RevealGroup';
 import { motion } from 'framer-motion';
 
-const EMOJI_POOL = ['🏆', '🥈', '✦', '🥇', '🏅', '✨', '👑', '🎉', '💡', '🔥'];
+const EMOJI_POOL = ['🏆', '🥈', '✶', '⭐', '🎯', '🔥'];
 
 const ACHIEVEMENTS = [
   {
@@ -41,16 +41,15 @@ const Achievements = () => {
   const [emojis, setEmojis] = useState([]);
 
   useEffect(() => {
-    // Generate randomized coordinates, sizes, and speeds on the client
-    // to avoid SSR hydration mismatches.
-    const list = Array.from({ length: 15 }).map((_, i) => ({
+    // Generate 14 randomised emoji floaters on the client to avoid SSR mismatch.
+    const list = Array.from({ length: 14 }).map((_, i) => ({
       id: i,
       char: EMOJI_POOL[i % EMOJI_POOL.length],
-      top: `${Math.random() * 80 + 10}%`,
-      left: `${Math.random() * 90 + 5}%`,
-      fontSize: `${Math.random() * 1.5 + 1.2}rem`,
-      duration: Math.random() * 7 + 7, // between 7s and 14s
-      delay: Math.random() * 5, // between 0s and 5s
+      top:      `${5  + Math.random() * 85}%`,
+      left:     `${2  + Math.random() * 93}%`,
+      fontSize: `${1  + Math.random() * 1.5}rem`,
+      duration: 7 + Math.random() * 7,
+      delay:    Math.random() * 5,
     }));
     setEmojis(list);
   }, []);
@@ -69,20 +68,20 @@ const Achievements = () => {
           key={emoji.id}
           className="absolute pointer-events-none select-none z-0"
           style={{
-            top: emoji.top,
-            left: emoji.left,
+            top:      emoji.top,
+            left:     emoji.left,
             fontSize: emoji.fontSize,
           }}
           animate={{
-            y: [0, -70, 0],
-            x: [0, 12, -12, 0],
-            opacity: [0.08, 0.2, 0.08],
+            y:       [0, -60, 0],
+            x:       [0, 10, -10, 0],
+            opacity: [0.07, 0.18, 0.07],
           }}
           transition={{
             duration: emoji.duration,
-            delay: emoji.delay,
-            repeat: Infinity,
-            ease: 'easeInOut',
+            delay:    emoji.delay,
+            repeat:   Infinity,
+            ease:     'easeInOut',
           }}
         >
           {emoji.char}

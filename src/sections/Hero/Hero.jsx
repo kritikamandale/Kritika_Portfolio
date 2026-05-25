@@ -79,10 +79,10 @@ const Hero = () => {
 
             {/* Role tagline */}
             <p className="text-[clamp(0.875rem,1.2vw,1.125rem)] text-text-secondary dark:text-text-dark-secondary max-w-[clamp(320px,40vw,560px)] leading-[1.6] tracking-[0.01em] mx-auto">
-              Full Stack Developer &amp; AI/ML Engineer, building end-to-end intelligent applications.
+              Building AI-powered web applications and intelligent systems for real-world impact.
             </p>
-            <p className="text-[14px] text-[#999] tracking-[0.09em] font-normal text-center mt-[-12px] mx-auto">
-              Every project. Every lesson. Catalogued.
+            <p className="text-[14px] text-text-secondary dark:text-text-dark-secondary max-w-[clamp(300px,38vw,540px)] text-center mx-auto leading-[1.6]">
+              Full-Stack Developer &amp; AI/ML Engineer — I design and develop end-to-end products that automate, scale, and solve practical business problems.
             </p>
 
             {/* CTA Buttons */}
@@ -91,8 +91,20 @@ const Hero = () => {
                 View My Work ✦
               </Button>
               <Button variant="ghost" size="lg" href="#contact">
-                Let's Talk →
+                Let&apos;s Talk →
               </Button>
+            </div>
+
+            {/* Trust badge pills */}
+            <div className="flex flex-wrap gap-2 justify-center mt-1" aria-label="Trust badges">
+              {['Hackathon Winner', 'AI/ML Developer', 'Full-Stack Engineer', 'Open to Freelance', 'Available for Internships'].map((badge) => (
+                <span
+                  key={badge}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-pill text-[11px] font-semibold tracking-[0.06em] border border-border-light dark:border-border-dark bg-white dark:bg-bg-dark-alt text-text-secondary dark:text-text-dark-secondary shadow-clay-sm dark:shadow-none"
+                >
+                  {badge}
+                </span>
+              ))}
             </div>
           </div>
         </div>

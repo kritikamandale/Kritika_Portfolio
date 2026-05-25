@@ -54,10 +54,10 @@ const Contact = () => {
         <div className="max-w-[800px] w-full flex flex-col items-center gap-10 px-6">
 
           <h2 className="font-heading text-[clamp(3rem,7vw,5.5rem)] font-light tracking-[-0.02em] leading-[1.05] text-text-primary dark:text-text-dark-primary text-center w-full">
-            Got a project?<br />Let's talk.
+            Let&apos;s Build Something Smart Together
           </h2>
           <p className="text-[clamp(1.125rem,2.5vw,1.5rem)] text-text-secondary dark:text-text-dark-secondary mt-4 max-w-[540px] leading-[1.5]">
-            Drop me a message and I'll get back to you within 24 hours.
+            Available for freelance projects, internships, and collaborative AI product development. I respond within 24 hours.
           </p>
 
           <form className="w-full max-w-[560px] flex flex-col gap-5 text-left" onSubmit={handleSubmit} noValidate>
