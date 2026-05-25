@@ -102,10 +102,7 @@ const About = () => {
             </div>
 
             <p className="text-[16px] text-text-secondary dark:text-text-dark-secondary leading-[1.8]">
-              Technology started as curiosity for me, but it quickly evolved into a relentless drive to build intelligent systems that matter. As an <strong className="text-text-primary dark:text-text-dark-primary font-bold">AI/ML Engineer and Full-Stack Developer</strong>, my edge lies in bridging the gap between cutting-edge artificial intelligence and robust, scalable web architectures.
-            </p>
-            <p className="text-[16px] text-text-secondary dark:text-text-dark-secondary leading-[1.8]">
-              Whether I'm fine-tuning machine learning models or engineering seamless user interfaces, I approach every problem with an <strong className="text-text-primary dark:text-text-dark-primary font-bold">AI-first, end-to-end mindset</strong>. I thrive on rapid execution, learning by building, and turning complex ideas into award-winning digital realities.
+              I enjoy building intelligent web applications that combine AI with seamless user experiences. My focus is on end-to-end product development — from fine-tuning ML models to deploying scalable web interfaces that solve real workflow challenges. Whether it’s a startup, a business, or a hackathon team, I build things that work and ship fast.
             </p>
 
             <div className="flex flex-wrap gap-3 mt-2">
