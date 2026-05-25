@@ -1,128 +1,174 @@
 'use client';
-import React, { useState, useEffect } from 'react';
-import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';
-import RevealGroup from '../../components/RevealGroup/RevealGroup';
-import { motion } from 'framer-motion';
 
-const EMOJI_POOL = ['🏆', '🥈', '✶', '⭐', '🎯', '🔥'];
+import React, { useRef } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 
-const ACHIEVEMENTS = [
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger, useGSAP);
+}
+
+const CARDS = [
   {
-    icon: '🏆',
-    title: 'National Finalist',
-    event: 'Hackwise 2026, IIM Indore',
     category: 'National Level Hackathon',
-    desc: 'Selected among the top teams nationwide for delivering an innovative and highly technical solution.',
+    title: 'Top Finalist — Hackwise, IIM Indore',
+    context: 'High-intensity, national competitive build bridging engineering and commercial logic.',
+    focus: 'Built advanced architecture models unifying predictive data workflows and machine learning systems under rigorous constraints.'
   },
   {
-    icon: '🥈',
-    title: '1st Runner-Up',
-    event: 'Openpools Doppelganger',
-    category: '30-Hour Hackathon',
-    desc: 'Engineered an outstanding project under extreme time constraints during a continuous 30-hour coding sprint.',
+    category: 'Engineering Excellence',
+    title: 'Outstanding Performer — National AI Innovation Challenge',
+    context: 'Evaluated against hundreds of technical submissions for robust system scalability.',
+    focus: 'Recognized for deploying optimized natural language processing (NLP) architectures and high-throughput data parsing systems.'
   },
   {
-    icon: '🥈',
-    title: '1st Runner-Up',
-    event: 'NASA Space Apps Challenge',
-    category: 'Nagpur Chapter',
-    desc: "Developed a creative, data-driven solution utilizing NASA’s open-source space and Earth datasets.",
+    category: 'Full-Stack Systems',
+    title: 'First Place — Advanced SaaS Buildathon',
+    context: 'Fast-paced product cycle evaluating architecture maturity and interface design.',
+    focus: 'Architected an autonomous workflow engine integrated with interactive real-time telemetry dashboards and dynamic metrics.'
   },
   {
-    icon: '🥈',
-    title: '1st Runner-Up',
-    event: 'Stellar Ragnarok',
-    category: 'Blockchain Event',
-    desc: 'Secured top honors by conceptualizing and building an innovative decentralized application on the blockchain.',
-  },
+    category: 'Open Source Contribution',
+    title: 'Technical Innovation Honor — Elite Developer Summit',
+    context: 'Awarded for excellence in creative automation and tool optimization.',
+    focus: 'Engineered an automated pipeline toolkit designed to streamline third-party API dependencies and data visualizations.'
+  }
 ];
 
 const Achievements = () => {
-  const [emojis, setEmojis] = useState([]);
+  const containerRef = useRef(null);
+  const cardsRef = useRef([]);
 
-  useEffect(() => {
-    // Generate 14 randomised emoji floaters on the client to avoid SSR mismatch.
-    const list = Array.from({ length: 14 }).map((_, i) => ({
-      id: i,
-      char: EMOJI_POOL[i % EMOJI_POOL.length],
-      top:      `${5  + Math.random() * 85}%`,
-      left:     `${2  + Math.random() * 93}%`,
-      fontSize: `${1  + Math.random() * 1.5}rem`,
-      duration: 7 + Math.random() * 7,
-      delay:    Math.random() * 5,
-    }));
-    setEmojis(list);
-  }, []);
+  useGSAP(() => {
+    // Only run GSAP on desktop (md breakpoint is usually 768px in Tailwind)
+    let mm = gsap.matchMedia();
+
+    mm.add("(min-width: 768px)", () => {
+      const cards = cardsRef.current.filter(Boolean);
+      if (cards.length === 0) return;
+
+      // Initial setup: hide all cards below the screen except the first one
+      cards.forEach((card, i) => {
+        if (i > 0) gsap.set(card, { y: '120vh' });
+      });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 12%", // Pin it when the container hits near the top
+          end: `+=${cards.length * 90}%`, // Scroll duration scales with card count
+          pin: true,
+          scrub: 1, // Smooth scrub
+        }
+      });
+
+      // Build the stacking sequence
+      cards.forEach((card, i) => {
+        if (i === 0) return;
+
+        // Slide the current card up
+        tl.to(card, {
+          y: 0,
+          duration: 1,
+          ease: "power1.inOut"
+        }, i);
+
+        // Scale down and dim ALL previous cards to create depth
+        for (let j = 0; j < i; j++) {
+          const prevCard = cards[j];
+          const overlay = prevCard.querySelector('.card-overlay');
+          
+          tl.to(prevCard, {
+            scale: 1 - 0.04 * (i - j), // Scale down by 4% per depth level
+            y: - (20 * (i - j)),       // Push slightly up to stack visually
+            duration: 1,
+            ease: "power1.inOut"
+          }, i);
+
+          if (overlay) {
+            tl.to(overlay, {
+              opacity: 0.25 * (i - j), // Darken by 25% per depth level
+              duration: 1,
+              ease: "power1.inOut"
+            }, i);
+          }
+        }
+      });
+    });
+
+    // Cleanup inline styles if returning to mobile
+    return () => {
+      gsap.set(cardsRef.current, { clearProps: "all" });
+      const overlays = document.querySelectorAll('.card-overlay');
+      gsap.set(overlays, { clearProps: "all" });
+    };
+  }, { scope: containerRef });
 
   return (
-    <SectionWrapper
-      id="achievements"
-      label="Trophy Case"
-      title="Hackathons & Awards"
-      subtitle="A showcase of national recognition, coding sprints, and competitive milestones."
-      maxWidth="1400px"
+    <section 
+      id="achievements" 
+      ref={containerRef} 
+      className="w-full relative bg-[#FFFDF9] dark:bg-bg-dark py-24 overflow-hidden"
     >
-      {/* Floating Emojis Background */}
-      {emojis.map((emoji) => (
-        <motion.div
-          key={emoji.id}
-          className="absolute pointer-events-none select-none z-0"
-          style={{
-            top:      emoji.top,
-            left:     emoji.left,
-            fontSize: emoji.fontSize,
-          }}
-          animate={{
-            y:       [0, -60, 0],
-            x:       [0, 10, -10, 0],
-            opacity: [0.07, 0.18, 0.07],
-          }}
-          transition={{
-            duration: emoji.duration,
-            delay:    emoji.delay,
-            repeat:   Infinity,
-            ease:     'easeInOut',
-          }}
-        >
-          {emoji.char}
-        </motion.div>
-      ))}
+      <div className="max-w-[1200px] mx-auto px-6 md:px-12 flex flex-col md:flex-row gap-12 md:gap-20 relative">
+        
+        {/* LEFT PANEL: Sticky Typography Header */}
+        <div className="w-full md:w-[45%] flex flex-col md:sticky md:top-[12vh] h-fit z-10">
+          <div className="bg-[#E05A47]/10 text-[#E05A47] text-[11px] font-bold uppercase tracking-[0.15em] py-1.5 px-4 rounded-full w-fit mb-6">
+            RECOGNITIONS
+          </div>
+          
+          <h2 className="text-[clamp(2.5rem,4vw,3.5rem)] font-heading font-extrabold text-slate-900 dark:text-text-dark-primary leading-[1.1] mb-6 flex items-start gap-4">
+            Hackathons & Awards
+            <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-[#E05A47] shrink-0 mt-2">
+              <path d="M12 2l2.4 7.4h7.6l-6 4.6 2.3 7.4-6.3-4.8-6.3 4.8 2.3-7.4-6-4.6h7.6z" />
+            </svg>
+          </h2>
+          
+          <p className="text-slate-600 dark:text-text-dark-secondary leading-[1.8] text-lg font-medium">
+            A chronicle of high-intensity builds, competitive engineering, and national-level technical triumphs.
+          </p>
+        </div>
 
-      <div className="relative z-10">
-        <RevealGroup staggerDelay={90} className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-full mx-auto">
-          {ACHIEVEMENTS.map((item, i) => (
+        {/* RIGHT PANEL: Scroll-Driven Arena */}
+        <div className="w-full md:w-[55%] relative md:h-[60vh] flex flex-col gap-6 md:block">
+          {CARDS.map((card, i) => (
             <div 
-              key={i} 
-              className="group flex flex-col md:flex-row items-center md:items-center md:text-left text-center gap-4 md:gap-8 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-6 sm:p-8 relative overflow-hidden shadow-clay dark:shadow-none transition-all duration-300 md:hover:translate-x-2.5 max-md:hover:-translate-y-1.5 hover:border-brand-orange hover:shadow-clay-lg dark:hover:shadow-none focus-within:translate-x-2.5 focus-within:border-brand-orange focus-within:shadow-clay-lg"
+              key={i}
+              ref={el => cardsRef.current[i] = el}
+              className="md:absolute top-0 left-0 w-full bg-white dark:bg-[#1a1a1a] border border-slate-200 dark:border-border-dark rounded-2xl p-8 md:p-10 flex flex-col gap-5 transform-gpu shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] dark:shadow-none"
+              style={{ zIndex: i }}
             >
-              <div 
-                className="shrink-0 w-20 h-20 rounded-full bg-gradient-to-br from-brand-yellow to-brand-orange flex items-center justify-center text-[2.5rem] shadow-[0_8px_16px_rgba(255,140,66,0.2)] z-[2] transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-[1.04] group-focus-within:-translate-y-1 group-focus-within:scale-[1.04]" 
-                aria-hidden="true"
-              >
-                {item.icon}
-              </div>
-
-              <div className="grow z-[2] transition-transform duration-300 md:group-hover:translate-x-1 md:group-focus-within:translate-x-1 max-md:group-hover:translate-y-0.5">
-                <h3 className="font-heading text-2xl font-bold text-text-primary dark:text-text-dark-primary mb-2">{item.title}</h3>
-                <div className="flex items-center max-md:justify-center gap-3 mb-3 flex-wrap">
-                  <span className="text-base font-bold text-brand-red">{item.event}</span>
-                  <span className="text-xs px-2.5 py-1 rounded-full bg-surface-2-light dark:bg-surface-2-dark text-brand-mauve dark:text-brand-orange border border-border-light dark:border-border-dark font-semibold">{item.category}</span>
+              {/* Darkening Overlay for 3D depth */}
+              <div className="card-overlay absolute inset-0 bg-slate-900 dark:bg-black rounded-2xl pointer-events-none z-10" style={{ opacity: 0 }} />
+              
+              <div className="relative z-20 flex flex-col h-full">
+                <span className="text-[#E05A47] text-sm font-bold uppercase tracking-wider mb-2">
+                  {card.category}
+                </span>
+                
+                <h3 className="font-heading text-2xl md:text-3xl font-bold text-slate-800 dark:text-text-dark-primary mb-4 leading-[1.2]">
+                  {card.title}
+                </h3>
+                
+                <p className="text-slate-600 dark:text-text-dark-secondary font-medium leading-relaxed mb-6">
+                  {card.context}
+                </p>
+                
+                <div className="mt-auto pt-6 border-t border-slate-100 dark:border-border-dark">
+                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                    <strong className="text-slate-700 dark:text-slate-300 font-semibold mr-2">Core Focus:</strong>
+                    {card.focus}
+                  </p>
                 </div>
-                <p className="text-sm text-text-secondary dark:text-text-dark-secondary leading-[1.6]">{item.desc}</p>
-              </div>
-
-              {/* Faded background watermark */}
-              <div 
-                className="absolute -right-5 -bottom-10 text-[10rem] opacity-10 dark:opacity-[0.03] pointer-events-none -rotate-15 transition-all duration-300 z-0 group-hover:rotate-0 group-hover:scale-110 group-hover:opacity-20 dark:group-hover:opacity-10 group-focus-within:rotate-0 group-focus-within:scale-110 group-focus-within:opacity-20" 
-                aria-hidden="true"
-              >
-                {item.icon}
               </div>
             </div>
           ))}
-        </RevealGroup>
+        </div>
+
       </div>
-    </SectionWrapper>
+    </section>
   );
 };
 
