@@ -1,3 +1,4 @@
+
 import Preloader from '../src/components/Preloader/Preloader'
 import Cursor from '../src/components/Cursor/Cursor'
 import AvailabilityBanner from '../src/components/AvailabilityBanner/AvailabilityBanner'
@@ -11,7 +12,16 @@ import Experience from '../src/sections/Experience/Experience'
 import Achievements from '../src/sections/Achievements/Achievements'
 import Philosophy from '../src/sections/Philosophy/Philosophy'
 import Contact from '../src/sections/Contact/Contact'
-import GithubContributions from '../src/sections/GithubContributions/GithubContributions'
+import dynamic from 'next/dynamic'
+const GithubContributions = dynamic(
+  () => import('../src/sections/GithubContributions/GithubContributions'),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-48 animate-pulse rounded-2xl bg-gray-100 dark:bg-gray-800" />
+    )
+  }
+)
 import Footer from '../src/components/Footer/Footer'
 import PageClient from '../src/components/PageClient/PageClient'
 
@@ -40,3 +50,4 @@ export default function Home() {
     </>
   )
 }
+

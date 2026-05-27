@@ -1,120 +1,89 @@
 'use client';
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import { 
-  Rocket, 
-  MonitorSmartphone, 
-  Bot, 
-  Cpu, 
-  GitMerge, 
-  Unplug, 
-  LayoutDashboard, 
-  LineChart 
-} from 'lucide-react';
+import React, { useRef, useCallback } from 'react';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
 import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';
 
-const SERVICES_DATA = [
-  {
-    id: 1,
-    title: 'AI-Powered SaaS Applications',
-    desc: 'Build and deploy intelligent SaaS products with subscription-ready architecture.',
-    icon: Rocket,
-    colSpan: 'col-span-1 md:col-span-2',
-    rowSpan: 'md:row-span-2',
-    tags: ['LLM Integration', 'Subscription Auth', 'Scalable APIs']
-  },
-  {
-    id: 2,
-    title: 'Full-Stack Web Development',
-    desc: 'End-to-end web applications built with React, Next.js, Node.js, and scalable backends.',
-    icon: MonitorSmartphone,
-    colSpan: 'col-span-1 md:col-span-2',
-    rowSpan: 'md:row-span-1',
-  },
-  {
-    id: 3,
-    title: 'AI Automation Systems',
-    desc: 'Automate repetitive workflows using intelligent agents and LLM-powered pipelines.',
-    icon: Cpu,
-    colSpan: 'col-span-1 md:col-span-2',
-    rowSpan: 'md:row-span-1',
-  },
-  {
-    id: 4,
-    title: 'AI Chatbot Development',
-    desc: 'Custom AI chatbots trained for your business, integrated into your website or product.',
-    icon: Bot,
-    colSpan: 'col-span-1 md:col-span-2',
-    rowSpan: 'md:row-span-1',
-  },
-  {
-    id: 5,
-    title: 'Workflow Automation',
-    desc: 'Streamline business operations with smart automation that reduces manual effort.',
-    icon: GitMerge,
-    colSpan: 'col-span-1 md:col-span-1',
-    rowSpan: 'md:row-span-1',
-  },
-  {
-    id: 6,
-    title: 'API Integration',
-    desc: 'Connect third-party services, AI APIs, and data sources into your existing systems.',
-    icon: Unplug,
-    colSpan: 'col-span-1 md:col-span-1',
-    rowSpan: 'md:row-span-1',
-  },
-  {
-    id: 7,
-    title: 'Dashboard & Admin Panels',
-    desc: 'Clean, data-driven dashboards for monitoring, analytics, and internal operations.',
-    icon: LayoutDashboard,
-    colSpan: 'col-span-1 md:col-span-2',
-    rowSpan: 'md:row-span-1',
-  },
-  {
-    id: 8,
-    title: 'Data Visualisation Dashboards',
-    desc: 'Interactive charts and visual analytics built with D3.js or Recharts.',
-    icon: LineChart,
-    colSpan: 'col-span-1 md:col-span-2',
-    rowSpan: 'md:row-span-1',
-  }
-];
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
+/* ─────────────────────────────────────────────
+   CARD VARIANTS
+───────────────────────────────────────────── */
+const cardVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i) => ({
     opacity: 1,
+    y: 0,
     transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.1,
+      duration: 0.5,
+      ease: 'easeOut',
+      delay: i * 0.07,
     },
-  },
+  }),
 };
 
-const cardVariants = {
-  hidden: { 
-    opacity: 0, 
-    scale: 0.95, 
-    rotateX: 15,
-    y: 20 
-  },
+const mockupVariants = {
+  hidden: { opacity: 0, scale: 0.95 },
   visible: {
     opacity: 1,
     scale: 1,
-    rotateX: 0,
-    y: 0,
-    transition: { 
-      type: 'spring', 
-      stiffness: 120, 
-      damping: 20, 
-      mass: 1 
-    },
+    transition: { duration: 0.4, ease: 'easeOut', delay: 0.3 },
   },
 };
 
+/* ─────────────────────────────────────────────
+   SHARED STYLE HELPERS
+───────────────────────────────────────────── */
+const glassCard =
+  'relative overflow-hidden rounded-[1.25rem] p-5 flex flex-col justify-between ' +
+  'border border-[rgba(200,75,49,0.18)] dark:border-[rgba(200,75,49,0.25)] ' +
+  '[background:rgba(255,248,244,0.55)] dark:[background:rgba(30,15,10,0.45)] ' +
+  '[backdrop-filter:blur(16px)] [-webkit-backdrop-filter:blur(16px)]';
+
+const solidTerracotta =
+  'relative overflow-hidden rounded-[1.25rem] p-5 flex flex-col justify-between ' +
+  'bg-[#C84B31]';
+
+const solidAmber =
+  'relative overflow-hidden rounded-[1.25rem] p-5 flex flex-col justify-between ' +
+  'bg-[#F2C078]';
+
+/* ─────────────────────────────────────────────
+   PILL BADGE
+───────────────────────────────────────────── */
+const Pill = ({ children, className = '' }) => (
+  <span
+    className={`inline-block px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${className}`}
+  >
+    {children}
+  </span>
+);
+
+/* ─────────────────────────────────────────────
+   SERVICES COMPONENT
+───────────────────────────────────────────── */
 const Services = () => {
+  const sectionRef = useRef(null);
+
+  /* Mouse-tracking radial glow */
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springX = useSpring(mouseX, { stiffness: 80, damping: 20 });
+  const springY = useSpring(mouseY, { stiffness: 80, damping: 20 });
+
+  const handleMouseMove = useCallback(
+    (e) => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      mouseX.set(e.clientX - rect.left);
+      mouseY.set(e.clientY - rect.top);
+    },
+    [mouseX, mouseY]
+  );
+
+  const hoverProps = {
+    whileHover: { y: -4, scale: 1.01 },
+    transition: { duration: 0.22, ease: 'easeOut' },
+  };
+
   return (
     <SectionWrapper
       id="services"
@@ -126,90 +95,307 @@ const Services = () => {
       }
       subtitle="A breakdown of the domains I work across and the kind of problems I enjoy solving."
     >
-      <div 
-        className="w-full max-w-[1200px] mx-auto mt-12"
-        style={{ perspective: '1200px' }} // 3D perspective wrapper
+      {/* Section background gradient */}
+      <div
+        ref={sectionRef}
+        className="relative w-full mt-4 rounded-[2rem] p-4 sm:p-5
+          [background:linear-gradient(135deg,#FDF8F5_0%,#F5E6DC_100%)]
+          dark:[background:linear-gradient(135deg,#140a07_0%,#1e100a_100%)]"
+        onMouseMove={handleMouseMove}
       >
+        {/* Mouse-tracking radial glow */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          className="absolute inset-0 pointer-events-none rounded-[2rem] z-0"
+          style={{
+            background: `radial-gradient(500px circle at ${springX}px ${springY}px, rgba(200,75,49,0.08), transparent 70%)`,
+          }}
+        />
+
+        {/* ── BENTO GRID ── */}
+        <div
+          className="
+            grid gap-3
+            grid-cols-1
+            sm:grid-cols-6
+            lg:grid-cols-12
+            relative z-10
+          "
         >
-          {SERVICES_DATA.map((service) => {
-            const Icon = service.icon;
-            return (
-              <motion.div
-                key={service.id}
-                variants={cardVariants}
-                whileHover={{ 
-                  scale: 1.02,
-                  transition: { type: 'spring', stiffness: 300, damping: 20 }
-                }}
-                className={`
-                  ${service.colSpan} ${service.rowSpan}
-                  relative flex flex-col justify-between overflow-hidden rounded-[2rem]
-                  p-8 md:p-10
-                  bg-gradient-to-br from-white/60 to-white/20 dark:from-white/10 dark:to-white/5
-                  backdrop-blur-md
-                  border-[1.5px] border-white/50 dark:border-white/10
-                  shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)]
-                  hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] dark:hover:shadow-[0_20px_40px_rgb(0,0,0,0.4)]
-                  hover:border-white/80 dark:hover:border-white/20
-                  transition-colors duration-300
-                  transform-gpu
-                  group
-                `}
+          {/* ── CARD A ── glass, col-span-3 row-span-2 ── */}
+          <motion.div
+            custom={0}
+            variants={cardVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            {...hoverProps}
+            className={`${glassCard} col-span-1 sm:col-span-3 lg:col-span-3 lg:row-span-2 z-10`}
+          >
+            <div>
+              <h3 className="font-heading text-[2rem] font-black leading-[1.1] text-[#1a0a06] dark:text-[#f5ede8]">
+                Build AI<br />products<br />that ship<br />fast.
+              </h3>
+              <p className="mt-3 text-[12px] font-semibold text-[#C84B31] tracking-wide uppercase">
+                End-to-end delivery
+              </p>
+            </div>
+            <div className="mt-6">
+              <a
+                href="#projects"
+                className="inline-flex items-center gap-1.5 rounded-full border border-[#C84B31] text-[#C84B31] px-4 py-1.5 text-[13px] font-semibold hover:bg-[#C84B31] hover:text-white transition-colors duration-200"
               >
-                {/* Optional subtle gradient glow behind the icon */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-[#E05A47]/5 dark:bg-[#E05A47]/10 rounded-full blur-[40px] pointer-events-none transition-opacity opacity-0 group-hover:opacity-100" />
-                
-                <div className="relative z-10 flex flex-col gap-6 h-full">
-                  <div className="flex items-center justify-between">
-                    <div className="w-12 h-12 flex items-center justify-center rounded-2xl bg-white/40 dark:bg-white/5 border border-white/30 dark:border-white/10 text-slate-800 dark:text-white shadow-sm">
-                      <Icon 
-                        size={24} 
-                        strokeWidth={1.5} 
-                        className="group-hover:text-[#E05A47] transition-colors duration-300"
-                      />
-                    </div>
-                    
-                    {/* Hero Card Featured Pill */}
-                    {service.id === 1 && (
-                      <span className="px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-[#E05A47]/10 text-[#E05A47] border border-[#E05A47]/20">
-                        Featured
-                      </span>
-                    )}
-                  </div>
+                Explore Work ✦
+              </a>
+            </div>
+          </motion.div>
 
-                  <div className="mt-auto">
-                    <h3 className="font-heading text-xl md:text-2xl font-bold text-slate-900 dark:text-text-dark-primary mb-3 leading-tight">
-                      {service.title}
-                    </h3>
-                    <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
-                      {service.desc}
-                    </p>
-                  </div>
+          {/* ── CARD B ── solid terracotta, col-span-5 row-span-1 ── */}
+          <motion.div
+            custom={1}
+            variants={cardVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            {...hoverProps}
+            className={`${solidTerracotta} col-span-1 sm:col-span-3 lg:col-span-5 z-10`}
+          >
+            {/* subtle inner glow */}
+            <div className="absolute top-0 right-0 w-48 h-48 rounded-full bg-white/10 blur-[60px] pointer-events-none" />
+            <div className="relative z-10">
+              <h3 className="font-heading text-[1.75rem] font-black text-white leading-[1.15]">
+                Full-Stack AI{' '}
+                <span className="italic text-[#F2C078]">Development.</span>
+              </h3>
+              <div className="mt-4 flex items-center gap-3 flex-wrap">
+                <span className="text-[#F2C078] text-base tracking-widest">★★★★★</span>
+                <span className="text-white/70 text-[12px] font-medium">
+                  Hackathon Winner · IIT Delhi Top 3
+                </span>
+              </div>
+            </div>
+          </motion.div>
 
-                  {/* Sub-pills for large cards */}
-                  {service.tags && (
-                    <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-200/50 dark:border-slate-700/50">
-                      {service.tags.map((tag, idx) => (
-                        <span 
-                          key={idx} 
-                          className="px-3 py-1 rounded-full text-[11px] font-semibold text-slate-500 dark:text-slate-400 bg-slate-100/50 dark:bg-slate-800/50 border border-slate-200/50 dark:border-slate-700/50"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+          {/* ── CARD C ── glass, col-span-4 row-span-1 ── */}
+          <motion.div
+            custom={2}
+            variants={cardVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            {...hoverProps}
+            className={`${glassCard} col-span-1 sm:col-span-3 lg:col-span-4 z-10`}
+          >
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-widest text-[#C84B31] mb-1.5">
+                AI Chatbot Development
+              </p>
+              <h3 className="font-heading text-[1rem] font-bold text-[#1a0a06] dark:text-[#f5ede8] leading-snug">
+                Intelligent bots.<br />Real conversations.
+              </h3>
+            </div>
+            <motion.div
+              variants={mockupVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="mt-3 rounded-xl bg-white/60 dark:bg-black/20 p-3 text-[11px] space-y-1.5"
+            >
+              <div className="bg-[#C84B31]/10 rounded-lg px-3 py-1.5 w-fit text-[#1a0a06] dark:text-[#f5ede8]">
+                How can I automate support?
+              </div>
+              <div className="bg-[#C84B31] text-white rounded-lg px-3 py-1.5 w-fit ml-auto">
+                I&apos;ll build you a custom AI bot →
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* ── CARD D ── glass, col-span-5 row-span-1 ── */}
+          <motion.div
+            custom={3}
+            variants={cardVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            {...hoverProps}
+            className={`${glassCard} col-span-1 sm:col-span-3 lg:col-span-5 z-10`}
+          >
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-widest text-[#C84B31] mb-1.5">
+                Workflow Automation
+              </p>
+              <h3 className="font-heading text-[1.1rem] font-bold text-[#1a0a06] dark:text-[#f5ede8] leading-snug">
+                Automate the repetitive.<br />Focus on what matters.
+              </h3>
+            </div>
+            <div className="flex flex-wrap gap-1.5 mt-3">
+              {['Zapier-style', 'LLM Pipelines', 'Custom APIs'].map((tag) => (
+                <Pill
+                  key={tag}
+                  className="bg-[#C84B31]/10 border-[#C84B31]/20 text-[#C84B31] dark:bg-[#C84B31]/20"
+                >
+                  {tag}
+                </Pill>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* ── CARD E ── solid amber, col-span-2 row-span-1 ── */}
+          <motion.div
+            custom={4}
+            variants={cardVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            {...hoverProps}
+            className={`${solidAmber} col-span-1 sm:col-span-2 lg:col-span-2 z-10`}
+          >
+            <div className="absolute top-0 left-0 w-32 h-32 rounded-full bg-white/20 blur-[40px] pointer-events-none" />
+            <div className="relative z-10">
+              <h3 className="font-heading text-[1.6rem] font-black text-white leading-[1.1]">
+                Ship<br />faster.
+              </h3>
+              <p className="mt-3 text-white/75 text-[11px] font-semibold">
+                Agile · MVP-first · Iterative
+              </p>
+            </div>
+          </motion.div>
+
+          {/* ── CARD F ── glass, col-span-2 row-span-1 ── */}
+          <motion.div
+            custom={5}
+            variants={cardVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            {...hoverProps}
+            className={`${glassCard} col-span-1 sm:col-span-2 lg:col-span-2 z-10`}
+          >
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-widest text-[#C84B31] mb-1">
+                Dashboard & Admin Panels
+              </p>
+              <h3 className="font-heading text-[0.9rem] font-bold text-[#1a0a06] dark:text-[#f5ede8] leading-snug">
+                Data that drives decisions.
+              </h3>
+            </div>
+            <motion.div
+              variants={mockupVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="flex items-end gap-1 mt-3 h-10"
+            >
+              {[40, 65, 50, 80, 70, 90].map((h, i) => (
+                <div
+                  key={i}
+                  style={{ height: `${h}%` }}
+                  className="w-3 rounded-sm bg-[#C84B31] opacity-70 flex-1"
+                />
+              ))}
+            </motion.div>
+          </motion.div>
+
+          {/* ── CARD G ── solid amber, col-span-3 row-span-2 ── */}
+          <motion.div
+            custom={6}
+            variants={cardVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            {...hoverProps}
+            className={`${solidAmber} col-span-1 sm:col-span-3 lg:col-span-3 z-10`}
+          >
+            <div className="absolute bottom-0 right-0 w-40 h-40 rounded-full bg-white/20 blur-[50px] pointer-events-none" />
+            <div className="relative z-10">
+              <h3 className="font-heading text-[1.65rem] font-black text-white leading-[1.1]">
+                Build with<br />AI.<br />Scale with<br />confidence.
+              </h3>
+            </div>
+            <motion.div
+              variants={mockupVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="relative z-10 mt-4 rounded-xl bg-white/20 p-3 text-[11px] text-white space-y-2"
+            >
+              <div className="opacity-70">→ Generate API from schema</div>
+              <div className="opacity-70">→ Deploy to Vercel in 1 click</div>
+              <div className="font-semibold">✓ Done in 3 minutes.</div>
+            </motion.div>
+          </motion.div>
+
+          {/* ── CARD H ── glass, col-span-3 row-span-1 ── */}
+          <motion.div
+            custom={7}
+            variants={cardVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            {...hoverProps}
+            className={`${glassCard} col-span-1 sm:col-span-3 lg:col-span-3 z-10`}
+          >
+            <div className="text-[3.5rem] font-black leading-none text-[#C84B31]">4+</div>
+            <div>
+              <p className="font-heading text-[0.95rem] font-bold text-[#1a0a06] dark:text-[#f5ede8] leading-snug mt-1">
+                Hackathon wins &amp; top placements
+              </p>
+              <p className="text-[11px] text-[#C84B31]/70 dark:text-[#C84B31]/60 mt-1 font-medium">
+                IIT Delhi · Smart India · State Level
+              </p>
+            </div>
+          </motion.div>
+
+          {/* ── CARD I ── glass, col-span-3 row-span-1 ── */}
+          <motion.div
+            custom={8}
+            variants={cardVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            {...hoverProps}
+            className={`${glassCard} col-span-1 sm:col-span-3 lg:col-span-3 z-10`}
+          >
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-widest text-[#C84B31] mb-1.5">
+                API Integration
+              </p>
+              <h3 className="font-heading text-[1.05rem] font-bold text-[#1a0a06] dark:text-[#f5ede8] leading-snug">
+                Connect anything.<br />Break nothing.
+              </h3>
+            </div>
+            <div className="flex flex-wrap gap-1.5 mt-3">
+              {['REST', 'GraphQL', 'OpenAI', 'WebSockets'].map((tag) => (
+                <Pill
+                  key={tag}
+                  className="bg-[#C84B31]/10 border-[#C84B31]/20 text-[#C84B31] dark:bg-[#C84B31]/20"
+                >
+                  {tag}
+                </Pill>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* ── CARD J ── solid terracotta, col-span-3 row-span-1 ── */}
+          <motion.div
+            custom={9}
+            variants={cardVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            {...hoverProps}
+            className={`${solidTerracotta} col-span-1 sm:col-span-3 lg:col-span-3 z-10`}
+          >
+            <div className="absolute bottom-0 left-0 w-36 h-36 rounded-full bg-white/10 blur-[50px] pointer-events-none" />
+            <div className="relative z-10">
+              <h3 className="font-heading text-[1.45rem] font-black text-white leading-[1.15]">
+                AI-Powered<br />SaaS. Built<br />to grow.
+              </h3>
+              <p className="mt-3 text-[#F2C078] text-[12px] font-semibold">
+                → From MVP to production
+              </p>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </SectionWrapper>
   );

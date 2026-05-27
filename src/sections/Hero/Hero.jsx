@@ -27,23 +27,23 @@ const Hero = () => {
 
       <section id="hero" className="h-screen max-h-screen flex items-center pt-20 px-6 pb-8 relative z-10 bg-bg-light dark:bg-bg-dark overflow-hidden">
         {/* ── Dot Background & Faded Mask ── */}
-        <div 
-          className="absolute inset-0 z-0 opacity-85 bg-[length:32px_32px] bg-[radial-gradient(rgba(58,43,50,0.3)_1.2px,transparent_1.2px)] dark:bg-[radial-gradient(rgba(255,255,255,0.15)_1.2px,transparent_1.2px)]" 
-          aria-hidden="true" 
+        <div
+          className="absolute inset-0 z-0 opacity-85 bg-[length:32px_32px] bg-[radial-gradient(rgba(58,43,50,0.3)_1.2px,transparent_1.2px)] dark:bg-[radial-gradient(rgba(255,255,255,0.15)_1.2px,transparent_1.2px)]"
+          aria-hidden="true"
         />
-        <div 
-          className="absolute inset-0 z-[1] pointer-events-none bg-bg-light dark:bg-bg-dark [mask-image:radial-gradient(ellipse_at_center,transparent_15%,black_100%)] [-webkit-mask-image:radial-gradient(ellipse_at_center,transparent_15%,black_100%)]" 
-          aria-hidden="true" 
+        <div
+          className="absolute inset-0 z-[1] pointer-events-none bg-bg-light dark:bg-bg-dark [mask-image:radial-gradient(ellipse_at_center,transparent_15%,black_100%)] [-webkit-mask-image:radial-gradient(ellipse_at_center,transparent_15%,black_100%)]"
+          aria-hidden="true"
         />
 
         {/* ── Aurora semicircle gradient — rises from bottom edge ── */}
-        <div 
-          className="absolute bottom-0 left-0 right-0 h-[60%] z-[1] pointer-events-none opacity-[0.22] blur-[36px] origin-bottom bg-[radial-gradient(ellipse_120%_100%_at_50%_100%,#fff275_0%,#ff8c42_20%,#ff3c38_42%,#a23e48_64%,transparent_85%)]" 
-          aria-hidden="true" 
+        <div
+          className="absolute bottom-0 left-0 right-0 h-[60%] z-[1] pointer-events-none opacity-[0.22] blur-[36px] origin-bottom bg-[radial-gradient(ellipse_120%_100%_at_50%_100%,#fff275_0%,#ff8c42_20%,#ff3c38_42%,#a23e48_64%,transparent_85%)]"
+          aria-hidden="true"
         />
-        <div 
-          className="absolute bottom-0 left-0 right-0 h-[55%] z-[1] pointer-events-none opacity-15 blur-[48px] origin-bottom bg-[radial-gradient(ellipse_50%_80%_at_0%_100%,#6699cc_0%,transparent_70%),radial-gradient(ellipse_50%_80%_at_100%_100%,#6699cc_0%,transparent_70%)]" 
-          aria-hidden="true" 
+        <div
+          className="absolute bottom-0 left-0 right-0 h-[55%] z-[1] pointer-events-none opacity-15 blur-[48px] origin-bottom bg-[radial-gradient(ellipse_50%_80%_at_0%_100%,#6699cc_0%,transparent_70%),radial-gradient(ellipse_50%_80%_at_100%_100%,#6699cc_0%,transparent_70%)]"
+          aria-hidden="true"
         />
 
         <div className="max-w-[800px] mx-auto w-full flex flex-col items-center text-center relative z-[2]">
@@ -97,7 +97,7 @@ const Hero = () => {
 
             {/* Trust badge pills */}
             <div className="flex flex-wrap gap-2 justify-center mt-1" aria-label="Trust badges">
-              {['Hackathon Winner', 'AI/ML Developer', 'Full-Stack Engineer', 'Open to Freelance', 'Available for Internships'].map((badge) => (
+              {['Hackathon Winner', 'AI/ML Developer', 'Full-Stack Engineer', 'Open Source Contributor', 'Available for Internships'].map((badge) => (
                 <span
                   key={badge}
                   className="inline-flex items-center gap-1.5 px-3 py-1 rounded-pill text-[11px] font-semibold tracking-[0.06em] border border-border-light dark:border-border-dark bg-white dark:bg-bg-dark-alt text-text-secondary dark:text-text-dark-secondary shadow-clay-sm dark:shadow-none"
