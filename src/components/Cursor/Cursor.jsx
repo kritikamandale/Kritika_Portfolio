@@ -10,7 +10,7 @@
 // Adds cursor:none to body on mount; restores on unmount.
 // ============================================================
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const isDesktopPointer = () =>
   typeof window !== 'undefined' &&
@@ -23,6 +23,7 @@ const TRAIL_SIZES  = [7,    6,     5,     4.5,   4,     3.5,   3];
 const TRAIL_OPACITIES = [0.55, 0.45, 0.36, 0.28, 0.20, 0.13, 0.07];
 
 const Cursor = () => {
+  const [mounted, setMounted] = useState(false);
   const dotRef   = useRef(null);
   const ringRef  = useRef(null);
   const trailRefs = useRef(
@@ -30,6 +31,7 @@ const Cursor = () => {
   );
 
   useEffect(() => {
+    setMounted(true);
     if (!isDesktopPointer()) return;
 
     const dot   = dotRef.current;
@@ -107,7 +109,7 @@ const Cursor = () => {
     };
   }, []);
 
-  if (!isDesktopPointer()) return null;
+  if (!mounted || !isDesktopPointer()) return null;
 
   return (
     <>

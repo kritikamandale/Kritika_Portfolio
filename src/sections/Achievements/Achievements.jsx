@@ -25,7 +25,7 @@ const CARDS = [
   {
     category: 'Nagpur Chapter',
     title: '1st Runner-Up — NASA Space Apps Challenge',
-    context: 'Developed a creative, data-driven solution utilizing NASA’s open-source space and Earth datasets.',
+    context: "Developed a creative, data-driven solution utilizing NASA's open-source space and Earth datasets.",
     focus: 'Engineered data parsing pipelines to process and visualize complex open-source satellite telemetry.'
   },
   {
@@ -33,8 +33,15 @@ const CARDS = [
     title: '1st Runner-Up — Stellar Ragnarok',
     context: 'Secured top honors by conceptualizing and building an innovative decentralized application on the blockchain.',
     focus: 'Architected secure smart contracts and seamless Web3 wallet integrations for a decentralized ecosystem.'
+  },
+  {
+    category: 'IIT Delhi · Case Competition',
+    title: '3rd Place — OpVasion \'26, IIT Delhi',
+    context: 'Podium finish at a national case study competition by PARIVARTAN, IIT Delhi — cracking India\'s cold chain crisis and proving food spoilage emits 28× more carbon than all direct transport.',
+    focus: 'Applied systems-thinking as a tech engineer to build a carbon strategy framework that outpaced conventional business analysis.'
   }
 ];
+
 
 const Achievements = () => {
   const containerRef = useRef(null);
@@ -116,7 +123,7 @@ const Achievements = () => {
       id="achievements" 
       ref={containerRef} 
       // The section is 400vh on desktop to provide scrolling distance. On mobile, it's auto.
-      className="w-full relative bg-[#FFFDF9] dark:bg-bg-dark h-auto md:h-[400vh]"
+      className="w-full relative bg-[#FFFDF9] dark:bg-bg-dark h-auto md:h-[500vh]"
     >
       {/* NATIVE CSS PINNING via sticky */}
       <div className="w-full md:sticky md:top-0 md:h-screen flex items-center overflow-hidden py-24 md:py-0">

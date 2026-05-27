@@ -236,3 +236,19 @@ hr {
   white-space: nowrap;
   border: 0;
 }
+
+/* ── Stack section ────────────────────────────────────────── */
+.skill-chip:hover {
+  background: rgba(255, 140, 66, 0.08);
+}
+
+[data-theme="dark"] .skill-chip:hover {
+  background: rgba(255, 140, 66, 0.12);
+}
+
+.stack-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--color-divider);
+  margin: 8px 0 32px;
+}
