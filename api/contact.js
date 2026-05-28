@@ -22,7 +22,6 @@ const ALLOWED_ORIGIN = 'https://kritikamandale.vercel.app';
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
 const RATE_LIMIT_MAX = 5;
 const BODY_SIZE_LIMIT = 10 * 1024; // 10 KB
-const HCAPTCHA_VERIFY_URL = 'https://hcaptcha.com/siteverify';
 
 // ─── In-memory rate limiter ───────────────────────────────────────────────────
 // NOTE: Resets on every cold start — acceptable for a portfolio contact form.
@@ -106,46 +105,6 @@ function applyCors(req, res) {
   return true;
 }
 
-// ─── hCaptcha verification ────────────────────────────────────────────────────
-
-/**
- * Verify a hCaptcha token against the hCaptcha API.
- * Skips verification when SKIP_HCAPTCHA=true (local dev only).
- * @param {string} token
- * @returns {Promise<{ success: boolean; errorCodes?: string[] }>}
- */
-async function verifyHcaptcha(token) {
-  if (process.env.SKIP_HCAPTCHA === 'true') {
-    return { success: true };
-  }
-
-  const secret = process.env.HCAPTCHA_SECRET;
-  if (!secret || secret === 'your_hcaptcha_secret_key_here') {
-    console.error('[contact] HCAPTCHA_SECRET is not configured.');
-    return { success: false, errorCodes: ['missing-secret'] };
-  }
-
-  const params = new URLSearchParams({
-    secret,
-    response: token,
-  });
-
-  try {
-    const verifyRes = await fetch(HCAPTCHA_VERIFY_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: params.toString(),
-    });
-    const data = await verifyRes.json();
-    return {
-      success: data.success === true,
-      errorCodes: data['error-codes'],
-    };
-  } catch (err) {
-    console.error('[contact] hCaptcha verification request failed:', err);
-    return { success: false, errorCodes: ['network-error'] };
-  }
-}
 
 // ─── Input sanitisation helpers ───────────────────────────────────────────────
 
@@ -228,7 +187,6 @@ export default async function handler(req, res) {
   const rawEmail   = toStr(body.email);
   const rawSubject = toStr(body.subject);
   const rawMessage = toStr(body.message);
-  const hcaptchaToken = toStr(body.hcaptchaToken);
 
   // 9b. Validate required fields.
   const errors = [];
@@ -269,14 +227,6 @@ export default async function handler(req, res) {
   // 9e. Escape message for safe HTML rendering in the email body.
   const messageSafe = validator.escape(rawMessage).replace(/\n/g, '<br>');
 
-  // 10. Verify hCaptcha.
-  if (!hcaptchaToken) {
-    return res.status(400).json({ error: 'CAPTCHA token is required.' });
-  }
-  const captchaResult = await verifyHcaptcha(hcaptchaToken);
-  if (!captchaResult.success) {
-    return res.status(400).json({ error: 'CAPTCHA verification failed. Please try again.' });
-  }
 
   // 11. Send email via Resend.
   const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
