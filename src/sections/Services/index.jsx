@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef, useCallback } from 'react';
+// eslint-disable-next-line no-unused-vars
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';
 

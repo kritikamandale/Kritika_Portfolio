@@ -1,4 +1,3 @@
-
 import Preloader from '../src/components/Preloader/Preloader'
 import Cursor from '../src/components/Cursor/Cursor'
 import AvailabilityBanner from '../src/components/AvailabilityBanner/AvailabilityBanner'
@@ -12,16 +11,9 @@ import Experience from '../src/sections/Experience/Experience'
 import Achievements from '../src/sections/Achievements/Achievements'
 import Philosophy from '../src/sections/Philosophy/Philosophy'
 import Contact from '../src/sections/Contact/Contact'
-import dynamic from 'next/dynamic'
-const GithubContributions = dynamic(
-  () => import('../src/sections/GithubContributions/GithubContributions'),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="w-full h-48 animate-pulse rounded-2xl bg-gray-100 dark:bg-gray-800" />
-    )
-  }
-)
+// GithubContributions uses `ssr: false` — must be wrapped in a Client Component
+// per Next.js 15 rules. The Client Component wrapper handles dynamic() internally.
+import GithubContributionsClient from '../src/components/GithubContributionsClient/GithubContributionsClient'
 import Footer from '../src/components/Footer/Footer'
 import PageClient from '../src/components/PageClient/PageClient'
 
@@ -40,7 +32,7 @@ export default function Home() {
         <Stack />
         <Experience />
         <Projects />
-        <GithubContributions />
+        <GithubContributionsClient />
         <Achievements />
 
         <Philosophy />
@@ -50,4 +42,3 @@ export default function Home() {
     </>
   )
 }
-

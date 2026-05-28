@@ -148,9 +148,11 @@ const InteractiveGraph = () => {
         }
       }
     });
-
-    setNodes(generatedNodes);
-    setLinks(generatedLinks);
+    // Avoid synchronous setState in effect
+    setTimeout(() => {
+      setNodes(generatedNodes);
+      setLinks(generatedLinks);
+    }, 0);
   }, [dimensions.width, dimensions.height]);
 
   // Helper: Distance from point to line segment

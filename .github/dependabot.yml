@@ -1,0 +1,73 @@
+# .github/dependabot.yml
+# ─────────────────────────────────────────────────────────────
+# Automated dependency updates via GitHub Dependabot.
+#
+# Strategy:
+#  - npm: weekly scan, groups patch/minor into single PRs to
+#    reduce PR noise while still keeping minor/patch fresh.
+#    Major version bumps are opened individually so breaking
+#    changes can be reviewed separately.
+#  - github-actions: weekly scan for any future CI workflows.
+#
+# Docs: https://docs.github.com/en/code-security/dependabot/
+# ─────────────────────────────────────────────────────────────
+version: 2
+
+updates:
+  # ── npm (Node.js / React / Next.js) ───────────────────────
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Kolkata"
+    open-pull-requests-limit: 10
+    # Target branch for all dependency update PRs
+    target-branch: "main"
+    labels:
+      - "dependencies"
+      - "npm"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps-dev"
+      include: "scope"
+    # ── Group non-breaking updates into single PRs ──────────
+    groups:
+      # All patch updates together — low risk, high value
+      patch-updates:
+        update-types:
+          - "patch"
+      # Minor updates for non-Next.js packages — usually safe
+      minor-updates:
+        dependency-type: "production"
+        update-types:
+          - "minor"
+        exclude-patterns:
+          - "next"
+          - "react"
+          - "react-dom"
+      # Dev tooling minor updates
+      dev-minor-updates:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+    # ── Security-only updates always open immediately ───────
+    # (Dependabot opens these regardless of schedule)
+
+  # ── GitHub Actions ─────────────────────────────────────────
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Kolkata"
+    open-pull-requests-limit: 5
+    target-branch: "main"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
