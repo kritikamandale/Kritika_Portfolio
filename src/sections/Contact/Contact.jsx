@@ -2,21 +2,33 @@
 // src/sections/Contact/Contact.jsx
 // ============================================================
 // CONTACT SECTION — single pill CTA, centred editorial layout
+// hCaptcha server-side CAPTCHA verification added
 // ============================================================
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import HCaptcha from '@hcaptcha/react-hcaptcha';
 import Button from '../../components/Button/Button';
 
 const Contact = () => {
   const [form, setForm]     = useState({ name: '', email: '', subject: '', message: '' });
   const [status, setStatus] = useState({ type: null, message: '' });
   const [loading, setLoading] = useState(false);
+  /** @type {React.RefObject<HCaptcha>} */
+  const hcaptchaRef = useRef(null);
+  const [hcaptchaToken, setHcaptchaToken] = useState('');
 
   const handleChange = (e) =>
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Guard: token must be present (widget auto-resets after use)
+    if (!hcaptchaToken) {
+      setStatus({ type: 'error', message: '❌ Please complete the CAPTCHA.' });
+      return;
+    }
+
     setLoading(true);
     setStatus({ type: null, message: '' });
 
@@ -25,21 +37,28 @@ const Contact = () => {
       const res  = await fetch(`${apiBase}/api/contact`, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(form),
+        body:    JSON.stringify({ ...form, hcaptchaToken }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to send.');
       setStatus({ type: 'success', message: "✅ Message sent! I'll get back within 24 hours." });
       setForm({ name: '', email: '', subject: '', message: '' });
+      // Reset the CAPTCHA widget so it can be used again.
+      hcaptchaRef.current?.resetCaptcha();
+      setHcaptchaToken('');
     } catch (err) {
       setStatus({ type: 'error', message: `❌ ${err.message}` });
+      // Reset on error so the user can retry.
+      hcaptchaRef.current?.resetCaptcha();
+      setHcaptchaToken('');
     } finally {
       setLoading(false);
       setTimeout(() => setStatus({ type: null, message: '' }), 6000);
     }
   };
 
-  const canSubmit = form.name && form.email && form.message && !loading;
+  // Submit is enabled only when required fields AND hCaptcha token are present.
+  const canSubmit = form.name && form.email && form.message && hcaptchaToken && !loading;
 
   return (
     <>
@@ -70,6 +89,7 @@ const Contact = () => {
                   placeholder="e.g. John Doe"
                   value={form.name}
                   onChange={handleChange}
+                  maxLength={100}
                   required autoComplete="name"
                 />
               </div>
@@ -94,6 +114,7 @@ const Contact = () => {
                 placeholder="e.g. Collaboration or just saying Hi!"
                 value={form.subject}
                 onChange={handleChange}
+                maxLength={200}
               />
             </div>
 
@@ -105,7 +126,23 @@ const Contact = () => {
                 placeholder="Tell me about your project…"
                 value={form.message}
                 onChange={handleChange}
+                maxLength={5000}
                 required
+              />
+            </div>
+
+            {/* hCaptcha widget — invisible until user interacts */}
+            <div className="flex justify-center">
+              <HCaptcha
+                ref={hcaptchaRef}
+                sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITEKEY || '10000000-ffff-ffff-ffff-000000000001'}
+                onVerify={(token) => setHcaptchaToken(token)}
+                onExpire={() => setHcaptchaToken('')}
+                onError={() => {
+                  setHcaptchaToken('');
+                  setStatus({ type: 'error', message: '❌ CAPTCHA error. Please refresh and try again.' });
+                }}
+                theme="auto"
               />
             </div>
 

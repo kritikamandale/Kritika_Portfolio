@@ -8,6 +8,7 @@
 // ============================================================
 
 import React from 'react';
+// eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
 import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';
 
@@ -232,7 +233,7 @@ const EmojiPill = ({ emoji }) => (
 );
 
 // ── Single skill chip — bare logo + name, no card ─────────────
-const SkillChip = ({ name, iconKey, emoji, index }) => {
+const SkillChip = ({ name, iconKey, emoji }) => {
   const IconComponent = iconKey ? ICONS[iconKey] : null;
 
   return (

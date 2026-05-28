@@ -38,10 +38,14 @@
   --color-card-border-hover: rgba(255, 140, 66, 0.35); /* pumpkin border on hover */
   --color-divider:           rgba(162, 62, 72, 0.08);
 
-  /* ── Typography (Updated to Outfit & Inter) ────────────── */
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-heading: 'Outfit', system-ui, sans-serif;
-  --font-mono: 'Fira Code', 'Courier New', monospace;
+  /* ── Typography ─────────────────────────────────────────
+     Primary values use next/font CSS variables (set on <html>
+     by app/layout.jsx). System fonts are the fallback chain.
+     Fonts are self-hosted at build time — no CDN requests.
+  ──────────────────────────────────────────────────────── */
+  --font-sans:    var(--font-sans-next,    'Inter',    system-ui, sans-serif);
+  --font-heading: var(--font-heading-next, 'Outfit',   system-ui, sans-serif);
+  --font-mono:    var(--font-mono-next,    'Fira Code','Courier New', monospace);
 
   --text-xs:   calc(0.75rem + 10px);
   --text-sm:   calc(0.875rem + 10px);

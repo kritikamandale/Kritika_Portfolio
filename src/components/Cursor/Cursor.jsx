@@ -35,7 +35,9 @@ const Cursor = () => {
   );
 
   useEffect(() => {
-    setMounted(true);
+    // Avoid synchronous setState in effect
+    const timer = setTimeout(() => setMounted(true), 0);
+
     if (!isDesktopPointer()) return;
 
     const dot   = dotRef.current;
@@ -119,6 +121,7 @@ const Cursor = () => {
     document.addEventListener('mouseout',  onMouseOut,  { passive: true });
 
     return () => {
+      clearTimeout(timer);
       document.documentElement.style.cursor = '';
       document.body.style.cursor = '';
       cancelAnimationFrame(rafId);

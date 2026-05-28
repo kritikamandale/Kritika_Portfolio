@@ -1,0 +1,4 @@
+Contact: mailto:security@kritikamandale.vercel.app
+Expires: 2027-05-28T17:30:00.000Z
+Preferred-Languages: en
+Canonical: https://kritikamandale.vercel.app/.well-known/security.txt

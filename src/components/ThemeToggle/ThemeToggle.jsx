@@ -2,7 +2,12 @@
 import { useEffect, useState } from 'react'
 
 export default function ThemeToggle() {
-  const [dark, setDark] = useState(false)
+  const [dark, setDark] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('theme') === 'dark'
+    }
+    return false
+  })
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme')
@@ -10,11 +15,9 @@ export default function ThemeToggle() {
     if (defaultTheme === 'dark') {
       document.documentElement.classList.add('dark')
       document.documentElement.setAttribute('data-theme', 'dark')
-      setDark(true)
     } else {
       document.documentElement.classList.remove('dark')
       document.documentElement.removeAttribute('data-theme')
-      setDark(false)
     }
   }, [])
 

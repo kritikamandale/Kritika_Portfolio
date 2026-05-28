@@ -1,9 +1,19 @@
 /* src/styles/global.css */
 /* ============================================================
    GLOBAL STYLES — Sunset Bliss Light Portfolio
+   ============================================================
+
+   FONTS: Outfit, Inter, and Fira Code are self-hosted via
+   next/font/google (configured in app/layout.jsx). They are
+   downloaded at build time and served as first-party assets —
+   no Google CDN request is made at runtime.
+
+   The CSS variables --font-sans-next, --font-heading-next,
+   and --font-mono-next (set on <html>) cascade to the
+   --font-sans / --font-heading / --font-mono tokens below
+   via the fallback chain in variables.css.
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
 @import './variables.css';
 
 /* ── Box Model Reset ──────────────────────────────────────── */
