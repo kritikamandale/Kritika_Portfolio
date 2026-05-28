@@ -8,25 +8,20 @@
 import React from 'react';
 import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';
 import Button from '../../components/Button/Button';
-import useCountUp from '../../hooks/useCountUp';
 
-// ── Animated stat block ──────────────────────────────────────
-const StatBlock = ({ num, label }) => {
-  const match   = num.match(/^(\d+)(.*)$/);
-  const target  = match ? parseInt(match[1], 10) : 0;
-  const suffix  = match ? match[2] : '';
-  const { ref, display } = useCountUp(target, 1400);
-  return (
-    <div ref={ref} className="flex flex-col items-center gap-4 group cursor-default">
-      <span className="text-2xl w-[90px] h-[90px] max-sm:text-2xl rounded-full bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex items-center justify-center font-heading font-extrabold text-text-primary dark:text-text-dark-primary leading-none shadow-clay-sm dark:shadow-none transition-all duration-300 relative group-hover:scale-[1.08] group-hover:-translate-y-1 group-hover:border-brand-orange group-hover:shadow-clay group-hover:text-brand-orange before:content-[''] before:absolute before:-inset-[10px] before:rounded-full before:bg-[radial-gradient(circle,rgba(255,140,66,0.12)_0%,transparent_70%)] before:-z-10 before:opacity-0 group-hover:before:opacity-100 before:transition-opacity">
-        {display}{suffix}
-      </span>
-      <span className="text-[14px] text-text-muted dark:text-text-dark-muted font-semibold tracking-[0.05em] uppercase">
-        {label}
-      </span>
-    </div>
-  );
-};
+
+// ── Static stat block (no counter animation) ─────────────────
+const StatBlock = ({ num, label }) => (
+  <div className="flex flex-col items-center gap-4 group cursor-default">
+    <span className="text-2xl w-[90px] h-[90px] max-sm:text-2xl rounded-full bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex items-center justify-center font-heading font-extrabold text-text-primary dark:text-text-dark-primary leading-none shadow-clay-sm dark:shadow-none transition-all duration-300 relative group-hover:scale-[1.08] group-hover:-translate-y-1 group-hover:border-brand-orange group-hover:shadow-clay group-hover:text-brand-orange before:content-[''] before:absolute before:-inset-[10px] before:rounded-full before:bg-[radial-gradient(circle,rgba(255,140,66,0.12)_0%,transparent_70%)] before:-z-10 before:opacity-0 group-hover:before:opacity-100 before:transition-opacity">
+      {num}
+    </span>
+    <span className="text-[14px] text-text-muted dark:text-text-dark-muted font-semibold tracking-[0.05em] uppercase">
+      {label}
+    </span>
+  </div>
+);
+
 
 const TECH_TAGS = [
   { label: 'LLMs & GenAI', hot: true },
@@ -46,7 +41,7 @@ const CARDS = [
   {
     icon: '🏆',
     title: 'Proven under pressure',
-    desc: 'From OpenPools to NASA Space Apps, I thrive in high-stakes environments, rapid prototyping, and delivering winning solutions under tight 30-hour deadlines.',
+    desc: 'From OpenPools to NASA Space Apps, I thrive in high-stakes environments and deliver winning solutions under tight deadlines.',
     barColor: 'bg-brand-red',
     iconBg: 'bg-brand-red/10',
     iconColor: 'text-brand-red',
@@ -54,7 +49,7 @@ const CARDS = [
   {
     icon: '🧠',
     title: 'AI-first thinking',
-    desc: 'I don\'t just write code; I architect intelligent systems. My philosophy revolves around leveraging LLMs and ML models to solve real-world problems efficiently.',
+    desc: 'I architect intelligent systems — leveraging LLMs and ML models to solve real-world problems, not just write code.',
     barColor: 'bg-brand-orange',
     iconBg: 'bg-brand-orange/10',
     iconColor: 'text-brand-orange',
@@ -62,15 +57,15 @@ const CARDS = [
   {
     icon: '🤝',
     title: 'Community builder',
-    desc: 'Co-coordinating HackronyX and leading student tech communities taught me that the most impactful innovations stem from collaboration and shared knowledge.',
+    desc: 'Co-coordinating HackronyX and leading student tech communities taught me that the best innovations come from collaboration.',
     barColor: 'bg-brand-yellow',
     iconBg: 'bg-brand-yellow/20',
-    iconColor: 'text-brand-yellow', // note: might be hard to see yellow on light, but it was like this
+    iconColor: 'text-brand-yellow',
   },
   {
     icon: '⚙️',
     title: 'End-to-end ownership',
-    desc: 'I close the full loop—from conceptualizing complex AI algorithms to deploying scalable web interfaces that users actually love to interact with.',
+    desc: 'I close the full loop — from fine-tuning ML models to deploying scalable web interfaces that users love.',
     barColor: 'bg-brand-blue',
     iconBg: 'bg-brand-blue/10',
     iconColor: 'text-brand-blue',
@@ -134,14 +129,11 @@ const About = () => {
           {/* ── RIGHT COLUMN ── */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {CARDS.map((card, i) => (
-              <div 
-                key={i} 
-                className={`bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl p-6 flex flex-col gap-3 transition-[transform,box-shadow,border-color] duration-300 relative overflow-hidden h-full hover:-translate-y-1 hover:shadow-clay-lg dark:hover:shadow-none hover:border-black/25 dark:hover:border-white/25 reveal reveal-delay-${i + 1}`}
+              <div
+                key={i}
+                className={`bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl p-6 flex flex-col gap-2 transition-[transform,box-shadow,border-color] duration-300 relative overflow-hidden h-full hover:-translate-y-1 hover:shadow-clay-lg dark:hover:shadow-none hover:border-black/25 dark:hover:border-white/25 reveal reveal-delay-${i + 1}`}
               >
-                <div className={`absolute top-0 left-0 right-0 h-1 ${card.barColor}`}></div>
-                <div className={`w-12 h-12 rounded-lg flex items-center justify-center text-xl mb-2 ${card.iconBg} ${card.iconColor}`}>
-                  {card.icon}
-                </div>
+                <div className={`absolute top-0 left-0 right-0 h-1 ${card.barColor}`} />
                 <h3 className="font-heading text-md font-bold text-text-primary dark:text-text-dark-primary">
                   {card.title}
                 </h3>

@@ -169,7 +169,7 @@ const Services = () => {
               <div className="mt-4 flex items-center gap-3 flex-wrap">
                 <span className="text-[#F2C078] text-base tracking-widest">★★★★★</span>
                 <span className="text-white/70 text-[12px] font-medium">
-                  Hackathon Winner · IIT Delhi Top 3
+                  Hackathon Finalist · IIM Indore top 6
                 </span>
               </div>
             </div>
@@ -337,10 +337,10 @@ const Services = () => {
             <div className="text-[3.5rem] font-black leading-none text-[#C84B31]">4+</div>
             <div>
               <p className="font-heading text-[0.95rem] font-bold text-[#1a0a06] dark:text-[#f5ede8] leading-snug mt-1">
-                Hackathon wins &amp; top placements
+                Hackathon wins &amp; National level hackathon Organizer
               </p>
               <p className="text-[11px] text-[#C84B31]/70 dark:text-[#C84B31]/60 mt-1 font-medium">
-                IIT Delhi · Smart India · State Level
+                IIT Delhi  · IIM Indore · Smart India Hackathon
               </p>
             </div>
           </motion.div>

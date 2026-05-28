@@ -237,12 +237,13 @@ const SkillChip = ({ name, iconKey, emoji, index }) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-30px' }}
-      transition={{ duration: 0.35, delay: index * 0.07, ease: 'easeOut' }}
+      variants={{
+        hidden: { opacity: 0, y: 18 },
+        show:   { opacity: 1, y: 0 },
+      }}
       whileHover={{ y: -4 }}
       whileTap={{ y: -2 }}
+      transition={{ duration: 0.3, ease: 'easeOut' }}
       style={{
         display: 'flex',
         alignItems: 'center',
@@ -405,8 +406,20 @@ const Stack = () => (
         <div key={group.label}>
           <CategoryHeading label={group.label} index={gIdx} />
           <div className="stack-divider" />
-          {/* Wrap chips — they flow naturally */}
-          <div
+          {/* Chips cascade in as the group enters the viewport */}
+          <motion.div
+            variants={{
+              hidden: {},
+              show: {
+                transition: {
+                  staggerChildren: 0.06,
+                  delayChildren: 0.05,
+                },
+              },
+            }}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-40px' }}
             style={{
               display: 'flex',
               flexWrap: 'wrap',
@@ -422,7 +435,7 @@ const Stack = () => (
                 index={idx}
               />
             ))}
-          </div>
+          </motion.div>
         </div>
       ))}
     </div>
