@@ -70,10 +70,8 @@ const Navbar = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const handleMobileLink = (href) => {
+  const handleMobileLink = () => {
     setMenu(false);
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -83,7 +81,7 @@ const Navbar = () => {
     >
       <div className="flex items-center justify-between gap-6 px-3.75 py-10px bg-navbar-light dark:bg-navbar-dark backdrop-blur-md rounded-pill shadow-navbar dark:shadow-none border border-border-light dark:border-border-dark">
         {/* Logo */}
-        <a href="#hero" className="font-heading text-15 font-bold text-text-primary dark:text-text-dark-primary tracking-[-0.02em] flex items-center gap-2">
+        <a href="#hero" className="font-heading text-15 font-bold text-text-primary dark:text-text-dark-primary tracking-[-0.02em] flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange rounded-md">
           ✦ <span className="text-brand-orange">kritikalog</span>
         </a>
 
@@ -96,7 +94,7 @@ const Navbar = () => {
                 <a
                   href={href}
                   className={`
-                    text-13 px-14px py-1.5 rounded-pill transition-colors duration-250 relative
+                    text-13 px-14px py-1.5 rounded-pill transition-colors duration-250 relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange
                     ${isActive 
                       ? 'text-brand-red bg-brand-orange/15 font-semibold' 
                       : 'font-medium text-text-secondary dark:text-text-dark-secondary hover:text-brand-red hover:bg-brand-orange/10'
@@ -118,6 +116,7 @@ const Navbar = () => {
             href="/Kritika_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
+            className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange"
           >
             Resume ↗
           </Button>
@@ -127,11 +126,12 @@ const Navbar = () => {
         {/* Mobile hamburger */}
         <button
           className={`
-            md:hidden flex flex-col gap-[5px] cursor-pointer p-2 rounded-md transition-colors duration-250 hover:bg-brand-orange/10
+            md:hidden flex flex-col gap-[5px] cursor-pointer p-2 rounded-md transition-colors duration-250 hover:bg-brand-orange/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange
           `}
           onClick={() => setMenu((p) => !p)}
           aria-label="Toggle mobile menu"
           aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
         >
           <span className={`block w-[22px] h-[2px] bg-brand-mauve rounded-sm transition-all duration-250 ${menuOpen ? 'translate-y-[7px] rotate-45' : ''}`} />
           <span className={`block w-[22px] h-[2px] bg-brand-mauve rounded-sm transition-all duration-250 ${menuOpen ? 'opacity-0 scale-x-0' : ''}`} />
@@ -141,6 +141,7 @@ const Navbar = () => {
 
       {/* Mobile dropdown menu */}
       <div
+        id="mobile-menu"
         className={`
           ${menuOpen ? 'flex' : 'hidden'}
           absolute top-[calc(100%+0.5rem)] left-0 right-0 
@@ -160,13 +161,13 @@ const Navbar = () => {
               key={href}
               href={href}
               className={`
-                text-base px-4 py-3 rounded-lg transition-colors duration-250
+                text-base px-4 py-3 rounded-lg transition-colors duration-250 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange
                 ${isActive
                   ? 'text-brand-red bg-brand-orange/10 font-semibold'
                   : 'font-medium text-text-secondary dark:text-text-dark-secondary hover:text-brand-red hover:bg-brand-orange/10'
                 }
               `}
-              onClick={() => handleMobileLink(href)}
+              onClick={handleMobileLink}
               role="menuitem"
             >
               {label}

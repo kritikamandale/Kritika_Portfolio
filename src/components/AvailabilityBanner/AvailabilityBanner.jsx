@@ -41,17 +41,19 @@ const AvailabilityBanner = () => {
   return (
     <>
       <style>{`
-        @keyframes slideDown {
-          from { transform: translateY(-100%); opacity: 0; }
-          to   { transform: translateY(0);     opacity: 1; }
-        }
-        @keyframes slideUp {
-          from { transform: translateY(0);     opacity: 1; }
-          to   { transform: translateY(-100%); opacity: 0; }
-        }
-        @keyframes customPulse {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50%       { opacity: 0.6; transform: scale(1.3); }
+        @media (prefers-reduced-motion: no-preference) {
+          @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to   { transform: translateY(0);     opacity: 1; }
+          }
+          @keyframes slideUp {
+            from { transform: translateY(0);     opacity: 1; }
+            to   { transform: translateY(-100%); opacity: 0; }
+          }
+          @keyframes customPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50%       { opacity: 0.6; transform: scale(1.3); }
+          }
         }
       `}</style>
       <div

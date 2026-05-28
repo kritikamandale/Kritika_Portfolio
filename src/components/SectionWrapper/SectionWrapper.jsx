@@ -38,11 +38,13 @@ const SectionWrapper = ({
   alt = false,
   align = 'center',
   maxWidth,
+  ariaLabel,
   children,
 }) => {
   return (
     <section
       id={id}
+      aria-label={ariaLabel || title || label || id}
       className={`
         w-full
         py-20 md:py-16 sm:py-10
