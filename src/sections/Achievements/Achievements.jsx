@@ -154,7 +154,7 @@ const Achievements = () => {
               <div 
                 key={i}
                 ref={el => cardsRef.current[i] = el}
-                className="md:absolute top-0 left-0 w-full md:h-full bg-white dark:bg-[#1a1a1a] border border-slate-200 dark:border-border-dark rounded-2xl p-8 md:p-10 flex flex-col gap-5 transform-gpu shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] dark:shadow-none"
+                className="md:absolute top-0 left-0 w-full md:h-full bg-white dark:bg-[#1a1a1a] border border-slate-200 dark:border-border-dark rounded-2xl p-6 md:p-8 flex flex-col gap-4 transform-gpu shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] dark:shadow-none"
                 style={{ zIndex: i }}
               >
                 {/* Darkening Overlay for 3D depth */}
@@ -165,15 +165,15 @@ const Achievements = () => {
                     {card.category}
                   </span>
                   
-                  <h3 className="font-heading text-2xl md:text-3xl font-bold text-slate-800 dark:text-text-dark-primary mb-4 leading-[1.2]">
+                  <h3 className="font-heading text-xl md:text-2xl font-bold text-slate-800 dark:text-text-dark-primary mb-3 leading-[1.25]">
                     {card.title}
                   </h3>
                   
-                  <p className="text-slate-600 dark:text-text-dark-secondary font-medium leading-relaxed mb-6">
+                  <p className="text-[14px] text-slate-600 dark:text-text-dark-secondary font-medium leading-relaxed mb-4">
                     {card.context}
                   </p>
                   
-                  <div className="mt-auto pt-6 border-t border-slate-100 dark:border-border-dark">
+                  <div className="mt-auto pt-4 border-t border-slate-100 dark:border-border-dark">
                     <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
                       <strong className="text-slate-700 dark:text-slate-300 font-semibold mr-2">Core Focus:</strong>
                       {card.focus}
