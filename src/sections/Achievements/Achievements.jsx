@@ -121,6 +121,7 @@ const Achievements = () => {
   return (
     <section 
       id="achievements" 
+      aria-label="Hackathons & Awards"
       ref={containerRef} 
       // The section is 400vh on desktop to provide scrolling distance. On mobile, it's auto.
       className="w-full relative bg-[#FFFDF9] dark:bg-bg-dark h-auto md:h-[500vh]"

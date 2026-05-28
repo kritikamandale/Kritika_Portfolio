@@ -9,23 +9,25 @@ const Hero = () => {
   return (
     <>
       <style>{`
-        @keyframes wave {
-          0%, 100% { transform: rotate(0deg); }
-          25% { transform: rotate(25deg); }
-          50% { transform: rotate(0deg); }
-          75% { transform: rotate(15deg); }
-        }
-        @keyframes scrollPulse {
-          0%, 100% { opacity: 1; transform: scaleY(1); }
-          50% { opacity: 0.4; transform: scaleY(0.85); }
-        }
-        @keyframes floatBadge {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-8px); }
+        @media (prefers-reduced-motion: no-preference) {
+          @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(25deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(15deg); }
+          }
+          @keyframes scrollPulse {
+            0%, 100% { opacity: 1; transform: scaleY(1); }
+            50% { opacity: 0.4; transform: scaleY(0.85); }
+          }
+          @keyframes floatBadge {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+          }
         }
       `}</style>
 
-      <section id="hero" className="h-screen max-h-screen flex items-center pt-20 px-6 pb-8 relative z-10 bg-bg-light dark:bg-bg-dark overflow-hidden">
+      <section id="hero" aria-label="Hero" className="h-screen max-h-screen flex items-center pt-20 px-6 pb-8 relative z-10 bg-bg-light dark:bg-bg-dark overflow-hidden">
         {/* ── Dot Background & Faded Mask ── */}
         <div
           className="absolute inset-0 z-0 opacity-85 bg-[length:32px_32px] bg-[radial-gradient(rgba(58,43,50,0.3)_1.2px,transparent_1.2px)] dark:bg-[radial-gradient(rgba(255,255,255,0.15)_1.2px,transparent_1.2px)]"
