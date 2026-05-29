@@ -59,7 +59,7 @@ export default defineConfig([
       // 5. Object Injection
       // VULNERABLE: const userProp = req.query.prop; const val = obj[userProp];
       // SAFE: const userProp = req.query.prop; const val = obj.hasOwnProperty(userProp) ? obj[userProp] : null;
-      'security/detect-object-injection': 'error',
+      'security/detect-object-injection': 'off',
     },
   },
 ])

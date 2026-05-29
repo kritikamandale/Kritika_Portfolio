@@ -154,7 +154,7 @@ const Achievements = () => {
             {CARDS.map((card, i) => (
               <div 
                 key={i}
-                ref={el => cardsRef.current[i] = el}
+                ref={el => { cardsRef.current[i] = el; }}
                 className="md:absolute top-0 left-0 w-full md:h-full bg-white dark:bg-[#1a1a1a] border border-slate-200 dark:border-border-dark rounded-2xl p-6 md:p-8 flex flex-col gap-4 transform-gpu shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] dark:shadow-none"
                 style={{ zIndex: i }}
               >
