@@ -43,7 +43,7 @@ const Contact = () => {
       if (!res.ok) throw new Error(data.error || 'Failed to send.');
       setStatus({ type: 'success', message: "✅ Message sent! I'll get back within 24 hours." });
       // Don't clear form yet, let the user see success state.
-    } catch (err) {
+    } catch {
       setStatus({ type: 'error', message: "Something went wrong. Please try again." });
     } finally {
       setLoading(false);
