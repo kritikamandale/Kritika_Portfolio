@@ -84,7 +84,7 @@ const Hero = () => {
               Building AI-powered web applications and intelligent systems for real-world impact.
             </p>
             <p className="text-[14px] text-text-secondary dark:text-text-dark-secondary max-w-[clamp(300px,38vw,540px)] text-center mx-auto leading-[1.6]">
-              Full-Stack Developer &amp; AI/ML Engineer — I design and develop end-to-end products that automate, scale, and solve practical business problems.
+              Full-Stack & AI/ML Developer — I design and build end-to-end products that combine scalable web interfaces with intelligent ML systems.
             </p>
 
             {/* CTA Buttons */}

@@ -18,7 +18,7 @@ import { Resend } from 'resend';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const ALLOWED_ORIGIN = 'https://kritikamandale.vercel.app';
+const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || 'https://krimyportfolio.vercel.app,http://localhost:5173').split(',');
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
 const RATE_LIMIT_MAX = 5;
 const BODY_SIZE_LIMIT = 10 * 1024; // 10 KB
@@ -88,7 +88,7 @@ function applyCors(req, res) {
 
   // Allow requests with no Origin header (same-origin, curl) only in dev.
   const allowedOrigin =
-    origin === ALLOWED_ORIGIN ? ALLOWED_ORIGIN : null;
+    ALLOWED_ORIGINS.includes(origin) ? origin : null;
 
   if (!allowedOrigin) {
     // Return null to signal that the origin is not allowed.
@@ -169,7 +169,7 @@ export default async function handler(req, res) {
   if (isRateLimited(ip)) {
     res.setHeader('Retry-After', String(Math.ceil(RATE_LIMIT_WINDOW_MS / 1000)));
     return res.status(429).json({
-      error: 'Too many requests. Please wait 15 minutes before trying again.',
+      error: 'Too many requests. Please wait before submitting again.',
     });
   }
 
@@ -183,6 +183,11 @@ export default async function handler(req, res) {
   const body = req.body ?? {};
 
   // 9a. Extract raw strings.
+  const rawHoneypot= toStr(body.honeypot);
+  if (rawHoneypot) {
+    return res.status(200).json({ ok: true });
+  }
+
   const rawName    = toStr(body.name);
   const rawEmail   = toStr(body.email);
   const rawSubject = toStr(body.subject);
@@ -191,24 +196,22 @@ export default async function handler(req, res) {
   // 9b. Validate required fields.
   const errors = [];
 
-  if (!rawName) {
-    errors.push('Name is required.');
+  if (!rawName || rawName.length < 2) {
+    errors.push('Please enter your name.');
   } else if (rawName.length > 100) {
     errors.push('Name must be 100 characters or fewer.');
   }
 
-  if (!rawEmail) {
-    errors.push('Email is required.');
-  } else if (!validator.isEmail(rawEmail)) {
-    errors.push('A valid email address is required.');
+  if (!rawEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(rawEmail)) {
+    errors.push('Please enter a valid email.');
   }
 
   if (rawSubject.length > 200) {
     errors.push('Subject must be 200 characters or fewer.');
   }
 
-  if (!rawMessage) {
-    errors.push('Message is required.');
+  if (!rawMessage || rawMessage.length < 20) {
+    errors.push('Message must be at least 20 characters.');
   } else if (rawMessage.length > 5000) {
     errors.push('Message must be 5000 characters or fewer.');
   }
@@ -218,7 +221,7 @@ export default async function handler(req, res) {
   }
 
   // 9c. Sanitise — strip newlines from name/subject (header injection prevention).
-  const name    = stripNewlines(rawName);
+  const name    = validator.escape(stripNewlines(rawName));
   const subject = stripNewlines(rawSubject);
 
   // 9d. Normalise email (lowercase, trim).
@@ -229,8 +232,13 @@ export default async function handler(req, res) {
 
 
   // 11. Send email via Resend.
-  const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
-  const toEmail   = process.env.RESEND_TO_EMAIL   || 'kritikamandale@gmail.com';
+  const fromEmail = process.env.RESEND_FROM_EMAIL;
+  const toEmail   = process.env.RESEND_TO_EMAIL;
+
+  if (!fromEmail || !toEmail) {
+    console.error('[contact] Email configuration is missing.');
+    return res.status(500).json({ error: 'Server configuration error.' });
+  }
 
   const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -246,7 +254,7 @@ export default async function handler(req, res) {
           <p style="color:#555">You have received a new message via your professional portfolio.</p>
 
           <table style="border-collapse:collapse;width:100%;margin-top:20px">
-            <tr><td style="padding:6px 0;font-weight:600;width:120px;vertical-align:top">Name</td><td style="padding:6px 0">${validator.escape(name)}</td></tr>
+            <tr><td style="padding:6px 0;font-weight:600;width:120px;vertical-align:top">Name</td><td style="padding:6px 0">${name}</td></tr>
             <tr><td style="padding:6px 0;font-weight:600;vertical-align:top">Email</td><td style="padding:6px 0"><a href="mailto:${validator.escape(email)}" style="color:#0056b3">${validator.escape(email)}</a></td></tr>
             <tr><td style="padding:6px 0;font-weight:600;vertical-align:top">Subject</td><td style="padding:6px 0">${subject ? validator.escape(subject) : '<em style="color:#777">No Subject</em>'}</td></tr>
           </table>

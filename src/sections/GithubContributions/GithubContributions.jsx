@@ -7,12 +7,49 @@ const USERNAME = 'kritikamandale';
 
 const GithubContributions = () => {
   const [profile, setProfile] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetch(`https://api.github.com/users/${USERNAME}`)
-      .then((r) => r.json())
-      .then((data) => setProfile(data))
-      .catch(() => {});
+    const fetchGithubData = async () => {
+      const cacheKey = 'github_stats_cache';
+      const cached = localStorage.getItem(cacheKey);
+
+      if (cached) {
+        try {
+          const { data, timestamp } = JSON.parse(cached);
+          const ageHours = (Date.now() - timestamp) / (1000 * 60 * 60);
+          
+          if (ageHours < 1) {
+            setProfile(data);
+            setIsLoading(false);
+            return; // Cache is fresh
+          }
+        } catch (e) {
+          // Cache invalid, continue to fetch
+        }
+      }
+
+      try {
+        const r = await fetch(`https://api.github.com/users/${USERNAME}`);
+        if (!r.ok) throw new Error('API Error');
+        const data = await r.json();
+        
+        localStorage.setItem(cacheKey, JSON.stringify({
+          data,
+          timestamp: Date.now()
+        }));
+        
+        setProfile(data);
+        setError(false);
+      } catch (err) {
+        setError(true);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchGithubData();
   }, []);
 
   // GitHub standard green theme
@@ -24,19 +61,19 @@ const GithubContributions = () => {
   const stats = [
     {
       label: 'Public Repositories',
-      value: profile?.public_repos ?? '—',
+      value: profile?.public_repos,
       sub: 'Open Source',
       colorClass: 'bg-[linear-gradient(135deg,#F4F8FC,#E6EFF8)] dark:bg-[linear-gradient(135deg,#1b2128,#12181d)]',
     },
     {
       label: 'Followers',
-      value: profile?.followers ?? '—',
+      value: profile?.followers,
       sub: 'Community',
       colorClass: 'bg-[linear-gradient(135deg,#FFF5F7,#FDECEF)] dark:bg-[linear-gradient(135deg,#231d25,#1b151d)]',
     },
     {
       label: 'Following',
-      value: profile?.following ?? '—',
+      value: profile?.following,
       sub: 'Connections',
       colorClass: 'bg-[linear-gradient(135deg,#FFF2EB,#FFE6D8)] dark:bg-[linear-gradient(135deg,#251d18,#1d1510)]',
     },
@@ -57,7 +94,13 @@ const GithubContributions = () => {
           {stats.map(({ label, value, sub, colorClass }) => (
             <div key={label} className={`rounded-xl p-6 flex flex-col gap-1 border border-border-light dark:border-border-dark shadow-clay-sm dark:shadow-none h-full ${colorClass}`}>
               <span className="text-sm font-semibold text-text-secondary dark:text-text-dark-secondary">{label}</span>
-              <span className="font-heading text-4xl font-extrabold text-brand-orange leading-[1.1]">{value}</span>
+              {isLoading ? (
+                <div className="h-10 w-20 bg-black/5 dark:bg-white/10 rounded animate-pulse my-1"></div>
+              ) : error ? (
+                <span className="text-sm font-medium text-brand-red leading-[1.1] py-2">Stats unavailable</span>
+              ) : (
+                <span className="font-heading text-4xl font-extrabold text-brand-orange leading-[1.1]">{value}</span>
+              )}
               <span className="text-xs text-text-muted dark:text-text-dark-muted">{sub}</span>
             </div>
           ))}

@@ -97,7 +97,7 @@ const About = () => {
             </div>
 
             <p className="text-[16px] text-text-secondary dark:text-text-dark-secondary leading-[1.8]">
-              I enjoy building intelligent web applications that combine AI with seamless user experiences. My focus is on end-to-end product development — from fine-tuning ML models to deploying scalable web interfaces that solve real workflow challenges. Whether it’s a startup, a business, or a hackathon team, I build things that work and ship fast.
+              I enjoy building intelligent web applications that combine AI with seamless user experiences. My focus is on end-to-end product development — from fine-tuning ML models to deploying scalable web interfaces that solve real workflow challenges. Whether it’s a startup, a business, or a hackathon team, I build things that work and ship fast. Currently interning at Matverse Vision (AI/ML) and open to internships and collaborative AI product builds.
             </p>
 
             <div className="flex flex-wrap gap-3 mt-2">
@@ -120,7 +120,7 @@ const About = () => {
               <Button variant="primary" href="#contact" className="!px-4 !py-2 !text-14">
                 Work with me →
               </Button>
-              <Button variant="ghost" href="/Kritika_Resume.pdf" target="_blank" rel="noopener noreferrer" className="!px-4 !py-2 !text-14">
+              <Button variant="ghost" href="/Kritika_Resume.pdf" download="Kritika_Mandale_Resume.pdf" target="_blank" rel="noopener noreferrer" className="!px-4 !py-2 !text-14">
                 Download Resume ↗
               </Button>
             </div>
