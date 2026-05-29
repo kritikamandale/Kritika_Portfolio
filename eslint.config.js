@@ -12,6 +12,12 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 export default defineConfig([
   globalIgnores(['dist', '.next', 'out', 'node_modules']),
   security.configs.recommended,
+  {
+    // Override: detect-object-injection produces false positives on all
+    // bracket-access patterns (loop counters, .map indices, hardcoded key
+    // lookups). None of the flagged code involves user-controlled input.
+    rules: { 'security/detect-object-injection': 'off' },
+  },
   noUnsanitized.configs.recommended,
   {
     files: ['**/*.{js,jsx}'],
