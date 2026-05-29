@@ -1,6 +1,5 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { GitHubCalendar } from 'react-github-calendar';
 import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';
 
 const USERNAME = 'kritikamandale';
@@ -52,12 +51,6 @@ const GithubContributions = () => {
     fetchGithubData();
   }, []);
 
-  // GitHub standard green theme
-  const calendarTheme = {
-    light: ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'],
-    dark: ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353'],
-  };
-
   const stats = [
     {
       label: 'Public Repositories',
@@ -104,36 +97,6 @@ const GithubContributions = () => {
               <span className="text-xs text-text-muted dark:text-text-dark-muted">{sub}</span>
             </div>
           ))}
-        </div>
-
-        {/* ── Contribution calendar ── */}
-        <style>{`
-          .calendarCard::-webkit-scrollbar { height: 5px; }
-          .calendarCard::-webkit-scrollbar-track { background: transparent; }
-          .calendarCard::-webkit-scrollbar-thumb { background: var(--dusty-mauve); border-radius: 9999px; }
-          .calendarCard::-webkit-scrollbar-thumb:hover { background: var(--brand-orange, #FF8C42); }
-        `}</style>
-        <div className="flex justify-center overflow-x-auto calendarCard">
-          <div className="dark:hidden">
-            <GitHubCalendar
-              username={USERNAME}
-              theme={calendarTheme}
-              colorScheme="light"
-              blockSize={12}
-              blockMargin={4}
-              fontSize={14}
-            />
-          </div>
-          <div className="hidden dark:block">
-            <GitHubCalendar
-              username={USERNAME}
-              theme={calendarTheme}
-              colorScheme="dark"
-              blockSize={12}
-              blockMargin={4}
-              fontSize={14}
-            />
-          </div>
         </div>
 
         {/* ── CTA ── */}
