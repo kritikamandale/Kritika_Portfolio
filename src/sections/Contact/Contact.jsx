@@ -9,15 +9,15 @@ import React, { useState } from 'react';
 import Button from '../../components/Button/Button';
 
 const Contact = () => {
-  const [form, setForm]     = useState({ name: '', email: '', subject: '', message: '' });
+  const [form, setForm]     = useState({ name: '', email: '', subject: '', message: '', honeypot: '' });
   const [touched, setTouched] = useState({ name: false, email: false, subject: false, message: false });
   const [status, setStatus] = useState({ type: null, message: '' });
   const [loading, setLoading] = useState(false);
 
   const errors = {
-    name: form.name.length > 0 && form.name.length < 2 ? 'Name must be at least 2 characters.' : '',
-    email: form.email.length > 0 && !/^\S+@\S+\.\S+$/.test(form.email) ? 'Please enter a valid email address.' : '',
-    message: form.message.length > 0 && form.message.length < 20 ? 'Message must be at least 20 characters.' : ''
+    name: touched.name && (!form.name || form.name.length < 2) ? 'Please enter your name.' : '',
+    email: touched.email && (!form.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) ? 'Please enter a valid email.' : '',
+    message: touched.message && (!form.message || form.message.length < 20) ? 'Message must be at least 20 characters.' : ''
   };
 
   const handleChange = (e) =>
@@ -55,13 +55,13 @@ const Contact = () => {
   };
 
   const handleReset = () => {
-    setForm({ name: '', email: '', subject: '', message: '' });
+    setForm({ name: '', email: '', subject: '', message: '', honeypot: '' });
     setTouched({ name: false, email: false, subject: false, message: false });
     setStatus({ type: null, message: '' });
   };
 
   // Submit is enabled only when required fields are present and there are no validation errors.
-  const canSubmit = form.name.length >= 2 && /^\S+@\S+\.\S+$/.test(form.email) && form.message.length >= 20 && !loading;
+  const canSubmit = form.name.length >= 2 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email) && form.message.length >= 20 && !loading;
 
   return (
     <>
@@ -105,6 +105,16 @@ const Contact = () => {
               )}
 
               <form className="w-full flex flex-col gap-5 text-left" onSubmit={handleSubmit} noValidate>
+                <input
+                  type="text"
+                  name="honeypot"
+                  autoComplete="off"
+                  tabIndex="-1"
+                  aria-hidden="true"
+                  style={{ display: "none", position: "absolute", left: "-9999px" }}
+                  value={form.honeypot}
+                  onChange={handleChange}
+                />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="flex flex-col gap-2 relative">
                     <label htmlFor="c-name" className="text-xs font-medium tracking-[0.06em] uppercase text-text-secondary dark:text-text-dark-secondary">Name *</label>
@@ -119,7 +129,7 @@ const Contact = () => {
                       required autoComplete="name"
                     />
                     {touched.name && errors.name && (
-                      <span className="text-xs text-red-500 font-medium absolute -bottom-5 left-1 animate-[fadeInUp_0.2s_ease]">{errors.name}</span>
+                      <span className="font-medium absolute -bottom-5 left-1 animate-[fadeInUp_0.2s_ease]" style={{ color: 'var(--color-text-danger, #ef4444)', fontSize: '13px' }}>{errors.name}</span>
                     )}
                   </div>
                   <div className="flex flex-col gap-2 relative">
@@ -134,7 +144,7 @@ const Contact = () => {
                       required autoComplete="email"
                     />
                     {touched.email && errors.email && (
-                      <span className="text-xs text-red-500 font-medium absolute -bottom-5 left-1 animate-[fadeInUp_0.2s_ease]">{errors.email}</span>
+                      <span className="font-medium absolute -bottom-5 left-1 animate-[fadeInUp_0.2s_ease]" style={{ color: 'var(--color-text-danger, #ef4444)', fontSize: '13px' }}>{errors.email}</span>
                     )}
                   </div>
                 </div>
@@ -165,7 +175,7 @@ const Contact = () => {
                     required
                   />
                   {touched.message && errors.message && (
-                    <span className="text-xs text-red-500 font-medium absolute -bottom-5 left-1 animate-[fadeInUp_0.2s_ease]">{errors.message}</span>
+                    <span className="font-medium absolute -bottom-5 left-1 animate-[fadeInUp_0.2s_ease]" style={{ color: 'var(--color-text-danger, #ef4444)', fontSize: '13px' }}>{errors.message}</span>
                   )}
                 </div>
 
@@ -176,7 +186,11 @@ const Contact = () => {
                     disabled={!canSubmit}
                     size="lg"
                   >
-                    {loading ? 'Sending…' : "Let's Talk"}&nbsp;<span>→</span>
+                    {loading ? (
+                      <>Sending... <span className="inline-block animate-spin">↻</span></>
+                    ) : (
+                      <>Let's Talk&nbsp;<span>→</span></>
+                    )}
                   </Button>
                 </div>
               </form>

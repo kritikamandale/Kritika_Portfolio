@@ -25,7 +25,7 @@ const PROJECTS = [
     businessValue: 'Eliminates manual KYC overhead and prevents identity fraud at scale.',
     tags: ['FastAPI', 'React', 'Docker', 'Terraform', 'PostgreSQL', 'DeepFace'],
     githubUrl: 'https://github.com/kritikamandale/SecureID',
-    liveUrl: '#',
+    liveUrl: '',
     featured: true,
   },
   {
@@ -61,10 +61,32 @@ const PROJECTS = [
     businessValue: 'Reduces terrain mapping time for autonomous navigation systems.',
     tags: ['PyTorch', 'SMP', 'Albumentations', 'Gemini API', 'Python'],
     githubUrl: 'https://github.com/kritikamandale/HackDaysNagpur',
-    liveUrl: '#',
+    liveUrl: '',
     featured: true,
   },
   {
+    id: 'p-coming-soon',
+    color: 'gray',
+    icon: '🚧',
+    title: 'Building in Public',
+    subtitle: 'More projects coming soon',
+    image: '/secureid.jpg', // Using an existing image as placeholder
+    desc: 'Currently building new MVPs and AI tools in public. Check out my GitHub to see what I am working on right now.',
+    problem: 'Always exploring new tech.',
+    approach: 'Agile & Iterative development.',
+    outcome: 'Watch this space.',
+    builtFor: 'The Open Source Community',
+    businessValue: 'Continuous Innovation',
+    tags: ['Coming Soon', 'Work in Progress'],
+    githubUrl: 'https://github.com/kritikamandale',
+    liveUrl: null,
+    featured: true,
+  },
+];
+
+const SECONDARY_PROJECTS = [
+  {
+    // Moved to secondary — no public repo available
     id: 'p3',
     color: 'mint',
     icon: '🏛️',
@@ -78,9 +100,9 @@ const PROJECTS = [
     builtFor: 'Government Bodies · Municipal Corporations · Enterprise HR',
     businessValue: 'Cuts complaint resolution time and improves citizen trust.',
     tags: ['Python', 'NLP', 'Full-Stack', 'Machine Learning'],
-    githubUrl: '#',
-    liveUrl: '#',
-    featured: true,
+    githubUrl: null,
+    liveUrl: null,
+    featured: false,
   },
 ];
 
@@ -153,8 +175,8 @@ const ProjectCard = ({ project }) => {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-3 pt-3">
-          {githubUrl && (
+        <div className="flex flex-wrap gap-3 pt-3 items-center">
+          {githubUrl && liveUrl && (
             <a href={githubUrl} className="text-xs font-bold no-underline inline-flex items-center gap-1.5 px-4 py-[7px] rounded-pill border-[1.5px] border-border-light dark:border-border-dark text-text-primary dark:text-text-dark-primary bg-transparent transition-all duration-250 cursor-pointer whitespace-nowrap relative z-[1] hover:-translate-y-[2px] hover:bg-surface-2-light dark:hover:bg-surface-2-dark hover:border-text-primary dark:hover:border-text-dark-primary hover:shadow-[0_4px_14px_rgba(0,0,0,0.15)]" target="_blank" rel="noopener noreferrer">
               ⌥ Code
             </a>
@@ -163,6 +185,16 @@ const ProjectCard = ({ project }) => {
             <a href={liveUrl} className="text-xs font-bold no-underline inline-flex items-center gap-1.5 px-4 py-[7px] rounded-pill border-[1.5px] border-transparent text-white bg-gradient-to-br from-[#ff6b35] to-[#e63946] shadow-[0_4px_14px_rgba(230,57,70,0.35)] transition-all duration-250 cursor-pointer whitespace-nowrap relative z-[1] hover:-translate-y-[2px] hover:from-[#ff8c5a] hover:to-[#ff3d4e] hover:shadow-[0_6px_20px_rgba(230,57,70,0.5)]" target="_blank" rel="noopener noreferrer">
               ↗ Live Demo
             </a>
+          )}
+          {!liveUrl && githubUrl && (
+            <a href={githubUrl} className="text-xs font-bold no-underline inline-flex items-center gap-1.5 px-4 py-[7px] rounded-pill border-[1.5px] border-transparent text-white bg-gradient-to-br from-[#ff6b35] to-[#e63946] shadow-[0_4px_14px_rgba(230,57,70,0.35)] transition-all duration-250 cursor-pointer whitespace-nowrap relative z-[1] hover:-translate-y-[2px] hover:from-[#ff8c5a] hover:to-[#ff3d4e] hover:shadow-[0_6px_20px_rgba(230,57,70,0.5)]" target="_blank" rel="noopener noreferrer">
+              ↗ View on GitHub
+            </a>
+          )}
+          {!liveUrl && (
+            <span style={{ color: 'var(--color-text-tertiary, #888)', fontSize: '12px' }} className="ml-1 opacity-90 font-medium tracking-wide">
+              No live deployment
+            </span>
           )}
         </div>
       </div>
