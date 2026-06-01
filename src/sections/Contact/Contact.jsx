@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import Button from '../../components/Button/Button';
 
 const Contact = () => {
-  const [form, setForm]     = useState({ name: '', email: '', subject: '', message: '', honeypot: '' });
+  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '', honeypot: '' });
   const [touched, setTouched] = useState({ name: false, email: false, subject: false, message: false });
   const [status, setStatus] = useState({ type: null, message: '' });
   const [loading, setLoading] = useState(false);
@@ -23,7 +23,7 @@ const Contact = () => {
   const handleChange = (e) =>
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
-  const handleBlur = (e) => 
+  const handleBlur = (e) =>
     setTouched((prev) => ({ ...prev, [e.target.name]: true }));
 
   const handleSubmit = async (e) => {
@@ -34,10 +34,10 @@ const Contact = () => {
 
     try {
       const apiBase = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') ?? '';
-      const res  = await fetch(`${apiBase}/api/contact`, {
-        method:  'POST',
+      const res = await fetch(`${apiBase}/api/contact`, {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(form),
+        body: JSON.stringify(form),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to send.');
@@ -81,7 +81,7 @@ const Contact = () => {
             Let&apos;s Build Something Smart Together
           </h2>
           <p className="text-[clamp(1.125rem,2.5vw,1.5rem)] text-text-secondary dark:text-text-dark-secondary mt-4 max-w-[540px] leading-[1.5]">
-            Available for freelance projects, internships, and collaborative AI product development. I respond within 24 hours.
+            Available for projects, internships, and collaborative AI product development. I respond within 24 hours.
           </p>
 
           {status.type === 'success' ? (
