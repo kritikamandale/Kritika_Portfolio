@@ -24,7 +24,7 @@ const GithubContributions = () => {
             setIsLoading(false);
             return; // Cache is fresh
           }
-        } catch (e) {
+        } catch {
           // Cache invalid, continue to fetch
         }
       }
@@ -41,7 +41,7 @@ const GithubContributions = () => {
         
         setProfile(data);
         setError(false);
-      } catch (err) {
+      } catch {
         setError(true);
       } finally {
         setIsLoading(false);
