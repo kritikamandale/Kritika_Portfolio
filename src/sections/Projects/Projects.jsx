@@ -52,7 +52,7 @@ const PROJECTS = [
     icon: '🛣️',
     title: 'OffRoad Segmentation',
     subtitle: 'Autonomous Terrain Segmentation',
-    image: 'Offroad_segmentation.jpg',
+    image: '/Offroad_segmentation.jpg',
     desc: 'A hackathon project (Duality AI, Nagpur) featuring a glassmorphic UI to visualize offroad semantic segmentation. Upload terrain images, view side-by-side masks & overlays, and get Gemini-powered terrain risk insights.',
     problem: 'Autonomous agents struggle to navigate unstructured terrain without lane markings.',
     approach: 'Trained a semantic segmentation model and built a glassmorphic UI for side-by-side terrain analysis.',
