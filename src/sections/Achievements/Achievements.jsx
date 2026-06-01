@@ -71,6 +71,12 @@ const Achievements = () => {
           start: "top top", 
           end: "bottom bottom", 
           scrub: 1, 
+          snap: {
+            snapTo: 1 / (CARDS.length - 1),
+            duration: { min: 0.3, max: 0.6 },
+            delay: 0,
+            ease: "power2.out",
+          },
           // Note: NO GSAP PINNING used. 
           // We rely on native CSS 'sticky' for buttery smooth, layout-shift-free pinning!
         }

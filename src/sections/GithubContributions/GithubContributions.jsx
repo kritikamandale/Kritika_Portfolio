@@ -99,6 +99,51 @@ const GithubContributions = () => {
           ))}
         </div>
 
+        {/* ── Contribution Graph ── */}
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-semibold text-text-secondary dark:text-text-dark-secondary tracking-wide uppercase">
+              Contribution Activity
+            </h3>
+            <span className="text-xs text-text-muted dark:text-text-dark-muted">
+              Last 12 months
+            </span>
+          </div>
+          <div
+            className="rounded-xl border border-border-light dark:border-border-dark overflow-x-auto p-4 md:p-6"
+            style={{
+              background: '#ffffff',
+            }}
+          >
+            <style>{`
+              [data-theme="dark"] .gh-chart-container {
+                background: linear-gradient(135deg, #0d1117 0%, #161b22 100%) !important;
+              }
+            `}</style>
+            <div className="gh-chart-container" style={{ minWidth: '680px' }}>
+              <img
+                src={`https://ghchart.rshah.org/${USERNAME}`}
+                alt={`${USERNAME}'s GitHub contribution chart`}
+                className="gh-chart-img w-full h-auto block"
+                loading="lazy"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'flex';
+                }}
+              />
+              <div
+                className="hidden items-center justify-center text-text-muted dark:text-text-dark-muted text-sm py-8"
+                style={{ display: 'none' }}
+              >
+                Contribution graph unavailable — check back later.
+              </div>
+            </div>
+          </div>
+          <p className="text-xs text-text-muted dark:text-text-dark-muted text-center mt-1">
+            Each square represents a day. Darker shades indicate more contributions.
+          </p>
+        </div>
+
         {/* ── CTA ── */}
         <div className="flex justify-center">
           <a

@@ -57,6 +57,8 @@ export const viewport = {
   themeColor: '#f5f0eb',
 }
 
+import SmoothScroll from '../src/components/SmoothScroll/SmoothScroll'
+
 export default function RootLayout({ children }) {
   return (
     <html
@@ -84,7 +86,11 @@ export default function RootLayout({ children }) {
           }}
         />
       </head>
-      <body suppressHydrationWarning>{children}</body>
+      <body suppressHydrationWarning>
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
+      </body>
     </html>
   )
 }

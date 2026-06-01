@@ -293,7 +293,7 @@ const CategoryHeading = ({ label, index }) => (
     <motion.div
       initial={{ opacity: 0, scaleY: 0 }}
       whileInView={{ opacity: 1, scaleY: 1 }}
-      viewport={{ once: true }}
+      viewport={{ once: false, margin: '-40px' }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
       style={{
         width: '4px',
@@ -308,7 +308,7 @@ const CategoryHeading = ({ label, index }) => (
     <motion.h3
       initial={{ opacity: 0, x: -16 }}
       whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true }}
+      viewport={{ once: false, margin: '-40px' }}
       transition={{ duration: 0.35, ease: 'easeOut' }}
       style={{
         fontFamily: 'var(--font-heading)',
@@ -420,7 +420,7 @@ const Stack = () => (
             }}
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: '-40px' }}
+            viewport={{ once: false, margin: '-40px' }}
             style={{
               display: 'flex',
               flexWrap: 'wrap',
