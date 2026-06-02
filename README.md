@@ -11,7 +11,6 @@ A modern, interactive personal portfolio website built with Next.js 14 (App Rout
 - **Core Library**: **React 18** (incorporating Server & Client Components dynamically).
 - **Styling**: **Tailwind CSS** & **CSS Modules** for responsive utility-first layouts and scoped component styling.
 - **Animations**: **Framer Motion** for smooth transitions and scroll-reveals.
-- **Data Visualization**: **D3.js (v7)** for the interactive graph components.
 
 ### Third-Party Integrations
 - **GitHub Activity Grid**: **React GitHub Calendar** for showing live contribution stats.
