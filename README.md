@@ -9,9 +9,8 @@ A modern, interactive personal portfolio website built with Next.js 14 (App Rout
 ### Frontend & UI
 - **Framework**: **Next.js 14 (App Router)** with Static Site Generation (SSG) for fast rendering and optimal SEO.
 - **Core Library**: **React 18** (incorporating Server & Client Components dynamically).
-- **Styling**: **Tailwind CSS (v3)** & **CSS Modules** for responsive utility-first layouts and scoped component styling.
+- **Styling**: **Tailwind CSS** & **CSS Modules** for responsive utility-first layouts and scoped component styling.
 - **Animations**: **Framer Motion** for smooth transitions and scroll-reveals.
-- **3D Graphics**: **Spline** (`@splinetool/react-spline`) for embedding interactive 3D elements.
 - **Data Visualization**: **D3.js (v7)** for the interactive graph components.
 
 ### Third-Party Integrations
