@@ -18,7 +18,6 @@ A modern, interactive personal portfolio website built with Next.js 14 (App Rout
 
 ### Backend & API
 - **Express.js (v5)**: A minimal backend server (running independently) using CORS middleware to handle server-side actions.
-- **Serverless Endpoint**: Located in `/api/contact.js` for handling contact submissions in cloud/serverless deployments.
 
 ---
 
