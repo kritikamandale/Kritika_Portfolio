@@ -44,7 +44,6 @@ A modern, interactive personal portfolio website built with Next.js 14 (App Rout
    ```bash
    npm run dev
    ```
-   Open [http://localhost:3000](http://localhost:3000) to view the application in the browser.
 
 4. **(Optional) Run the backend server**
    ```bash
