@@ -23,10 +23,6 @@ A modern, interactive personal portfolio website built with Next.js 14 (App Rout
 
 ## 📦 Installation & Setup
 
-### Prerequisites
-- Node.js (v18 or higher recommended)
-- npm or yarn
-
 ### Steps
 
 1. **Clone the repository**
