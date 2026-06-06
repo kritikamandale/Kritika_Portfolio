@@ -85,10 +85,3 @@ Portfolio/
 - `npm run lint` – Runs ESLint syntax and code quality checks.
 
 ---
-
-## 📄 License
-
-This project is open source and available under the MIT License.
-
-
-thank you 
