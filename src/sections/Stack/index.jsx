@@ -330,6 +330,7 @@ const ACCENT_COLORS = [
   '#FF8C42', // pumpkin-spice
   '#A23E48', // dusty-mauve
   '#FF3C38', // cinnabar
+  '#10a37f', // emerald (GenAI)
   '#6699CC', // blue-grey
 ];
 
@@ -361,23 +362,28 @@ const GROUPS = [
     ],
   },
   {
-    label: 'AI / ML & Data',
+    label: 'AI / ML',
     skills: [
       { name: 'Python',          iconKey: 'Python' },
       { name: 'TensorFlow',      iconKey: 'TensorFlow' },
       { name: 'PyTorch',         iconKey: 'PyTorch' },
       { name: 'Keras',           iconKey: 'Keras' },
       { name: 'Scikit-Learn',    iconKey: 'ScikitLearn' },
-      { name: 'LangChain',       iconKey: 'LangChain' },
-      { name: 'Hugging Face',    iconKey: 'HuggingFace' },
-      { name: 'OpenAI API',      iconKey: 'OpenAI' },
-      { name: 'LLMs',            emoji: '🧠' },
-      { name: 'RAG',             emoji: '📚' },
-      { name: 'Generative AI',   emoji: '🤖' },
       { name: 'NLP',             emoji: '💬' },
       { name: 'Deep Learning',   emoji: '⚡' },
       { name: 'Streamlit',       iconKey: 'Streamlit' },
+    ],
+  },
+  {
+    label: 'Generative AI',
+    skills: [
+      { name: 'LLMs',            emoji: '🧠' },
+      { name: 'OpenAI API',      iconKey: 'OpenAI' },
+      { name: 'LangChain',       iconKey: 'LangChain' },
+      { name: 'Hugging Face',    iconKey: 'HuggingFace' },
+      { name: 'RAG',             emoji: '📚' },
       { name: 'Prompt Eng.',     emoji: '🎯' },
+      { name: 'Generative AI',   emoji: '🤖' },
     ],
   },
   {

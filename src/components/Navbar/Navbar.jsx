@@ -17,11 +17,7 @@ const NAV_LINKS = [
   { label: 'Stack', href: '#stack' },
   { label: 'Experience', href: '#experience' },
   { label: 'Projects', href: '#projects' },
-  { label: 'GitHub', href: '#github' },
   { label: 'Achievements', href: '#achievements' },
-
-
-  { label: 'Contact', href: '#contact' },
 ];
 
 const Navbar = () => {
