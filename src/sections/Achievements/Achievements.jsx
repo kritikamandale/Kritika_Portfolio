@@ -130,10 +130,10 @@ const Achievements = () => {
       aria-label="Hackathons & Awards"
       ref={containerRef} 
       // The section is 400vh on desktop to provide scrolling distance. On mobile, it's auto.
-      className="w-full relative bg-[#FFFDF9] dark:bg-bg-dark h-auto md:h-[500vh]"
+      className="w-full relative bg-[#FFFDF9] dark:bg-bg-dark min-h-[95vh] md:h-[500vh]"
     >
       {/* NATIVE CSS PINNING via sticky */}
-      <div className="w-full md:sticky md:top-0 md:h-screen flex items-center overflow-hidden py-24 md:py-0">
+      <div className="w-full md:sticky md:top-0 md:min-h-[95vh] flex items-center overflow-hidden py-24 md:py-0">
         
         <div className="max-w-[1200px] mx-auto px-6 md:px-12 flex flex-col md:flex-row gap-12 md:gap-20 w-full relative">
           
