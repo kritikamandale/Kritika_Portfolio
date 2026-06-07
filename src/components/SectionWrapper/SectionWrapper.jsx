@@ -46,7 +46,7 @@ const SectionWrapper = ({
       id={id}
       aria-label={ariaLabel || title || label || id}
       className={`
-        w-full
+        w-full min-h-[95vh] flex flex-col justify-center
         py-20 md:py-16 sm:py-10
         transition-colors duration-400
         ${alt ? 'bg-surface-2-light dark:bg-surface-2-dark' : 'bg-bg-light dark:bg-bg-dark'}
