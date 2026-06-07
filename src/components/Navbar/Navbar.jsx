@@ -76,7 +76,7 @@ const Navbar = () => {
 
   return (
     <nav 
-      className={`fixed left-1/2 -translate-x-1/2 z-[100] w-max max-w-[calc(100%-2rem)] md:max-w-none md:w-max max-md:w-[calc(100%-2rem)] transition-all duration-300 ${bannerActive ? 'top-[60px] md:top-[56px]' : 'top-4'}`} 
+      className={`fixed left-1/2 -translate-x-1/2 z-[100] w-max max-w-[calc(100%-2rem)] md:max-w-none md:w-max max-md:w-[calc(100%-2rem)] transition-all duration-300 ${bannerActive ? 'top-[76px] md:top-[72px]' : 'top-8'}`} 
       aria-label="Primary navigation"
     >
       <div className="flex items-center justify-between gap-6 px-3.75 py-10px bg-navbar-light dark:bg-navbar-dark backdrop-blur-md rounded-pill shadow-navbar dark:shadow-none border border-border-light dark:border-border-dark">

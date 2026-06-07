@@ -4,7 +4,7 @@ import Preloader from '../src/components/Preloader/Preloader'
 import Cursor from '../src/components/Cursor/Cursor'
 import AvailabilityBanner from '../src/components/AvailabilityBanner/AvailabilityBanner'
 import Navbar from '../src/components/Navbar/Navbar'
-import Hero from '../src/sections/Hero/Hero'
+import HeroSection from '../src/sections/Hero/HeroSection'
 import About from '../src/sections/About/About'
 import Services from '../src/sections/Services/index'
 import Stack from '../src/sections/Stack/index'
@@ -34,7 +34,7 @@ export default function Home() {
       <Preloader />
       <Navbar />
       <main id="main-content">
-        <Hero />
+        <HeroSection />
         <About />
         <Services />
         <Stack />

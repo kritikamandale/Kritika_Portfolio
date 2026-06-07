@@ -83,7 +83,7 @@ const About = () => {
         align="center"
         alt
       >
-        <div className="flex flex-wrap justify-center gap-8 sm:gap-16 mb-10 w-full reveal">
+        <div className="flex flex-wrap justify-center gap-8 sm:gap-16 mb-10 w-full">
           {STATS.map((stat, i) => (
             <StatBlock key={i} num={stat.num} label={stat.label} />
           ))}
@@ -91,7 +91,7 @@ const About = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-12 items-start">
           {/* ── LEFT COLUMN ── */}
-          <div className="flex flex-col gap-6 reveal">
+          <div className="flex flex-col gap-6">
             <div className="inline-flex items-center gap-2 font-heading text-[14px] font-semibold text-brand-mauve dark:text-brand-yellow bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark px-4 py-2 rounded-pill w-fit">
               📍 Nagpur · Open to opportunities
             </div>
@@ -116,7 +116,7 @@ const About = () => {
               ))}
             </div>
 
-            <div className="flex gap-4 mt-4 reveal reveal-delay-3">
+            <div className="flex gap-4 mt-4">
               <Button variant="primary" href="#contact" className="!px-4 !py-2 !text-14">
                 Work with me →
               </Button>
@@ -131,7 +131,7 @@ const About = () => {
             {CARDS.map((card, i) => (
               <div
                 key={i}
-                className={`bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl p-6 flex flex-col gap-2 transition-[transform,box-shadow,border-color] duration-300 relative overflow-hidden h-full hover:-translate-y-1 hover:shadow-clay-lg dark:hover:shadow-none hover:border-black/25 dark:hover:border-white/25 reveal reveal-delay-${i + 1}`}
+                className={`bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl p-6 flex flex-col gap-2 transition-[transform,box-shadow,border-color] duration-300 relative overflow-hidden h-full hover:-translate-y-1 hover:shadow-clay-lg dark:hover:shadow-none hover:border-black/25 dark:hover:border-white/25`}
               >
                 <div className={`absolute top-0 left-0 right-0 h-1 ${card.barColor}`} />
                 <h3 className="font-heading text-md font-bold text-text-primary dark:text-text-dark-primary">
