@@ -35,8 +35,8 @@ export default function Home() {
       <Navbar />
       <main id="main-content">
         <HeroSection />
-        <About />
         <Services />
+        <About />
         <Stack />
         <Experience />
         <Projects />

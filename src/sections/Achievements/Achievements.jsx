@@ -70,10 +70,10 @@ const Achievements = () => {
           trigger: containerRef.current,
           start: "top top", 
           end: "bottom bottom", 
-          scrub: 1, 
+          scrub: true, // Set to true (instant) to prevent over-scrolling from lag
           snap: {
             snapTo: 1 / (CARDS.length - 1),
-            duration: { min: 0.3, max: 0.6 },
+            duration: { min: 0.2, max: 0.4 },
             delay: 0,
             ease: "power2.out",
           },
@@ -129,8 +129,8 @@ const Achievements = () => {
       id="achievements" 
       aria-label="Hackathons & Awards"
       ref={containerRef} 
-      // The section is 400vh on desktop to provide scrolling distance. On mobile, it's auto.
-      className="w-full relative bg-[#FFFDF9] dark:bg-bg-dark min-h-[95vh] md:h-[500vh]"
+      // The section is 400vh on desktop to provide a solid 1:1 scroll track.
+      className="w-full relative bg-[#FFFDF9] dark:bg-bg-dark min-h-[95vh] md:h-[400vh]"
     >
       {/* NATIVE CSS PINNING via sticky */}
       <div className="w-full md:sticky md:top-0 md:min-h-[95vh] flex items-center overflow-hidden py-24 md:py-0">

@@ -80,7 +80,7 @@ const GithubContributions = () => {
       subtitle={`@${USERNAME} — Contribution statistics`}
       alt
     >
-      <div className="bg-surface-light dark:bg-surface-dark rounded-2xl p-8 border border-border-light dark:border-border-dark shadow-clay dark:shadow-none flex flex-col gap-8">
+      <div className="bg-surface-light dark:bg-surface-dark rounded-2xl p-8 border border-border-light dark:border-border-dark shadow-clay dark:shadow-none flex flex-col gap-8 max-w-4xl mx-auto w-full">
 
         {/* ── Stats row ── */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
