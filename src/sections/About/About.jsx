@@ -102,12 +102,12 @@ const About = () => {
 
             <div className="flex flex-wrap gap-3 mt-2">
               {TECH_TAGS.map((tag, i) => (
-                <span 
-                  key={i} 
+                <span
+                  key={i}
                   className={`
                     text-[14px] font-medium px-4 py-2 rounded-pill transition-all duration-250
-                    ${tag.hot 
-                      ? 'bg-[linear-gradient(135deg,var(--brand-orange,#FF8C42),var(--brand-red,#FF3C38))] text-white font-semibold shadow-[0_4px_12px_rgba(255,60,56,0.2)]' 
+                    ${tag.hot
+                      ? 'bg-[linear-gradient(135deg,var(--brand-orange,#FF8C42),var(--brand-red,#FF3C38))] text-white font-semibold shadow-[0_4px_12px_rgba(255,60,56,0.2)]'
                       : 'bg-surface-light dark:bg-surface-dark text-text-secondary dark:text-text-dark-secondary border border-divider-light dark:border-divider-dark'}
                   `}
                 >
@@ -118,7 +118,7 @@ const About = () => {
 
             <div className="flex gap-4 mt-4">
               <Button variant="primary" href="#contact" className="!px-4 !py-2 !text-14">
-                Work with me →
+                Work with me
               </Button>
               <Button variant="ghost" href="/Kritika_Resume.pdf" download="Kritika_Mandale_Resume.pdf" target="_blank" rel="noopener noreferrer" className="!px-4 !py-2 !text-14">
                 Download Resume ↗
