@@ -86,7 +86,7 @@ export default function RootLayout({ children }) {
           }}
         />
       </head>
-      <body suppressHydrationWarning>
+      <body suppressHydrationWarning className="overflow-x-hidden">
         <SmoothScroll>
           {children}
         </SmoothScroll>

@@ -53,7 +53,7 @@ const SectionWrapper = ({
       `}
     >
       <div 
-        className="max-w-6xl mx-auto px-6 md:px-8 w-full"
+        className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12 w-full"
         style={maxWidth ? { maxWidth } : {}}
       >
         {/* Section header block */}

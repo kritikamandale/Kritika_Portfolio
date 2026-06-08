@@ -1,7 +1,8 @@
 'use client';
 import React from 'react';
+// eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
-import { Mail, Code, Trophy, Cpu, Briefcase, Calendar } from 'lucide-react';
+import { Mail } from 'lucide-react';
 
 const GithubIcon = ({ size = 24, strokeWidth = 2 }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round">
@@ -42,10 +43,7 @@ const HeroSection = () => {
     visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
   };
 
-  const achievementVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
-  };
+
 
   return (
     <section 
