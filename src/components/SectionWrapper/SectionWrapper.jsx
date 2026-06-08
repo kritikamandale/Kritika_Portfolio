@@ -46,8 +46,8 @@ const SectionWrapper = ({
       id={id}
       aria-label={ariaLabel || title || label || id}
       className={`
-        w-full min-h-[95vh] flex flex-col justify-center
-        py-20 md:py-16 sm:py-10
+        w-full flex flex-col justify-center
+        py-12 md:py-16 sm:py-8
         transition-colors duration-400
         ${alt ? 'bg-surface-2-light dark:bg-surface-2-dark' : 'bg-bg-light dark:bg-bg-dark'}
       `}
@@ -60,7 +60,7 @@ const SectionWrapper = ({
         {(label || title || subtitle) && (
           <div
             className={`
-              mb-16 flex flex-col
+              mb-8 flex flex-col
               ${align === 'left' ? 'text-left items-start' : 'text-center items-center'}
             `}
           >

@@ -83,7 +83,7 @@ const About = () => {
         align="center"
         alt
       >
-        <div className="flex flex-wrap justify-center gap-8 sm:gap-16 mb-10 w-full">
+        <div className="flex flex-wrap justify-center gap-8 sm:gap-16 mb-8 w-full -mt-8">
           {STATS.map((stat, i) => (
             <StatBlock key={i} num={stat.num} label={stat.label} />
           ))}

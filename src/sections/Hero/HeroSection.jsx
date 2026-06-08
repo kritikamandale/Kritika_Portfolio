@@ -1,8 +1,45 @@
 'use client';
 import React from 'react';
 // eslint-disable-next-line no-unused-vars
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Mail } from 'lucide-react';
+import { useRef } from 'react';
+
+// ── Scroll word component for Hero highlight effect ─────────
+const HeroScrollWord = ({ word, index, totalWords, scrollYProgress }) => {
+  const wordStart = index / totalWords;
+  const wordEnd = (index + 1) / totalWords;
+
+  const color = useTransform(
+    scrollYProgress,
+    [wordStart, wordEnd],
+    ['#B0A6AD', '#C9513D'] // Grey to brand orange/red
+  );
+
+  const finalColor = useTransform(scrollYProgress, (latest) => {
+    if (latest >= wordEnd + 0.02) return '#2B2028'; // Dark primary
+    if (latest >= wordStart) return undefined;
+    return '#B0A6AD'; // Grey
+  });
+
+  const resolvedColor = useTransform(
+    [color, finalColor],
+    ([animatedColor, overrideColor]) => overrideColor !== undefined ? overrideColor : animatedColor
+  );
+
+  return (
+    <motion.span style={{ color: resolvedColor }} className="inline-block mr-[0.25em]">
+      {word}
+    </motion.span>
+  );
+};
+
+const TelegramIcon = ({ size = 24, strokeWidth = 2 }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round">
+    <path d="m22 2-7 20-4-9-9-4Z"/>
+    <path d="M22 2 11 13"/>
+  </svg>
+);
 
 const GithubIcon = ({ size = 24, strokeWidth = 2 }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round">
@@ -43,13 +80,25 @@ const HeroSection = () => {
     visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
   };
 
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    // Map the text reveal precisely to the 100vh scroll duration of the pinned section
+    offset: ["start start", "end end"]
+  });
+
+  const revealText = "Building AI-powered web applications and intelligent systems for real-world impact. Full-Stack & AI/ML Developer — I design and build end-to-end products that combine scalable web interfaces with intelligent ML systems.";
+  const revealWords = revealText.split(' ');
+
 
 
   return (
     <section 
       id="hero" 
-      className="relative min-h-[95vh] w-full bg-[#F8F5F2] overflow-hidden flex flex-col justify-center pt-24 pb-12 z-10"
+      ref={sectionRef}
+      className="relative h-[150vh] md:h-[200vh] w-full bg-[#F8F5F2] z-10"
     >
+      <div className="sticky top-0 w-full min-h-[95vh] overflow-hidden flex flex-col justify-center pt-24 pb-12">
       {/* Background ambient light */}
       <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-gradient-to-bl from-[#E6B45B]/10 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[40vw] h-[40vw] bg-gradient-to-tr from-[#C9513D]/10 to-transparent rounded-full blur-3xl translate-y-1/3 -translate-x-1/4 pointer-events-none" />
@@ -131,21 +180,29 @@ const HeroSection = () => {
               </div>
             </motion.h1>
 
-            <motion.h2 variants={itemVariants} className="mt-10 text-2xl lg:text-3xl text-[#2B2028] font-medium leading-snug w-full">
-              Building <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-[#C9513D] to-[#E6B45B]">AI-powered</span> web applications and intelligent systems for real-world impact.
-            </motion.h2>
-
-            <motion.p variants={itemVariants} className="mt-6 text-lg text-[#6B5B63] w-full leading-relaxed">
-              Full-Stack & AI/ML Developer — I design and build end-to-end products that combine scalable web interfaces with intelligent ML systems.
-            </motion.p>
+            <motion.div 
+              variants={itemVariants} 
+              className="mt-10 text-xl lg:text-2xl font-medium leading-relaxed w-full max-w-[800px]"
+            >
+              {revealWords.map((word, i) => (
+                <HeroScrollWord
+                  key={`${word}-${i}`}
+                  word={word}
+                  index={i}
+                  totalWords={revealWords.length}
+                  scrollYProgress={scrollYProgress}
+                />
+              ))}
+            </motion.div>
 
             {/* Social Links */}
             <motion.div variants={itemVariants} className="flex gap-4 mt-8">
               {[
                 { icon: GithubIcon, href: "https://github.com/kritikamandale" },
                 { icon: LinkedinIcon, href: "https://linkedin.com/in/kritikamandale" },
-                { icon: TwitterIcon, href: "https://twitter.com/kritikamandale" }, // Update if X link is different
-                { icon: Mail, href: "mailto:hello@example.com" } // Update email if needed
+                { icon: TwitterIcon, href: "https://twitter.com/kritikamandale" },
+                { icon: TelegramIcon, href: "https://t.me/Kritikalog" },
+                { icon: Mail, href: "mailto:hello@example.com" }
               ].map((social, index) => (
                 <a 
                   key={index} 
@@ -182,6 +239,7 @@ const HeroSection = () => {
         </div>
 
 
+      </div>
       </div>
     </section>
   );

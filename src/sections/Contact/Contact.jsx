@@ -74,13 +74,13 @@ const Contact = () => {
         }
       `}</style>
 
-      <section className="bg-surface-2-light dark:bg-surface-2-dark py-24 flex flex-col items-center justify-center text-center min-h-[95vh]" id="contact" aria-label="Contact">
-        <div className="max-w-[1800px] mx-auto w-full flex flex-col items-center gap-10 px-4 md:px-8 lg:px-12">
+      <section className="bg-surface-2-light dark:bg-surface-2-dark py-4 flex flex-col items-center justify-center text-center" id="contact" aria-label="Contact">
+        <div className="max-w-[1800px] mx-auto w-full flex flex-col items-center gap-4 px-4 md:px-8 lg:px-12">
 
           <h2 className="font-heading text-[clamp(3rem,7vw,5.5rem)] font-light tracking-[-0.02em] leading-[1.05] text-text-primary dark:text-text-dark-primary text-center w-full">
             Let&apos;s Build Something <br /> Smart Together
           </h2>
-          <p className="text-[clamp(1.125rem,2.5vw,1.5rem)] text-text-secondary dark:text-text-dark-secondary mt-4 max-w-[540px] leading-[1.5]">
+          <p className="text-[clamp(1.125rem,2.5vw,1.5rem)] text-text-secondary dark:text-text-dark-secondary mt-2 max-w-[540px] leading-[1.5]">
             Available for projects, internships, and collaborative AI product development. I respond within 24 hours.
           </p>
 
