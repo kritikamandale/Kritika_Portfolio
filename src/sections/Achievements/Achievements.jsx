@@ -135,7 +135,7 @@ const Achievements = () => {
       {/* NATIVE CSS PINNING via sticky */}
       <div className="w-full md:sticky md:top-0 md:min-h-[95vh] flex items-center overflow-hidden py-24 md:py-0">
         
-        <div className="max-w-[1200px] mx-auto px-6 md:px-12 flex flex-col md:flex-row gap-12 md:gap-20 w-full relative">
+        <div className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12 flex flex-col md:flex-row gap-12 md:gap-20 w-full relative">
           
           {/* LEFT PANEL: Typography */}
           <div className="w-full md:w-[45%] flex flex-col z-10 justify-center">
