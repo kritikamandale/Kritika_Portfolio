@@ -7,6 +7,7 @@
 
 import React from 'react';
 import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';
+import RevealGroup from '../../components/RevealGroup/RevealGroup';
 
 // ── Edit your experience here ────────────────────────────────
 const EXPERIENCE = [
@@ -73,11 +74,11 @@ const Experience = () => {
       subtitle="My professional journey — the roles, companies, and impact I've made along the way."
       alt
     >
-      <div className="relative max-w-[1000px] mx-auto flex flex-col gap-0 before:content-[''] before:absolute before:top-0 before:bottom-0 before:left-[31px] max-sm:before:left-[15px] before:w-[2px] before:bg-[linear-gradient(to_bottom,transparent,var(--brand-yellow,#FFF275)_10%,var(--brand-orange,#FF8C42)_50%,var(--brand-red,#FF3C38)_90%,transparent)] before:z-0">
+      <RevealGroup staggerDelay={120} className="relative max-w-[1000px] mx-auto flex flex-col gap-0 before:content-[''] before:absolute before:top-0 before:bottom-0 before:left-[31px] max-sm:before:left-[15px] before:w-[2px] before:bg-[linear-gradient(to_bottom,transparent,var(--brand-yellow,#FFF275)_10%,var(--brand-orange,#FF8C42)_50%,var(--brand-red,#FF3C38)_90%,transparent)] before:z-0">
         {EXPERIENCE.map(({ id, role, company, companyTag, period, desc, achievements, tags }, i) => (
           <div
             key={id}
-            className={`grid grid-cols-[64px_1fr] max-sm:grid-cols-[36px_1fr] gap-6 max-sm:gap-4 pb-16 last:pb-0 relative z-[1] group reveal reveal-delay-${(i % 4) + 1}`}
+            className="grid grid-cols-[64px_1fr] max-sm:grid-cols-[36px_1fr] gap-6 max-sm:gap-4 pb-16 last:pb-0 relative z-[1] group"
           >
             {/* Left: dot column */}
             <div className="flex flex-col items-center gap-2">
@@ -117,7 +118,7 @@ const Experience = () => {
             </div>
           </div>
         ))}
-      </div>
+      </RevealGroup>
     </SectionWrapper>
   );
 };

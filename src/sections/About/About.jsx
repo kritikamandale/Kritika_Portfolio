@@ -8,6 +8,7 @@
 import React from 'react';
 import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';
 import Button from '../../components/Button/Button';
+import RevealGroup from '../../components/RevealGroup/RevealGroup';
 
 
 // ── Static stat block (no counter animation) ─────────────────
@@ -83,15 +84,15 @@ const About = () => {
         align="center"
         alt
       >
-        <div className="flex flex-wrap justify-center gap-8 sm:gap-16 mb-8 w-full -mt-8">
+        <RevealGroup staggerDelay={100} className="flex flex-wrap justify-center gap-8 sm:gap-16 mb-8 w-full -mt-8">
           {STATS.map((stat, i) => (
             <StatBlock key={i} num={stat.num} label={stat.label} />
           ))}
-        </div>
+        </RevealGroup>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-12 items-start">
           {/* ── LEFT COLUMN ── */}
-          <div className="flex flex-col gap-6">
+          <RevealGroup staggerDelay={100} className="flex flex-col gap-6">
             <div className="inline-flex items-center gap-2 font-heading text-[14px] font-semibold text-brand-mauve dark:text-brand-yellow bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark px-4 py-2 rounded-pill w-fit">
               📍 Nagpur · Open to opportunities
             </div>
@@ -124,10 +125,10 @@ const About = () => {
                 Download Resume ↗
               </Button>
             </div>
-          </div>
+          </RevealGroup>
 
           {/* ── RIGHT COLUMN ── */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <RevealGroup staggerDelay={120} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {CARDS.map((card, i) => (
               <div
                 key={i}
@@ -142,7 +143,7 @@ const About = () => {
                 </p>
               </div>
             ))}
-          </div>
+          </RevealGroup>
         </div>
       </SectionWrapper>
     </div>

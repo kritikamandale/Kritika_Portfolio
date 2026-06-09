@@ -59,9 +59,9 @@ const Achievements = () => {
       const overlays = document.querySelectorAll('.card-overlay');
       gsap.set(overlays, { opacity: 0 });
 
-      // Cards 1-3 start hidden below the viewport
+      // Cards 1-3 start hidden just below the container
       cards.forEach((card, i) => {
-        if (i > 0) gsap.set(card, { y: '100vh' });
+        if (i > 0) gsap.set(card, { y: '120%' });
       });
 
       // 2. Create ScrollTrigger timeline tied to the 400vh section
