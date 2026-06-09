@@ -1,6 +1,7 @@
 import { Outfit, Inter, Fira_Code } from 'next/font/google'
 import './globals.css'
 import '../src/styles/variables.css'
+import SmoothScroll from '../src/components/SmoothScroll/SmoothScroll'
 
 // ─── Self-hosted Google Fonts via next/font ───────────────────────────────────
 // Fonts are downloaded at build time and served as first-party static assets.
@@ -57,7 +58,7 @@ export const viewport = {
   themeColor: '#f5f0eb',
 }
 
-import SmoothScroll from '../src/components/SmoothScroll/SmoothScroll'
+
 
 export default function RootLayout({ children }) {
   return (

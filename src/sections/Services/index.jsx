@@ -2,7 +2,7 @@
 
 import React, { useRef, useCallback } from 'react';
 import { Rocket } from 'lucide-react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useMotionTemplate } from 'framer-motion';
 import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';
 
 /* ─────────────────────────────────────────────
@@ -48,6 +48,9 @@ const Services = () => {
   const springX = useSpring(mouseX, { stiffness: 80, damping: 20 });
   const springY = useSpring(mouseY, { stiffness: 80, damping: 20 });
 
+  /* useMotionTemplate properly composes MotionValues into a reactive string */
+  const glowBackground = useMotionTemplate`radial-gradient(500px circle at ${springX}px ${springY}px, rgba(200,75,49,0.08), transparent 70%)`;
+
   const handleMouseMove = useCallback(
     (e) => {
       if (!sectionRef.current) return;
@@ -64,7 +67,7 @@ const Services = () => {
       label="DOMAINS"
       title={
         <>
-          What I Build <span className="text-[#E05A47]">✳</span>
+          What I Build
         </>
       }
       subtitle="A breakdown of the domains I work across and the kind of problems I enjoy solving."
@@ -81,7 +84,7 @@ const Services = () => {
         <motion.div
           className="absolute inset-0 pointer-events-none rounded-[2rem] z-0"
           style={{
-            background: `radial-gradient(500px circle at ${springX}px ${springY}px, rgba(200,75,49,0.08), transparent 70%)`,
+            background: glowBackground,
           }}
         />
 

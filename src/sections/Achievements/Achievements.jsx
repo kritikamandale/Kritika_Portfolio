@@ -145,8 +145,15 @@ const Achievements = () => {
             
             <h2 className="text-[clamp(2.5rem,4vw,3.5rem)] font-heading font-extrabold text-slate-900 dark:text-text-dark-primary leading-[1.1] mb-6 flex items-start gap-4">
               Hackathons & Awards
-              <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-[#E05A47] shrink-0 mt-2">
-                <path d="M12 2l2.4 7.4h7.6l-6 4.6 2.3 7.4-6.3-4.8-6.3 4.8 2.3-7.4-6-4.6h7.6z" />
+              <svg viewBox="0 0 100 100" fill="currentColor" className="w-8 h-8 text-[#E05A47] shrink-0 mt-2">
+                <g transform="translate(50, 50)">
+                  <ellipse cx="0" cy="-25" rx="14" ry="25" />
+                  <ellipse cx="0" cy="-25" rx="14" ry="25" transform="rotate(72)" />
+                  <ellipse cx="0" cy="-25" rx="14" ry="25" transform="rotate(144)" />
+                  <ellipse cx="0" cy="-25" rx="14" ry="25" transform="rotate(216)" />
+                  <ellipse cx="0" cy="-25" rx="14" ry="25" transform="rotate(288)" />
+                  <circle cx="0" cy="0" r="15" />
+                </g>
               </svg>
             </h2>
             
