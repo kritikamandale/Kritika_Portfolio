@@ -121,8 +121,8 @@ const About = () => {
               <Button variant="primary" href="#contact" className="!px-4 !py-2 !text-14">
                 Work with me
               </Button>
-              <Button variant="ghost" href="/Kritika_Resume.pdf" download="Kritika_Mandale_Resume.pdf" target="_blank" rel="noopener noreferrer" className="!px-4 !py-2 !text-14">
-                Download Resume ↗
+              <Button variant="ghost" href="/Kritika_Resume.pdf" target="_blank" rel="noopener noreferrer" className="!px-4 !py-2 !text-14">
+                View Resume ↗
               </Button>
             </div>
           </RevealGroup>

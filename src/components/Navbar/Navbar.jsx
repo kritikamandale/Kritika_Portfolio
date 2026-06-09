@@ -8,7 +8,6 @@
 
 import React, { useState, useEffect } from 'react';
 import Button from '../Button/Button';
-import ThemeToggle from '../ThemeToggle/ThemeToggle';
 
 const NAV_LINKS = [
   { label: 'Home', href: '#hero' },
@@ -24,6 +23,10 @@ const Navbar = () => {
   const [active, setActive] = useState('hero');
   const [menuOpen, setMenu] = useState(false);
   const [bannerActive, setBannerActive] = useState(false);
+  
+  const [isHovered, setIsHovered] = useState(false);
+  const [isScrollingUp, setIsScrollingUp] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   /* ── Banner change event listener ── */
   useEffect(() => {
@@ -33,6 +36,35 @@ const Navbar = () => {
     window.addEventListener('banner-change', handleBannerChange);
     return () => window.removeEventListener('banner-change', handleBannerChange);
   }, []);
+
+  /* ── Hover top space detection ── */
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      // Re-show navbar if mouse is within top 120px
+      if (e.clientY < 120) {
+        setIsHovered(true);
+      } else {
+        setIsHovered(false);
+      }
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  /* ── Scroll direction detection (for mobile fallback) ── */
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY < lastScrollY && currentScrollY > 50) {
+        setIsScrollingUp(true);
+      } else {
+        setIsScrollingUp(false);
+      }
+      setLastScrollY(currentScrollY);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   /* ── Active section detection ── */
   useEffect(() => {
@@ -70,9 +102,13 @@ const Navbar = () => {
     setMenu(false);
   };
 
+  const isVisible = active === 'hero' || isHovered || isScrollingUp || menuOpen;
+
   return (
     <nav 
-      className={`fixed left-1/2 -translate-x-1/2 z-[100] w-max max-w-[calc(100%-2rem)] md:max-w-none md:w-max max-md:w-[calc(100%-2rem)] transition-all duration-300 ${bannerActive ? 'top-[76px] md:top-[72px]' : 'top-8'}`} 
+      className={`fixed left-1/2 -translate-x-1/2 z-[100] w-max max-w-[calc(100%-2rem)] md:max-w-none md:w-max max-md:w-[calc(100%-2rem)] transition-all duration-500 ease-out
+      ${bannerActive ? 'top-[76px] md:top-[72px]' : 'top-8'}
+      ${isVisible ? 'translate-y-0 opacity-100' : '-translate-y-[150%] opacity-0 pointer-events-none'}`} 
       aria-label="Primary navigation"
     >
       <div className="flex items-center justify-between gap-6 px-3.75 py-10px bg-navbar-light dark:bg-navbar-dark backdrop-blur-md rounded-pill shadow-navbar dark:shadow-none border border-border-light dark:border-border-dark">
@@ -110,14 +146,12 @@ const Navbar = () => {
             variant="ghost"
             size="sm"
             href="/Kritika_Resume.pdf"
-            download="Kritika_Mandale_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange"
           >
             Resume ↗
           </Button>
-          <ThemeToggle />
         </div>
 
         {/* Mobile hamburger */}
@@ -148,9 +182,6 @@ const Navbar = () => {
         `}
         role="menu"
       >
-        <div className="flex justify-end mb-2">
-          <ThemeToggle />
-        </div>
         {NAV_LINKS.map(({ label, href }) => {
           const isActive = active === href.slice(1);
           return (
@@ -176,7 +207,6 @@ const Navbar = () => {
             variant="ghost"
             size="sm"
             href="/Kritika_Resume.pdf"
-            download="Kritika_Mandale_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="w-full justify-center"
