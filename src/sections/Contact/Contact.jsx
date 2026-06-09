@@ -32,6 +32,7 @@ const Contact = () => {
     setLoading(true);
     setStatus({ type: null, message: '' });
 
+    let didError = false;
     try {
       const apiBase = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') ?? '';
       const res = await fetch(`${apiBase}/api/contact`, {
@@ -44,11 +45,12 @@ const Contact = () => {
       setStatus({ type: 'success', message: "✅ Message sent! I'll get back within 24 hours." });
       // Don't clear form yet, let the user see success state.
     } catch {
+      didError = true;
       setStatus({ type: 'error', message: "Something went wrong. Please try again." });
     } finally {
       setLoading(false);
-      // Remove the 6-second timeout so the success state persists until they click "Send another message"
-      if (status.type === 'error') {
+      // Auto-dismiss error messages after 6 seconds; success state persists until "Send another message"
+      if (didError) {
         setTimeout(() => setStatus({ type: null, message: '' }), 6000);
       }
     }
@@ -89,7 +91,7 @@ const Contact = () => {
               <div className="text-4xl">🎉</div>
               <h3 className="text-2xl font-bold text-text-primary dark:text-text-dark-primary font-heading">Thank you!</h3>
               <p className="text-text-secondary dark:text-text-dark-secondary">{status.message}</p>
-              <Button onClick={handleReset} variant="ghost" size="md">
+              <Button onClick={handleReset} variant="ghost" size="base">
                 Send another message
               </Button>
             </div>
