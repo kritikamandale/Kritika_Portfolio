@@ -17,7 +17,7 @@ const PROJECTS = [
     icon: '🔐',
     title: 'SECUREID',
     subtitle: 'AI-POWERED STUDENT VERIFICATION',
-    image: '/secureid.jpg',
+    image: '/secureid.png',
     desc: 'Secure, production-grade identity management using KYC, AI Facial Biometrics, and a Microservices Architecture. Features deep analytics for universities.',
     features: [
       { icon: '⚡', text: '<2s Instant Verification Time' },
@@ -65,7 +65,7 @@ const PROJECTS = [
     icon: '🛣️',
     title: 'OFFROAD SEGMENTATION',
     subtitle: 'AUTONOMOUS TERRAIN SEGMENTATION',
-    image: '/Offroad_segmentation.jpg',
+    image: '/Offroad_segmentation.png',
     desc: 'Hackathon-winning glassmorphic UI platform visualizing offroad semantic segmentation. Features Gemini-powered terrain risk insights for autonomous agents.',
     features: [
       { icon: '🚙', text: 'Real-time Terrain Segmentation' },
@@ -80,31 +80,7 @@ const PROJECTS = [
     businessValue: 'Reduces terrain mapping time. Accelerates autonomous training.',
     tags: ['PyTorch', 'SMP', 'Albumentations', 'Gemini API', 'Python'],
     githubUrl: 'https://github.com/kritikamandale/HackDaysNagpur',
-    liveUrl: '',
-    featured: true,
-  },
-  {
-    id: 'p-coming-soon',
-    color: 'gray',
-    icon: '🚧',
-    title: 'BUILDING IN PUBLIC',
-    subtitle: 'MORE PROJECTS COMING SOON',
-    image: '/secureid.jpg', // Using an existing image as placeholder
-    desc: 'Currently engineering new MVPs and experimenting with cutting-edge AI tools in public. Follow my journey and open-source contributions.',
-    features: [
-      { icon: '🚀', text: 'Rapid MVP Prototyping' },
-      { icon: '💡', text: 'AI Tool Exploration' },
-      { icon: '📖', text: 'Open Source Contributions' },
-      { icon: '🔄', text: 'Agile Iterative Development' },
-    ],
-    problem: 'The tech landscape evolves daily; staying ahead requires constant building.',
-    approach: 'Transparent, agile development focused on solving real-world problems.',
-    outcome: 'Continuous learning and an ever-expanding portfolio of robust applications.',
-    builtFor: 'The Open Source Community | Fellow Developers | Tech Enthusiasts',
-    businessValue: 'Continuous innovation. Transparent engineering.',
-    tags: ['Coming Soon', 'Work in Progress'],
-    githubUrl: 'https://github.com/kritikamandale',
-    liveUrl: null,
+    liveUrl: 'https://huggingface.co/spaces/Critika/offroad-terrain-segmentation',
     featured: true,
   },
 ];
@@ -158,37 +134,37 @@ const ProjectCard = ({ project }) => {
         </div>
       )}
 
-      <div className="relative w-full lg:w-[50%] flex-shrink-0 overflow-hidden bg-surface-2-light dark:bg-surface-2-dark flex items-center justify-center p-6 lg:p-10">
+      <div className="relative w-full lg:w-[50%] flex-shrink-0 overflow-hidden bg-surface-2-light dark:bg-surface-2-dark flex items-center justify-center p-0 lg:p-0">
         {/* The Laptop Mockup Container */}
-        <div className="relative w-[90%] max-w-[800px] mx-auto group-hover:-translate-y-1 transition-transform duration-500">
-          
-          {/* Screen Content - Positioned behind the laptop hole */}
-          <div 
-             className="absolute z-0 overflow-hidden bg-black"
-             style={{
-               top: '7.19%',
-               left: '13.23%',
-               width: '73.84%',
-               height: '78.43%',
-             }}
+        <div className="relative w-[130%] sm:w-[125%] lg:w-[140%] max-w-[1000px] mx-auto group-hover:-translate-y-1 transition-transform duration-500">
+
+          {/* Screen Content — sits behind the transparent screen hole in the laptop PNG */}
+          <div
+            className="absolute z-0 overflow-hidden bg-white"
+            style={{
+              top: '13.35%',
+              left: '27.88%',
+              width: '44.28%',
+              height: '48.83%',
+            }}
           >
-            <picture>
+            <picture className="block w-full h-full">
               <source srcSet={image.replace(/\.(png|jpg|jpeg)$/i, '.webp')} type="image/webp" />
-              <img 
-                src={image} 
-                alt={title} 
+              <img
+                src={image}
+                alt={title}
                 loading="lazy"
-                className="w-full h-full object-cover transition-all duration-700 group-hover:brightness-110" 
+                className="w-full h-full object-cover object-top transition-all duration-700 group-hover:brightness-110"
               />
             </picture>
           </div>
 
-          {/* Laptop Mockup Image (Transparent Hole) */}
-          <img 
-             src="/laptop-mockup-final.png" 
-             alt="Laptop Mockup" 
-             className="relative z-10 w-full h-auto pointer-events-none drop-shadow-2xl"
-             loading="lazy"
+          {/* Laptop Mockup (transparent screen area lets the screenshot show through) */}
+          <img
+            src="/laptop_mockup_transparent.webp"
+            alt="Laptop Mockup"
+            className="relative z-10 w-full h-auto pointer-events-none drop-shadow-2xl"
+            loading="lazy"
           />
         </div>
       </div>

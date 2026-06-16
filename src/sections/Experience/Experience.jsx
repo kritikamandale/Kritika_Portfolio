@@ -17,12 +17,13 @@ const EXPERIENCE = [
     company: 'Matverse Vision Pvt. Ltd.',
     companyTag: 'Internship',
     period: 'Mar 2026 – Present',
-    desc: 'Focusing on real-world AI applications, model optimization, and integrating intelligent features into production environments.',
+    desc: 'Worked on FasalMitra, an AI-powered irrigation decision support system for Indian smallholder farmers. Acted as a researcher focusing on data integration, ideation, parameter finding, and data analysis.',
     achievements: [
-      'Engineered and optimized machine learning models for production use cases.',
-      'Bridged the gap between AI research and scalable deployment.',
+      'Built a 7-stage pipeline integrating satellite data (CHIRPS, ERA5, SMAP) and simulating soil moisture with H08 hydrological models and Random Forests.',
+      'Refined predictions using Physics-Informed Neural Networks (PINNs) and calculated water needs using the international FAO-56 standard.',
+      'Achieved 97.1% accuracy, 98.9% precision, and an F₁ score of 0.984 on real held-out test data for irrigation alerts.',
     ],
-    tags: ['AI/ML', 'Python', 'LLMs', 'Model Deployment'],
+    tags: ['Physics-Informed AI', 'Data Integration', 'Research', 'Machine Learning', 'PINN'],
   },
   {
     id: 'e2',
@@ -75,7 +76,7 @@ const Experience = () => {
       alt
     >
       <RevealGroup staggerDelay={120} className="relative max-w-[1000px] mx-auto flex flex-col gap-0 before:content-[''] before:absolute before:top-0 before:bottom-0 before:left-[31px] max-sm:before:left-[15px] before:w-[2px] before:bg-[linear-gradient(to_bottom,transparent,var(--brand-yellow,#FFF275)_10%,var(--brand-orange,#FF8C42)_50%,var(--brand-red,#FF3C38)_90%,transparent)] before:z-0">
-        {EXPERIENCE.map(({ id, role, company, companyTag, period, desc, achievements, tags }, i) => (
+        {EXPERIENCE.map(({ id, role, company, companyTag, period, desc, achievements, tags }) => (
           <div
             key={id}
             className="grid grid-cols-[64px_1fr] max-sm:grid-cols-[36px_1fr] gap-6 max-sm:gap-4 pb-16 last:pb-0 relative z-[1] group"

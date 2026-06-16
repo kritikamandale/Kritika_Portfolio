@@ -17,6 +17,7 @@ const NAV_LINKS = [
   { label: 'Experience', href: '#experience' },
   { label: 'Projects', href: '#projects' },
   { label: 'Achievements', href: '#achievements' },
+  { label: 'Certificates', href: '#certificates' },
 ];
 
 const Navbar = () => {
@@ -25,8 +26,6 @@ const Navbar = () => {
   const [bannerActive, setBannerActive] = useState(false);
   
   const [isHovered, setIsHovered] = useState(false);
-  const [isScrollingUp, setIsScrollingUp] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
 
   /* ── Banner change event listener ── */
   useEffect(() => {
@@ -50,21 +49,6 @@ const Navbar = () => {
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
-
-  /* ── Scroll direction detection (for mobile fallback) ── */
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY < lastScrollY && currentScrollY > 50) {
-        setIsScrollingUp(true);
-      } else {
-        setIsScrollingUp(false);
-      }
-      setLastScrollY(currentScrollY);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
 
   /* ── Active section detection ── */
   useEffect(() => {
@@ -102,7 +86,7 @@ const Navbar = () => {
     setMenu(false);
   };
 
-  const isVisible = active === 'hero' || isHovered || isScrollingUp || menuOpen;
+  const isVisible = active === 'hero' || isHovered || menuOpen;
 
   return (
     <nav 

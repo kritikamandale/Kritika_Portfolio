@@ -2,6 +2,7 @@
 
 import React, { useRef, useCallback } from 'react';
 import { Rocket } from 'lucide-react';
+// eslint-disable-next-line no-unused-vars
 import { motion, useMotionValue, useSpring, useMotionTemplate } from 'framer-motion';
 import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';
 

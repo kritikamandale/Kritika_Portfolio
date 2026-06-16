@@ -64,6 +64,7 @@ const Footer = () => {
               <a href="https://linkedin.com/in/kritikamandale" target="_blank" rel="noopener noreferrer" className="text-footer-text text-sm font-medium opacity-85 leading-loose transition-all duration-250 hover:opacity-100 hover:text-brand-yellow uppercase underline underline-offset-4 p-3 -m-3 inline-block min-h-[44px] min-w-[44px]">LINKEDIN</a>
               <a href="https://twitter.com/kritikamandale" target="_blank" rel="noopener noreferrer" className="text-footer-text text-sm font-medium opacity-85 leading-loose transition-all duration-250 hover:opacity-100 hover:text-brand-yellow uppercase underline underline-offset-4 p-3 -m-3 inline-block min-h-[44px] min-w-[44px]">TWITTER</a>
               <a href="https://t.me/Kritikalog" target="_blank" rel="noopener noreferrer" className="text-footer-text text-sm font-medium opacity-85 leading-loose transition-all duration-250 hover:opacity-100 hover:text-brand-yellow uppercase underline underline-offset-4 p-3 -m-3 inline-block min-h-[44px] min-w-[44px]">TELEGRAM</a>
+              <a href="https://hashnode.com/@kritikam" target="_blank" rel="noopener noreferrer" className="text-footer-text text-sm font-medium opacity-85 leading-loose transition-all duration-250 hover:opacity-100 hover:text-brand-yellow uppercase underline underline-offset-4 p-3 -m-3 inline-block min-h-[44px] min-w-[44px]">HASHNODE</a>
             </div>
           </div>
         </div>

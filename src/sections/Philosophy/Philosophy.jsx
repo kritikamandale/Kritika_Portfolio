@@ -25,7 +25,7 @@ const Philosophy = () => {
       subtitle="The core principles that drive my work and personal development."
     >
       <RevealGroup staggerDelay={150} className="flex flex-col max-w-[800px] mx-auto">
-        {PHILOSOPHIES.map((item, index) => (
+        {PHILOSOPHIES.map((item) => (
           <div key={item.id} className="flex items-start gap-4 md:gap-6 py-4 md:py-6 border-b-[0.5px] border-black/15 dark:border-white/15 first:pt-0 last:border-b-0 last:pb-0">
             <div className="min-w-[24px] text-brand-mauve dark:text-[#a18a96] text-sm font-medium pt-1">{item.id}</div>
             <div className="flex flex-col">

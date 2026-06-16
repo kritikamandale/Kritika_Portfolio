@@ -61,6 +61,12 @@ const TwitterIcon = ({ size = 24, strokeWidth = 2 }) => (
     <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/>
   </svg>
 );
+
+const HashnodeIcon = ({ size = 24, strokeWidth = 2 }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round">
+    <path d="m22.351 8.019-6.37-6.37a5.63 5.63 0 0 0-7.962 0l-6.37 6.37a5.63 5.63 0 0 0 0 7.962l6.37 6.37a5.63 5.63 0 0 0 7.962 0l6.37-6.37a5.63 5.63 0 0 0 0-7.962zM12 15.953a3.953 3.953 0 1 1 0-7.906 3.953 3.953 0 0 1 0 7.906z"/>
+  </svg>
+);
 import Image from 'next/image';
 
 const HeroSection = () => {
@@ -146,7 +152,7 @@ const HeroSection = () => {
                     src="/profile.png"
                     alt="Kritika Mandale"
                     fill
-                    className="object-cover object-top mix-blend-luminosity hover:mix-blend-normal transition-all duration-700"
+                    className="object-cover object-top transition-all duration-700"
                     sizes="(max-width: 768px) 320px, 420px"
                     priority
                   />
@@ -202,6 +208,7 @@ const HeroSection = () => {
                 { icon: LinkedinIcon, href: "https://linkedin.com/in/kritikamandale" },
                 { icon: TwitterIcon, href: "https://twitter.com/kritikamandale" },
                 { icon: TelegramIcon, href: "https://t.me/Kritikalog" },
+                { icon: HashnodeIcon, href: "https://hashnode.com/@kritikam" },
                 { icon: Mail, href: "mailto:hello@example.com" }
               ].map((social, index) => (
                 <a 

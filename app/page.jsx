@@ -18,6 +18,7 @@ import PageClient from '../src/components/PageClient/PageClient'
 // Lazy loaded heavy sections
 const GithubContributions = lazy(() => import('../src/sections/GithubContributions/GithubContributions'))
 const Achievements = lazy(() => import('../src/sections/Achievements/Achievements'))
+const Certificates = lazy(() => import('../src/sections/Certificates/Certificates'))
 
 export default function Home() {
   return (
@@ -47,6 +48,10 @@ export default function Home() {
 
         <Suspense fallback={<div style={{ height: '100vh', background: 'var(--color-background-secondary)' }} />}>
           <Achievements />
+        </Suspense>
+
+        <Suspense fallback={<div style={{ height: '50vh', background: 'var(--color-background-secondary)' }} />}>
+          <Certificates />
         </Suspense>
 
         <Philosophy />
