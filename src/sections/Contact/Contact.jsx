@@ -45,7 +45,7 @@ const Contact = () => {
       let data;
       try {
         data = await res.json();
-      } catch (err) {
+      } catch {
         throw new Error('API route not found. (Note: "npm run dev" does not serve Vercel serverless functions in the root /api folder. Use "vercel dev" or test in production.)');
       }
 
