@@ -19,6 +19,15 @@ import { Resend } from 'resend';
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || 'https://krimyportfolio.vercel.app,http://localhost:5173').split(',');
+
+// Vercel automatically sets VERCEL_URL for each deployment — add it so CORS
+// works on every preview / production URL without manual env-var updates.
+if (process.env.VERCEL_URL) {
+  const vercelOrigin = `https://${process.env.VERCEL_URL}`;
+  if (!ALLOWED_ORIGINS.includes(vercelOrigin)) {
+    ALLOWED_ORIGINS.push(vercelOrigin);
+  }
+}
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
 const RATE_LIMIT_MAX = 5;
 const BODY_SIZE_LIMIT = 10 * 1024; // 10 KB
