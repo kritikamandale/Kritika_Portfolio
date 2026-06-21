@@ -41,13 +41,20 @@ const Contact = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       });
-      const data = await res.json();
+      
+      let data;
+      try {
+        data = await res.json();
+      } catch (err) {
+        throw new Error('API route not found. (Note: "npm run dev" does not serve Vercel serverless functions in the root /api folder. Use "vercel dev" or test in production.)');
+      }
+
       if (!res.ok) throw new Error(data.error || 'Failed to send.');
       setStatus({ type: 'success', message: "✅ Message sent! I'll get back within 24 hours." });
       // Don't clear form yet, let the user see success state.
-    } catch {
+    } catch (err) {
       didError = true;
-      setStatus({ type: 'error', message: "Something went wrong. Please try again." });
+      setStatus({ type: 'error', message: err.message || "Something went wrong. Please try again." });
     } finally {
       setLoading(false);
       // Auto-dismiss error messages after 6 seconds; success state persists until "Send another message"
