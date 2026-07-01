@@ -386,7 +386,7 @@ const HeroSection = () => {
             Left: Circle + Photo + CTA
             Right: Name + Tagline + Social + Nav
             ════════════════════════════════════════════════════════ */}
-        <div className="relative flex-1 flex flex-col-reverse md:flex-row items-center justify-center gap-8 md:gap-4 lg:gap-8 w-full max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16 pt-12 pb-28 md:pt-0 md:pb-32">
+        <div className="relative flex-1 flex flex-col-reverse md:flex-row items-center justify-center gap-8 md:gap-4 lg:gap-8 w-full max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16 pt-24 pb-28 md:pt-28 md:pb-32 lg:pt-32">
 
 
           {/* ─────────────────────────────────────────────────────
