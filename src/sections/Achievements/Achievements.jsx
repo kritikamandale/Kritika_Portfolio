@@ -19,8 +19,8 @@ const CARDS = [
   {
     category: '30-Hour Hackathon',
     title: '1st Runner-Up — Openpools Doppelganger',
-    context: 'Engineered an outstanding project under extreme time constraints during a continuous 30-hour coding sprint.',
-    focus: 'Optimized development workflows for rapid iteration and stable deployment in a high-pressure environment.'
+    context: 'Engineered SecureID from a blank whiteboard to a fully working prototype during a continuous 30-hour coding sprint.',
+    focus: 'Integrated KYC verification, face recognition, and blockchain-based records into a single, tamper-proof student identity verification workflow.'
   },
   {
     category: 'Nagpur Chapter',
