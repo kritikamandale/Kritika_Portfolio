@@ -31,12 +31,13 @@ const EXPERIENCE = [
     company: 'Trust Fintech Limited',
     companyTag: 'Internship',
     period: 'Jun 2025 – Jan 2026',
-    desc: 'Developed and deployed full-stack web modules as part of a fintech engineering team.',
+    desc: 'Developed and deployed full-stack web modules as part of a fintech engineering team. Collaborated with senior developers to build responsive websites.',
     achievements: [
-      'Built scalable modules using HTML, CSS, JavaScript, and SQL Server.',
-      'Collaborated cross-functionally to improve core financial web applications.',
+      'Engineered a face authentication module using Python, automating identity verification and cutting review time by 40%.',
+      'Architected and deployed an end-to-end KYC verification pipeline using SQL for secure data storage, retrieval, and compliance management, reducing manual processing effort by 35%.',
+      'Developed full-stack web modules using HTML, CSS, JavaScript, and SQL Server.'
     ],
-    tags: ['HTML/CSS', 'JavaScript', 'SQL Server', 'Full-Stack'],
+    tags: ['Python', 'SQL Server', 'Face Authentication', 'JavaScript', 'HTML/CSS'],
   },
   {
     id: 'e3',
