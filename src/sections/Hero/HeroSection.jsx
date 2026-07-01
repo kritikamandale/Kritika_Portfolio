@@ -287,8 +287,8 @@ const HeroSection = () => {
   }, [isMobile]);
 
   /* ── SVG arc parameters ── */
-  const svgSize = isMobile ? 340 : 620;
-  const circleR = isMobile ? 145 : 270;
+  const svgSize = isMobile ? 320 : 500;
+  const circleR = isMobile ? 135 : 220;
   const circleCx = svgSize / 2;
   const circleCy = svgSize / 2;
 
@@ -296,8 +296,11 @@ const HeroSection = () => {
   // Endpoint is at 252° clockwise from top (≈ 8 o'clock, lower-left).
   // Screen coords: x = cx + r·sin(θ), y = cy − r·cos(θ)  (θ clockwise from top)
   const endAngleRad = (252 * Math.PI) / 180;
-  const ctaX = circleCx + circleR * Math.sin(endAngleRad);  // ≈ 28
-  const ctaY = circleCy - circleR * Math.cos(endAngleRad);  // ≈ 229
+  const ctaX = circleCx + circleR * Math.sin(endAngleRad);
+  const ctaY = circleCy - circleR * Math.cos(endAngleRad);
+  
+  const ctaXPercent = (ctaX / svgSize) * 100;
+  const ctaYPercent = (ctaY / svgSize) * 100;
 
   // Helper to dynamically draw a perfectly smooth tapered crescent along the arc
   const getTaperedPath = () => {
@@ -386,7 +389,7 @@ const HeroSection = () => {
             Left: Circle + Photo + CTA
             Right: Name + Tagline + Social + Nav
             ════════════════════════════════════════════════════════ */}
-        <div className="relative flex-1 flex flex-col-reverse md:flex-row items-center justify-center gap-8 md:gap-4 lg:gap-8 w-full max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16 pt-24 pb-28 md:pt-28 md:pb-32 lg:pt-32">
+        <div className="relative flex-1 flex flex-col-reverse md:flex-row items-center justify-center gap-6 md:gap-4 lg:gap-6 w-full max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16 pt-20 pb-28 md:pt-16 md:pb-24 lg:pt-20 lg:pb-28">
 
 
           {/* ─────────────────────────────────────────────────────
@@ -468,8 +471,8 @@ const HeroSection = () => {
                 href="#contact"
                 className="absolute z-30 flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-[#C9513D] to-[#E6B45B] text-white text-sm md:text-base font-bold tracking-wide shadow-[0_4px_16px_rgba(201,81,61,0.35)] hover:shadow-[0_8px_28px_rgba(201,81,61,0.5)] hover:scale-105 transition-all duration-300 whitespace-nowrap"
                 style={{
-                  left: `${ctaX}px`,
-                  top: `${ctaY}px`,
+                  left: `${ctaXPercent}%`,
+                  top: `${ctaYPercent}%`,
                   transform: 'translate(-50%, -50%)',
                 }}
               >
@@ -500,21 +503,21 @@ const HeroSection = () => {
               ───────────────────────────────────────────────────── */}
           <div
             ref={rightColRef}
-            className="flex flex-col items-center md:items-end gap-6 md:gap-8 w-full md:w-[50%] lg:w-[48%] text-center md:text-right"
+            className="flex flex-col items-center md:items-end gap-5 md:gap-6 w-full md:w-[50%] lg:w-[48%] text-center md:text-right"
           >
             {/* 1. Name / Greeting */}
             <div>
-              <p className="text-[#9D8F96] text-lg md:text-xl font-semibold tracking-widest uppercase mb-3">Welcome</p>
+              <p className="text-[#9D8F96] text-lg md:text-xl font-semibold tracking-widest uppercase mb-2">Welcome</p>
               <h1 className="font-heading font-extrabold tracking-tight text-[#3A2B32] flex flex-col items-center md:items-end">
                 <span 
                   className="leading-none mb-1" 
-                  style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)' }}
+                  style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}
                 >
                   Hey, it&apos;s
                 </span>
                 <span 
                   className="bg-gradient-to-r from-[#C9513D] to-[#E6B45B] bg-clip-text text-transparent leading-[1.05]"
-                  style={{ fontSize: 'clamp(4rem, 9vw, 6.5rem)' }}
+                  style={{ fontSize: 'clamp(3rem, 7.5vw, 5.5rem)' }}
                 >
                   Kritika Mandale
                 </span>
