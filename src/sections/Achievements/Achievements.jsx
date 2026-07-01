@@ -13,8 +13,8 @@ const CARDS = [
   {
     category: 'National Level Hackathon',
     title: 'National Finalist — Hackwise 2026, IIM Indore',
-    context: 'Selected among the top teams nationwide for delivering an innovative and highly technical solution.',
-    focus: 'Demonstrated rapid prototyping and robust system architecture under high-stakes competitive evaluation.'
+    context: 'Built Proven.io, an AI-powered platform simulating "day-in-the-life" work environments for Behavioral & Technical Readiness Audits.',
+    focus: 'Bridged the gap between certifications and job-readiness by evaluating candidates on adaptability, communication, and performance under pressure.'
   },
   {
     category: '30-Hour Hackathon',
