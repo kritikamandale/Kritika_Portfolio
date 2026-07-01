@@ -1,27 +1,11 @@
-/**
- * api/contact.js — Vercel Serverless Function
- *
- * Security measures implemented:
- *  - Custom in-memory rate limiter: 5 req / 15 min / IP
- *  - CORS: whitelist production domain only
- *  - Body size guard: 413 if Content-Length > 10 KB
- *  - Security headers: CSP, X-Frame-Options, X-Content-Type-Options,
- *    HSTS, Referrer-Policy, X-XSS-Protection (disabled per OWASP)
- *  - hCaptcha server-side verification (bypassable in local dev via SKIP_HCAPTCHA)
- *  - Input validation & sanitisation via validator.js
- *  - Header-injection prevention: newlines stripped from name/subject
- *  - All sensitive config via process.env
- */
-
+import { NextResponse } from 'next/server';
 import validator from 'validator';
 import { Resend } from 'resend';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || 'https://krimyportfolio.vercel.app,http://localhost:5173').split(',');
+const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || 'https://krimyportfolio.vercel.app,http://localhost:5173,http://localhost:3000').split(',');
 
-// Vercel automatically sets these URL env vars for each deployment.
-// Add all of them so CORS works on every preview / branch / production URL.
 for (const envVar of ['VERCEL_URL', 'VERCEL_BRANCH_URL', 'VERCEL_PROJECT_PRODUCTION_URL']) {
   if (process.env[envVar]) {
     const origin = `https://${process.env[envVar]}`;
@@ -30,20 +14,17 @@ for (const envVar of ['VERCEL_URL', 'VERCEL_BRANCH_URL', 'VERCEL_PROJECT_PRODUCT
     }
   }
 }
+if (!ALLOWED_ORIGINS.includes('http://localhost:3000')) {
+  ALLOWED_ORIGINS.push('http://localhost:3000');
+}
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
 const RATE_LIMIT_MAX = 5;
 const BODY_SIZE_LIMIT = 10 * 1024; // 10 KB
 
 // ─── In-memory rate limiter ───────────────────────────────────────────────────
-// NOTE: Resets on every cold start — acceptable for a portfolio contact form.
 
-/** @type {Map<string, { count: number; resetAt: number }>} */
 const rateLimitStore = new Map();
 
-/**
- * Returns true if the request should be blocked (rate limit exceeded).
- * @param {string} ip
- */
 function isRateLimited(ip) {
   const now = Date.now();
   const entry = rateLimitStore.get(ip);
@@ -63,74 +44,50 @@ function isRateLimited(ip) {
 
 // ─── Security headers ─────────────────────────────────────────────────────────
 
-/**
- * Apply a strict set of security response headers.
- * Equivalent to helmet({ contentSecurityPolicy: { directives: { defaultSrc: ["'none'"] } } })
- * but for a plain Vercel function (no Express middleware chain).
- * @param {import('@vercel/node').VercelResponse} res
- */
-function applySecurityHeaders(res) {
-  res.setHeader(
-    'Content-Security-Policy',
-    "default-src 'none'; frame-ancestors 'none';"
-  );
-  res.setHeader('X-Frame-Options', 'DENY');
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader(
-    'Strict-Transport-Security',
-    'max-age=63072000; includeSubDomains; preload'
-  );
-  res.setHeader('Referrer-Policy', 'no-referrer');
-  // Per OWASP, disable the legacy XSS filter to avoid introducing new vectors.
-  res.setHeader('X-XSS-Protection', '0');
-  res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
+function getSecurityHeaders() {
+  return {
+    'Content-Security-Policy': "default-src 'none'; frame-ancestors 'none';",
+    'X-Frame-Options': 'DENY',
+    'X-Content-Type-Options': 'nosniff',
+    'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload',
+    'Referrer-Policy': 'no-referrer',
+    'X-XSS-Protection': '0',
+    'Permissions-Policy': 'geolocation=(), microphone=(), camera=()'
+  };
 }
 
 // ─── CORS ─────────────────────────────────────────────────────────────────────
 
-/**
- * Apply CORS headers, whitelisting only the production Vercel domain.
- * Returns false if the origin is not allowed (caller should return 403).
- * @param {import('@vercel/node').VercelRequest} req
- * @param {import('@vercel/node').VercelResponse} res
- */
-function applyCors(req, res) {
-  const origin = req.headers['origin'];
-
-  // Allow requests with no Origin header (same-origin, curl) only in dev.
-  const allowedOrigin =
-    ALLOWED_ORIGINS.includes(origin) ? origin : null;
-
-  if (!allowedOrigin) {
-    // Return null to signal that the origin is not allowed.
-    // We still set Vary so caches are not poisoned.
-    res.setHeader('Vary', 'Origin');
-    return false;
+function applyCors(req) {
+  let origin = req.headers.get('origin');
+  if (!origin) return 'http://localhost:3000';
+  
+  origin = origin.trim();
+  if (origin.endsWith('/')) origin = origin.slice(0, -1);
+  
+  if (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) {
+    return origin;
   }
-
-  res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Access-Control-Max-Age', '86400');
-  res.setHeader('Vary', 'Origin');
-  return true;
+  
+  return ALLOWED_ORIGINS.includes(origin) ? origin : null;
 }
 
+function getCorsHeaders(allowedOrigin) {
+  return {
+    'Access-Control-Allow-Origin': allowedOrigin || '',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Max-Age': '86400',
+    'Vary': 'Origin'
+  };
+}
 
 // ─── Input sanitisation helpers ───────────────────────────────────────────────
 
-/**
- * Strip CR/LF characters to prevent SMTP header injection.
- * @param {string} value
- */
 function stripNewlines(value) {
   return typeof value === 'string' ? value.replace(/[\r\n]/g, '') : '';
 }
 
-/**
- * Safely cast a value to a trimmed string.
- * @param {unknown} value
- */
 function toStr(value) {
   if (typeof value !== 'string') return '';
   return value.trim();
@@ -138,65 +95,47 @@ function toStr(value) {
 
 // ─── Main handler ─────────────────────────────────────────────────────────────
 
-export default async function handler(req, res) {
-  // 1. Apply security headers to every response.
-  applySecurityHeaders(res);
+export async function OPTIONS(request) {
+  const allowedOrigin = applyCors(request);
+  const headers = { ...getSecurityHeaders(), ...getCorsHeaders(allowedOrigin) };
+  return new NextResponse(null, { status: 204, headers });
+}
 
-  // 2. Handle CORS preflight.
-  const origin = req.headers['origin'];
-  const corsAllowed = applyCors(req, res);
+export async function POST(request) {
+  const allowedOrigin = applyCors(request);
+  const headers = { ...getSecurityHeaders(), ...getCorsHeaders(allowedOrigin) };
 
-  if (req.method === 'OPTIONS') {
-    // If origin is not allowed, still respond 204 but without CORS headers
-    // (browser will block the actual request).
-    return res.status(204).end();
+  if (!allowedOrigin) {
+    return NextResponse.json({ error: 'Forbidden.' }, { status: 403, headers });
   }
 
-  // 3. Only allow POST.
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed.' });
-  }
-
-  // 4. Block disallowed origins for POST requests.
-  if (!corsAllowed) {
-    return res.status(403).json({ error: 'Forbidden.' });
-  }
-
-  // 5. Body size guard — 413 if Content-Length header exceeds 10 KB.
-  const contentLength = parseInt(req.headers['content-length'] ?? '0', 10);
+  const contentLength = parseInt(request.headers.get('content-length') ?? '0', 10);
   if (contentLength > BODY_SIZE_LIMIT) {
-    return res.status(413).json({ error: 'Payload too large. Maximum body size is 10 KB.' });
+    return NextResponse.json({ error: 'Payload too large. Maximum body size is 10 KB.' }, { status: 413, headers });
   }
 
-  // 6. Extract client IP for rate limiting.
-  //    Vercel sets x-forwarded-for; fall back to remoteAddress.
-  const ip =
-    (req.headers['x-forwarded-for'] ?? req.socket?.remoteAddress ?? 'unknown')
-      .toString()
-      .split(',')[0]
-      .trim();
+  const ip = (request.headers.get('x-forwarded-for') ?? 'unknown').toString().split(',')[0].trim();
 
-  // 7. Rate limit check.
   if (isRateLimited(ip)) {
-    res.setHeader('Retry-After', String(Math.ceil(RATE_LIMIT_WINDOW_MS / 1000)));
-    return res.status(429).json({
-      error: 'Too many requests. Please wait before submitting again.',
-    });
+    headers['Retry-After'] = String(Math.ceil(RATE_LIMIT_WINDOW_MS / 1000));
+    return NextResponse.json({ error: 'Too many requests. Please wait before submitting again.' }, { status: 429, headers });
   }
 
-  // 8. Validate required environment variables.
   if (!process.env.RESEND_API_KEY || process.env.RESEND_API_KEY.startsWith('re_xxx')) {
     console.error('[contact] RESEND_API_KEY is not configured.');
-    return res.status(500).json({ error: 'Server configuration error.' });
+    return NextResponse.json({ error: 'Server configuration error.' }, { status: 500, headers });
   }
 
-  // 9. Parse & validate body.
-  const body = req.body ?? {};
+  let body = {};
+  try {
+    body = await request.json();
+  } catch (e) {
+    body = {};
+  }
 
-  // 9a. Extract raw strings.
   const rawHoneypot= toStr(body.honeypot);
   if (rawHoneypot) {
-    return res.status(200).json({ ok: true });
+    return NextResponse.json({ ok: true }, { status: 200, headers });
   }
 
   const rawName    = toStr(body.name);
@@ -204,7 +143,6 @@ export default async function handler(req, res) {
   const rawSubject = toStr(body.subject);
   const rawMessage = toStr(body.message);
 
-  // 9b. Validate required fields.
   const errors = [];
 
   if (!rawName || rawName.length < 2) {
@@ -228,27 +166,20 @@ export default async function handler(req, res) {
   }
 
   if (errors.length > 0) {
-    return res.status(400).json({ error: errors.join(' ') });
+    return NextResponse.json({ error: errors.join(' ') }, { status: 400, headers });
   }
 
-  // 9c. Sanitise — strip newlines from name/subject (header injection prevention).
   const name    = validator.escape(stripNewlines(rawName));
   const subject = stripNewlines(rawSubject);
-
-  // 9d. Normalise email (lowercase, trim).
   const email = validator.normalizeEmail(rawEmail) || rawEmail.toLowerCase();
-
-  // 9e. Escape message for safe HTML rendering in the email body.
   const messageSafe = validator.escape(rawMessage).replace(/\n/g, '<br>');
 
-
-  // 11. Send email via Resend.
   const fromEmail = process.env.RESEND_FROM_EMAIL;
   const toEmail   = process.env.RESEND_TO_EMAIL;
 
   if (!fromEmail || !toEmail) {
     console.error('[contact] Email configuration is missing.');
-    return res.status(500).json({ error: 'Server configuration error.' });
+    return NextResponse.json({ error: 'Server configuration error.' }, { status: 500, headers });
   }
 
   const resend = new Resend(process.env.RESEND_API_KEY);
@@ -284,12 +215,12 @@ export default async function handler(req, res) {
 
     if (resendError) {
       console.error('[contact] Resend API error:', resendError);
-      return res.status(400).json({ error: resendError.message || 'Failed to send message.' });
+      return NextResponse.json({ error: resendError.message || 'Failed to send message.' }, { status: 400, headers });
     }
 
-    return res.status(200).json({ success: true, id: data?.id });
+    return NextResponse.json({ success: true, id: data?.id }, { status: 200, headers });
   } catch (err) {
     console.error('[contact] Unexpected error:', err);
-    return res.status(500).json({ error: 'Internal server error.' });
+    return NextResponse.json({ error: 'Internal server error.' }, { status: 500, headers });
   }
 }
