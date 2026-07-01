@@ -386,7 +386,7 @@ const HeroSection = () => {
             Left: Circle + Photo + CTA
             Right: Name + Tagline + Social + Nav
             ════════════════════════════════════════════════════════ */}
-        <div className="relative flex-1 flex flex-col-reverse md:flex-row items-center justify-center gap-8 md:gap-4 lg:gap-8 w-full max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16 py-12 md:py-0">
+        <div className="relative flex-1 flex flex-col-reverse md:flex-row items-center justify-center gap-8 md:gap-4 lg:gap-8 w-full max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16 pt-12 pb-28 md:pt-0 md:pb-32">
 
 
           {/* ─────────────────────────────────────────────────────
@@ -400,7 +400,7 @@ const HeroSection = () => {
                 width="100%"
                 height="100%"
                 viewBox={`0 0 ${svgSize} ${svgSize}`}
-                className="absolute inset-0"
+                className="absolute inset-0 z-10"
                 style={{ transform: 'rotate(-90deg)' }}
               >
                 {/* Faint background ring */}
@@ -447,7 +447,7 @@ const HeroSection = () => {
               {/* Profile Photo — masked inside the circle */}
               <div
                 ref={photoRef}
-                className="absolute inset-0"
+                className="absolute inset-0 z-0"
                 style={{ clipPath: `circle(${circleR - 16}px at ${circleCx}px ${circleCy}px)` }}
               >
                 <Image

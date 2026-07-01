@@ -57,7 +57,7 @@ const AvailabilityBanner = () => {
         }
       `}</style>
       <div
-        className={`fixed top-0 left-0 right-0 z-[110] flex items-center justify-center gap-2.5 py-2.5 px-5 bg-brand-mauve text-white font-sans text-[13px] font-medium tracking-[0.02em] motion-reduce:animate-none ${exiting ? 'animate-[slideUp_300ms_ease-in_both]' : 'animate-[slideDown_350ms_cubic-bezier(0.22,1,0.36,1)_both]'}`}
+        className={`fixed top-0 left-0 w-full z-[110] flex items-center justify-center gap-2.5 py-2.5 px-5 bg-brand-mauve text-white font-sans text-[13px] font-medium tracking-[0.02em] motion-reduce:animate-none ${exiting ? 'animate-[slideUp_300ms_ease-in_both]' : 'animate-[slideDown_350ms_cubic-bezier(0.22,1,0.36,1)_both]'}`}
         role="banner"
         aria-live="polite"
       >
