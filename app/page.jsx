@@ -37,10 +37,10 @@ export default function Home() {
       <main id="main-content">
         <HeroSection />
         <Services />
-        <About />
-        <Stack />
-        <Experience />
         <Projects />
+        <About />
+        <Experience />
+        <Stack />
         
         <Suspense fallback={<div style={{ height: '400px', background: 'var(--color-background-secondary)' }} />}>
           <GithubContributions />

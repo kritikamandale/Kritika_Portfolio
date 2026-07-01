@@ -12,10 +12,10 @@ import Button from '../Button/Button';
 const NAV_LINKS = [
   { label: 'Home', href: '#hero' },
   { label: 'Services', href: '#services' },
-  { label: 'About', href: '#about' },
-  { label: 'Stack', href: '#stack' },
-  { label: 'Experience', href: '#experience' },
   { label: 'Projects', href: '#projects' },
+  { label: 'About', href: '#about' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'Stack', href: '#stack' },
   { label: 'Achievements', href: '#achievements' },
   { label: 'Certificates', href: '#certificates' },
 ];
@@ -23,24 +23,13 @@ const NAV_LINKS = [
 const Navbar = () => {
   const [active, setActive] = useState('hero');
   const [menuOpen, setMenu] = useState(false);
-  const [bannerActive, setBannerActive] = useState(false);
-  
   const [isHovered, setIsHovered] = useState(false);
-
-  /* ── Banner change event listener ── */
-  useEffect(() => {
-    const handleBannerChange = (e) => {
-      setBannerActive(e.detail.visible);
-    };
-    window.addEventListener('banner-change', handleBannerChange);
-    return () => window.removeEventListener('banner-change', handleBannerChange);
-  }, []);
 
   /* ── Hover top space detection ── */
   useEffect(() => {
     const handleMouseMove = (e) => {
-      // Re-show navbar if mouse is within top 120px
-      if (e.clientY < 120) {
+      // Re-show navbar if mouse is within bottom 120px
+      if (window.innerHeight - e.clientY < 120) {
         setIsHovered(true);
       } else {
         setIsHovered(false);
@@ -90,15 +79,14 @@ const Navbar = () => {
 
   return (
     <nav 
-      className={`fixed left-1/2 -translate-x-1/2 z-[100] w-max max-w-[calc(100%-2rem)] md:max-w-none md:w-max max-md:w-[calc(100%-2rem)] transition-all duration-500 ease-out
-      ${bannerActive ? 'top-[76px] md:top-[72px]' : 'top-8'}
-      ${isVisible ? 'translate-y-0 opacity-100' : '-translate-y-[150%] opacity-0 pointer-events-none'}`} 
+      className={`fixed left-1/2 -translate-x-1/2 z-[100] w-max max-w-[calc(100%-2rem)] md:max-w-none md:w-max max-md:w-[calc(100%-2rem)] transition-all duration-500 ease-out bottom-8
+      ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-[150%] opacity-0 pointer-events-none'}`} 
       aria-label="Primary navigation"
     >
-      <div className="flex items-center justify-between gap-6 px-3.75 py-10px bg-navbar-light dark:bg-navbar-dark backdrop-blur-md rounded-pill shadow-navbar dark:shadow-none border border-border-light dark:border-border-dark">
+      <div className="flex items-center justify-between gap-6 px-6 py-2.5 bg-gradient-to-r from-[#C9513D] to-[#E6B45B] backdrop-blur-md rounded-full shadow-lg border-none">
         {/* Logo */}
-        <a href="#hero" className="font-heading text-15 font-bold text-text-primary dark:text-text-dark-primary tracking-[-0.02em] flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange rounded-md">
-          ✦ <span className="text-brand-orange">kritikalog</span>
+        <a href="#hero" className="font-heading text-15 font-bold text-white tracking-[-0.02em] flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-md">
+          ✦ <span>kritikalog</span>
         </a>
 
         {/* Desktop links */}
@@ -110,10 +98,10 @@ const Navbar = () => {
                 <a
                   href={href}
                   className={`
-                    text-13 px-14px py-1.5 rounded-pill transition-colors duration-250 relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange
+                    text-13 px-4 py-1.5 rounded-full transition-colors duration-250 relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white
                     ${isActive 
-                      ? 'text-brand-red bg-brand-orange/15 font-semibold' 
-                      : 'font-medium text-text-secondary dark:text-text-dark-secondary hover:text-brand-red hover:bg-brand-orange/10'
+                      ? 'text-white bg-white/20 font-bold' 
+                      : 'font-semibold text-white/90 hover:text-white hover:bg-white/20'
                     }
                   `}
                 >
@@ -126,43 +114,43 @@ const Navbar = () => {
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-4">
-          <Button
-            variant="ghost"
-            size="sm"
+          <div className="w-[1px] h-5 bg-white/30 shrink-0 mx-1" />
+          <a
             href="/Kritika_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange"
+            className="text-[13px] whitespace-nowrap px-4 py-1.5 rounded-full font-bold border border-white/40 text-white hover:bg-white/20 transition-all duration-250 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
           >
             Resume ↗
-          </Button>
+          </a>
         </div>
 
         {/* Mobile hamburger */}
         <button
           className={`
-            md:hidden flex flex-col gap-[5px] cursor-pointer p-2 rounded-md transition-colors duration-250 hover:bg-brand-orange/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange
+            md:hidden flex flex-col gap-[5px] cursor-pointer p-2 rounded-md transition-colors duration-250 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white
           `}
           onClick={() => setMenu((p) => !p)}
           aria-label="Toggle mobile menu"
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
         >
-          <span className={`block w-[22px] h-[2px] bg-brand-mauve rounded-sm transition-all duration-250 ${menuOpen ? 'translate-y-[7px] rotate-45' : ''}`} />
-          <span className={`block w-[22px] h-[2px] bg-brand-mauve rounded-sm transition-all duration-250 ${menuOpen ? 'opacity-0 scale-x-0' : ''}`} />
-          <span className={`block w-[22px] h-[2px] bg-brand-mauve rounded-sm transition-all duration-250 ${menuOpen ? '-translate-y-[7px] -rotate-45' : ''}`} />
+          <span className={`block w-[22px] h-[2px] bg-white rounded-sm transition-all duration-250 ${menuOpen ? 'translate-y-[7px] rotate-45' : ''}`} />
+          <span className={`block w-[22px] h-[2px] bg-white rounded-sm transition-all duration-250 ${menuOpen ? 'opacity-0 scale-x-0' : ''}`} />
+          <span className={`block w-[22px] h-[2px] bg-white rounded-sm transition-all duration-250 ${menuOpen ? '-translate-y-[7px] -rotate-45' : ''}`} />
         </button>
       </div>
 
-      {/* Mobile dropdown menu */}
+      {/* Mobile dropdown menu (opens UPWARDS) */}
       <div
         id="mobile-menu"
         className={`
           ${menuOpen ? 'flex' : 'hidden'}
-          absolute top-[calc(100%+0.5rem)] left-0 right-0 
+          absolute bottom-[calc(100%+0.5rem)] left-0 right-0 
           bg-white/98 dark:bg-bg-dark/98 backdrop-blur-md rounded-xl 
           shadow-clay dark:shadow-none p-4 flex-col gap-1 
           border border-border-light dark:border-border-dark
+          max-h-[60vh] overflow-y-auto
         `}
         role="menu"
       >
