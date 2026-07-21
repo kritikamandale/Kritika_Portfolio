@@ -56,19 +56,19 @@ const GithubContributions = () => {
       label: 'Public Repositories',
       value: profile?.public_repos,
       sub: 'Open Source',
-      colorClass: 'bg-[linear-gradient(135deg,#F4F8FC,#E6EFF8)] dark:bg-[linear-gradient(135deg,#1b2128,#12181d)]',
+      colorClass: 'bg-surface-2-light dark:bg-surface-2-dark',
     },
     {
       label: 'Followers',
       value: profile?.followers,
       sub: 'Community',
-      colorClass: 'bg-[linear-gradient(135deg,#FFF5F7,#FDECEF)] dark:bg-[linear-gradient(135deg,#231d25,#1b151d)]',
+      colorClass: 'bg-[linear-gradient(135deg,rgba(245,222,143,0.35),rgba(245,222,143,0.10))] dark:bg-[linear-gradient(135deg,rgba(245,222,143,0.14),rgba(245,222,143,0.04))]',
     },
     {
       label: 'Following',
       value: profile?.following,
       sub: 'Connections',
-      colorClass: 'bg-[linear-gradient(135deg,#FFF2EB,#FFE6D8)] dark:bg-[linear-gradient(135deg,#251d18,#1d1510)]',
+      colorClass: 'bg-[linear-gradient(135deg,rgba(176,38,24,0.12),rgba(176,38,24,0.03))] dark:bg-[linear-gradient(135deg,rgba(176,38,24,0.18),rgba(176,38,24,0.06))]',
     },
   ];
 
@@ -150,7 +150,7 @@ const GithubContributions = () => {
             href={`https://github.com/${USERNAME}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[linear-gradient(135deg,var(--brand-orange,#FF8C42),var(--brand-red,#FF3C38))] text-white text-base font-semibold px-8 py-4 rounded-full no-underline shadow-[0_4px_16px_rgba(255,60,56,0.25)] transition-all duration-300 ease-smooth hover:-translate-y-[3px] hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(255,60,56,0.40)]"
+            className="inline-flex items-center gap-2 bg-[#B02618] hover:bg-[#8A1C10] text-white text-base font-semibold px-8 py-4 rounded-full no-underline shadow-[0_4px_16px_rgba(176,38,24,0.25)] transition-all duration-300 ease-smooth hover:-translate-y-[3px] hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(176,38,24,0.40)]"
           >
             View Full Profile ↗
           </a>

@@ -1,8 +1,13 @@
 'use client';
 // src/sections/Certificates/Certificates.jsx
-import React, { useState } from 'react';
-import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';
-import RevealGroup from '../../components/RevealGroup/RevealGroup';
+import React, { useRef, useState } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger, useGSAP);
+}
 
 const CERTIFICATES = [
   {
@@ -11,7 +16,7 @@ const CERTIFICATES = [
     issuer: 'Kaggle',
     date: 'Issued Feb 2026',
     skills: ['Machine Learning', 'Python', '+1 skill'],
-    image: '/certificates/kaggle.png', 
+    image: '/certificates/kaggle.png',
   },
   {
     id: 'c2',
@@ -37,7 +42,7 @@ const CERTIFICATES = [
     credentialId: 'iamkritical-dawp',
     skills: ['Data Analysis', 'Python'],
     image: '/certificates/freecodecamp.png',
-    link: '#', 
+    link: '#',
   },
   {
     id: 'c5',
@@ -46,11 +51,101 @@ const CERTIFICATES = [
     date: 'Issued Mar 2025',
     skills: ['Cloud Computing'],
     image: '/certificates/google_cloud.png',
-    link: '#', 
-  }
+    link: '#',
+  },
+  {
+    id: 'c6',
+    title: 'Claude Code in Action',
+    issuer: 'Anthropic',
+    date: 'Issued Jun 2026',
+    credentialId: 'z9d74azusmky',
+    skills: ['Artificial Intelligence (AI)', 'Full-Stack Development', '+1 skill'],
+    image: '/certificates/claudecode.png',
+    link: '#',
+  },
 ];
 
+const HeadingStar = () => (
+  <svg viewBox="0 0 100 100" fill="currentColor" className="w-7 h-7 text-accent shrink-0">
+    <g transform="translate(50, 50)">
+      <ellipse cx="0" cy="-25" rx="14" ry="25" />
+      <ellipse cx="0" cy="-25" rx="14" ry="25" transform="rotate(72)" />
+      <ellipse cx="0" cy="-25" rx="14" ry="25" transform="rotate(144)" />
+      <ellipse cx="0" cy="-25" rx="14" ry="25" transform="rotate(216)" />
+      <ellipse cx="0" cy="-25" rx="14" ry="25" transform="rotate(288)" />
+      <circle cx="0" cy="0" r="15" />
+    </g>
+  </svg>
+);
+
+const CertCard = ({ cert, onOpen }) => (
+  <div className="group relative flex flex-col shrink-0 w-full md:w-[360px] bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-5 lg:p-6 transition-shadow duration-300 hover:shadow-card-hover">
+    <div
+      className="mb-5 overflow-hidden rounded-lg cursor-pointer border border-border-light dark:border-border-dark bg-white dark:bg-black/20"
+      onClick={() => onOpen(cert.image)}
+      title="Click to view full certificate"
+    >
+      <img
+        src={cert.image}
+        alt={`${cert.title} Certificate`}
+        className="w-full h-40 object-contain transition-transform duration-300 group-hover:scale-105"
+      />
+    </div>
+
+    <div className="flex flex-col flex-grow">
+      <h3 className="font-heading text-base leading-tight font-bold text-text-primary dark:text-text-dark-primary mb-1 min-h-[2.5rem] line-clamp-2">
+        {cert.title}
+      </h3>
+
+      <div className="text-[13px] font-semibold text-text-secondary dark:text-text-dark-secondary mb-1">
+        {cert.issuer}
+      </div>
+
+      <div className="text-xs text-text-muted dark:text-text-dark-muted mb-2">
+        {cert.date}
+      </div>
+
+      {cert.credentialId && (
+        <div className="text-[11px] font-mono text-text-muted dark:text-text-dark-muted mb-2 line-clamp-1">
+          ID {cert.credentialId}
+        </div>
+      )}
+    </div>
+
+    <div className="flex flex-wrap gap-2 mb-4 mt-auto pt-2">
+      {cert.skills.map((skill) => (
+        <span
+          key={skill}
+          className="text-[11px] font-medium text-text-secondary dark:text-text-dark-secondary bg-surface-2-light dark:bg-surface-2-dark border border-border-light dark:border-border-dark px-2.5 py-1 rounded-full whitespace-nowrap"
+        >
+          {skill}
+        </span>
+      ))}
+    </div>
+
+    <div className="mt-auto pt-4 border-t border-divider-light dark:border-divider-dark">
+      {cert.link ? (
+        <a
+          href={cert.link}
+          className="text-[13px] font-bold text-brand-orange hover:text-brand-red transition-colors flex items-center gap-1 w-fit"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Show credential ↗
+        </a>
+      ) : (
+        <span className="text-[13px] font-bold text-text-muted dark:text-text-dark-muted flex items-center gap-1">
+          Credential verified
+        </span>
+      )}
+    </div>
+  </div>
+);
+
 const Certificates = () => {
+  const sectionRef = useRef(null);
+  const stickyRef = useRef(null);
+  const trackRef = useRef(null);
   const [selectedImage, setSelectedImage] = useState(null);
 
   // Lock body scroll when modal is open
@@ -65,97 +160,111 @@ const Certificates = () => {
     };
   }, [selectedImage]);
 
-  return (
-    <SectionWrapper
-      id="certificates"
-      label="Continuous Upskilling"
-      title="Validated Expertise"
-      subtitle="Relentless learning and official accreditations across AI, Full-Stack, and Cloud technologies."
-    >
-      <RevealGroup staggerDelay={100} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
-        {CERTIFICATES.map((cert) => (
-          <div
-            key={cert.id}
-            className="group relative flex flex-col h-full bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-5 lg:p-6 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-card-hover hover:border-black/25 dark:hover:border-white/25"
-          >
-            <div 
-              className="mb-5 overflow-hidden rounded-lg cursor-pointer border border-border-light dark:border-border-dark bg-white dark:bg-black/20"
-              onClick={() => setSelectedImage(cert.image)}
-              title="Click to view full certificate"
-            >
-              <img 
-                src={cert.image} 
-                alt={`${cert.title} Certificate`} 
-                className="w-full h-32 object-contain transition-transform duration-300 group-hover:scale-105"
-              />
-            </div>
-            
-            <div className="flex flex-col flex-grow">
-              <h3 className="font-heading text-base leading-tight font-bold text-text-primary dark:text-text-dark-primary mb-1 min-h-[2.5rem] line-clamp-2">
-                {cert.title}
-              </h3>
-              
-              <div className="text-[13px] font-semibold text-text-secondary dark:text-text-dark-secondary mb-1">
-                {cert.issuer}
-              </div>
-              
-              <div className="text-xs text-text-muted dark:text-text-dark-muted mb-2">
-                {cert.date}
-              </div>
-              
-              {cert.credentialId && (
-                <div className="text-[11px] font-mono text-text-muted dark:text-text-dark-muted mb-2 line-clamp-1">
-                  ID {cert.credentialId}
-                </div>
-              )}
-            </div>
-            
-            <div className="flex flex-wrap gap-2 mb-4 mt-auto pt-2">
-              {cert.skills.map(skill => (
-                <span 
-                  key={skill} 
-                  className="text-[11px] font-medium text-text-secondary dark:text-text-dark-secondary bg-surface-2-light dark:bg-surface-2-dark border border-border-light dark:border-border-dark px-2.5 py-1 rounded-full whitespace-nowrap"
-                >
-                  {skill}
-                </span>
-              ))}
-            </div>
+  // Horizontal scroll — desktop only. Uses NATIVE CSS sticky for pinning
+  // (no GSAP pin) so it stays buttery-smooth with Lenis and never glitches
+  // when handing off from vertical to horizontal scrolling.
+  useGSAP(() => {
+    const mm = gsap.matchMedia();
 
-            <div className="mt-auto pt-4 border-t border-divider-light dark:border-divider-dark">
-              {cert.link ? (
-                <a 
-                  href={cert.link} 
-                  className="text-[13px] font-bold text-brand-orange hover:text-brand-red transition-colors flex items-center gap-1 w-fit"
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                >
-                  Show credential ↗
-                </a>
-              ) : (
-                <span className="text-[13px] font-bold text-text-muted dark:text-text-dark-muted flex items-center gap-1">
-                  Credential verified
-                </span>
-              )}
-            </div>
-          </div>
-        ))}
-      </RevealGroup>
+    mm.add('(min-width: 768px)', () => {
+      const section = sectionRef.current;
+      const track = trackRef.current;
+      if (!section || !track) return;
+
+      // Horizontal distance the track must travel so the last card ends flush.
+      const getDistance = () =>
+        Math.max(0, track.scrollWidth - track.parentElement.clientWidth);
+
+      // Extra pinned scroll room held at the end (after the track finishes
+      // moving) so the last card stays fully visible and readable instead of
+      // the section releasing into the next one the instant it arrives.
+      const HOLD = 500;
+
+      // Grow the section tall enough that the sticky pane stays pinned for the
+      // entire horizontal travel plus the trailing hold.
+      const sizeSection = () => {
+        section.style.height = `${window.innerHeight + getDistance() + HOLD}px`;
+      };
+      sizeSection();
+
+      const dist = getDistance() || 1;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: () => `+=${getDistance() + HOLD}`,
+          scrub: 1,
+          invalidateOnRefresh: true,
+          onRefresh: sizeSection,
+        },
+      });
+
+      tl.to(track, { x: -dist, ease: 'none', duration: dist })
+        .to({}, { duration: HOLD }); // hold — track stays parked at its final x
+
+      return () => {
+        section.style.height = '';
+        tl.scrollTrigger && tl.scrollTrigger.kill();
+        tl.kill();
+        gsap.set(track, { clearProps: 'transform' });
+      };
+    });
+
+    return () => mm.revert();
+  }, { scope: sectionRef });
+
+  return (
+    <section
+      ref={sectionRef}
+      id="certificates"
+      aria-label="Certifications"
+      className="relative w-full bg-bg-light dark:bg-bg-dark"
+    >
+      {/* Native sticky pinning pane (desktop) / normal flow (mobile) */}
+      <div
+        ref={stickyRef}
+        className="md:sticky md:top-0 md:h-screen md:overflow-hidden flex flex-col justify-center py-14 md:py-0"
+      >
+        {/* Header */}
+        <div className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12 w-full mb-8 md:mb-10">
+          <span className="section-label">Continuous Upskilling</span>
+          <h2 className="section-title !mb-3 flex items-center gap-3">
+            Validated Expertise
+            <HeadingStar />
+          </h2>
+          <p className="section-subtitle !text-left !mx-0 max-w-2xl">
+            Relentless learning and official accreditations across AI, Full-Stack, and Cloud technologies.
+            <span className="hidden md:inline"> Scroll to browse →</span>
+          </p>
+        </div>
+
+        {/* Track — vertical stack on mobile, horizontal rail on desktop */}
+        <div
+          ref={trackRef}
+          className="flex flex-col md:flex-row gap-6 px-4 md:px-8 lg:px-12 md:w-max md:will-change-transform"
+        >
+          {CERTIFICATES.map((cert) => (
+            <CertCard key={cert.id} cert={cert} onOpen={setSelectedImage} />
+          ))}
+        </div>
+      </div>
 
       {/* Image Modal */}
       {selectedImage && (
-        <div 
+        <div
           className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 cursor-zoom-out transition-opacity duration-300"
           onClick={() => setSelectedImage(null)}
           aria-modal="true"
           role="dialog"
         >
           <div className="relative max-w-5xl max-h-[90vh] w-full flex items-center justify-center cursor-default" onClick={(e) => e.stopPropagation()}>
-            <img 
-              src={selectedImage} 
-              alt="Certificate Full View" 
+            <img
+              src={selectedImage}
+              alt="Certificate Full View"
               className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl border border-white/10"
             />
-            <button 
+            <button
               className="absolute -top-4 -right-4 md:top-4 md:right-4 bg-black/60 hover:bg-black text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-md transition-all border border-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange"
               onClick={() => setSelectedImage(null)}
               aria-label="Close modal"
@@ -168,7 +277,7 @@ const Certificates = () => {
           </div>
         </div>
       )}
-    </SectionWrapper>
+    </section>
   );
 };
 

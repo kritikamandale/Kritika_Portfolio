@@ -1,42 +1,43 @@
 /* src/styles/variables.css */
 /* ============================================================
-   DESIGN TOKENS — Sunset Bliss Light Theme
+   DESIGN TOKENS — Brick Red / Warm Gold / Cocoa Theme
    ============================================================ */
 
 :root {
-  /* ── Sunset Bliss Palette ──────────────────────────────── */
-  --blue-grey:     #6699CC;   /* cool steel blue */
-  --banana-cream:  #FFF275;   /* warm yellow */
-  --pumpkin-spice: #FF8C42;   /* vivid orange */
-  --cinnabar:      #FF3C38;   /* bold red */
-  --dusty-mauve:   #A23E48;   /* deep burgundy-rose */
+  /* ── Core Palette ──────────────────────────────────────── */
+  --brick-red:   #B02618;   /* primary accent */
+  --brick-dark:  #8A1C10;   /* primary hover / deeper red */
+  --warm-gold:   #F5DE8F;   /* secondary accent / highlights */
+  --cocoa-brown: #3A2418;   /* text / icons / borders */
+  --cream:       #FBF6E8;   /* alt section background */
 
   /* ── Semantic Background Roles ────────────────────────── */
-  --color-bg:           #FCFBFA;  /* warm, crisp off-white */
-  --color-bg-alt:       #ede8e2;  /* warm greige — distinct section break */
-  --color-surface:      #FFFFFF;  /* pure white cards */
-  --color-surface-2:    #FFF6F0;  /* very soft pumpkin tint for alt surfaces */
-  --color-navbar-bg:    rgba(255, 255, 255, 0.85);
-  --color-footer-bg:    var(--dusty-mauve); /* Deep rose footer for aesthetic contrast */
+  --color-bg:           #FFFFFF;
+  --color-bg-alt:       #FBF6E8;
+  --color-surface:      #FFFFFF;
+  --color-surface-2:    #FBF6E8;
+  --color-navbar-bg:    rgba(255, 255, 255, 0.92);
+  --color-footer-bg:    #3A2418;
 
   /* ── Semantic Text Roles ───────────────────────────────── */
-  --color-text-primary:   #3A2B32;  /* very dark mauve/brown, softer than black */
-  --color-text-secondary: #6B5B63;  /* medium slate/brown */
-  --color-text-muted:     #9D8F96;
-  --color-footer-text:    #FDEEEE;  /* Soft pinkish white on dark footer */
+  --color-text-primary:   #3A2418;
+  --color-text-secondary: #5C3D2C;
+  --color-text-muted:     #8A6858;
+  --color-text-tertiary:  #8A6858;
+  --color-footer-text:    #F5DE8F;
 
   /* ── Semantic Accent Roles ─────────────────────────────── */
-  --color-primary:       var(--pumpkin-spice);
-  --color-primary-hover: var(--cinnabar);
-  --color-accent:        var(--dusty-mauve);
-  --color-link:          var(--pumpkin-spice);
-  --color-link-hover:    var(--cinnabar);
-  --color-highlight:     var(--banana-cream);
+  --color-primary:       #B02618;
+  --color-primary-hover: #8A1C10;
+  --color-accent:        #B02618;
+  --color-link:          #B02618;
+  --color-link-hover:    #8A1C10;
+  --color-highlight:     #F5DE8F;
 
   /* ── Card / Border Roles ──────────────────────────────── */
-  --color-card-border:       rgba(162, 62, 72, 0.12); /* light mauve border */
-  --color-card-border-hover: rgba(255, 140, 66, 0.35); /* pumpkin border on hover */
-  --color-divider:           rgba(162, 62, 72, 0.08);
+  --color-card-border:       rgba(58, 36, 24, 0.12);
+  --color-card-border-hover: rgba(176, 38, 24, 0.30);
+  --color-divider:           rgba(58, 36, 24, 0.08);
 
   /* ── Typography ─────────────────────────────────────────
      Primary values use next/font CSS variables (set on <html>
@@ -44,7 +45,7 @@
      Fonts are self-hosted at build time — no CDN requests.
   ──────────────────────────────────────────────────────── */
   --font-sans:    var(--font-sans-next,    'Inter',    system-ui, sans-serif);
-  --font-heading: var(--font-heading-next, 'Outfit',   system-ui, sans-serif);
+  --font-heading: var(--font-heading-next, 'Fraunces', Georgia, serif);
   --font-mono:    var(--font-mono-next,    'Fira Code','Courier New', monospace);
 
   --text-xs:   calc(0.75rem + 10px);
@@ -97,23 +98,23 @@
   --radius-full: 9999px;
 
   /* ── Light-theme Shadows ──────────────────────────────
-     Warm, aesthetic shadows matching the sunset palette.
+     Warm cocoa-tinted shadows matching the new palette.
   ─────────────────────────────────────────────────────── */
   --shadow-clay-sm:
-    0 4px 12px rgba(162, 62, 72, 0.04),
+    0 4px 12px rgba(58, 36, 24, 0.06),
     0 0 0 1px var(--color-card-border);
 
   --shadow-clay:
-    0 8px 24px rgba(162, 62, 72, 0.06),
+    0 8px 24px rgba(58, 36, 24, 0.08),
     0 0 0 1px var(--color-card-border);
 
   --shadow-clay-lg:
-    0 16px 40px rgba(255, 140, 66, 0.12),
+    0 16px 40px rgba(176, 38, 24, 0.14),
     0 0 0 1px var(--color-card-border-hover);
 
   --shadow-navbar:
-    0 4px 20px rgba(162, 62, 72, 0.05),
-    0 1px 0 rgba(162, 62, 72, 0.06);
+    0 4px 20px rgba(58, 36, 24, 0.06),
+    0 1px 0 rgba(58, 36, 24, 0.05);
 
   /* ── Transitions ────────────────────────────────────── */
   --transition-fast:   150ms ease;
@@ -137,22 +138,22 @@
 
 /* ============================================================
    DARK MODE — [data-theme="dark"] on <html>
-   Deep charcoal #1c1917 as base. Accent palette unchanged.
+   Deep cocoa #1c1008 as base. Accent palette: gold on cocoa.
    ============================================================ */
 [data-theme="dark"] {
-  --color-bg:        #1c1917;
-  --color-bg-alt:    #231f1d;
-  --color-surface:   #292421;
-  --color-surface-2: #312c29;
-  --color-navbar-bg: rgba(28, 25, 23, 0.90);
+  --color-bg:        #1c1008;
+  --color-bg-alt:    #251608;
+  --color-surface:   #2d1c0d;
+  --color-surface-2: #3a2418;
+  --color-navbar-bg: rgba(28, 16, 8, 0.92);
 
-  --color-text-primary:   #f5ede8;
-  --color-text-secondary: #c5aea5;
-  --color-text-muted:     #8a756e;
+  --color-text-primary:   #FBF6E8;
+  --color-text-secondary: #D4B896;
+  --color-text-muted:     #9A7A60;
 
-  --color-card-border:       rgba(245, 237, 232, 0.10);
-  --color-card-border-hover: rgba(255, 140, 66, 0.40);
-  --color-divider:           rgba(245, 237, 232, 0.07);
+  --color-card-border:       rgba(245, 222, 143, 0.10);
+  --color-card-border-hover: rgba(176, 38, 24, 0.40);
+  --color-divider:           rgba(245, 222, 143, 0.07);
 
   color-scheme: dark;
 }

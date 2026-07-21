@@ -83,7 +83,7 @@ const Navbar = () => {
       ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-[150%] opacity-0 pointer-events-none'}`} 
       aria-label="Primary navigation"
     >
-      <div className="flex items-center justify-between gap-6 px-6 py-2.5 bg-gradient-to-r from-[#C9513D] to-[#E6B45B] backdrop-blur-md rounded-full shadow-lg border-none">
+      <div className="flex items-center justify-between gap-6 px-6 py-2.5 bg-gradient-to-r from-[#B02618] to-[#8A1C10] backdrop-blur-md rounded-full shadow-lg border-none">
         {/* Logo */}
         <a href="#hero" className="font-heading text-15 font-bold text-white tracking-[-0.02em] flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-md">
           ✦ <span>kritikalog</span>

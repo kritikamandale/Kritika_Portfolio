@@ -109,7 +109,7 @@ const Contact = () => {
             <RevealGroup staggerDelay={100} className="w-full max-w-[560px] flex flex-col items-center gap-6">
               {status.type === 'error' && (
                 <div
-                  className="flex items-center justify-center gap-3 px-5 py-4 rounded-xl text-sm font-medium animate-[fadeInUp_0.4s_ease] w-full bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400"
+                  className="flex items-center justify-center gap-3 px-5 py-4 rounded-xl text-sm font-medium animate-[fadeInUp_0.4s_ease] w-full bg-[#B02618]/10 border border-[#B02618]/20 text-[#B02618] dark:text-[#F5DE8F]"
                   role="alert"
                 >
                   {status.message}
@@ -132,7 +132,7 @@ const Contact = () => {
                     <label htmlFor="c-name" className="text-xs font-medium tracking-[0.06em] uppercase text-text-secondary dark:text-text-dark-secondary">Name *</label>
                     <input
                       id="c-name" name="name" type="text"
-                      className={`w-full px-5 py-3.5 rounded-xl border ${touched.name && errors.name ? 'border-red-500 focus:shadow-[0_0_0_3px_rgba(239,68,68,0.2)]' : 'border-border-light dark:border-border-dark focus:border-brand-red focus:shadow-[0_0_0_3px_rgba(162,62,72,0.12)]'} bg-surface-light dark:bg-surface-dark text-text-primary dark:text-text-dark-primary text-sm font-sans outline-none transition-all duration-200 ease-out placeholder:text-text-muted dark:placeholder:text-text-dark-muted`}
+                      className={`w-full px-5 py-3.5 rounded-xl border ${touched.name && errors.name ? 'border-[#B02618] focus:shadow-[0_0_0_3px_rgba(176,38,24,0.2)]' : 'border-border-light dark:border-border-dark focus:border-brand-red focus:shadow-[0_0_0_3px_rgba(162,62,72,0.12)]'} bg-surface-light dark:bg-surface-dark text-text-primary dark:text-text-dark-primary text-sm font-sans outline-none transition-all duration-200 ease-out placeholder:text-text-muted dark:placeholder:text-text-dark-muted`}
                       placeholder="e.g. John Doe"
                       value={form.name}
                       onChange={handleChange}
@@ -141,14 +141,14 @@ const Contact = () => {
                       required autoComplete="name"
                     />
                     {touched.name && errors.name && (
-                      <span className="font-medium absolute -bottom-5 left-1 animate-[fadeInUp_0.2s_ease]" style={{ color: 'var(--color-text-danger, #ef4444)', fontSize: '13px' }}>{errors.name}</span>
+                      <span className="font-medium absolute -bottom-5 left-1 animate-[fadeInUp_0.2s_ease]" style={{ color: 'var(--color-text-danger, #B02618)', fontSize: '13px' }}>{errors.name}</span>
                     )}
                   </div>
                   <div className="flex flex-col gap-2 relative">
                     <label htmlFor="c-email" className="text-xs font-medium tracking-[0.06em] uppercase text-text-secondary dark:text-text-dark-secondary">Email *</label>
                     <input
                       id="c-email" name="email" type="email"
-                      className={`w-full px-5 py-3.5 rounded-xl border ${touched.email && errors.email ? 'border-red-500 focus:shadow-[0_0_0_3px_rgba(239,68,68,0.2)]' : 'border-border-light dark:border-border-dark focus:border-brand-red focus:shadow-[0_0_0_3px_rgba(162,62,72,0.12)]'} bg-surface-light dark:bg-surface-dark text-text-primary dark:text-text-dark-primary text-sm font-sans outline-none transition-all duration-200 ease-out placeholder:text-text-muted dark:placeholder:text-text-dark-muted`}
+                      className={`w-full px-5 py-3.5 rounded-xl border ${touched.email && errors.email ? 'border-[#B02618] focus:shadow-[0_0_0_3px_rgba(176,38,24,0.2)]' : 'border-border-light dark:border-border-dark focus:border-brand-red focus:shadow-[0_0_0_3px_rgba(162,62,72,0.12)]'} bg-surface-light dark:bg-surface-dark text-text-primary dark:text-text-dark-primary text-sm font-sans outline-none transition-all duration-200 ease-out placeholder:text-text-muted dark:placeholder:text-text-dark-muted`}
                       placeholder="e.g. john@example.com"
                       value={form.email}
                       onChange={handleChange}
@@ -156,7 +156,7 @@ const Contact = () => {
                       required autoComplete="email"
                     />
                     {touched.email && errors.email && (
-                      <span className="font-medium absolute -bottom-5 left-1 animate-[fadeInUp_0.2s_ease]" style={{ color: 'var(--color-text-danger, #ef4444)', fontSize: '13px' }}>{errors.email}</span>
+                      <span className="font-medium absolute -bottom-5 left-1 animate-[fadeInUp_0.2s_ease]" style={{ color: 'var(--color-text-danger, #B02618)', fontSize: '13px' }}>{errors.email}</span>
                     )}
                   </div>
                 </div>
@@ -178,7 +178,7 @@ const Contact = () => {
                   <label htmlFor="c-message" className="text-xs font-medium tracking-[0.06em] uppercase text-text-secondary dark:text-text-dark-secondary">Message *</label>
                   <textarea
                     id="c-message" name="message"
-                    className={`w-full px-5 py-3.5 rounded-xl border ${touched.message && errors.message ? 'border-red-500 focus:shadow-[0_0_0_3px_rgba(239,68,68,0.2)]' : 'border-border-light dark:border-border-dark focus:border-brand-red focus:shadow-[0_0_0_3px_rgba(162,62,72,0.12)]'} bg-surface-light dark:bg-surface-dark text-text-primary dark:text-text-dark-primary text-sm font-sans outline-none transition-all duration-200 ease-out placeholder:text-text-muted dark:placeholder:text-text-dark-muted resize-y min-h-[140px] leading-[1.6]`}
+                    className={`w-full px-5 py-3.5 rounded-xl border ${touched.message && errors.message ? 'border-[#B02618] focus:shadow-[0_0_0_3px_rgba(176,38,24,0.2)]' : 'border-border-light dark:border-border-dark focus:border-brand-red focus:shadow-[0_0_0_3px_rgba(162,62,72,0.12)]'} bg-surface-light dark:bg-surface-dark text-text-primary dark:text-text-dark-primary text-sm font-sans outline-none transition-all duration-200 ease-out placeholder:text-text-muted dark:placeholder:text-text-dark-muted resize-y min-h-[140px] leading-[1.6]`}
                     placeholder="Tell me about your project…"
                     value={form.message}
                     onChange={handleChange}
@@ -187,7 +187,7 @@ const Contact = () => {
                     required
                   />
                   {touched.message && errors.message && (
-                    <span className="font-medium absolute -bottom-5 left-1 animate-[fadeInUp_0.2s_ease]" style={{ color: 'var(--color-text-danger, #ef4444)', fontSize: '13px' }}>{errors.message}</span>
+                    <span className="font-medium absolute -bottom-5 left-1 animate-[fadeInUp_0.2s_ease]" style={{ color: 'var(--color-text-danger, #B02618)', fontSize: '13px' }}>{errors.message}</span>
                   )}
                 </div>
 

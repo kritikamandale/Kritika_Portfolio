@@ -14,7 +14,7 @@ import RevealGroup from '../../components/RevealGroup/RevealGroup';
 // ── Static stat block (no counter animation) ─────────────────
 const StatBlock = ({ num, label }) => (
   <div className="flex flex-col items-center gap-4 group cursor-default">
-    <span className="text-2xl w-[90px] h-[90px] max-sm:text-2xl rounded-full bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex items-center justify-center font-heading font-extrabold text-text-primary dark:text-text-dark-primary leading-none shadow-clay-sm dark:shadow-none transition-all duration-300 relative group-hover:scale-[1.08] group-hover:-translate-y-1 group-hover:border-brand-orange group-hover:shadow-clay group-hover:text-brand-orange before:content-[''] before:absolute before:-inset-[10px] before:rounded-full before:bg-[radial-gradient(circle,rgba(255,140,66,0.12)_0%,transparent_70%)] before:-z-10 before:opacity-0 group-hover:before:opacity-100 before:transition-opacity">
+    <span className="text-2xl w-[90px] h-[90px] max-sm:text-2xl rounded-full bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex items-center justify-center font-heading font-extrabold text-text-primary dark:text-text-dark-primary leading-none shadow-clay-sm dark:shadow-none transition-all duration-300 relative group-hover:scale-[1.08] group-hover:-translate-y-1 group-hover:border-accent group-hover:shadow-clay group-hover:text-accent before:content-[''] before:absolute before:-inset-[10px] before:rounded-full before:bg-[radial-gradient(circle,rgba(176,38,24,0.10)_0%,transparent_70%)] before:-z-10 before:opacity-0 group-hover:before:opacity-100 before:transition-opacity">
       {num}
     </span>
     <span className="text-[14px] text-text-muted dark:text-text-dark-muted font-semibold tracking-[0.05em] uppercase">
@@ -43,17 +43,17 @@ const CARDS = [
     icon: '🏆',
     title: 'Proven under pressure',
     desc: 'From OpenPools to NASA Space Apps, I thrive in high-stakes environments and deliver winning solutions under tight deadlines.',
-    barColor: 'bg-brand-red',
-    iconBg: 'bg-brand-red/10',
-    iconColor: 'text-brand-red',
+    barColor: 'bg-accent',
+    iconBg: 'bg-accent/10',
+    iconColor: 'text-accent',
   },
   {
     icon: '🧠',
     title: 'AI-first thinking',
     desc: 'I architect intelligent systems — leveraging LLMs and ML models to solve real-world problems, not just write code.',
-    barColor: 'bg-brand-orange',
-    iconBg: 'bg-brand-orange/10',
-    iconColor: 'text-brand-orange',
+    barColor: 'bg-brand-yellow',
+    iconBg: 'bg-brand-yellow/10',
+    iconColor: 'text-brand-yellow',
   },
   {
     icon: '🤝',
@@ -67,15 +67,15 @@ const CARDS = [
     icon: '⚙️',
     title: 'End-to-end ownership',
     desc: 'I close the full loop — from fine-tuning ML models to deploying scalable web interfaces that users love.',
-    barColor: 'bg-brand-blue',
-    iconBg: 'bg-brand-blue/10',
-    iconColor: 'text-brand-blue',
+    barColor: 'bg-brand-slate',
+    iconBg: 'bg-brand-slate/10',
+    iconColor: 'text-brand-slate',
   },
 ];
 
 const About = () => {
   return (
-    <div className="relative z-[9] min-h-[95vh] flex flex-col justify-center rounded-t-[32px] overflow-hidden bg-bg-light dark:bg-bg-dark shadow-[0_-20px_40px_rgba(0,0,0,0.1)] dark:shadow-none">
+    <div className="relative z-[9] min-h-[95vh] flex flex-col justify-center overflow-hidden bg-bg-light dark:bg-bg-dark">
       <SectionWrapper
         id="about"
         label="What I bring"
@@ -90,10 +90,10 @@ const About = () => {
           ))}
         </RevealGroup>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-12 items-start">
           {/* ── LEFT COLUMN ── */}
           <RevealGroup staggerDelay={100} className="flex flex-col gap-6">
-            <div className="inline-flex items-center gap-2 font-heading text-[14px] font-semibold text-brand-mauve dark:text-brand-yellow bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark px-4 py-2 rounded-pill w-fit">
+            <div className="inline-flex items-center gap-2 font-sans text-[14px] font-semibold text-accent dark:text-brand-yellow bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark px-4 py-2 rounded-pill w-fit">
               📍 Nagpur · Open to opportunities
             </div>
 
@@ -108,7 +108,7 @@ const About = () => {
                   className={`
                     text-[14px] font-medium px-4 py-2 rounded-pill transition-all duration-250
                     ${tag.hot
-                      ? 'bg-[linear-gradient(135deg,var(--brand-orange,#FF8C42),var(--brand-red,#FF3C38))] text-white font-semibold shadow-[0_4px_12px_rgba(255,60,56,0.2)]'
+                      ? 'bg-[linear-gradient(135deg,#F5DE8F,#B02618)] text-[#3A2418] font-semibold shadow-[0_4px_12px_rgba(176,38,24,0.2)]'
                       : 'bg-surface-light dark:bg-surface-dark text-text-secondary dark:text-text-dark-secondary border border-divider-light dark:border-divider-dark'}
                   `}
                 >
