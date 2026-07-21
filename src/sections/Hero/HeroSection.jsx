@@ -21,30 +21,11 @@ const LinkedinIcon = ({ size = 20 }) => (
     <circle cx="4" cy="4" r="2"/>
   </svg>
 );
-const TwitterIcon = ({ size = 20 }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-    <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/>
-  </svg>
-);
-const TelegramIcon = ({ size = 20 }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-    <path d="m22 2-7 20-4-9-9-4Z"/>
-    <path d="M22 2 11 13"/>
-  </svg>
-);
-const HashnodeIcon = ({ size = 20 }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-    <path d="m22.351 8.019-6.37-6.37a5.63 5.63 0 0 0-7.962 0l-6.37 6.37a5.63 5.63 0 0 0 0 7.962l6.37 6.37a5.63 5.63 0 0 0 7.962 0l6.37-6.37a5.63 5.63 0 0 0 0-7.962zM12 15.953a3.953 3.953 0 1 1 0-7.906 3.953 3.953 0 0 1 0 7.906z"/>
-  </svg>
-);
 
 /* ── Data ─────────────────────────────────────────────────── */
 const SOCIAL_LINKS = [
   { icon: GithubIcon, href: 'https://github.com/kritikamandale', label: 'GitHub' },
   { icon: LinkedinIcon, href: 'https://linkedin.com/in/kritikamandale', label: 'LinkedIn' },
-  { icon: TwitterIcon, href: 'https://twitter.com/kritikamandale', label: 'Twitter' },
-  { icon: TelegramIcon, href: 'https://t.me/Kritikalog', label: 'Telegram' },
-  { icon: HashnodeIcon, href: 'https://hashnode.com/@kritikam', label: 'Hashnode' },
   { icon: Mail, href: 'mailto:kritikamandale@gmail.com', label: 'Email' },
 ];
 
@@ -70,7 +51,7 @@ const InteractiveGlowingGrid = ({ heroRef }) => {
     const heroEl = heroRef.current;
     if (!container || !heroEl) return;
 
-    const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim() || '#FF8C42';
+    const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim() || '#B02618';
 
     const spacing = 36;
     let cells = [];
@@ -354,7 +335,7 @@ const HeroSection = () => {
     <section
       id="hero"
       ref={sectionRef}
-      className="relative w-full bg-[#FCFBFA]"
+      className="relative w-full bg-bg-light dark:bg-bg-dark"
       style={{ minHeight: isMobile ? '100vh' : 'auto' }}
     >
       <div
@@ -369,8 +350,8 @@ const HeroSection = () => {
           className="absolute inset-0 pointer-events-none -z-10"
           style={{
             backgroundImage: `
-              linear-gradient(to right, rgba(58, 43, 50, 0.04) 1px, transparent 1px),
-              linear-gradient(to bottom, rgba(58, 43, 50, 0.04) 1px, transparent 1px)
+              linear-gradient(to right, rgba(58, 36, 24, 0.04) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(58, 36, 24, 0.04) 1px, transparent 1px)
             `,
             backgroundSize: '36px 36px',
             maskImage: 'linear-gradient(to bottom, black 40%, transparent 100%)',
@@ -381,8 +362,8 @@ const HeroSection = () => {
         </motion.div>
 
         {/* ── Background ambient glow ── */}
-        <div className="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] bg-gradient-to-br from-[#E6B45B]/10 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
-        <div className="absolute bottom-[-10%] right-[-5%] w-[35vw] h-[35vw] bg-gradient-to-tl from-[#C9513D]/5 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+        <div className="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] bg-gradient-to-br from-[#F5DE8F]/10 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+        <div className="absolute bottom-[-10%] right-[-5%] w-[35vw] h-[35vw] bg-gradient-to-tl from-[#B02618]/5 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
 
         {/* ════════════════════════════════════════════════════════
             MAIN CONTENT GRID
@@ -412,7 +393,7 @@ const HeroSection = () => {
                   cy={circleCy}
                   r={circleR}
                   fill="none"
-                  stroke="#ede8e2"
+                  stroke="rgba(58, 36, 24, 0.12)"
                   strokeWidth="8"
                 />
                 {/* Mask for the animated tapered arc */}
@@ -437,8 +418,8 @@ const HeroSection = () => {
                 {/* Gradient definition */}
                 <defs>
                   <linearGradient id="heroArcGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#C9513D" />
-                    <stop offset="100%" stopColor="#E6B45B" />
+                    <stop offset="0%" stopColor="#B02618" />
+                    <stop offset="100%" stopColor="#F5DE8F" />
                   </linearGradient>
                   {/* Circular clip for the photo */}
                   <clipPath id="heroPhotoClip">
@@ -462,14 +443,14 @@ const HeroSection = () => {
                   priority
                 />
                 {/* Subtle warm overlay for brand tone */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#C9513D]/5 to-[#E6B45B]/5 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#B02618]/5 to-[#F5DE8F]/5 pointer-events-none" />
               </div>
 
               {/* "Let's talk" CTA — positioned at the arc endpoint */}
               <a
                 ref={ctaBtnRef}
                 href="#contact"
-                className="absolute z-30 flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-[#C9513D] to-[#E6B45B] text-white text-sm md:text-base font-bold tracking-wide shadow-[0_4px_16px_rgba(201,81,61,0.35)] hover:shadow-[0_8px_28px_rgba(201,81,61,0.5)] hover:scale-105 transition-all duration-300 whitespace-nowrap"
+                className="absolute z-30 flex items-center gap-2 px-6 py-3 rounded-full bg-[#B02618] hover:bg-[#8A1C10] text-white text-sm md:text-base font-bold tracking-wide shadow-[0_4px_16px_rgba(176,38,24,0.35)] hover:shadow-[0_8px_28px_rgba(176,38,24,0.5)] hover:scale-105 transition-all duration-300 whitespace-nowrap"
                 style={{
                   left: `${ctaXPercent}%`,
                   top: `${ctaYPercent}%`,
@@ -490,7 +471,7 @@ const HeroSection = () => {
                   height: circleR * 2 + 40,
                   left: circleCx - circleR - 20,
                   top: circleCy - circleR - 20,
-                  background: 'radial-gradient(circle, rgba(201,81,61,0.08) 0%, transparent 70%)',
+                  background: 'radial-gradient(circle, rgba(176,38,24,0.08) 0%, transparent 70%)',
                   filter: 'blur(20px)',
                   zIndex: -1,
                 }}
@@ -507,16 +488,16 @@ const HeroSection = () => {
           >
             {/* 1. Name / Greeting */}
             <div>
-              <p className="text-[#9D8F96] text-lg md:text-xl font-semibold tracking-widest uppercase mb-2">Welcome</p>
-              <h1 className="font-heading font-extrabold tracking-tight text-[#3A2B32] flex flex-col items-center md:items-end">
-                <span 
-                  className="leading-none mb-1" 
+              <p className="text-[#8A6858] text-lg md:text-xl font-semibold tracking-widest uppercase mb-2">Welcome</p>
+              <h1 className="font-heading font-bold tracking-tight text-[#3A2418] flex flex-col items-center md:items-end">
+                <span
+                  className="leading-none mb-1"
                   style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}
                 >
                   Hey, it&apos;s
                 </span>
-                <span 
-                  className="bg-gradient-to-r from-[#C9513D] to-[#E6B45B] bg-clip-text text-transparent leading-[1.05]"
+                <span
+                  className="name-yeseva bg-gradient-to-r from-[#B02618] to-[#3A2418] bg-clip-text text-transparent leading-[1.05]"
                   style={{ fontSize: 'clamp(3rem, 7.5vw, 5.5rem)' }}
                 >
                   Kritika Mandale
@@ -526,14 +507,14 @@ const HeroSection = () => {
 
             {/* 2. Tagline & Resume */}
             <div className="flex flex-col items-center md:items-end gap-5">
-              <p className="text-[#6B5B63] text-lg md:text-xl font-medium tracking-wide max-w-md">
-                Web Developer &amp; AI/ML Integration
+              <p className="text-[#5C3D2C] text-lg md:text-xl font-medium tracking-wide max-w-md">
+                Web and AI developer
               </p>
               <a
                 href="/Kritika_Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-2.5 rounded-full border-2 border-[#C9513D]/30 text-[#C9513D] font-bold text-[15px] hover:bg-[#C9513D] hover:text-white hover:border-[#C9513D] transition-all duration-300 flex items-center gap-2 shadow-sm"
+                className="px-6 py-2.5 rounded-full border-2 border-[#B02618]/30 text-[#B02618] font-bold text-[15px] hover:bg-[#B02618] hover:text-white hover:border-[#B02618] transition-all duration-300 flex items-center gap-2 shadow-sm"
               >
                 View Resume ↗
               </a>
@@ -548,7 +529,7 @@ const HeroSection = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="w-14 h-14 rounded-full border border-[#A23E48]/15 flex items-center justify-center text-[#3A2B32] hover:text-[#C9513D] hover:border-[#C9513D]/40 hover:bg-[#C9513D]/5 transition-all duration-300"
+                  className="w-14 h-14 rounded-full border border-[#B02618]/15 flex items-center justify-center text-[#3A2418] hover:text-[#B02618] hover:border-[#B02618]/40 hover:bg-[#B02618]/5 transition-all duration-300"
                 >
                   <social.icon size={24} />
                 </a>
@@ -565,9 +546,9 @@ const HeroSection = () => {
           ref={scrollCueRef}
           className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 z-10"
         >
-          <span className="text-[#9D8F96] text-[10px] uppercase tracking-[0.2em] font-medium">Scroll</span>
-          <div className="w-5 h-8 rounded-full border border-[#3A2B32]/20 flex justify-center pt-1.5">
-            <div className="w-1 h-1.5 rounded-full bg-[#C9513D]/60 animate-bounce" />
+          <span className="text-[#8A6858] text-[10px] uppercase tracking-[0.2em] font-medium">Scroll</span>
+          <div className="w-5 h-8 rounded-full border border-[#3A2418]/20 flex justify-center pt-1.5">
+            <div className="w-1 h-1.5 rounded-full bg-[#B02618]/60 animate-bounce" />
           </div>
         </div>
       </div>

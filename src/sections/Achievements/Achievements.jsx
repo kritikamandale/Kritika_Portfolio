@@ -45,6 +45,7 @@ const CARDS = [
 
 const Achievements = () => {
   const containerRef = useRef(null);
+  const stickyRef = useRef(null);
   const cardsRef = useRef([]);
 
   useGSAP(() => {
@@ -52,7 +53,9 @@ const Achievements = () => {
 
     mm.add("(min-width: 768px)", () => {
       const cards = cardsRef.current.filter(Boolean);
-      if (cards.length === 0) return;
+      const section = containerRef.current;
+      const sticky = stickyRef.current;
+      if (cards.length === 0 || !section || !sticky) return;
 
       // 1. Setup initial states
       gsap.set(cards, { clearProps: "all" });
@@ -64,20 +67,40 @@ const Achievements = () => {
         if (i > 0) gsap.set(card, { y: '120%' });
       });
 
-      // 2. Create ScrollTrigger timeline tied to the 400vh section
+      // Each "beat" (a hold or a transition) gets an equal, explicit pixel
+      // budget: 1 initial hold (card 0) + (N-1) transitions + 1 final hold
+      // (card N-1, so it stays readable) = N+1 beats.
+      const STEP = 380;
+      const numBeats = CARDS.length + 1;
+      const animPx = STEP * numBeats;
+
+      // The section's height is driven explicitly from JS: sticky-pane height
+      // (however tall it actually renders) plus the scroll distance the
+      // animation needs. This guarantees the whole animation — including the
+      // final hold — completes *before* native CSS sticky un-pins, instead of
+      // racing/overlapping with the un-pin the way a bare `md:h-[Nvh]` class
+      // (tied to "bottom bottom") would.
+      const sizeSection = () => {
+        section.style.height = `${sticky.offsetHeight + animPx}px`;
+      };
+      sizeSection();
+
+      // 2. Create ScrollTrigger timeline tied to an explicit pixel range
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top", 
-          end: "bottom bottom", 
+          trigger: section,
+          start: "top top",
+          end: () => `+=${animPx}`,
           scrub: true, // Set to true (instant) to prevent over-scrolling from lag
+          invalidateOnRefresh: true,
+          onRefresh: sizeSection,
           snap: {
-            snapTo: 1 / (CARDS.length - 1),
+            snapTo: 1 / numBeats,
             duration: { min: 0.2, max: 0.4 },
             delay: 0,
             ease: "power2.out",
           },
-          // Note: NO GSAP PINNING used. 
+          // Note: NO GSAP PINNING used.
           // We rely on native CSS 'sticky' for buttery smooth, layout-shift-free pinning!
         }
       });
@@ -89,34 +112,50 @@ const Achievements = () => {
         // Slide the incoming card up to 0
         tl.to(card, {
           y: 0,
-          duration: 1,
+          duration: STEP,
           ease: "none"
-        }, i);
+        }, i * STEP);
 
-        // Scale down, push up slightly, and dim all previous cards
+        // Scale down, push up slightly, and dim previous cards.
+        // Distance is capped at 2 "steps back" so cards further back in the
+        // stack don't keep drifting/shrinking — they settle just behind the
+        // last visible card instead of fanning out above the viewport.
         for (let j = 0; j < i; j++) {
           const prevCard = cards[j];
           const overlay = prevCard.querySelector('.card-overlay');
-          
+          const dist = Math.min(i - j, 2);
+
           tl.to(prevCard, {
-            scale: 1 - 0.05 * (i - j),
-            y: - (20 * (i - j)),
-            duration: 1,
+            scale: 1 - 0.03 * dist,
+            y: - (8 * dist),
+            duration: STEP,
             ease: "none"
-          }, i);
+          }, i * STEP);
 
           if (overlay) {
             tl.to(overlay, {
-              opacity: 0.25 * (i - j),
-              duration: 1,
+              opacity: Math.min(0.55, 0.22 * dist),
+              duration: STEP,
               ease: "none"
-            }, i);
+            }, i * STEP);
           }
         }
       });
+
+      // 4. Hold on the last card for one more full beat before the section
+      // releases — without this, the final card arrives exactly as the
+      // pinned scroll range ends, so it's yanked away before it can be read.
+      tl.to({}, { duration: STEP });
+
+      return () => {
+        section.style.height = '';
+        tl.scrollTrigger && tl.scrollTrigger.kill();
+        tl.kill();
+      };
     });
 
     return () => {
+      mm.revert();
       // Cleanup for mobile resize
       gsap.set(cardsRef.current, { clearProps: "all" });
       const overlays = document.querySelectorAll('.card-overlay');
@@ -128,24 +167,25 @@ const Achievements = () => {
     <section 
       id="achievements" 
       aria-label="Hackathons & Awards"
-      ref={containerRef} 
-      // The section is 400vh on desktop to provide a solid 1:1 scroll track.
-      className="w-full relative bg-[#FFFDF9] dark:bg-bg-dark min-h-[95vh] md:h-[400vh]"
+      ref={containerRef}
+      // Fallback height for the instant before JS measures the sticky pane
+      // and sets the real height explicitly (see sizeSection in useGSAP).
+      className="w-full relative bg-bg-light dark:bg-bg-dark min-h-[95vh] md:h-[400vh]"
     >
       {/* NATIVE CSS PINNING via sticky */}
-      <div className="w-full md:sticky md:top-0 md:min-h-[95vh] flex items-center overflow-hidden py-24 md:py-0">
+      <div ref={stickyRef} className="w-full md:sticky md:top-0 md:min-h-[95vh] flex items-center overflow-hidden py-24 md:py-0">
         
         <div className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12 flex flex-col md:flex-row gap-12 md:gap-20 w-full relative">
           
           {/* LEFT PANEL: Typography */}
           <div className="w-full md:w-[45%] flex flex-col z-10 justify-center">
-            <div className="bg-[#E05A47]/10 text-[#E05A47] text-[11px] font-bold uppercase tracking-[0.15em] py-1.5 px-4 rounded-full w-fit mb-6">
+            <div className="bg-[#B02618]/10 text-[#B02618] text-[11px] font-bold uppercase tracking-[0.15em] py-1.5 px-4 rounded-full w-fit mb-6">
               RECOGNITIONS
             </div>
-            
-            <h2 className="text-[clamp(2.5rem,4vw,3.5rem)] font-heading font-extrabold text-slate-900 dark:text-text-dark-primary leading-[1.1] mb-6 flex items-start gap-4">
+
+            <h2 className="text-[clamp(2.5rem,4vw,3.5rem)] font-heading font-extrabold text-text-primary dark:text-text-dark-primary leading-[1.1] mb-6 flex items-start gap-4">
               Hackathons & Awards
-              <svg viewBox="0 0 100 100" fill="currentColor" className="w-8 h-8 text-[#E05A47] shrink-0 mt-2">
+              <svg viewBox="0 0 100 100" fill="currentColor" className="w-8 h-8 text-[#B02618] shrink-0 mt-2">
                 <g transform="translate(50, 50)">
                   <ellipse cx="0" cy="-25" rx="14" ry="25" />
                   <ellipse cx="0" cy="-25" rx="14" ry="25" transform="rotate(72)" />
@@ -157,39 +197,39 @@ const Achievements = () => {
               </svg>
             </h2>
             
-            <p className="text-slate-600 dark:text-text-dark-secondary leading-[1.8] text-lg font-medium">
+            <p className="text-text-secondary dark:text-text-dark-secondary leading-[1.8] text-lg font-medium">
               A chronicle of high-intensity builds, competitive engineering, and national-level technical triumphs.
             </p>
           </div>
 
           {/* RIGHT PANEL: Stacking Arena */}
-          <div className="w-full md:w-[55%] relative flex flex-col gap-6 md:block md:h-[60vh] perspective-1000">
+          <div className="w-full md:w-[55%] relative flex flex-col gap-6 md:block md:h-[48vh] perspective-1000">
             {CARDS.map((card, i) => (
               <div 
                 key={i}
                 ref={el => { cardsRef.current[i] = el; }}
-                className="md:absolute top-0 left-0 w-full md:h-full bg-white dark:bg-[#1a1a1a] border border-slate-200 dark:border-border-dark rounded-2xl p-6 md:p-8 flex flex-col gap-4 transform-gpu shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] dark:shadow-none"
+                className="md:absolute top-0 left-0 w-full md:h-full bg-white dark:bg-[#1a1a1a] border border-border-light dark:border-border-dark rounded-2xl p-6 md:p-8 flex flex-col gap-4 transform-gpu shadow-[0_20px_40px_-15px_rgba(58,36,24,0.10)] dark:shadow-none"
                 style={{ zIndex: i }}
               >
                 {/* Darkening Overlay for 3D depth */}
-                <div className="card-overlay absolute inset-0 bg-slate-900 dark:bg-black rounded-2xl pointer-events-none z-10" style={{ opacity: 0 }} />
-                
+                <div className="card-overlay absolute inset-0 bg-[#3A2418] dark:bg-black rounded-2xl pointer-events-none z-10" style={{ opacity: 0 }} />
+
                 <div className="relative z-20 flex flex-col h-full">
-                  <span className="text-[#E05A47] text-sm font-bold uppercase tracking-wider mb-2">
+                  <span className="text-[#B02618] text-sm font-bold uppercase tracking-wider mb-2">
                     {card.category}
                   </span>
-                  
-                  <h3 className="font-heading text-xl md:text-2xl font-bold text-slate-800 dark:text-text-dark-primary mb-3 leading-[1.25]">
+
+                  <h3 className="font-heading text-xl md:text-2xl font-bold text-text-primary dark:text-text-dark-primary mb-3 leading-[1.25]">
                     {card.title}
                   </h3>
-                  
-                  <p className="text-[14px] text-slate-600 dark:text-text-dark-secondary font-medium leading-relaxed mb-4">
+
+                  <p className="text-[17px] text-text-secondary dark:text-text-dark-secondary font-medium leading-relaxed mb-4">
                     {card.context}
                   </p>
-                  
-                  <div className="mt-auto pt-4 border-t border-slate-100 dark:border-border-dark">
-                    <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                      <strong className="text-slate-700 dark:text-slate-300 font-semibold mr-2">Core Focus:</strong>
+
+                  <div className="mt-6 pt-4 border-t border-divider-light dark:border-border-dark">
+                    <p className="text-[16px] text-text-muted dark:text-text-dark-muted leading-relaxed">
+                      <strong className="text-text-primary dark:text-text-dark-primary font-semibold mr-2">Core Focus:</strong>
                       {card.focus}
                     </p>
                   </div>

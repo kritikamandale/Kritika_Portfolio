@@ -3,8 +3,8 @@
 // ============================================================
 // MY STACK SECTION — Aesthetic inline logo+name layout
 // Inspired by bold category headings + bare icon+label rows.
-// Uses the Sunset Bliss palette: pumpkin-spice, cinnabar,
-// dusty-mauve, banana-cream, blue-grey.
+// Category accent bars rotate between the site's brick-red and
+// warm-gold accents. Icon logos keep their real brand colors.
 // ============================================================
 
 import React from 'react';
@@ -13,7 +13,7 @@ import { motion } from 'framer-motion';
 import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';
 
 // ── Inline SVG helper ────────────────────────────────────────
-const SvgIcon = ({ children, viewBox = '0 0 128 128', size = 32 }) => (
+const SvgIcon = ({ children, viewBox = '0 0 128 128', size = 34 }) => (
   <svg width={size} height={size} viewBox={viewBox} xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
     {children}
   </svg>
@@ -81,21 +81,6 @@ const ICONS = {
       <path fill="#6cac48" d="M16.3 2v26.6h3c.3 0 .5-.2.5-.5l.7-9.5c3.1-1.3 5.3-4.1 5.3-8.2C25.8 6.4 21.4 2 16.3 2z" />
     </SvgIcon>
   ),
-  Firebase: () => (
-    <SvgIcon viewBox="0 0 32 32">
-      <path fill="#FFA000" d="M19.62 11.558l-3.203 2.98-2.972-5.995 1.538-3.448c.4-.7 1.024-.692 1.414 0z" />
-      <path fill="#F57F17" d="M13.445 8.543l2.972 5.995-11.97 11.135z" />
-      <path fill="#FFCA28" d="M23.123 7.003c.572-.55 1.164-.362 1.315.417l3.116 18.105-10.328 6.2c-.36.2-1.32.286-1.32.286s-.874-.104-1.207-.3L4.447 25.673z" />
-      <path fill="#FFA000" d="M13.445 8.543l-8.997 17.13 3.552-21.455c.151-.78.655-.966 1.122-.414z" />
-    </SvgIcon>
-  ),
-  AWS: () => (
-    <SvgIcon viewBox="0 0 24 24">
-      <path fill="#FF9900" d="M6.763 10.036c0 .296.032.535.088.71.064.176.144.368.256.576a.347.347 0 01.056.184c0 .08-.048.16-.152.24l-.504.336a.383.383 0 01-.208.072c-.08 0-.16-.04-.24-.112a2.47 2.47 0 01-.288-.376 6.18 6.18 0 01-.248-.472c-.624.736-1.408 1.104-2.352 1.104-.672 0-1.208-.192-1.6-.576-.392-.384-.6-.896-.6-1.536 0-.68.24-1.232.728-1.648.488-.416 1.136-.624 1.96-.624.272 0 .552.024.848.064.296.04.6.104.92.176v-.584c0-.608-.128-1.032-.376-1.28-.256-.248-.688-.368-1.304-.368-.28 0-.568.032-.864.104-.296.072-.584.16-.864.272a2.294 2.294 0 01-.28.104.488.488 0 01-.128.024c-.112 0-.168-.08-.168-.248v-.392c0-.128.016-.224.056-.28a.597.597 0 01.224-.168c.28-.144.616-.264 1.008-.36.392-.104.808-.152 1.248-.152.952 0 1.648.216 2.096.648.44.432.664 1.088.664 1.968v2.592zm-3.24 1.212c.264 0 .536-.048.824-.144.288-.096.544-.272.76-.512a1.24 1.24 0 00.32-.664c.048-.256.08-.528.08-.816v-.392a6.8 6.8 0 00-.736-.136 6.02 6.02 0 00-.752-.048c-.536 0-.928.104-1.184.32-.256.208-.384.504-.384.896 0 .36.092.632.28.824.18.184.44.272.792.272z" />
-      <path fill="#252F3E" d="M21.365 17.398c-2.613 1.93-6.41 2.955-9.678 2.955-4.576 0-8.697-1.69-11.814-4.507-.245-.22-.026-.52.267-.35 3.363 1.957 7.524 3.133 11.821 3.133 2.898 0 6.086-.6 9.02-1.847.443-.19.813.29.384.616z" />
-      <path fill="#252F3E" d="M22.443 16.166c-.334-.43-2.207-.203-3.048-.102-.255.031-.294-.193-.064-.353 1.493-1.048 3.944-.746 4.23-.395.286.354-.074 2.804-1.476 3.975-.216.18-.421.085-.325-.155.315-.786 1.017-2.54.683-2.97z" />
-    </SvgIcon>
-  ),
   Python: () => (
     <SvgIcon viewBox="0 0 32 32">
       <defs>
@@ -158,11 +143,6 @@ const ICONS = {
       <path fill="#FCC624" d="M16 2C8.3 2 2 8.3 2 16s6.3 14 14 14 14-6.3 14-14S23.7 2 16 2zm0 2c2.7 0 5.2.9 7.3 2.4-1.2.5-2.3 1.3-3.1 2.4-.8 1.1-1.2 2.4-1.2 3.7 0 1.3.4 2.5 1.1 3.6.7 1 1.7 1.8 2.8 2.2-1 2-2.1 3.8-3.4 5.3-1.3-1.5-2.4-3.3-3.4-5.3 1.1-.4 2.1-1.2 2.8-2.2.7-1 1.1-2.3 1.1-3.6 0-1.3-.4-2.6-1.2-3.7-.8-1.1-1.9-1.9-3.1-2.4C19.2 4.9 16 4 16 4z" />
     </SvgIcon>
   ),
-  GraphQL: () => (
-    <SvgIcon viewBox="0 0 24 24">
-      <path fill="#E10098" d="M14.051 2.751l4.935 2.85c.816-.859 2.173-.893 3.032-.077.859.816.893 2.173.077 3.032-.816.859-2.173.893-3.032.077l-4.935 2.851v1.177a2.147 2.147 0 011.439 2.027 2.147 2.147 0 01-2.147 2.147 2.147 2.147 0 01-2.147-2.147 2.147 2.147 0 011.439-2.027v-1.177L7.781 8.608C6.95 9.535 5.57 9.52 4.762 8.698c-.859-.816-.893-2.173-.077-3.032.816-.859 2.173-.893 3.032-.077l4.977-2.851V1.573a2.147 2.147 0 01-1.439-2.027A2.147 2.147 0 0113.402-.6a2.147 2.147 0 012.147 2.147 2.147 2.147 0 01-1.498 2.032v1.172zm-8.424 9.273l-1.53-.883-.532.919 1.53.883.532-.919zm1.58-2.737L2.272 6.438l-.532.919 4.935 2.85.532-.919zm12.694 2.737l-.532-.919-1.53.883.532.919 1.53-.883zm-1.58-2.737l-.532-.919-4.935 2.85.532.919 4.935-2.85z" />
-    </SvgIcon>
-  ),
   Postman: () => (
     <SvgIcon viewBox="0 0 32 32">
       <circle fill="#FF6C37" cx="16" cy="16" r="14" />
@@ -186,17 +166,9 @@ const ICONS = {
   ),
   RestAPI: () => (
     <SvgIcon viewBox="0 0 32 32">
-      <circle cx="16" cy="16" r="14" fill="none" stroke="#FF8C42" strokeWidth="2" />
-      <path fill="#FF8C42" d="M10 13h12v6H10z" opacity="0.3" />
-      <path fill="#FF8C42" d="M8 12h16v2H8zm0 6h16v2H8zm4-3h8v2h-8z" />
-    </SvgIcon>
-  ),
-  LangChain: () => (
-    <SvgIcon viewBox="0 0 32 32">
-      <path d="M8 20c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="#6699CC" strokeWidth="2" fill="none" />
-      <circle cx="8" cy="20" r="3" fill="#FF8C42" />
-      <circle cx="24" cy="20" r="3" fill="#A23E48" />
-      <circle cx="16" cy="12" r="3" fill="#FF3C38" />
+      <circle cx="16" cy="16" r="14" fill="none" stroke="#B02618" strokeWidth="2" />
+      <path fill="#B02618" d="M10 13h12v6H10z" opacity="0.3" />
+      <path fill="#B02618" d="M8 12h16v2H8zm0 6h16v2H8zm4-3h8v2h-8z" />
     </SvgIcon>
   ),
   HuggingFace: () => (
@@ -220,9 +192,9 @@ const EmojiPill = ({ emoji }) => (
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      width: 32,
-      height: 32,
-      fontSize: 20,
+      width: 34,
+      height: 34,
+      fontSize: 22,
       flexShrink: 0,
       lineHeight: 1,
     }}
@@ -267,7 +239,7 @@ const SkillChip = ({ name, iconKey, emoji }) => {
         style={{
           fontFamily: 'var(--font-sans)',
           fontWeight: 500,
-          fontSize: '0.9rem',
+          fontSize: '1.025rem',
           color: 'var(--color-text-primary)',
           letterSpacing: '0.01em',
           whiteSpace: 'nowrap',
@@ -325,13 +297,13 @@ const CategoryHeading = ({ label, index }) => (
   </div>
 );
 
-// Sunset palette accent rotation per category
+// Accent bar rotation per category — alternates the two palette accents
 const ACCENT_COLORS = [
-  '#FF8C42', // pumpkin-spice
-  '#A23E48', // dusty-mauve
-  '#FF3C38', // cinnabar
-  '#10a37f', // emerald (GenAI)
-  '#6699CC', // blue-grey
+  '#B02618', // brick red
+  '#F5DE8F', // warm gold
+  '#B02618',
+  '#F5DE8F',
+  '#B02618',
 ];
 
 // ── Data ──────────────────────────────────────────────────────
@@ -354,10 +326,7 @@ const GROUPS = [
       { name: 'Docker', iconKey: 'Docker' },
       { name: 'PostgreSQL', iconKey: 'PostgreSQL' },
       { name: 'MongoDB', iconKey: 'MongoDB' },
-      { name: 'Firebase', iconKey: 'Firebase' },
-      { name: 'AWS', iconKey: 'AWS' },
       { name: 'REST API', iconKey: 'RestAPI' },
-      { name: 'GraphQL', iconKey: 'GraphQL' },
       { name: 'Postman', iconKey: 'Postman' },
     ],
   },
@@ -379,9 +348,7 @@ const GROUPS = [
     skills: [
       { name: 'LLMs', emoji: '🧠' },
       { name: 'OpenAI API', iconKey: 'OpenAI' },
-      { name: 'LangChain', iconKey: 'LangChain' },
       { name: 'Hugging Face', iconKey: 'HuggingFace' },
-      { name: 'RAG', emoji: '📚' },
       { name: 'Prompt Eng.', emoji: '🎯' },
       { name: 'Generative AI', emoji: '🤖' },
     ],

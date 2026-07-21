@@ -1,4 +1,4 @@
-import { Outfit, Inter, Fira_Code } from 'next/font/google'
+import { Fraunces, Yeseva_One, Inter, Fira_Code } from 'next/font/google'
 import './globals.css'
 import '../src/styles/variables.css'
 import SmoothScroll from '../src/components/SmoothScroll/SmoothScroll'
@@ -8,12 +8,23 @@ import SmoothScroll from '../src/components/SmoothScroll/SmoothScroll'
 // No external network request is made at runtime — eliminates the Google Fonts
 // CDN dependency entirely and removes the need for preconnect hints.
 
-const outfit = Outfit({
+const fraunces = Fraunces({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700', '800'],
+  weight: 'variable',
+  style: ['normal', 'italic'],
+  axes: ['SOFT', 'WONK', 'opsz'],
   variable: '--font-heading-next',
   display: 'swap',
   preload: true,
+})
+
+const yesevaOne = Yeseva_One({
+  subsets: ['latin'],
+  weight: '400',
+  style: ['normal'],
+  variable: '--font-yeseva',
+  display: 'swap',
+  preload: false, // used on a single hero element only — not on critical path
 })
 
 const inter = Inter({
@@ -68,7 +79,7 @@ export default function RootLayout({ children }) {
       // CSS variables are applied here so they cascade to every element.
       // The existing --font-sans / --font-heading vars in variables.css
       // still work; these next/font vars override them with self-hosted files.
-      className={`${outfit.variable} ${inter.variable} ${firaCode.variable}`}
+      className={`${fraunces.variable} ${yesevaOne.variable} ${inter.variable} ${firaCode.variable}`}
     >
       <head>
         <script

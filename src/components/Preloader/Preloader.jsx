@@ -11,12 +11,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 const BUBBLES = [
-  { id: 1, color: 'var(--brand-blue, #6699CC)',     size: 110, cx: -60,  cy: -80, sx: '-50vw', sy: '-50vh' },
-  { id: 2, color: 'var(--brand-orange, #FF8C42)', size: 95,  cx: 80,   cy: -40, sx: '50vw',  sy: '-50vh' },
-  { id: 3, color: 'var(--brand-mauve, #A23E48)',   size: 80,  cx: -50,  cy: 90,  sx: '-50vw', sy: '50vh'  },
-  { id: 4, color: 'var(--brand-yellow, #FFF275)',  size: 65,  cx: 60,   cy: 70,  sx: '50vw',  sy: '50vh'  },
-  { id: 5, color: 'var(--brand-red, #FF3C38)',      size: 50,  cx: 20,   cy: 110, sx: '0vw',   sy: '60vh'  },
-  { id: 6, color: 'var(--brand-orange, #FF8C42)', size: 40,  cx: -90,  cy: 20,  sx: '-60vw', sy: '0vh'   },
+  { id: 1, color: '#B02618',  size: 110, cx: -60,  cy: -80, sx: '-50vw', sy: '-50vh' },
+  { id: 2, color: '#F5DE8F',  size: 95,  cx: 80,   cy: -40, sx: '50vw',  sy: '-50vh' },
+  { id: 3, color: '#3A2418',  size: 80,  cx: -50,  cy: 90,  sx: '-50vw', sy: '50vh'  },
+  { id: 4, color: '#F5DE8F',  size: 65,  cx: 60,   cy: 70,  sx: '50vw',  sy: '50vh'  },
+  { id: 5, color: '#8A1C10',  size: 50,  cx: 20,   cy: 110, sx: '0vw',   sy: '60vh'  },
+  { id: 6, color: '#B02618',  size: 40,  cx: -90,  cy: 20,  sx: '-60vw', sy: '0vh'   },
 ];
 
 const Preloader = ({ onComplete }) => {
@@ -70,10 +70,10 @@ const Preloader = ({ onComplete }) => {
     resize();
 
     const colors = [
-      'rgba(255, 140, 66, 0.4)',
-      'rgba(102, 153, 204, 0.4)',
-      'rgba(255, 60, 56, 0.4)',
-      'rgba(162, 62, 72, 0.3)',
+      'rgba(176, 38, 24, 0.35)',
+      'rgba(245, 222, 143, 0.35)',
+      'rgba(138, 28, 16, 0.30)',
+      'rgba(58, 36, 24, 0.25)',
     ];
 
     const draw = () => {

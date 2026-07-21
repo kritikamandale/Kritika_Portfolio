@@ -61,7 +61,7 @@ const AvailabilityBanner = () => {
         role="banner"
         aria-live="polite"
       >
-        <span className="w-2 h-2 rounded-full bg-[#6ee7b7] shrink-0 animate-[customPulse_2s_ease-in-out_infinite] motion-reduce:animate-none" aria-hidden="true" />
+        <span className="w-2 h-2 rounded-full bg-brand-yellow shrink-0 animate-[customPulse_2s_ease-in-out_infinite] motion-reduce:animate-none" aria-hidden="true" />
         <span className="text-center">
           Currently open to opportunities —{' '}
           <a href="#contact" className="text-brand-yellow font-bold underline underline-offset-[3px] transition-opacity duration-150 ease hover:opacity-80" onClick={dismiss}>

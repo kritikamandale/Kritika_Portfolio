@@ -16,7 +16,7 @@ const GithubContributions = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="w-full h-48 animate-pulse rounded-2xl bg-gray-100 dark:bg-gray-800" />
+      <div className="w-full h-48 animate-pulse rounded-2xl bg-surface-2-light dark:bg-surface-2-dark" />
     ),
   }
 );

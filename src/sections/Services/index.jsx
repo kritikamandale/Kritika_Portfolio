@@ -1,47 +1,276 @@
 'use client';
 
-import React, { useRef, useCallback } from 'react';
-import { Rocket } from 'lucide-react';
+import React, { useRef, useCallback, useState } from 'react';
+import Image from 'next/image';
 // eslint-disable-next-line no-unused-vars
-import { motion, useMotionValue, useSpring, useMotionTemplate } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useMotionTemplate, useReducedMotion } from 'framer-motion';
 import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';
 
 /* ─────────────────────────────────────────────
    SHARED STYLE HELPERS
 ───────────────────────────────────────────── */
+// Shared corner radius for every top-level bento card — keep in sync across all cells.
+const cardRadius = 'rounded-[1.75rem]';
+
 const glassCard =
-  'relative overflow-hidden rounded-[1.25rem] p-6 flex flex-col justify-between ' +
-  'border border-[rgba(200,75,49,0.18)] dark:border-[rgba(200,75,49,0.25)] ' +
-  '[background:rgba(255,248,244,0.55)] dark:[background:rgba(30,15,10,0.45)] ' +
+  `relative overflow-hidden ${cardRadius} p-5 sm:p-6 flex flex-col justify-between ` +
+  'border border-[rgba(58,36,24,0.15)] dark:border-[rgba(58,36,24,0.20)] ' +
+  '[background:rgba(255,255,255,0.60)] dark:[background:rgba(28,16,8,0.45)] ' +
   '[backdrop-filter:blur(16px)] [-webkit-backdrop-filter:blur(16px)] ' +
   'hover:-translate-y-1 hover:scale-[1.01] transition-all duration-300 ease-out';
 
 const solidTerracotta =
-  'relative overflow-hidden rounded-[1.25rem] p-6 flex flex-col justify-between ' +
-  'bg-[#C84B31] ' +
+  `relative overflow-hidden ${cardRadius} p-5 sm:p-6 flex flex-col justify-between ` +
+  'bg-[#B02618] ' +
   'hover:-translate-y-1 hover:scale-[1.01] transition-all duration-300 ease-out';
 
 const solidAmber =
-  'relative overflow-hidden rounded-[1.25rem] p-6 flex flex-col justify-between ' +
-  'bg-[#F2C078] ' +
+  `relative overflow-hidden ${cardRadius} p-5 sm:p-6 flex flex-col justify-between ` +
+  'bg-[#F5DE8F] ' +
+  'hover:-translate-y-1 hover:scale-[1.01] transition-all duration-300 ease-out';
+
+const solidCoral =
+  `relative overflow-hidden ${cardRadius} p-5 sm:p-6 flex flex-col justify-center gap-3 ` +
+  'bg-[#3A2418] ' +
   'hover:-translate-y-1 hover:scale-[1.01] transition-all duration-300 ease-out';
 
 /* ─────────────────────────────────────────────
-   PILL BADGE
+   SOCIAL ICONS (monochrome → brand colour on hover)
 ───────────────────────────────────────────── */
-const Pill = ({ children, className = '' }) => (
-  <span
-    className={`inline-block px-3 py-1 rounded-full text-xs md:text-sm font-semibold border ${className}`}
-  >
+const SocialSvg = ({ children }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
     {children}
-  </span>
+  </svg>
 );
+
+const SOCIALS = [
+  {
+    label: 'GitHub',
+    href: 'https://github.com/kritikamandale',
+    color: '#1a0a06',
+    icon: (
+      <SocialSvg>
+        <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.03c3.15-.38 6.5-1.4 6.5-7.17A5.3 5.3 0 0 0 19 4.5a5.2 5.2 0 0 0-.5-4.5s-1.5-.5-4.5 1.5a14.2 14.2 0 0 0-8 0c-3-2-4.5-1.5-4.5-1.5a5.2 5.2 0 0 0-.5 4.5 5.3 5.3 0 0 0 1.5 3.3c0 5.77 3.34 6.79 6.5 7.17A4.8 4.8 0 0 0 8 18v4" />
+        <path d="M9 18c-4.51 2-5-2-7-2" />
+      </SocialSvg>
+    ),
+  },
+  {
+    label: 'LinkedIn',
+    href: 'https://linkedin.com/in/kritikamandale',
+    color: '#0A66C2',
+    icon: (
+      <SocialSvg>
+        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+        <rect width="4" height="12" x="2" y="9" />
+        <circle cx="4" cy="4" r="2" />
+      </SocialSvg>
+    ),
+  },
+  {
+    label: 'Twitter',
+    href: 'https://twitter.com/kritikamandale',
+    color: '#1DA1F2',
+    icon: (
+      <SocialSvg>
+        <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+      </SocialSvg>
+    ),
+  },
+  {
+    label: 'Telegram',
+    href: 'https://t.me/Kritikalog',
+    color: '#26A5E4',
+    icon: (
+      <SocialSvg>
+        <path d="m22 2-7 20-4-9-9-4Z" />
+        <path d="M22 2 11 13" />
+      </SocialSvg>
+    ),
+  },
+  {
+    label: 'Hashnode',
+    href: 'https://hashnode.com/@kritikam',
+    color: '#2962FF',
+    icon: (
+      <SocialSvg>
+        <path d="m22.351 8.019-6.37-6.37a5.63 5.63 0 0 0-7.962 0l-6.37 6.37a5.63 5.63 0 0 0 0 7.962l6.37 6.37a5.63 5.63 0 0 0 7.962 0l6.37-6.37a5.63 5.63 0 0 0 0-7.962zM12 15.953a3.953 3.953 0 1 1 0-7.906 3.953 3.953 0 0 1 0 7.906z" />
+      </SocialSvg>
+    ),
+  },
+  {
+    label: 'Email',
+    href: 'mailto:kritikamandale@gmail.com',
+    color: '#EA4335',
+    icon: (
+      <SocialSvg>
+        <rect width="20" height="16" x="2" y="4" rx="2" />
+        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+      </SocialSvg>
+    ),
+  },
+];
+
+// Single social link — monochrome, turns brand colour on hover, clickable
+const SocialLink = ({ social }) => {
+  const isMail = social.href.startsWith('mailto:');
+  return (
+    <a
+      href={social.href}
+      target={isMail ? undefined : '_blank'}
+      rel="noopener noreferrer"
+      aria-label={social.label}
+      title={social.label}
+      style={{ '--brand': social.color }}
+      className="w-full aspect-square flex items-center justify-center rounded-[3rem] bg-white/70 dark:bg-white/[0.05] border border-[rgba(176,38,24,0.15)] dark:border-white/[0.08] shadow-sm text-[#8A6858] dark:text-[#9A7A60] transition-all duration-300 ease-out hover:-translate-y-1 hover:!bg-[var(--brand)] hover:!border-[var(--brand)] hover:!text-white hover:shadow-[0_8px_20px_rgba(30,20,15,0.2)]"
+    >
+      {social.icon}
+    </a>
+  );
+};
+
+/* ─────────────────────────────────────────────
+   TECH CHIP ICONS (subset — self-contained, no cross-file deps)
+───────────────────────────────────────────── */
+const TechIcon = ({ children, viewBox = '0 0 128 128' }) => (
+  <svg width="14" height="14" viewBox={viewBox} xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
+    {children}
+  </svg>
+);
+
+const TECH_CHIPS = [
+  {
+    name: 'Next.js',
+    icon: (
+      <TechIcon viewBox="0 0 24 24">
+        <path d="M11.572 0c-.176 0-.31.001-.358.007a19.76 19.76 0 01-.364.033C7.443.346 4.25 2.185 2.228 5.012a11.875 11.875 0 00-2.119 5.243c-.096.659-.108.854-.108 1.747s.012 1.089.108 1.748c.652 4.506 3.86 8.292 8.209 9.695.779.25 1.6.422 2.534.525.363.04 1.935.04 2.299 0 1.611-.178 2.977-.577 4.323-1.264.207-.106.247-.134.219-.158-.02-.013-.9-1.193-1.955-2.62l-1.919-2.592-2.404-3.558a338.739 338.739 0 00-2.422-3.556c-.009-.002-.018 1.579-.023 3.51-.007 3.38-.01 3.515-.052 3.595a.426.426 0 01-.206.214c-.075.037-.14.044-.495.044H7.81l-.108-.068a.438.438 0 01-.157-.171l-.05-.106.006-4.703.007-4.705.072-.092a.645.645 0 01.174-.143c.096-.047.134-.051.54-.051.478 0 .558.018.682.154.035.038 1.337 1.999 2.895 4.361a10760.433 10760.433 0 004.735 7.17l1.9 2.879.096-.063a12.317 12.317 0 002.466-2.163 11.944 11.944 0 002.824-6.134c.096-.66.108-.854.108-1.748 0-.893-.012-1.088-.108-1.747-.652-4.506-3.859-8.292-8.208-9.695a12.597 12.597 0 00-2.499-.523A33.119 33.119 0 0011.572 0zm4.069 7.217c.347 0 .408.005.486.047a.473.473 0 01.237.277c.018.06.023 1.365.018 4.304l-.006 4.218-.744-1.14-.746-1.14v-3.066c0-1.982.01-3.097.023-3.15a.478.478 0 01.233-.296c.096-.05.13-.057.5-.057z" fill="currentColor" />
+      </TechIcon>
+    ),
+  },
+  {
+    name: 'React',
+    icon: (
+      <TechIcon>
+        <circle cx="64" cy="64" r="11.4" fill="#61DAFB" />
+        <path fill="none" stroke="#61DAFB" strokeWidth="6" d="M64 27c21.7 0 41.7 3 56.6 7.9C136 40 144 47.1 144 55.5s-8 15.6-23.4 20.6C105.7 81 85.7 84 64 84s-41.7-3-56.6-7.9C-8 71.1-16 64 -16 55.5s8-15.6 23.4-20.6C22.3 30 42.3 27 64 27z" />
+        <path fill="none" stroke="#61DAFB" strokeWidth="6" d="M46.2 37.3c10.8-18.8 23.5-33.9 34.7-43.2C92.1-14.7 101.4-17 108 -13.2c6.6 3.8 9.1 13.6 7.3 27.2-1.7 13.2-7.8 29.4-16.9 45.5-9.1 16.1-20 30.1-30.3 39.7C57 109.8 47.6 113.3 41 109.5c-6.6-3.8-9.1-13.5-7.3-27.1 1.7-13.3 7.7-29.4 12.5-45.1z" />
+        <path fill="none" stroke="#61DAFB" strokeWidth="6" d="M46.2 73.7c-10.8-18.8-17.3-37.3-19.2-52.7C25.2 7.4 28.3-1.6 35 -5.3c6.6-3.8 16.2-.3 26.5 9.3 10.3 9.6 20.9 25.2 29.9 41.3 9.1 16.1 15.6 32.5 17.8 46.3 2.2 13.3-.4 22.4-7 26.2-6.6 3.8-16.1.2-26.3-9.3C66 99.1 57 84.6 46.2 73.7z" />
+      </TechIcon>
+    ),
+  },
+  {
+    name: 'JavaScript',
+    icon: (
+      <TechIcon viewBox="0 0 400 400">
+        <rect width="400" height="400" fill="#F7DF1E" rx="50" />
+        <path d="M318 328c7 13 17 22 34 22 14 0 23-7 23-17 0-12-9-16-25-22l-9-4c-25-10-41-23-41-50 0-25 19-44 49-44 21 0 36 7 47 26l-26 17c-6-10-12-14-21-14-10 0-16 6-16 14 0 10 6 14 20 20l9 4c29 12 46 25 46 53 0 30-24 46-56 46-31 0-51-15-61-34zm-118 3c5 10 10 18 21 18 11 0 17-4 17-21V168h34v162c0 35-20 51-50 51-27 0-43-14-51-31z" />
+      </TechIcon>
+    ),
+  },
+  {
+    name: 'SQL',
+    icon: (
+      <TechIcon viewBox="0 0 32 32">
+        <path fill="#336791" d="M28.3 14.2c-.4-3.7-2.1-6.5-5.1-8.3-1-.6-2.1-1-3.2-1.3-.1-.9-.4-2.1-1.3-3-.8-.8-1.9-1.2-3.2-1.2-1.1 0-2.1.3-2.9.9-.6-.1-1.2-.1-1.8-.1C5.8 1.2 2.1 5.4 2.1 10.7c0 2.5.8 4.8 2.3 6.4 1 1.1 2.4 1.8 3.8 2 .1 1.3.7 2.7 1.8 3.7 1.2 1 2.6 1.5 4.1 1.5.5 0 1-.1 1.5-.2.5.5 1 .9 1.6 1.2.9.5 2 .8 3.1.8 1.4 0 2.7-.4 3.7-1.1.9-.6 1.5-1.5 1.8-2.5 1.3-.3 2.5-1 3.3-2 1-1.2 1.5-2.8 1.5-4.5 0-.6-.1-1.3-.3-1.8h-.3z" />
+      </TechIcon>
+    ),
+  },
+  {
+    name: 'Python',
+    icon: (
+      <TechIcon viewBox="0 0 32 32">
+        <path fill="#387EB8" d="M15.885 2.1c-7.1 0-6.651 3.07-6.651 3.07v3.19h6.752v1H6.545S2 8.8 2 16.005s4.013 6.912 4.013 6.912H8.33v-3.361s-.13-4.013 3.9-4.013h6.765s3.769.06 3.769-3.64V5.14s.572-3.04-6.849-3.04zm-3.74 1.96a1.094 1.094 0 11-1.09 1.09 1.097 1.097 0 011.09-1.09z" />
+        <path fill="#FFC331" d="M16.085 29.91c7.1 0 6.651-3.07 6.651-3.07v-3.19h-6.752v-1h9.441S30 23.22 30 16.015s-4.013-6.912-4.013-6.912H23.67v3.361s.13 4.013-3.9 4.013h-6.765s-3.769-.06-3.769 3.64v6.663s-.572 3.13 6.849 3.13zm3.74-1.96a1.094 1.094 0 111.09-1.09 1.097 1.097 0 01-1.09 1.09z" />
+      </TechIcon>
+    ),
+  },
+  {
+    name: 'CSS',
+    icon: (
+      <TechIcon>
+        <path fill="#264de4" d="M3.4 0L0 128h128L124.6 0z" />
+        <path fill="#2965f1" d="M64 116.8l50.3-14 6.8-76H64z" />
+        <path fill="#ebebeb" d="M64 52H38.7l1.2 13.4H64V52zM64 90.8l-.3.1-14.7-4-1-11H34.2l2 22.2 27.5 7.6.3-.1z" />
+        <path fill="#fff" d="M63.9 52h25.3l-2.4 26.8-22.9 6.3V71.7l13-3.6 1-10.7H63.9V52zm0 38.8v13.7l27.6-7.6 2.3-25.2H80.5l-1.2 13.6-15.4 4.2z" />
+      </TechIcon>
+    ),
+  },
+  {
+    name: 'GitHub',
+    icon: (
+      <TechIcon viewBox="0 0 24 24">
+        <path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+      </TechIcon>
+    ),
+  },
+];
+
+/* ─────────────────────────────────────────────
+   PROJECT SHOWCASE CARD (3 thumbnails, hover-lift)
+───────────────────────────────────────────── */
+const SHOWCASE_PROJECTS = [
+  { name: 'Skinest', image: '/SkinAnalysis.png' },
+  { name: 'Milap', image: '/Milap.png' },
+  { name: 'SnapVerdict', image: '/SnapVerdict.png' },
+  { name: 'SecureID', image: '/secureid.png' },
+];
+
+const ProjectShowcaseCard = () => {
+  const [hovered, setHovered] = useState(null);
+
+  return (
+    <div className={`${glassCard} sm:col-span-2 xl:col-start-2 xl:col-span-2 xl:row-start-1 z-10`}>
+      <span className="inline-block px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-widest border bg-[#B02618]/10 border-[#B02618]/20 text-[#B02618] dark:bg-[#B02618]/20 w-fit">
+        Selected work
+      </span>
+      <div className="flex items-center mt-5 h-[122px] md:h-[146px]">
+        {SHOWCASE_PROJECTS.map((project, i) => {
+          const isHovered = hovered === i;
+          const isDimmed = hovered !== null && !isHovered;
+          return (
+            <motion.a
+              key={project.name}
+              href="#projects"
+              onMouseEnter={() => setHovered(i)}
+              onMouseLeave={() => setHovered(null)}
+              onFocus={() => setHovered(i)}
+              onBlur={() => setHovered(null)}
+              className={`relative flex-1 min-w-0 h-full rounded-[0.8rem] overflow-hidden border border-[rgba(176,38,24,0.2)] dark:border-[rgba(176,38,24,0.3)] bg-[#f3ece4] dark:bg-[#1b120c] cursor-pointer shadow-[0_6px_16px_rgba(30,20,15,0.18)] ${i > 0 ? '-ml-[6%]' : ''}`}
+              style={{ zIndex: isHovered ? 30 : SHOWCASE_PROJECTS.length - i }}
+              animate={{
+                scale: isHovered ? 1.18 : 1,
+                y: isHovered ? -18 : 0,
+                filter: isDimmed ? 'brightness(0.82)' : 'brightness(1)',
+              }}
+              transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+            >
+              <Image
+                src={project.image}
+                alt={project.name}
+                fill
+                className="object-cover object-top"
+                sizes="(max-width: 768px) 120px, 180px"
+              />
+              <div
+                className={`absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-70'}`}
+              />
+              <span className="absolute bottom-0 left-0 right-0 px-2 pb-1.5 text-[10px] md:text-[12px] font-bold text-white text-center leading-tight">
+                {project.name}
+              </span>
+            </motion.a>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
 
 /* ─────────────────────────────────────────────
    SERVICES COMPONENT
 ───────────────────────────────────────────── */
 const Services = () => {
   const sectionRef = useRef(null);
+  const reduceMotion = useReducedMotion();
 
   /* Mouse-tracking radial glow */
   const mouseX = useMotionValue(0);
@@ -50,7 +279,7 @@ const Services = () => {
   const springY = useSpring(mouseY, { stiffness: 80, damping: 20 });
 
   /* useMotionTemplate properly composes MotionValues into a reactive string */
-  const glowBackground = useMotionTemplate`radial-gradient(500px circle at ${springX}px ${springY}px, rgba(200,75,49,0.08), transparent 70%)`;
+  const glowBackground = useMotionTemplate`radial-gradient(500px circle at ${springX}px ${springY}px, rgba(176,38,24,0.08), transparent 70%)`;
 
   const handleMouseMove = useCallback(
     (e) => {
@@ -77,8 +306,8 @@ const Services = () => {
       <div
         ref={sectionRef}
         className="relative w-full mt-4 rounded-[2rem] p-4 sm:p-5
-          [background:linear-gradient(135deg,#FDF8F5_0%,#F5E6DC_100%)]
-          dark:[background:linear-gradient(135deg,#140a07_0%,#1e100a_100%)]"
+          [background:linear-gradient(135deg,#FFFFFF_0%,#FBF6E8_100%)]
+          dark:[background:linear-gradient(135deg,#1c1008_0%,#251608_100%)]"
         onMouseMove={handleMouseMove}
       >
         {/* Mouse-tracking radial glow */}
@@ -92,188 +321,232 @@ const Services = () => {
         {/* ── BENTO GRID ── */}
         <div
           className="
-            grid gap-3
+            grid gap-4 sm:gap-5
             grid-cols-1
-            sm:grid-cols-6
-            lg:grid-cols-12
+            sm:grid-cols-2
+            xl:grid-cols-[1fr_1.05fr_1.15fr]
             relative z-10
           "
         >
-          {/* ── CARD A ── glass, col-span-3 row-span-2 ── */}
-          <div className={`${glassCard} col-span-1 sm:col-span-3 lg:col-span-3 lg:row-span-2 z-10`}>
-            <div>
-              <h3 className="font-heading text-[2.5rem] md:text-[3rem] font-black leading-[1.05] text-[#1a0a06] dark:text-[#f5ede8]">
-                Build AI<br />products<br />that ship<br />fast.
+          {/* ── CELL 1 ── name / tagline — glass, col1 row1 ── */}
+          <div className={`${glassCard} xl:col-start-1 xl:row-start-1 z-10`}>
+            <div className="flex flex-col justify-center h-full">
+              <h3
+                className="font-heading text-[2.75rem] sm:text-[3.25rem] md:text-[3.9rem] font-black leading-[1.03] bg-gradient-to-r from-[#B02618] to-[#3A2418] bg-clip-text text-transparent drop-shadow-[0_0_28px_rgba(176,38,24,0.4)]"
+              >
+                Kritika<br />Mandale
               </h3>
-              <p className="mt-4 text-[13px] md:text-[14px] font-bold text-[#C84B31] tracking-wider uppercase">
-                End-to-end delivery
+              <p className="mt-5 text-[14px] md:text-[15px] font-bold text-[#B02618] tracking-wider uppercase">
+                Full Stack and AI Developer
               </p>
             </div>
-            <div className="mt-8">
+          </div>
+
+          {/* ── CELL 2 ── project showcase (hover-lift thumbnails) ── */}
+          <ProjectShowcaseCard />
+
+          {/* ── CELL 3 ── contact CTA + capability CTA, col1 rows2-3 (split in two) ── */}
+          <div className="xl:col-start-1 xl:row-start-2 xl:row-span-2 z-10 flex flex-col gap-4 sm:gap-5 overflow-hidden min-w-0">
+            {/* Upper — Contact Me */}
+            <div className={`${solidCoral} flex-1`}>
+              <div className="absolute -top-6 -right-6 w-28 h-28 rounded-full bg-white/20 blur-[40px] pointer-events-none" />
+              <div className="relative z-10">
+                <h3 className="font-heading text-[1.3rem] sm:text-[1.5rem] md:text-[1.7rem] font-black text-white leading-[1.15]">
+                  Let&apos;s build something together
+                </h3>
+                <p className="mt-2 text-[13px] md:text-[14px] text-white/85 font-medium">
+                  Have a project in mind? Let&apos;s talk.
+                </p>
+              </div>
               <a
-                href="#projects"
-                className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#C84B31] text-[#C84B31] px-5 py-2 text-[14px] font-bold hover:bg-[#C84B31] hover:text-white transition-colors duration-200"
+                href="#connect"
+                className="relative z-10 inline-flex items-center gap-1.5 w-fit text-[13px] md:text-[14px] font-bold text-[#B02618] bg-white rounded-full px-4 py-2 hover:-translate-y-0.5 hover:shadow-[0_6px_16px_rgba(0,0,0,0.15)] transition-all duration-300 ease-out"
               >
-                Explore Work ✦
+                Contact Me →
               </a>
             </div>
-          </div>
 
-          {/* ── CARD B ── solid terracotta, col-span-5 row-span-1 ── */}
-          <div className={`${solidTerracotta} col-span-1 sm:col-span-3 lg:col-span-5 z-10`}>
-            {/* subtle inner glow */}
-            <div className="absolute top-0 right-0 w-48 h-48 rounded-full bg-white/10 blur-[60px] pointer-events-none" />
-            <div className="relative z-10">
-              <h3 className="font-heading text-[2.25rem] md:text-[2.75rem] font-black text-white leading-[1.1]">
-                Full-Stack AI{' '}
-                <span className="italic text-[#F2C078]">Development.</span>
-              </h3>
-              <div className="mt-5 flex items-center gap-4 flex-wrap">
-                <span className="text-[#F2C078] text-lg tracking-widest">★★★★★</span>
-                <span className="text-white/80 text-[14px] md:text-[15px] font-semibold">
-                  Build and deployed several AI products.
-                </span>
+            {/* Lower — capability CTA (unchanged content) */}
+            <div className={`${solidAmber} flex-1`}>
+              <div className="absolute bottom-0 right-0 w-40 h-40 rounded-full bg-white/20 blur-[50px] pointer-events-none" />
+              <div className="relative z-10">
+                <h3 className="font-heading text-[1.8rem] sm:text-[2.2rem] md:text-[2.8rem] font-black text-[#3A2418] leading-[1.05]">
+                  Build with<br />AI.<br />Scale with<br />confidence.
+                </h3>
+              </div>
+              <div className="relative z-10 mt-6 rounded-xl bg-[#3A2418]/15 p-4 text-[13px] md:text-[14px] text-[#3A2418] font-medium space-y-2.5">
+                <div className="opacity-80">→ Generate from schema</div>
+                <div className="opacity-80">→ Deploy in one click</div>
+                <div className="font-bold text-white">✓ Done in minutes.</div>
               </div>
             </div>
           </div>
 
-          {/* ── CARD C ── glass, col-span-4 row-span-1 ── */}
-          <div className={`${glassCard} col-span-1 sm:col-span-3 lg:col-span-4 z-10`}>
-            <div>
-              <p className="text-[12px] md:text-[13px] font-bold uppercase tracking-widest text-[#C84B31] mb-2">
-                AI Chatbot Development
-              </p>
-              <h3 className="font-heading text-[1.25rem] md:text-[1.5rem] font-extrabold text-[#1a0a06] dark:text-[#f5ede8] leading-tight">
-                Intelligent bots.<br />Real conversations.
-              </h3>
-            </div>
-            <div className="mt-4 rounded-xl bg-white/60 dark:bg-black/20 p-4 text-[12px] md:text-[13px] font-medium space-y-2">
-              <div className="bg-[#C84B31]/10 rounded-lg px-4 py-2 w-fit text-[#1a0a06] dark:text-[#f5ede8]">
-                How can I automate support?
-              </div>
-              <div className="bg-[#C84B31] text-white rounded-lg px-4 py-2 w-fit ml-auto">
-                I&apos;ll build you a custom AI bot →
-              </div>
-            </div>
-          </div>
+          {/* ── CELL 4 ── portrait — static photo, col2 row2 ── */}
+          <motion.div
+            className={`relative overflow-hidden ${cardRadius} border border-[rgba(176,38,24,0.18)] dark:border-[rgba(176,38,24,0.25)] aspect-square xl:col-start-2 xl:row-start-2 z-10 bg-[#e2d5c3] dark:bg-[#2a180f]`}
+            initial={reduceMotion ? false : { opacity: 0, scale: 0.96 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+          >
+            <Image
+              src="/profile.webp"
+              alt="Kritika Mandale"
+              fill
+              className="object-cover object-top"
+              sizes="(max-width: 768px) 340px, 420px"
+            />
+          </motion.div>
 
-          {/* ── CARD D ── glass, col-span-5 row-span-1 ── */}
-          <div className={`${glassCard} col-span-1 sm:col-span-3 lg:col-span-5 z-10`}>
-            <div>
-              <p className="text-[12px] md:text-[13px] font-bold uppercase tracking-widest text-[#C84B31] mb-2">
-                Workflow Automation
-              </p>
-              <h3 className="font-heading text-[1.35rem] md:text-[1.75rem] font-extrabold text-[#1a0a06] dark:text-[#f5ede8] leading-tight">
-                Automate the repetitive.<br />Focus on what matters.
-              </h3>
-            </div>
-            <div className="flex flex-wrap gap-2 mt-4">
-              {['Zapier-style', 'LLM Pipelines', 'Custom APIs'].map((tag) => (
-                <Pill
-                  key={tag}
-                  className="bg-[#C84B31]/10 border-[#C84B31]/20 text-[#C84B31] dark:bg-[#C84B31]/20"
-                >
-                  {tag}
-                </Pill>
-              ))}
-            </div>
-          </div>
+          {/* ── CELL 5 ── location — dark card w/ map + scan line, col2 row3 ── */}
+          <div className={`relative overflow-hidden ${cardRadius} p-8 xl:col-start-2 xl:row-start-3 z-10 text-[#FDFAF0] flex flex-col justify-between min-h-[165px] xl:min-h-[195px]`}>
+            {/* vintage world map background */}
+            <Image
+              src="/world.jpg"
+              alt=""
+              fill
+              className="object-cover pointer-events-none"
+              sizes="(max-width: 768px) 340px, 420px"
+              aria-hidden="true"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/10 pointer-events-none" />
 
-          {/* ── CARD E ── solid amber, col-span-2 row-span-1 ── */}
-          <div className={`${solidAmber} col-span-1 sm:col-span-2 lg:col-span-2 z-10`}>
-            <div className="absolute top-0 left-0 w-32 h-32 rounded-full bg-white/20 blur-[40px] pointer-events-none" />
+            {/* faint dot-grid overlay */}
+            <svg
+              className="absolute inset-0 w-full h-full opacity-[0.1] pointer-events-none"
+              viewBox="0 0 400 200"
+              preserveAspectRatio="xMidYMid slice"
+              fill="none"
+              aria-hidden="true"
+            >
+              {Array.from({ length: 20 }).map((_, row) =>
+                Array.from({ length: 40 }).map((_, col) => {
+                  const x = col * 10 + 5;
+                  const y = row * 10 + 5;
+                  const seed = Math.sin(x * 12.9898 + y * 78.233) * 43758.5453;
+                  const show = seed - Math.floor(seed) > 0.55;
+                  return show ? (
+                    <circle key={`${row}-${col}`} cx={x} cy={y} r="1.1" fill="#FDFAF0" />
+                  ) : null;
+                })
+              )}
+            </svg>
+
             <div className="relative z-10">
-              <h3 className="font-heading text-[2rem] md:text-[2.5rem] font-black text-white leading-[1.05]">
-                Ship<br />faster.
+              <h3 className="font-heading text-[1.3rem] md:text-[1.5rem] font-bold text-[#FDFAF0]">
+                Nagpur, Maharashtra
               </h3>
-              <p className="mt-4 text-white/80 text-[13px] md:text-[14px] font-bold">
-                Agile · MVP-first · Iterative
+              <p className="text-[11px] md:text-[12px] text-[#FDFAF0]/65 mt-1">
+                21.1458° N, 79.0882° E · GMT+5:30
               </p>
             </div>
+
+            <div className="relative z-10 mt-4 space-y-2">
+              <div className="flex items-center gap-2 text-[12px] text-[#FDFAF0]/65">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#F5DE8F] shrink-0" />
+                Open to remote & on-site roles
+              </div>
+              <div className="flex items-center gap-2 text-[12px] text-[#FDFAF0]/65">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#F5DE8F] shrink-0" />
+                Available for hackathons & collabs
+              </div>
+            </div>
+
+            {!reduceMotion && (
+              <motion.div
+                className="absolute top-0 bottom-0 w-[2px] bg-[#F5DE8F] pointer-events-none"
+                style={{ boxShadow: '0 0 12px 2px rgba(245,222,143,0.85), 0 0 28px 6px rgba(176,38,24,0.35)' }}
+                animate={{ left: ['0%', '100%'] }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+              />
+            )}
           </div>
 
-          {/* ── CARD F ── glass, col-span-2 row-span-1 ── */}
-          <div className={`${glassCard} col-span-1 sm:col-span-2 lg:col-span-2 z-10`}>
-            <div>
-              <p className="text-[12px] font-bold uppercase tracking-widest text-[#C84B31] mb-1.5">
-                Dashboard & Admin
-              </p>
-              <h3 className="font-heading text-[1.1rem] md:text-[1.3rem] font-bold text-[#1a0a06] dark:text-[#f5ede8] leading-tight">
-                Data that drives decisions.
-              </h3>
-            </div>
-            <div className="flex items-end gap-1.5 mt-4 h-12">
-              {[40, 65, 50, 80, 70, 90].map((h, i) => (
-                <div
-                  key={i}
-                  style={{ height: `${h}%` }}
-                  className="w-3 md:w-4 rounded-sm bg-[#C84B31] opacity-70 flex-1"
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* ── CARD G ── solid amber, col-span-3 row-span-2 ── */}
-          <div className={`${solidAmber} col-span-1 sm:col-span-3 lg:col-span-3 z-10`}>
-            <div className="absolute bottom-0 right-0 w-40 h-40 rounded-full bg-white/20 blur-[50px] pointer-events-none" />
-            <div className="relative z-10">
-              <h3 className="font-heading text-[2.2rem] md:text-[2.8rem] font-black text-white leading-[1.05]">
-                Build with<br />AI.<br />Scale with<br />confidence.
-              </h3>
-            </div>
-            <div className="relative z-10 mt-6 rounded-xl bg-white/20 p-4 text-[13px] md:text-[14px] text-white font-medium space-y-2.5">
-              <div className="opacity-80">→ Generate API from schema</div>
-              <div className="opacity-80">→ Deploy to Vercel in 1 click</div>
-              <div className="font-bold text-white">✓ Done in 3 minutes.</div>
-            </div>
-          </div>
-
-          {/* ── CARD H ── glass, col-span-3 row-span-1 ── */}
-          <div className={`${glassCard} col-span-1 sm:col-span-3 lg:col-span-3 z-10`}>
-            <div className="text-[4.5rem] md:text-[5.5rem] font-black leading-none text-[#C84B31]">4+</div>
-            <div className="mt-2">
-              <p className="font-heading text-[1.1rem] md:text-[1.3rem] font-bold text-[#1a0a06] dark:text-[#f5ede8] leading-tight">
-                Hackathon wins &amp; National level hackathon Organizer
-              </p>
-              <p className="text-[12px] md:text-[13px] text-[#C84B31]/80 dark:text-[#C84B31]/70 mt-2 font-bold">
-                IIT Delhi  · IIM Indore · Smart India Hackathon
-              </p>
-            </div>
-          </div>
-
-          {/* ── CARD I ── glass, col-span-3 row-span-1 ── */}
-          <div className={`${glassCard} col-span-1 sm:col-span-3 lg:col-span-3 z-10`}>
-            <div>
-              <p className="text-[12px] md:text-[13px] font-bold uppercase tracking-widest text-[#C84B31] mb-2">
-                API Integration
-              </p>
-              <h3 className="font-heading text-[1.25rem] md:text-[1.6rem] font-extrabold text-[#1a0a06] dark:text-[#f5ede8] leading-tight">
-                Connect anything.<br />Break nothing.
-              </h3>
-            </div>
-            <div className="flex flex-wrap gap-2 mt-4">
-              {['REST', 'GraphQL', 'OpenAI', 'WebSockets'].map((tag) => (
-                <Pill
-                  key={tag}
-                  className="bg-[#C84B31]/10 border-[#C84B31]/20 text-[#C84B31] dark:bg-[#C84B31]/20"
-                >
-                  {tag}
-                </Pill>
-              ))}
-            </div>
-          </div>
-
-          {/* ── CARD J ── solid terracotta, col-span-3 row-span-1 ── */}
-          <div className={`${solidTerracotta} col-span-1 sm:col-span-3 lg:col-span-3 z-10`}>
+          {/* ── CELL 6+7 ── terracotta text (cut to content) + socials fill the rest, col3 rows2-3 ── */}
+          <div className="xl:col-start-3 xl:row-start-2 xl:row-span-2 z-10 flex flex-col gap-4 overflow-hidden min-w-0">
+          <div className={`${solidTerracotta} shrink-0`}>
             <div className="absolute bottom-0 left-0 w-36 h-36 rounded-full bg-white/10 blur-[50px] pointer-events-none" />
-            <Rocket className="absolute -bottom-4 -right-4 w-36 h-36 text-white opacity-10 -rotate-12 pointer-events-none" strokeWidth={1} />
             <div className="relative z-10">
-              <h3 className="font-heading text-[1.8rem] md:text-[2.2rem] font-black text-white leading-[1.1]">
-                AI-Powered<br />SaaS. Built<br />to grow.
+              <h3 className="font-heading text-[1.6rem] sm:text-[1.8rem] md:text-[2.2rem] font-black text-white leading-[1.1]">
+                Full-stack AI development.
               </h3>
-              <p className="mt-4 text-[#F2C078] text-[14px] md:text-[15px] font-bold">
-                → From MVP to production
+              <p className="mt-3 text-[13px] md:text-[14px] text-white/85 leading-relaxed">
+                Apps, websites, and automations — built to survive contact with real users.
               </p>
+
+              {/* tech marquee */}
+              <div
+                className="relative mt-5 overflow-hidden group"
+                style={{ WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
+              >
+                {reduceMotion ? (
+                  <div className="flex flex-wrap gap-2.5" role="list" aria-label="Technologies">
+                    {TECH_CHIPS.map((chip) => (
+                      <span
+                        key={chip.name}
+                        role="listitem"
+                        className="inline-flex items-center gap-2 bg-white/[0.08] border border-white/[0.12] rounded-[20px] px-4 py-1.5 text-[13px] text-white"
+                      >
+                        {chip.icon}
+                        {chip.name}
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <>
+                    <div className="sr-only" role="list" aria-label="Technologies">
+                      {TECH_CHIPS.map((chip) => (
+                        <span key={chip.name} role="listitem">{chip.name}</span>
+                      ))}
+                    </div>
+                    <div
+                      className="flex gap-2.5 w-max animate-[marqueeLeft_14s_linear_infinite] group-hover:pause-animation"
+                      aria-hidden="true"
+                    >
+                      {[...TECH_CHIPS, ...TECH_CHIPS].map((chip, i) => (
+                        <span
+                          key={`${chip.name}-${i}`}
+                          className="inline-flex items-center gap-2 bg-white/[0.08] border border-white/[0.12] rounded-[20px] px-4 py-1.5 text-[13px] text-white whitespace-nowrap"
+                        >
+                          {chip.icon}
+                          {chip.name}
+                        </span>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+
+              <div className="mt-5 flex items-center gap-2 text-[12px] text-white/85">
+                <span className="relative flex h-2 w-2" aria-hidden="true">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F5DE8F] opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#F5DE8F]" />
+                </span>
+                Open to hackathons and collaboration
+              </div>
+
+              <p className="mt-6 text-[13px] md:text-[14px] text-white/80 leading-relaxed max-w-[38ch]">
+                Active hackathon competitor with 4+ wins — always down to team up on a bold idea and ship it fast.
+              </p>
+            </div>
+          </div>
+
+            {/* socials — fills the remaining space below the red card, no extra grid growth */}
+            <div id="connect" className="flex-1 flex flex-col justify-center gap-4 min-h-0 scroll-mt-24">
+              <div>
+                <span className="inline-block px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-widest border bg-[#B02618]/10 border-[#B02618]/20 text-[#B02618] dark:bg-[#B02618]/20 w-fit">
+                  Let&apos;s connect
+                </span>
+                <p className="mt-2 text-[12px] md:text-[13px] text-[#5C3D2C] dark:text-[#D4B896]">
+                  Find me across the web — reach out anytime.
+                </p>
+              </div>
+              <div className="grid grid-cols-3 gap-3">
+                {SOCIALS.map((social) => (
+                  <SocialLink key={social.label} social={social} />
+                ))}
+              </div>
             </div>
           </div>
         </div>

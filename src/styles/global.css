@@ -1,6 +1,6 @@
 /* src/styles/global.css */
 /* ============================================================
-   GLOBAL STYLES — Sunset Bliss Light Portfolio
+   GLOBAL STYLES — Brick Red / Warm Gold / Cocoa Portfolio
    ============================================================
 
    FONTS: Outfit, Inter, and Fira Code are self-hosted via
@@ -129,7 +129,7 @@ hr {
   /* scaleX is GPU-composited — zero layout recalculation on every scroll */
   transform: scaleX(0);
   transform-origin: left center;
-  background: linear-gradient(90deg, var(--banana-cream), var(--pumpkin-spice), var(--cinnabar));
+  background: linear-gradient(90deg, #F5DE8F, #B02618);
   z-index: calc(var(--z-navbar) + 1);
   border-radius: 0 2px 2px 0;
   pointer-events: none;
@@ -144,9 +144,9 @@ hr {
   font-weight: var(--font-semibold);
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--dusty-mauve);
-  background: rgba(162, 62, 72, 0.08);
-  border: 1px solid rgba(162, 62, 72, 0.15);
+  color: #B02618;
+  background: rgba(176, 38, 24, 0.08);
+  border: 1px solid rgba(176, 38, 24, 0.20);
   padding: var(--space-1) var(--space-4);
   border-radius: var(--radius-full);
   margin-bottom: var(--space-3);
@@ -166,7 +166,7 @@ hr {
 .heading-star {
   width: 0.8em;
   height: 0.8em;
-  color: var(--pumpkin-spice);
+  color: #B02618;
   flex-shrink: 0;
 }
 
@@ -178,7 +178,7 @@ hr {
   left: 0;
   width: 60px;
   height: 5px;
-  background: linear-gradient(90deg, var(--pumpkin-spice), var(--cinnabar));
+  background: linear-gradient(90deg, #F5DE8F, #B02618);
   border-radius: 4px;
 }
 
@@ -206,7 +206,7 @@ hr {
   left: -2px;
   right: -2px;
   height: 12px;
-  background: var(--banana-cream);
+  background: rgba(245, 222, 143, 0.55);
   z-index: -1;
   transform: rotate(-1deg);
   border-radius: 2px;
@@ -220,18 +220,18 @@ hr {
   background: var(--color-bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--blue-grey);
+  background: #B02618;
   border-radius: var(--radius-full);
   border: 2px solid var(--color-bg);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--pumpkin-spice);
+  background: #8A1C10;
 }
 
 /* ── Selection Color ──────────────────────────────────────── */
 ::selection {
-  background: var(--banana-cream);
-  color: var(--color-text-primary);
+  background: rgba(245, 222, 143, 0.55);
+  color: #3A2418;
 }
 
 /* ── Utility: visually hidden ─────────────────────────────── */
@@ -249,11 +249,11 @@ hr {
 
 /* ── Stack section ────────────────────────────────────────── */
 .skill-chip:hover {
-  background: rgba(255, 140, 66, 0.08);
+  background: rgba(176, 38, 24, 0.07);
 }
 
 [data-theme="dark"] .skill-chip:hover {
-  background: rgba(255, 140, 66, 0.12);
+  background: rgba(245, 222, 143, 0.10);
 }
 
 .stack-divider {

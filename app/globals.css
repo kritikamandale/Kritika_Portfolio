@@ -26,13 +26,15 @@
     font-size: clamp(3.5rem, 8vw, 6rem);
     line-height: 1.05;
     letter-spacing: -0.02em;
-    font-weight: 300;
+    font-weight: 600;
+    font-family: theme('fontFamily.heading');
   }
 
   .text-section {
     font-size: clamp(2rem, 4vw, 3rem);
     line-height: 1.2;
     font-weight: 500;
+    font-family: theme('fontFamily.heading');
   }
 
   /* Grain texture overlay */
@@ -42,7 +44,7 @@
     inset: 0;
     pointer-events: none;
     z-index: 9999;
-    opacity: 0.038;
+    opacity: 0.02;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     background-size: 200px 200px;
   }
@@ -50,10 +52,17 @@
   /* ── Typography Defaults ──────────────────────────────────── */
   h1, h2, h3, h4, h5, h6 {
     font-family: theme('fontFamily.heading');
-    font-weight: 700;
+    font-optical-sizing: auto;
+    font-variation-settings: "SOFT" 0, "WONK" 0;
     line-height: 1.2;
     color: theme('colors.text.primary');
   }
+
+  /* Weight steps down the heading hierarchy so the type scale reads as
+     intentional rather than flat — h1 carries the most presence. */
+  h1 { font-weight: 700; }
+  h2 { font-weight: 600; }
+  h3, h4, h5, h6 { font-weight: 500; }
 
   p {
     color: theme('colors.text.secondary');
@@ -61,13 +70,13 @@
   }
 
   a {
-    color: theme('colors.brand.orange');
+    color: theme('colors.accent.DEFAULT');
     text-decoration: none;
     transition: color 250ms ease;
   }
 
   a:hover {
-    color: theme('colors.brand.red');
+    color: theme('colors.accent.hover');
   }
 
   img { max-width: 100%; display: block; }
@@ -131,7 +140,7 @@
     width: 100%;
     transform: scaleX(0);
     transform-origin: left center;
-    background: linear-gradient(90deg, theme('colors.brand.yellow'), theme('colors.brand.orange'), theme('colors.brand.red'));
+    background: linear-gradient(90deg, #F5DE8F, #B02618);
     z-index: 101;
     border-radius: 0 2px 2px 0;
     pointer-events: none;
@@ -139,16 +148,17 @@
   }
 
   /* ── Section Heading Shared Style ─────────────────────────── */
+  /* Pill-shaped eyebrow badge — stays in the body sans font, not Fraunces. */
   .section-label {
     display: inline-block;
-    font-family: theme('fontFamily.heading');
+    font-family: theme('fontFamily.sans');
     font-size: theme('fontSize.xs[0]');
     font-weight: 600;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: theme('colors.brand.mauve');
-    background: rgba(162, 62, 72, 0.08);
-    border: 1px solid rgba(162, 62, 72, 0.15);
+    color: #B02618;
+    background: rgba(176, 38, 24, 0.08);
+    border: 1px solid rgba(176, 38, 24, 0.20);
     padding: 0.25rem 1rem;
     border-radius: 9999px;
     margin-bottom: 0.75rem;
@@ -156,7 +166,7 @@
 
   .section-title {
     font-size: theme('fontSize.3xl.0');
-    font-weight: 800;
+    font-weight: 600;
     color: theme('colors.text.primary');
     margin-bottom: 1rem;
     position: relative;
@@ -168,7 +178,7 @@
   .heading-star {
     width: 0.8em;
     height: 0.8em;
-    color: theme('colors.brand.orange');
+    color: #B02618;
     flex-shrink: 0;
   }
 
@@ -179,7 +189,7 @@
     left: 0;
     width: 60px;
     height: 5px;
-    background: linear-gradient(90deg, theme('colors.brand.orange'), theme('colors.brand.red'));
+    background: linear-gradient(90deg, #F5DE8F, #B02618);
     border-radius: 4px;
   }
 
@@ -189,6 +199,24 @@
     max-width: 100%;
     line-height: 1.7;
     margin: 0 auto;
+  }
+
+  /* Explicit Fraunces utility for one-off heading-styled elements that
+     aren't real h1–h6 tags (e.g. a styled span/div acting as a title). */
+  .fraunces-heading {
+    font-family: theme('fontFamily.heading');
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings:
+      "SOFT" 0,
+      "WONK" 0;
+  }
+
+  /* Hero name only — "Kritika Mandale". Not used anywhere else on the site. */
+  .name-yeseva {
+    font-family: var(--font-yeseva), "Yeseva One", serif;
+    font-weight: 400;
+    font-style: normal;
   }
 
   /* ── Keyword highlight spans inside headings ──────────────── */
@@ -206,7 +234,7 @@
     left: -2px;
     right: -2px;
     height: 12px;
-    background: theme('colors.brand.yellow');
+    background: rgba(245, 222, 143, 0.55);
     z-index: -1;
     transform: rotate(-1deg);
     border-radius: 2px;
@@ -228,18 +256,18 @@
   background: theme('colors.bg.light');
 }
 ::-webkit-scrollbar-thumb {
-  background: theme('colors.brand.blue');
+  background: #B02618;
   border-radius: 9999px;
   border: 2px solid theme('colors.bg.light');
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: theme('colors.brand.orange');
+  background: #8A1C10;
 }
 
 /* ── Selection Color ──────────────────────────────────────── */
 ::selection {
-  background: theme('colors.brand.yellow');
-  color: theme('colors.text.primary');
+  background: rgba(245, 222, 143, 0.55);
+  color: #3A2418;
 }
 
 /* ── Custom Layout Fixes ──────────────────────────────────── */
@@ -249,11 +277,11 @@ section[id] {
 
 /* ── Stack section ────────────────────────────────────────── */
 .skill-chip:hover {
-  background: rgba(255, 140, 66, 0.08);
+  background: rgba(176, 38, 24, 0.07);
 }
 
 .dark .skill-chip:hover {
-  background: rgba(255, 140, 66, 0.12);
+  background: rgba(245, 222, 143, 0.10);
 }
 
 .stack-divider {

@@ -27,7 +27,7 @@ const Button = ({
   const variantClasses = {
     primary: "bg-accent text-white hover:-translate-y-0.5 hover:opacity-90",
     secondary: "bg-transparent text-text-primary dark:text-text-dark-primary border border-border-light dark:border-border-dark hover:border-accent hover:text-accent hover:-translate-y-0.5",
-    ghost: "bg-transparent border-[1.5px] border-brand-orange/40 text-text-primary dark:text-text-dark-primary hover:bg-brand-orange/10 hover:border-brand-orange hover:text-brand-orange hover:-translate-y-0.5"
+    ghost: "bg-transparent border-[1.5px] border-accent/40 text-text-primary dark:text-text-dark-primary hover:bg-accent/8 hover:border-accent hover:text-accent hover:-translate-y-0.5"
   };
 
   const sizeClasses = {

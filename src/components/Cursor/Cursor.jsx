@@ -97,7 +97,7 @@ const Cursor = () => {
       ring.style.transform = isHovering
         ? `translate(${ringX}px, ${ringY}px) translate(-50%, -50%) scale(2.2)`
         : `translate(${ringX}px, ${ringY}px) translate(-50%, -50%) scale(1)`;
-      ring.style.borderColor = isHovering ? 'rgba(255,140,66,0.7)' : '';
+      ring.style.borderColor = isHovering ? 'rgba(176,38,24,0.7)' : '';
 
       // Trail dots — each follows the one ahead
       for (let i = 0; i < TRAIL_COUNT; i++) {
@@ -163,7 +163,7 @@ const Cursor = () => {
           key={i}
           ref={(el) => { trailRefs.current[i] = { current: el }; }}
           aria-hidden="true"
-          className="fixed top-0 left-0 rounded-full bg-brand-orange pointer-events-none z-[9997] will-change-transform hidden md:block"
+          className="fixed top-0 left-0 rounded-full bg-brand-red pointer-events-none z-[9997] will-change-transform hidden md:block"
           style={{
             width:     TRAIL_SIZES[i],
             height:    TRAIL_SIZES[i],
