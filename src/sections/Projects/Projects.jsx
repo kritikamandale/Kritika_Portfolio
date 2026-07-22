@@ -167,10 +167,10 @@ const PROJECTS = [
     image: '/Offroad_segmentation.png',
     desc: 'Hackathon-winning glassmorphic UI for real-time offroad terrain segmentation.',
     features: [
-      { icon: 'car', text: 'Real-time Terrain Segmentation' },
-      { icon: 'search', text: 'Side-by-side Mask Overlays' },
-      { icon: 'bot', text: 'Gemini AI Risk Analysis' },
-      { icon: 'sparkles', text: 'Modern Glassmorphic Interface' },
+      { icon: 'camera', text: 'Photo, Video & Webcam Input' },
+      { icon: 'car', text: 'Real-Time Terrain Segmentation' },
+      { icon: 'search', text: 'Traversability Map Generation' },
+      { icon: 'sparkles', text: 'Automated Safety Scoring' },
     ],
     problem: 'Autonomous agents struggle navigating unstructured terrain without lanes.',
     approach: 'Train a custom segmentation model paired with an interactive visualization UI.',
@@ -349,10 +349,13 @@ const ProjectCard = ({ project }) => {
           </div>
 
           {/* Laptop Mockup (transparent screen area lets the screenshot show through) */}
+          {/* drop-shadow-lg, not -2xl — a large-radius filter shadow recomputed
+              against this image's full alpha silhouette on every repaint was
+              a real scroll-jank cost, multiplied across every project card. */}
           <img
             src="/laptop_mockup_transparent.webp"
             alt="Laptop Mockup"
-            className="relative z-10 w-full h-auto pointer-events-none drop-shadow-2xl"
+            className="relative z-10 w-full h-auto pointer-events-none drop-shadow-lg"
             loading="lazy"
           />
         </div>

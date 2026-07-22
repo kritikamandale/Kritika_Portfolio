@@ -13,11 +13,15 @@ import { GithubOutlineIcon, LinkedinIcon, GithubFilledIcon, ReactLogoIcon } from
 // Shared corner radius for every top-level bento card — keep in sync across all cells.
 const cardRadius = 'rounded-[1.75rem]';
 
+// No backdrop-filter here on purpose — a live backdrop blur forces the
+// browser to recomposite this (large, always-mounted) card continuously
+// while the page scrolls, which was the main source of scroll jank in this
+// section. A near-opaque background keeps the same "glass card" read
+// without the per-frame compositing cost.
 const glassCard =
   `relative overflow-hidden ${cardRadius} p-5 sm:p-6 flex flex-col justify-between ` +
   'border border-[rgba(58,36,24,0.15)] dark:border-[rgba(58,36,24,0.20)] ' +
-  '[background:rgba(255,255,255,0.60)] dark:[background:rgba(28,16,8,0.45)] ' +
-  '[backdrop-filter:blur(16px)] [-webkit-backdrop-filter:blur(16px)] ' +
+  '[background:rgba(255,255,255,0.88)] dark:[background:rgba(28,16,8,0.80)] ' +
   'hover:-translate-y-1 hover:scale-[1.01] transition-all duration-300 ease-out';
 
 const solidTerracotta =
@@ -273,7 +277,7 @@ const Services = () => {
   return (
     <SectionWrapper
       id="services"
-      label="DOMAINS"
+      label="SERVICES"
       title={
         <>
           What I Build
