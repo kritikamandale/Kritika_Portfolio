@@ -133,6 +133,14 @@ const FEATURE_ICONS = {
       <path d="M3 7l9 6 9-6" />
     </FeatureIconSvg>
   ),
+  users: (
+    <FeatureIconSvg>
+      <circle cx="9" cy="8" r="3.5" />
+      <path d="M2.5 20a6.5 6.5 0 0 1 13 0" />
+      <path d="M16.5 5.5a3.5 3.5 0 0 1 0 6.8" />
+      <path d="M18.5 13.5a6.5 6.5 0 0 1 3 5.5" />
+    </FeatureIconSvg>
+  ),
 };
 
 const PROJECTS = [
@@ -185,17 +193,17 @@ const PROJECTS = [
     id: 'p7',
     color: 'maroon',
     title: 'MILAP',
-    subtitle: 'AI-POWERED LUXURY EVENT PLATFORM',
+    subtitle: 'AI-POWERED SMART EVENT PLATFORM',
     image: '/Milap.png',
     desc: 'AI-powered event platform connecting hosts with 10,000+ verified vendors across India.',
     features: [
-      { icon: 'sparkles', text: 'Indian Themed UI' },
+      { icon: 'sparkles', text: 'Pichwai-Inspired Design' },
       { icon: 'bot', text: 'AI Event Planning Assistant' },
       { icon: 'search', text: 'Advanced Vendor Discovery & Filters' },
-      { icon: 'chart', text: 'Host & Admin Dashboards' },
+      { icon: 'users', text: 'Guest & RSVP Management' },
     ],
     problem: 'Luxury event planning in India is fragmented, no single platform connects verified premium vendors with discerning hosts.',
-    approach: 'Next.js 15, AI planning assistant, and a dark-gold design.',
+    approach: 'Next.js 15, AI planning assistant, and a Pichwai-inspired design.',
     outcome: '50,000+ events planned, 4.9/5 rating, 2,400+ reviews, and 10,000+ verified vendors onboarded.',
     builtForBusinessValue: 'Built for wedding planners & luxury hosts, faster vendor sourcing, AI-guided budgeting.',
     tags: ['Next.js 15', 'TypeScript', 'Groq AI', 'Framer Motion', 'Prisma', 'Tailwind CSS'],
@@ -218,8 +226,8 @@ const PROJECTS = [
     ],
     problem: 'Manual damage claim verification is slow, expensive, and subject to inconsistent standards.',
     approach: 'Multi-stage pipeline merging deterministic evidence gates with Gemini 2.5 Flash visual inspection.',
-    outcome: 'Automated verification capable of processing claims in under 10s with structured outputs.',
-    builtFor: 'Insurance Providers | Delivery Logistics | E-Commerce',
+    outcome: 'Automated verification processing claims in under 10 seconds across 4 evidence stages and 3 claim categories, with structured, auditable outputs.',
+    builtFor: 'Insurers | Warranty Providers | E-Commerce & Logistics | Rental & Leasing',
     businessValue: 'Reduces manual review time, identifies risky claims, and ensures consistent evidence.',
     tags: ['Python', 'FastAPI', 'Gemini API', 'Pandas'],
     githubUrl: 'https://github.com/kritikamandale/SnapVerdict',
