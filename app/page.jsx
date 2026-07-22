@@ -6,11 +6,10 @@ import AvailabilityBanner from '../src/components/AvailabilityBanner/Availabilit
 import Navbar from '../src/components/Navbar/Navbar'
 import HeroSection from '../src/sections/Hero/HeroSection'
 import About from '../src/sections/About/About'
-import Services from '../src/sections/Services/index'
-import Stack from '../src/sections/Stack/index'
+import Services from '../src/sections/Services/Services'
+import Stack from '../src/sections/Stack/Stack'
 import Projects from '../src/sections/Projects/Projects'
 import Experience from '../src/sections/Experience/Experience'
-import Philosophy from '../src/sections/Philosophy/Philosophy'
 import Contact from '../src/sections/Contact/Contact'
 import Footer from '../src/components/Footer/Footer'
 import PageClient from '../src/components/PageClient/PageClient'
@@ -54,7 +53,6 @@ export default function Home() {
           <Certificates />
         </Suspense>
 
-        <Philosophy />
         <Contact />
       </main>
       <Footer />

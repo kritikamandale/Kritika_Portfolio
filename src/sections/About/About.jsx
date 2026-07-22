@@ -42,7 +42,7 @@ const CARDS = [
   {
     icon: '🏆',
     title: 'Proven under pressure',
-    desc: 'From OpenPools to NASA Space Apps, I thrive in high-stakes environments and deliver winning solutions under tight deadlines.',
+    desc: 'From Openpools to NASA Space Apps, I thrive in high-stakes environments and deliver winning solutions under tight deadlines.',
     barColor: 'bg-accent',
     iconBg: 'bg-accent/10',
     iconColor: 'text-accent',
@@ -50,7 +50,7 @@ const CARDS = [
   {
     icon: '🧠',
     title: 'AI-first thinking',
-    desc: 'I architect intelligent systems — leveraging LLMs and ML models to solve real-world problems, not just write code.',
+    desc: 'I architect intelligent systems, leveraging LLMs and ML models to solve real-world problems, not just write code.',
     barColor: 'bg-brand-yellow',
     iconBg: 'bg-brand-yellow/10',
     iconColor: 'text-brand-yellow',
@@ -66,7 +66,7 @@ const CARDS = [
   {
     icon: '⚙️',
     title: 'End-to-end ownership',
-    desc: 'I close the full loop — from fine-tuning ML models to deploying scalable web interfaces that users love.',
+    desc: 'I close the full loop, from fine-tuning ML models to deploying scalable web interfaces that users love.',
     barColor: 'bg-brand-slate',
     iconBg: 'bg-brand-slate/10',
     iconColor: 'text-brand-slate',
@@ -98,7 +98,7 @@ const About = () => {
             </div>
 
             <p className="text-[16px] text-text-secondary dark:text-text-dark-secondary leading-[1.8]">
-              I enjoy building intelligent web applications that combine AI with seamless user experiences. My focus is on end-to-end product development — from fine-tuning ML models to deploying scalable web interfaces that solve real workflow challenges. Whether it’s a startup, a business, or a hackathon team, I build things that work and ship fast. Currently interning at Matverse Vision (AI/ML) and open to internships and collaborative AI product builds.
+              I enjoy building intelligent web applications that combine AI with seamless user experiences. My focus is on end-to-end product development, from fine-tuning ML models to deploying scalable web interfaces that solve real workflow challenges. Whether it’s a startup, a business, or a hackathon team, I build things that work and ship fast. Open to internships, freelancing and collaborative AI product builds.
             </p>
 
             <div className="flex flex-wrap gap-3 mt-2">
@@ -108,7 +108,7 @@ const About = () => {
                   className={`
                     text-[14px] font-medium px-4 py-2 rounded-pill transition-all duration-250
                     ${tag.hot
-                      ? 'bg-[linear-gradient(135deg,#F5DE8F,#B02618)] text-[#3A2418] font-semibold shadow-[0_4px_12px_rgba(176,38,24,0.2)]'
+                      ? 'bg-[#B02618] text-white font-semibold shadow-[0_4px_12px_rgba(176,38,24,0.2)]'
                       : 'bg-surface-light dark:bg-surface-dark text-text-secondary dark:text-text-dark-secondary border border-divider-light dark:border-divider-dark'}
                   `}
                 >
@@ -118,7 +118,7 @@ const About = () => {
             </div>
 
             <div className="flex gap-4 mt-4">
-              <Button variant="primary" href="#contact" className="!px-4 !py-2 !text-14">
+              <Button variant="primary" href="#contact" className="!px-4 !py-2 !text-14 !bg-[#3A2418] hover:!bg-[#2a180f]">
                 Work with me
               </Button>
               <Button variant="ghost" href="/Kritika_Resume.pdf" target="_blank" rel="noopener noreferrer" className="!px-4 !py-2 !text-14">

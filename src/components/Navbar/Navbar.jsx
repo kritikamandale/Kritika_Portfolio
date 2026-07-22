@@ -7,6 +7,7 @@
 // ============================================================
 
 import React, { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import Button from '../Button/Button';
 
 const NAV_LINKS = [
@@ -15,15 +16,20 @@ const NAV_LINKS = [
   { label: 'Projects', href: '#projects' },
   { label: 'About', href: '#about' },
   { label: 'Experience', href: '#experience' },
-  { label: 'Stack', href: '#stack' },
-  { label: 'Achievements', href: '#achievements' },
-  { label: 'Certificates', href: '#certificates' },
+  { label: 'Mindset', href: '/mindset', route: true },
 ];
 
 const Navbar = () => {
+  const pathname = usePathname();
   const [active, setActive] = useState('hero');
   const [menuOpen, setMenu] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+
+  // Route-based links (e.g. /mindset) navigate to a real page; hash links
+  // (e.g. #hero) scroll within the homepage. When we're not on the homepage,
+  // hash links need a leading "/" so they navigate back home first.
+  const resolveHref = (href) => (href.startsWith('#') && pathname !== '/' ? `/${href}` : href);
+  const isLinkActive = (link) => (link.route ? pathname === link.href : active === link.href.slice(1));
 
   /* ── Hover top space detection ── */
   useEffect(() => {
@@ -41,7 +47,11 @@ const Navbar = () => {
 
   /* ── Active section detection ── */
   useEffect(() => {
-    const sectionIds = NAV_LINKS.map((l) => l.href.slice(1));
+    // Old browsers without IntersectionObserver: skip active-link tracking
+    // rather than throwing — the nav itself still works fine without it.
+    if (typeof IntersectionObserver === 'undefined') return;
+
+    const sectionIds = NAV_LINKS.filter((l) => !l.route).map((l) => l.href.slice(1));
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -85,18 +95,19 @@ const Navbar = () => {
     >
       <div className="flex items-center justify-between gap-6 px-6 py-2.5 bg-gradient-to-r from-[#B02618] to-[#8A1C10] backdrop-blur-md rounded-full shadow-lg border-none">
         {/* Logo */}
-        <a href="#hero" className="font-heading text-15 font-bold text-white tracking-[-0.02em] flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-md">
+        <a href={resolveHref('#hero')} className="font-heading text-15 font-bold text-white tracking-[-0.02em] flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-md">
           ✦ <span>kritikalog</span>
         </a>
 
         {/* Desktop links */}
         <ul className="hidden md:flex items-center gap-1" role="list">
-          {NAV_LINKS.map(({ label, href }) => {
-            const isActive = active === href.slice(1);
+          {NAV_LINKS.map((link) => {
+            const { label, href } = link;
+            const isActive = isLinkActive(link);
             return (
               <li key={href}>
                 <a
-                  href={href}
+                  href={resolveHref(href)}
                   className={`
                     text-13 px-4 py-1.5 rounded-full transition-colors duration-250 relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white
                     ${isActive 
@@ -154,12 +165,13 @@ const Navbar = () => {
         `}
         role="menu"
       >
-        {NAV_LINKS.map(({ label, href }) => {
-          const isActive = active === href.slice(1);
+        {NAV_LINKS.map((link) => {
+          const { label, href } = link;
+          const isActive = isLinkActive(link);
           return (
             <a
               key={href}
-              href={href}
+              href={resolveHref(href)}
               className={`
                 text-base px-4 py-3 rounded-lg transition-colors duration-250 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange
                 ${isActive

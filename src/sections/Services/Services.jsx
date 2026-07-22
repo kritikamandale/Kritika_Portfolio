@@ -5,6 +5,7 @@ import Image from 'next/image';
 // eslint-disable-next-line no-unused-vars
 import { motion, useMotionValue, useSpring, useMotionTemplate, useReducedMotion } from 'framer-motion';
 import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';
+import { GithubOutlineIcon, LinkedinIcon, GithubFilledIcon, ReactLogoIcon } from '../../components/Icons/BrandIcons';
 
 /* ─────────────────────────────────────────────
    SHARED STYLE HELPERS
@@ -20,7 +21,7 @@ const glassCard =
   'hover:-translate-y-1 hover:scale-[1.01] transition-all duration-300 ease-out';
 
 const solidTerracotta =
-  `relative overflow-hidden ${cardRadius} p-5 sm:p-6 flex flex-col justify-between ` +
+  `relative overflow-hidden ${cardRadius} p-4 sm:p-5 flex flex-col justify-between ` +
   'bg-[#B02618] ' +
   'hover:-translate-y-1 hover:scale-[1.01] transition-all duration-300 ease-out';
 
@@ -30,7 +31,7 @@ const solidAmber =
   'hover:-translate-y-1 hover:scale-[1.01] transition-all duration-300 ease-out';
 
 const solidCoral =
-  `relative overflow-hidden ${cardRadius} p-5 sm:p-6 flex flex-col justify-center gap-3 ` +
+  `relative overflow-hidden ${cardRadius} p-5 sm:p-6 flex flex-col justify-start gap-3 ` +
   'bg-[#3A2418] ' +
   'hover:-translate-y-1 hover:scale-[1.01] transition-all duration-300 ease-out';
 
@@ -38,7 +39,7 @@ const solidCoral =
    SOCIAL ICONS (monochrome → brand colour on hover)
 ───────────────────────────────────────────── */
 const SocialSvg = ({ children }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
+  <svg xmlns="http://www.w3.org/2000/svg" className="w-9 h-9 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
     {children}
   </svg>
 );
@@ -48,24 +49,13 @@ const SOCIALS = [
     label: 'GitHub',
     href: 'https://github.com/kritikamandale',
     color: '#1a0a06',
-    icon: (
-      <SocialSvg>
-        <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.03c3.15-.38 6.5-1.4 6.5-7.17A5.3 5.3 0 0 0 19 4.5a5.2 5.2 0 0 0-.5-4.5s-1.5-.5-4.5 1.5a14.2 14.2 0 0 0-8 0c-3-2-4.5-1.5-4.5-1.5a5.2 5.2 0 0 0-.5 4.5 5.3 5.3 0 0 0 1.5 3.3c0 5.77 3.34 6.79 6.5 7.17A4.8 4.8 0 0 0 8 18v4" />
-        <path d="M9 18c-4.51 2-5-2-7-2" />
-      </SocialSvg>
-    ),
+    icon: <GithubOutlineIcon className="w-9 h-9 shrink-0" strokeWidth={1.6} />,
   },
   {
     label: 'LinkedIn',
     href: 'https://linkedin.com/in/kritikamandale',
     color: '#0A66C2',
-    icon: (
-      <SocialSvg>
-        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-        <rect width="4" height="12" x="2" y="9" />
-        <circle cx="4" cy="4" r="2" />
-      </SocialSvg>
-    ),
+    icon: <LinkedinIcon className="w-9 h-9 shrink-0" strokeWidth={1.6} />,
   },
   {
     label: 'Twitter',
@@ -100,7 +90,7 @@ const SOCIALS = [
   },
   {
     label: 'Email',
-    href: 'mailto:kritikamandale@gmail.com',
+    href: '#contact',
     color: '#EA4335',
     icon: (
       <SocialSvg>
@@ -113,16 +103,16 @@ const SOCIALS = [
 
 // Single social link — monochrome, turns brand colour on hover, clickable
 const SocialLink = ({ social }) => {
-  const isMail = social.href.startsWith('mailto:');
+  const isInternal = social.href.startsWith('#') || social.href.startsWith('mailto:');
   return (
     <a
       href={social.href}
-      target={isMail ? undefined : '_blank'}
-      rel="noopener noreferrer"
+      target={isInternal ? undefined : '_blank'}
+      rel={isInternal ? undefined : 'noopener noreferrer'}
       aria-label={social.label}
       title={social.label}
       style={{ '--brand': social.color }}
-      className="w-full aspect-square flex items-center justify-center rounded-[3rem] bg-white/70 dark:bg-white/[0.05] border border-[rgba(176,38,24,0.15)] dark:border-white/[0.08] shadow-sm text-[#8A6858] dark:text-[#9A7A60] transition-all duration-300 ease-out hover:-translate-y-1 hover:!bg-[var(--brand)] hover:!border-[var(--brand)] hover:!text-white hover:shadow-[0_8px_20px_rgba(30,20,15,0.2)]"
+      className="w-full aspect-square max-h-[5.625rem] flex items-center justify-center rounded-[3rem] bg-white/70 dark:bg-white/[0.05] border border-[rgba(176,38,24,0.15)] dark:border-white/[0.08] shadow-sm text-[#8A6858] dark:text-[#9A7A60] transition-all duration-300 ease-out hover:-translate-y-1 hover:!bg-[var(--brand)] hover:!border-[var(--brand)] hover:!text-white hover:shadow-[0_8px_20px_rgba(30,20,15,0.2)]"
     >
       {social.icon}
     </a>
@@ -133,7 +123,7 @@ const SocialLink = ({ social }) => {
    TECH CHIP ICONS (subset — self-contained, no cross-file deps)
 ───────────────────────────────────────────── */
 const TechIcon = ({ children, viewBox = '0 0 128 128' }) => (
-  <svg width="14" height="14" viewBox={viewBox} xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
+  <svg className="w-3.5 h-3.5 shrink-0" viewBox={viewBox} xmlns="http://www.w3.org/2000/svg">
     {children}
   </svg>
 );
@@ -149,14 +139,7 @@ const TECH_CHIPS = [
   },
   {
     name: 'React',
-    icon: (
-      <TechIcon>
-        <circle cx="64" cy="64" r="11.4" fill="#61DAFB" />
-        <path fill="none" stroke="#61DAFB" strokeWidth="6" d="M64 27c21.7 0 41.7 3 56.6 7.9C136 40 144 47.1 144 55.5s-8 15.6-23.4 20.6C105.7 81 85.7 84 64 84s-41.7-3-56.6-7.9C-8 71.1-16 64 -16 55.5s8-15.6 23.4-20.6C22.3 30 42.3 27 64 27z" />
-        <path fill="none" stroke="#61DAFB" strokeWidth="6" d="M46.2 37.3c10.8-18.8 23.5-33.9 34.7-43.2C92.1-14.7 101.4-17 108 -13.2c6.6 3.8 9.1 13.6 7.3 27.2-1.7 13.2-7.8 29.4-16.9 45.5-9.1 16.1-20 30.1-30.3 39.7C57 109.8 47.6 113.3 41 109.5c-6.6-3.8-9.1-13.5-7.3-27.1 1.7-13.3 7.7-29.4 12.5-45.1z" />
-        <path fill="none" stroke="#61DAFB" strokeWidth="6" d="M46.2 73.7c-10.8-18.8-17.3-37.3-19.2-52.7C25.2 7.4 28.3-1.6 35 -5.3c6.6-3.8 16.2-.3 26.5 9.3 10.3 9.6 20.9 25.2 29.9 41.3 9.1 16.1 15.6 32.5 17.8 46.3 2.2 13.3-.4 22.4-7 26.2-6.6 3.8-16.1.2-26.3-9.3C66 99.1 57 84.6 46.2 73.7z" />
-      </TechIcon>
-    ),
+    icon: <ReactLogoIcon className="w-3.5 h-3.5 shrink-0" />,
   },
   {
     name: 'JavaScript',
@@ -197,11 +180,7 @@ const TECH_CHIPS = [
   },
   {
     name: 'GitHub',
-    icon: (
-      <TechIcon viewBox="0 0 24 24">
-        <path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
-      </TechIcon>
-    ),
+    icon: <GithubFilledIcon className="w-3.5 h-3.5 shrink-0" />,
   },
 ];
 
@@ -219,11 +198,11 @@ const ProjectShowcaseCard = () => {
   const [hovered, setHovered] = useState(null);
 
   return (
-    <div className={`${glassCard} sm:col-span-2 xl:col-start-2 xl:col-span-2 xl:row-start-1 z-10`}>
-      <span className="inline-block px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-widest border bg-[#B02618]/10 border-[#B02618]/20 text-[#B02618] dark:bg-[#B02618]/20 w-fit">
+    <div className={`${glassCard} sm:col-span-2 bento:col-start-2 bento:col-span-2 bento:row-start-1 z-10`}>
+      <span className="inline-block px-3 py-1 rounded-full text-[0.6875rem] font-bold uppercase tracking-widest border bg-[#B02618]/10 border-[#B02618]/20 text-[#B02618] dark:bg-[#B02618]/20 w-fit">
         Selected work
       </span>
-      <div className="flex items-center mt-5 h-[122px] md:h-[146px]">
+      <div className="flex items-center mt-5 h-[7.625rem] md:h-[9.125rem]">
         {SHOWCASE_PROJECTS.map((project, i) => {
           const isHovered = hovered === i;
           const isDimmed = hovered !== null && !isHovered;
@@ -254,7 +233,7 @@ const ProjectShowcaseCard = () => {
               <div
                 className={`absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-70'}`}
               />
-              <span className="absolute bottom-0 left-0 right-0 px-2 pb-1.5 text-[10px] md:text-[12px] font-bold text-white text-center leading-tight">
+              <span className="absolute bottom-0 left-0 right-0 px-2 pb-1.5 text-[0.625rem] md:text-[0.75rem] font-bold text-white text-center leading-tight">
                 {project.name}
               </span>
             </motion.a>
@@ -324,20 +303,20 @@ const Services = () => {
             grid gap-4 sm:gap-5
             grid-cols-1
             sm:grid-cols-2
-            xl:grid-cols-[1fr_1.05fr_1.15fr]
+            bento:grid-cols-[1fr_1.05fr_1.15fr]
             relative z-10
           "
         >
           {/* ── CELL 1 ── name / tagline — glass, col1 row1 ── */}
-          <div className={`${glassCard} xl:col-start-1 xl:row-start-1 z-10`}>
+          <div className={`${glassCard} bento:col-start-1 bento:row-start-1 z-10`}>
             <div className="flex flex-col justify-center h-full">
               <h3
                 className="font-heading text-[2.75rem] sm:text-[3.25rem] md:text-[3.9rem] font-black leading-[1.03] bg-gradient-to-r from-[#B02618] to-[#3A2418] bg-clip-text text-transparent drop-shadow-[0_0_28px_rgba(176,38,24,0.4)]"
               >
                 Kritika<br />Mandale
               </h3>
-              <p className="mt-5 text-[14px] md:text-[15px] font-bold text-[#B02618] tracking-wider uppercase">
-                Full Stack and AI Developer
+              <p className="mt-5 text-[0.875rem] md:text-[0.9375rem] font-bold text-[#B02618] tracking-wider uppercase">
+                Web and AI Developer
               </p>
             </div>
           </div>
@@ -346,21 +325,35 @@ const Services = () => {
           <ProjectShowcaseCard />
 
           {/* ── CELL 3 ── contact CTA + capability CTA, col1 rows2-3 (split in two) ── */}
-          <div className="xl:col-start-1 xl:row-start-2 xl:row-span-2 z-10 flex flex-col gap-4 sm:gap-5 overflow-hidden min-w-0">
+          <div className="bento:col-start-1 bento:row-start-2 bento:row-span-2 z-10 flex flex-col gap-4 sm:gap-5 overflow-hidden min-w-0">
             {/* Upper — Contact Me */}
             <div className={`${solidCoral} flex-1`}>
               <div className="absolute -top-6 -right-6 w-28 h-28 rounded-full bg-white/20 blur-[40px] pointer-events-none" />
+              {/* Background icon — large faint paper-plane, purely decorative */}
+              <svg
+                className="absolute -bottom-6 -right-6 w-40 h-40 text-white/10 rotate-[10deg] pointer-events-none z-0"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="m22 2-7 20-4-9-9-4Z" />
+                <path d="M22 2 11 13" />
+              </svg>
               <div className="relative z-10">
                 <h3 className="font-heading text-[1.3rem] sm:text-[1.5rem] md:text-[1.7rem] font-black text-white leading-[1.15]">
                   Let&apos;s build something together
                 </h3>
-                <p className="mt-2 text-[13px] md:text-[14px] text-white/85 font-medium">
+                <p className="mt-2 text-[0.8125rem] md:text-[0.875rem] text-white/85 font-medium">
                   Have a project in mind? Let&apos;s talk.
                 </p>
               </div>
               <a
-                href="#connect"
-                className="relative z-10 inline-flex items-center gap-1.5 w-fit text-[13px] md:text-[14px] font-bold text-[#B02618] bg-white rounded-full px-4 py-2 hover:-translate-y-0.5 hover:shadow-[0_6px_16px_rgba(0,0,0,0.15)] transition-all duration-300 ease-out"
+                href="#contact"
+                className="relative z-10 flex-1 flex items-center justify-center gap-3 w-full whitespace-nowrap text-[2.125rem] md:text-[2.625rem] font-black text-white hover:text-[#F5DE8F] hover:scale-[1.03] transition-all duration-300 ease-out"
               >
                 Contact Me →
               </a>
@@ -370,11 +363,11 @@ const Services = () => {
             <div className={`${solidAmber} flex-1`}>
               <div className="absolute bottom-0 right-0 w-40 h-40 rounded-full bg-white/20 blur-[50px] pointer-events-none" />
               <div className="relative z-10">
-                <h3 className="font-heading text-[1.8rem] sm:text-[2.2rem] md:text-[2.8rem] font-black text-[#3A2418] leading-[1.05]">
+                <h3 className="font-heading text-[1.4rem] sm:text-[1.7rem] md:text-[2.1rem] font-black text-[#3A2418] leading-[1.05]">
                   Build with<br />AI.<br />Scale with<br />confidence.
                 </h3>
               </div>
-              <div className="relative z-10 mt-6 rounded-xl bg-[#3A2418]/15 p-4 text-[13px] md:text-[14px] text-[#3A2418] font-medium space-y-2.5">
+              <div className="relative z-10 mt-3 rounded-xl bg-[#3A2418]/15 p-3 text-[0.75rem] md:text-[0.8125rem] text-[#3A2418] font-medium space-y-1.5">
                 <div className="opacity-80">→ Generate from schema</div>
                 <div className="opacity-80">→ Deploy in one click</div>
                 <div className="font-bold text-white">✓ Done in minutes.</div>
@@ -382,102 +375,107 @@ const Services = () => {
             </div>
           </div>
 
-          {/* ── CELL 4 ── portrait — static photo, col2 row2 ── */}
-          <motion.div
-            className={`relative overflow-hidden ${cardRadius} border border-[rgba(176,38,24,0.18)] dark:border-[rgba(176,38,24,0.25)] aspect-square xl:col-start-2 xl:row-start-2 z-10 bg-[#e2d5c3] dark:bg-[#2a180f]`}
-            initial={reduceMotion ? false : { opacity: 0, scale: 0.96 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
-          >
-            <Image
-              src="/profile.webp"
-              alt="Kritika Mandale"
-              fill
-              className="object-cover object-top"
-              sizes="(max-width: 768px) 340px, 420px"
-            />
-          </motion.div>
-
-          {/* ── CELL 5 ── location — dark card w/ map + scan line, col2 row3 ── */}
-          <div className={`relative overflow-hidden ${cardRadius} p-8 xl:col-start-2 xl:row-start-3 z-10 text-[#FDFAF0] flex flex-col justify-between min-h-[165px] xl:min-h-[195px]`}>
-            {/* vintage world map background */}
-            <Image
-              src="/world.jpg"
-              alt=""
-              fill
-              className="object-cover pointer-events-none"
-              sizes="(max-width: 768px) 340px, 420px"
-              aria-hidden="true"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/10 pointer-events-none" />
-
-            {/* faint dot-grid overlay */}
-            <svg
-              className="absolute inset-0 w-full h-full opacity-[0.1] pointer-events-none"
-              viewBox="0 0 400 200"
-              preserveAspectRatio="xMidYMid slice"
-              fill="none"
-              aria-hidden="true"
+          {/* ── CELL 4+5 ── portrait + location, col2 rows2-3 (grouped so the
+               location card fills the remaining height with no gap and its
+               bottom edge lines up with col1/col3) ── */}
+          <div className="bento:col-start-2 bento:row-start-2 bento:row-span-2 z-10 flex flex-col gap-4 sm:gap-5 overflow-hidden min-w-0">
+            {/* portrait — static photo */}
+            <motion.div
+              className={`relative overflow-hidden ${cardRadius} border border-[rgba(176,38,24,0.18)] dark:border-[rgba(176,38,24,0.25)] aspect-square shrink-0 bg-[#e2d5c3] dark:bg-[#2a180f]`}
+              initial={reduceMotion ? false : { opacity: 0, scale: 0.96 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
             >
-              {Array.from({ length: 20 }).map((_, row) =>
-                Array.from({ length: 40 }).map((_, col) => {
-                  const x = col * 10 + 5;
-                  const y = row * 10 + 5;
-                  const seed = Math.sin(x * 12.9898 + y * 78.233) * 43758.5453;
-                  const show = seed - Math.floor(seed) > 0.55;
-                  return show ? (
-                    <circle key={`${row}-${col}`} cx={x} cy={y} r="1.1" fill="#FDFAF0" />
-                  ) : null;
-                })
-              )}
-            </svg>
-
-            <div className="relative z-10">
-              <h3 className="font-heading text-[1.3rem] md:text-[1.5rem] font-bold text-[#FDFAF0]">
-                Nagpur, Maharashtra
-              </h3>
-              <p className="text-[11px] md:text-[12px] text-[#FDFAF0]/65 mt-1">
-                21.1458° N, 79.0882° E · GMT+5:30
-              </p>
-            </div>
-
-            <div className="relative z-10 mt-4 space-y-2">
-              <div className="flex items-center gap-2 text-[12px] text-[#FDFAF0]/65">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#F5DE8F] shrink-0" />
-                Open to remote & on-site roles
-              </div>
-              <div className="flex items-center gap-2 text-[12px] text-[#FDFAF0]/65">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#F5DE8F] shrink-0" />
-                Available for hackathons & collabs
-              </div>
-            </div>
-
-            {!reduceMotion && (
-              <motion.div
-                className="absolute top-0 bottom-0 w-[2px] bg-[#F5DE8F] pointer-events-none"
-                style={{ boxShadow: '0 0 12px 2px rgba(245,222,143,0.85), 0 0 28px 6px rgba(176,38,24,0.35)' }}
-                animate={{ left: ['0%', '100%'] }}
-                transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+              <Image
+                src="/profile.webp"
+                alt="Kritika Mandale"
+                fill
+                className="object-cover object-top"
+                sizes="(max-width: 768px) 340px, 420px"
               />
-            )}
+            </motion.div>
+
+            {/* location — dark card w/ map + scan line, fills remaining height */}
+            <div className={`relative overflow-hidden ${cardRadius} p-8 flex-1 text-[#FDFAF0] flex flex-col justify-between min-h-[10.3125rem]`}>
+              {/* vintage world map background */}
+              <Image
+                src="/world.jpg"
+                alt=""
+                fill
+                className="object-cover pointer-events-none"
+                sizes="(max-width: 768px) 340px, 420px"
+                aria-hidden="true"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/10 pointer-events-none" />
+
+              {/* faint dot-grid overlay */}
+              <svg
+                className="absolute inset-0 w-full h-full opacity-[0.1] pointer-events-none"
+                viewBox="0 0 400 200"
+                preserveAspectRatio="xMidYMid slice"
+                fill="none"
+                aria-hidden="true"
+              >
+                {Array.from({ length: 20 }).map((_, row) =>
+                  Array.from({ length: 40 }).map((_, col) => {
+                    const x = col * 10 + 5;
+                    const y = row * 10 + 5;
+                    const seed = Math.sin(x * 12.9898 + y * 78.233) * 43758.5453;
+                    const show = seed - Math.floor(seed) > 0.55;
+                    return show ? (
+                      <circle key={`${row}-${col}`} cx={x} cy={y} r="1.1" fill="#FDFAF0" />
+                    ) : null;
+                  })
+                )}
+              </svg>
+
+              <div className="relative z-10">
+                <h3 className="font-heading text-[1.3rem] md:text-[1.5rem] font-bold text-[#FDFAF0]">
+                  Nagpur, Maharashtra
+                </h3>
+                <p className="text-[0.6875rem] md:text-[0.75rem] text-[#FDFAF0]/65 mt-1">
+                  21.1458° N, 79.0882° E · GMT+5:30
+                </p>
+              </div>
+
+              <div className="relative z-10 mt-4 space-y-2">
+                <div className="flex items-center gap-2 text-[0.75rem] text-[#FDFAF0]/65">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#F5DE8F] shrink-0" />
+                  Open to remote & on-site roles
+                </div>
+                <div className="flex items-center gap-2 text-[0.75rem] text-[#FDFAF0]/65">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#F5DE8F] shrink-0" />
+                  Available for hackathons & collabs
+                </div>
+              </div>
+
+              {!reduceMotion && (
+                <motion.div
+                  className="absolute top-0 bottom-0 w-[0.125rem] bg-[#F5DE8F] pointer-events-none"
+                  style={{ boxShadow: '0 0 12px 2px rgba(245,222,143,0.85), 0 0 28px 6px rgba(176,38,24,0.35)' }}
+                  animate={{ left: ['0%', '100%'] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+                />
+              )}
+            </div>
           </div>
 
           {/* ── CELL 6+7 ── terracotta text (cut to content) + socials fill the rest, col3 rows2-3 ── */}
-          <div className="xl:col-start-3 xl:row-start-2 xl:row-span-2 z-10 flex flex-col gap-4 overflow-hidden min-w-0">
+          <div className="bento:col-start-3 bento:row-start-2 bento:row-span-2 z-10 flex flex-col gap-3 overflow-hidden min-w-0">
           <div className={`${solidTerracotta} shrink-0`}>
             <div className="absolute bottom-0 left-0 w-36 h-36 rounded-full bg-white/10 blur-[50px] pointer-events-none" />
             <div className="relative z-10">
               <h3 className="font-heading text-[1.6rem] sm:text-[1.8rem] md:text-[2.2rem] font-black text-white leading-[1.1]">
                 Full-stack AI development.
               </h3>
-              <p className="mt-3 text-[13px] md:text-[14px] text-white/85 leading-relaxed">
+              <p className="mt-3 text-[0.8125rem] md:text-[0.875rem] text-white/85 leading-relaxed">
                 Apps, websites, and automations — built to survive contact with real users.
               </p>
 
               {/* tech marquee */}
               <div
-                className="relative mt-5 overflow-hidden group"
+                className="relative mt-4 overflow-hidden group"
                 style={{ WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
               >
                 {reduceMotion ? (
@@ -486,7 +484,7 @@ const Services = () => {
                       <span
                         key={chip.name}
                         role="listitem"
-                        className="inline-flex items-center gap-2 bg-white/[0.08] border border-white/[0.12] rounded-[20px] px-4 py-1.5 text-[13px] text-white"
+                        className="inline-flex items-center gap-2 bg-white/[0.08] border border-white/[0.12] rounded-[1.25rem] px-4 py-1.5 text-[0.8125rem] text-white"
                       >
                         {chip.icon}
                         {chip.name}
@@ -507,7 +505,7 @@ const Services = () => {
                       {[...TECH_CHIPS, ...TECH_CHIPS].map((chip, i) => (
                         <span
                           key={`${chip.name}-${i}`}
-                          className="inline-flex items-center gap-2 bg-white/[0.08] border border-white/[0.12] rounded-[20px] px-4 py-1.5 text-[13px] text-white whitespace-nowrap"
+                          className="inline-flex items-center gap-2 bg-white/[0.08] border border-white/[0.12] rounded-[1.25rem] px-4 py-1.5 text-[0.8125rem] text-white whitespace-nowrap"
                         >
                           {chip.icon}
                           {chip.name}
@@ -518,7 +516,7 @@ const Services = () => {
                 )}
               </div>
 
-              <div className="mt-5 flex items-center gap-2 text-[12px] text-white/85">
+              <div className="mt-4 flex items-center gap-2 text-[0.75rem] text-white/85">
                 <span className="relative flex h-2 w-2" aria-hidden="true">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F5DE8F] opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-[#F5DE8F]" />
@@ -526,8 +524,8 @@ const Services = () => {
                 Open to hackathons and collaboration
               </div>
 
-              <p className="mt-6 text-[13px] md:text-[14px] text-white/80 leading-relaxed max-w-[38ch]">
-                Active hackathon competitor with 4+ wins — always down to team up on a bold idea and ship it fast.
+              <p className="mt-5 text-[0.8125rem] md:text-[0.875rem] text-white/80 leading-relaxed max-w-[38ch]">
+                Active hackathon competitor with 4+ wins, always down to team up on a bold idea and ship it fast.
               </p>
             </div>
           </div>
@@ -535,11 +533,11 @@ const Services = () => {
             {/* socials — fills the remaining space below the red card, no extra grid growth */}
             <div id="connect" className="flex-1 flex flex-col justify-center gap-4 min-h-0 scroll-mt-24">
               <div>
-                <span className="inline-block px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-widest border bg-[#B02618]/10 border-[#B02618]/20 text-[#B02618] dark:bg-[#B02618]/20 w-fit">
+                <span className="inline-block px-3 py-1 rounded-full text-[0.6875rem] font-bold uppercase tracking-widest border bg-[#B02618]/10 border-[#B02618]/20 text-[#B02618] dark:bg-[#B02618]/20 w-fit">
                   Let&apos;s connect
                 </span>
-                <p className="mt-2 text-[12px] md:text-[13px] text-[#5C3D2C] dark:text-[#D4B896]">
-                  Find me across the web — reach out anytime.
+                <p className="mt-2 text-[0.75rem] md:text-[0.8125rem] text-[#5C3D2C] dark:text-[#D4B896]">
+                  Find me across the web & reach out anytime.
                 </p>
               </div>
               <div className="grid grid-cols-3 gap-3">

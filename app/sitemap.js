@@ -1,15 +1,23 @@
-// Required by Next.js 15 + output:'export':
-// Route handlers used as metadata generators must be explicitly marked
-// force-static so the static export pipeline can pre-render them.
 export const dynamic = 'force-static'
+
+// Matches next.config.js's trailingSlash: true — these are the URLs the
+// server actually serves as canonical (a request without the trailing
+// slash gets redirected to the version with it).
+const BASE_URL = 'https://krimyportfolio.vercel.app'
 
 export default function sitemap() {
   return [
     {
-      url: 'https://kritikamandale.vercel.app',
+      url: `${BASE_URL}/`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 1,
+    },
+    {
+      url: `${BASE_URL}/mindset/`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly',
+      priority: 0.5,
     },
   ]
 }

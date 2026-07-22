@@ -72,17 +72,16 @@ const Footer = () => {
         {/* Big Name Row */}
         <div className="relative my-6 max-md:my-4">
           <div className="absolute top-1/2 right-[5%] -translate-y-1/2 w-[300px] h-[300px] bg-[radial-gradient(circle,rgba(245,222,143,0.25)_0%,transparent_70%)] z-0 pointer-events-none"></div>
-          <h1 className="relative z-[1] font-heading text-[clamp(48px,9vw,88px)] font-bold tracking-tight m-0 leading-tight text-footer-text">KRITIKALOG</h1>
+          <p className="relative z-[1] font-heading text-[clamp(48px,9vw,88px)] font-bold tracking-tight m-0 leading-tight text-footer-text">KRITIKALOG</p>
           <p className="relative z-[1] text-sm text-footer-text opacity-70 mt-3 ml-[3px] tracking-wide">Every project. Every lesson. Catalogued.</p>
         </div>
 
         {/* Bottom Row */}
         <div className="w-full h-[1px] bg-white/15 mb-4"></div>
         <div className="flex justify-between items-center flex-wrap gap-4 text-xs text-footer-text opacity-60 max-md:flex-col max-md:items-start">
-          <span className="">© {new Date().getFullYear()} Kritikalog All Rights Reserved.</span>
+          <span className="">© {new Date().getFullYear()} Kritikalog. All Rights Reserved.</span>
           <span className="flex gap-4 items-center">
             <span className="bg-brand-yellow/15 text-brand-yellow rounded-pill text-[12px] px-3.5 py-1 font-medium">Available for work</span>
-            <span>Privacy Policy</span>
           </span>
         </div>
       </div>

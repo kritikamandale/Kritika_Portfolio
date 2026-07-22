@@ -1,6 +1,7 @@
 'use client';
 // src/sections/Certificates/Certificates.jsx
 import React, { useRef, useState } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
@@ -42,7 +43,6 @@ const CERTIFICATES = [
     credentialId: 'iamkritical-dawp',
     skills: ['Data Analysis', 'Python'],
     image: '/certificates/freecodecamp.png',
-    link: '#',
   },
   {
     id: 'c5',
@@ -51,7 +51,6 @@ const CERTIFICATES = [
     date: 'Issued Mar 2025',
     skills: ['Cloud Computing'],
     image: '/certificates/google_cloud.png',
-    link: '#',
   },
   {
     id: 'c6',
@@ -61,7 +60,6 @@ const CERTIFICATES = [
     credentialId: 'z9d74azusmky',
     skills: ['Artificial Intelligence (AI)', 'Full-Stack Development', '+1 skill'],
     image: '/certificates/claudecode.png',
-    link: '#',
   },
 ];
 
@@ -81,14 +79,16 @@ const HeadingStar = () => (
 const CertCard = ({ cert, onOpen }) => (
   <div className="group relative flex flex-col shrink-0 w-full md:w-[360px] bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-5 lg:p-6 transition-shadow duration-300 hover:shadow-card-hover">
     <div
-      className="mb-5 overflow-hidden rounded-lg cursor-pointer border border-border-light dark:border-border-dark bg-white dark:bg-black/20"
+      className="relative mb-5 h-40 overflow-hidden rounded-lg cursor-pointer border border-border-light dark:border-border-dark bg-white dark:bg-black/20"
       onClick={() => onOpen(cert.image)}
       title="Click to view full certificate"
     >
-      <img
+      <Image
         src={cert.image}
         alt={`${cert.title} Certificate`}
-        className="w-full h-40 object-contain transition-transform duration-300 group-hover:scale-105"
+        fill
+        sizes="(max-width: 768px) 90vw, 360px"
+        className="object-contain transition-transform duration-300 group-hover:scale-105"
       />
     </div>
 
@@ -180,10 +180,15 @@ const Certificates = () => {
       // the section releasing into the next one the instant it arrives.
       const HOLD = 500;
 
+      // Pinned scroll room held at the START, before any horizontal movement
+      // begins, so the section has time to settle in view (heading + first
+      // card fully readable) before the track starts sliding.
+      const LEAD = 400;
+
       // Grow the section tall enough that the sticky pane stays pinned for the
-      // entire horizontal travel plus the trailing hold.
+      // leading hold, the entire horizontal travel, and the trailing hold.
       const sizeSection = () => {
-        section.style.height = `${window.innerHeight + getDistance() + HOLD}px`;
+        section.style.height = `${window.innerHeight + LEAD + getDistance() + HOLD}px`;
       };
       sizeSection();
 
@@ -193,14 +198,15 @@ const Certificates = () => {
         scrollTrigger: {
           trigger: section,
           start: 'top top',
-          end: () => `+=${getDistance() + HOLD}`,
+          end: () => `+=${LEAD + getDistance() + HOLD}`,
           scrub: 1,
           invalidateOnRefresh: true,
           onRefresh: sizeSection,
         },
       });
 
-      tl.to(track, { x: -dist, ease: 'none', duration: dist })
+      tl.to({}, { duration: LEAD }) // lead-in — plain vertical scroll first
+        .to(track, { x: -dist, ease: 'none', duration: dist })
         .to({}, { duration: HOLD }); // hold — track stays parked at its final x
 
       return () => {
@@ -234,7 +240,7 @@ const Certificates = () => {
             <HeadingStar />
           </h2>
           <p className="section-subtitle !text-left !mx-0 max-w-2xl">
-            Relentless learning and official accreditations across AI, Full-Stack, and Cloud technologies.
+            Relentless learning and official accreditations across AI and Full-Stack technologies.
             <span className="hidden md:inline"> Scroll to browse →</span>
           </p>
         </div>

@@ -16,10 +16,10 @@ const PHILOSOPHIES = [
   }
 ];
 
-const Philosophy = () => {
+const Mindset = () => {
   return (
     <SectionWrapper
-      id="philosophy"
+      id="mindset"
       label="Mindset"
       title="Learning & Growth"
       subtitle="The core principles that drive my work and personal development."
@@ -40,4 +40,4 @@ const Philosophy = () => {
   );
 };
 
-export default Philosophy;
+export default Mindset;

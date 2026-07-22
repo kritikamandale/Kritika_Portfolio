@@ -19,9 +19,8 @@ const EXPERIENCE = [
     period: 'Mar 2026 – Present',
     desc: 'Worked on FasalMitra, an AI-powered irrigation decision support system for Indian smallholder farmers. Acted as a researcher focusing on data integration, ideation, parameter finding, and data analysis.',
     achievements: [
-      'Built a 7-stage pipeline integrating satellite data (CHIRPS, ERA5, SMAP) and simulating soil moisture with H08 hydrological models and Random Forests.',
-      'Refined predictions using Physics-Informed Neural Networks (PINNs) and calculated water needs using the international FAO-56 standard.',
-      'Achieved 97.1% accuracy, 98.9% precision, and an F₁ score of 0.984 on real held-out test data for irrigation alerts.',
+      'Engineered a 7-stage AI irrigation advisory pipeline integrating CHIRPS, ERA5, SMAP, Random Forests, and PINNs',
+      'Delivered 97.1% accuracy, 98.9% precision, and a 0.984 F1-score for irrigation alert prediction.',
     ],
     tags: ['Physics-Informed AI', 'Data Integration', 'Research', 'Machine Learning', 'PINN'],
   },
@@ -34,23 +33,23 @@ const EXPERIENCE = [
     desc: 'Developed and deployed full-stack web modules as part of a fintech engineering team. Collaborated with senior developers to build responsive websites.',
     achievements: [
       'Engineered a face authentication module using Python, automating identity verification and cutting review time by 40%.',
-      'Architected and deployed an end-to-end KYC verification pipeline using SQL for secure data storage, retrieval, and compliance management, reducing manual processing effort by 35%.',
-      'Developed full-stack web modules using HTML, CSS, JavaScript, and SQL Server.'
+      'Architected and deployed an end-to-end KYC verification pipeline using SQL for secure data storage, retrieval, and compliance management, reducing manual processing effort by 35%.'
     ],
     tags: ['Python', 'SQL Server', 'Face Authentication', 'JavaScript', 'HTML/CSS'],
   },
   {
-    id: 'e3',
-    role: 'Student Career Development Coordinator',
-    company: 'SVPCET',
-    companyTag: 'On-site',
-    period: 'Jan 2025 – Present',
-    desc: 'Acting as the primary point of contact between students and the Career Development Centre.',
-    achievements: [
-      'Facilitated communication and professional opportunities for the student body.',
-      'Supported students in career planning and professional skill development.',
-    ],
-    tags: ['Leadership', 'Management', 'Communication', 'Career Counseling', 'Stakeholder Coordination'],
+   id: 'e3',
+  role: 'Student Career Development Coordinator',
+  company: 'SVPCET',
+  companyTag: 'On-site',
+  period: 'Jan 2025 – Present',
+  desc: 'Acting as the primary point of contact between students and the Career Development Centre.',
+  achievements: [
+    'Facilitated communication and professional opportunities for the student body.',
+    'Led coordination across student groups and faculty to align career initiatives with placement goals.',
+    'Organized and drove outreach for career development sessions and workshops.',
+  ],
+  tags: ['Leadership', 'Management', 'Communication', 'Career Counseling', 'Stakeholder Coordination', 'Mentorship', 'Team Coordination'],
   },
   {
     id: 'e4',
@@ -61,7 +60,7 @@ const EXPERIENCE = [
     desc: 'Co-coordinated a National-level hackathon initiative.',
     achievements: [
       'Managed end-to-end event operations over a 5-month preparation cycle.',
-      'Led teams and coordinated with sponsors to deliver a successful technical event.',
+      'Led teams and coordinated a successful technical event, with over 250+ participants from all over India.',
     ],
     tags: ['Team Leadership', 'Coordination', 'Event Management', 'Sponsor Relations', 'Logistics Planning'],
   },
@@ -111,10 +110,10 @@ const Experience = () => {
                 ))}
               </ul>
 
-              {/* Tech tags — highlighted to showcase key skills, matches the gradient chip style used in About */}
+              {/* Tech tags — highlighted to showcase key skills */}
               <div className="flex flex-wrap gap-2 mt-4" aria-label="Technologies used">
                 {tags.map((tag) => (
-                  <span key={tag} className="text-[11px] font-semibold text-[#3A2418] bg-[linear-gradient(135deg,#F5DE8F,#B02618)] shadow-[0_2px_8px_rgba(176,38,24,0.2)] px-3 py-[3px] rounded-full">{tag}</span>
+                  <span key={tag} className="text-[11px] font-semibold text-white bg-[#B02618] shadow-[0_2px_8px_rgba(176,38,24,0.2)] px-3 py-[3px] rounded-full">{tag}</span>
                 ))}
               </div>
             </div>

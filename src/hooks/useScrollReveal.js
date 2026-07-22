@@ -23,6 +23,13 @@ const useScrollReveal = () => {
         return;
       }
 
+      // Old browsers without IntersectionObserver: just reveal everything
+      // immediately rather than leaving content stuck at opacity:0.
+      if (typeof IntersectionObserver === 'undefined') {
+        elements.forEach((el) => el.classList.add('visible'));
+        return;
+      }
+
       observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {

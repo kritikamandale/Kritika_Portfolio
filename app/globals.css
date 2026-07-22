@@ -70,12 +70,15 @@
   }
 
   a {
-    color: theme('colors.accent.DEFAULT');
     text-decoration: none;
     transition: color 250ms ease;
   }
 
-  a:hover {
+  :where(a) {
+    color: theme('colors.accent.DEFAULT');
+  }
+
+  :where(a:hover) {
     color: theme('colors.accent.hover');
   }
 
@@ -249,6 +252,13 @@
 }
 
 /* ── Scrollbar Styling ────────────────────────────────────── */
+/* Firefox has no ::-webkit-scrollbar equivalent — style it via the
+   standard scrollbar-color/scrollbar-width properties instead. */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #B02618 theme('colors.bg.light');
+}
+
 ::-webkit-scrollbar {
   width: 10px;
 }

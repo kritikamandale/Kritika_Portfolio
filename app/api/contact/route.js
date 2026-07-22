@@ -45,8 +45,10 @@ function isRateLimited(ip) {
 // ─── Security headers ─────────────────────────────────────────────────────────
 
 function getSecurityHeaders() {
+  // Content-Security-Policy for this route is set in vercel.json (matches this
+  // path via the "/api/(.*)" header block) — not duplicated here to avoid two
+  // different CSP values for the same response.
   return {
-    'Content-Security-Policy': "default-src 'none'; frame-ancestors 'none';",
     'X-Frame-Options': 'DENY',
     'X-Content-Type-Options': 'nosniff',
     'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload',
@@ -60,8 +62,11 @@ function getSecurityHeaders() {
 
 function applyCors(req) {
   let origin = req.headers.get('origin');
-  if (!origin) return 'http://localhost:3000';
-  
+  // No Origin header at all means this isn't a real browser fetch/XHR request
+  // (every same-origin or cross-origin browser POST with a JSON body sends one) —
+  // treat it as untrusted rather than defaulting to allowed.
+  if (!origin) return null;
+
   origin = origin.trim();
   if (origin.endsWith('/')) origin = origin.slice(0, -1);
   
@@ -114,7 +119,12 @@ export async function POST(request) {
     return NextResponse.json({ error: 'Payload too large. Maximum body size is 10 KB.' }, { status: 413, headers });
   }
 
-  const ip = (request.headers.get('x-forwarded-for') ?? 'unknown').toString().split(',')[0].trim();
+  // x-forwarded-for is a comma-separated hop chain; each proxy APPENDS to the
+  // end, so client-supplied entries (spoofable) sit at the front and the
+  // trustworthy value — appended by Vercel's own edge, which the client
+  // cannot forge — is always the LAST entry.
+  const xff = (request.headers.get('x-forwarded-for') ?? '').toString().split(',');
+  const ip = (xff[xff.length - 1] || 'unknown').trim();
 
   if (isRateLimited(ip)) {
     headers['Retry-After'] = String(Math.ceil(RATE_LIMIT_WINDOW_MS / 1000));

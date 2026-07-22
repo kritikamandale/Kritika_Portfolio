@@ -1,0 +1,14 @@
+{
+  "name": "Kritika Mandale — Web & AI Developer",
+  "short_name": "Kritikalog",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "theme_color": "#f5f0eb",
+  "background_color": "#f5f0eb",
+  "display": "standalone"
+}

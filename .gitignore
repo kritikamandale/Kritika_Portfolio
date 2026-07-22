@@ -18,6 +18,10 @@ dist-ssr
 out
 .vercel
 
+dev-err.txt
+dev-out.txt
+test_resend*.mjs
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
