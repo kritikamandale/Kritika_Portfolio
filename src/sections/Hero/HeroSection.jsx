@@ -6,39 +6,15 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-/* ── Icon components (inline SVG for social links) ───────── */
-const GithubIcon = ({ size = 20 }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.03c3.15-.38 6.5-1.4 6.5-7.17A5.3 5.3 0 0 0 19 4.5a5.2 5.2 0 0 0-.5-4.5s-1.5-.5-4.5 1.5a14.2 14.2 0 0 0-8 0c-3-2-4.5-1.5-4.5-1.5a5.2 5.2 0 0 0-.5 4.5 5.3 5.3 0 0 0 1.5 3.3c0 5.77 3.34 6.79 6.5 7.17A4.8 4.8 0 0 0 8 18v4"/>
-    <path d="M9 18c-4.51 2-5-2-7-2"/>
-  </svg>
-);
-const LinkedinIcon = ({ size = 20 }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-    <rect width="4" height="12" x="2" y="9"/>
-    <circle cx="4" cy="4" r="2"/>
-  </svg>
-);
+import { GithubOutlineIcon, LinkedinIcon } from '../../components/Icons/BrandIcons';
 
 /* ── Data ─────────────────────────────────────────────────── */
 const SOCIAL_LINKS = [
-  { icon: GithubIcon, href: 'https://github.com/kritikamandale', label: 'GitHub' },
+  { icon: GithubOutlineIcon, href: 'https://github.com/kritikamandale', label: 'GitHub' },
   { icon: LinkedinIcon, href: 'https://linkedin.com/in/kritikamandale', label: 'LinkedIn' },
-  { icon: Mail, href: 'mailto:kritikamandale@gmail.com', label: 'Email' },
+  { icon: Mail, href: '#contact', label: 'Email' },
 ];
 
-const NAV_LINKS = [
-  { label: 'Home', href: '#hero' },
-  { label: 'Services', href: '#services' },
-  { label: 'About', href: '#about' },
-  { label: 'Stack', href: '#stack' },
-  { label: 'Experience', href: '#experience' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Achievements', href: '#achievements' },
-  { label: 'Certificates', href: '#certificates' },
-];
 
 /* ════════════════════════════════════════════════════════════
    INTERACTIVE GLOWING GRID COMPONENT
@@ -522,18 +498,21 @@ const HeroSection = () => {
 
             {/* 3. Social Icons */}
             <div className="flex items-center gap-3.5">
-              {SOCIAL_LINKS.map((social, i) => (
-                <a
-                  key={i}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                  className="w-14 h-14 rounded-full border border-[#B02618]/15 flex items-center justify-center text-[#3A2418] hover:text-[#B02618] hover:border-[#B02618]/40 hover:bg-[#B02618]/5 transition-all duration-300"
-                >
-                  <social.icon size={24} />
-                </a>
-              ))}
+              {SOCIAL_LINKS.map((social, i) => {
+                const isInternal = social.href.startsWith('#');
+                return (
+                  <a
+                    key={i}
+                    href={social.href}
+                    target={isInternal ? undefined : '_blank'}
+                    rel={isInternal ? undefined : 'noopener noreferrer'}
+                    aria-label={social.label}
+                    className="w-14 h-14 rounded-full border border-[#B02618]/15 flex items-center justify-center text-[#3A2418] hover:text-[#B02618] hover:border-[#B02618]/40 hover:bg-[#B02618]/5 transition-all duration-300"
+                  >
+                    <social.icon className="w-6 h-6" />
+                  </a>
+                );
+              })}
             </div>
 
           </div>

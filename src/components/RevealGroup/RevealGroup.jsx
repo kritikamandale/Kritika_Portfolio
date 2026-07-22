@@ -20,6 +20,10 @@ const RevealGroup = ({ children, staggerDelay = 0, className = '', style = {} })
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced) return; // elements already visible at natural opacity
 
+    // Old browsers without IntersectionObserver: skip the hide/reveal
+    // animation entirely rather than setting opacity:0 with no way to reveal it.
+    if (typeof IntersectionObserver === 'undefined') return;
+
     const directChildren = Array.from(container.children);
 
     // Set initial hidden state on each child

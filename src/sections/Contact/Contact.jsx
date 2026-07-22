@@ -2,7 +2,8 @@
 // src/sections/Contact/Contact.jsx
 // ============================================================
 // CONTACT SECTION — single pill CTA, centred editorial layout
-// hCaptcha server-side CAPTCHA verification added
+// Bot mitigation is a honeypot field only — hCaptcha is not wired up
+// (see .env.example) despite the env vars/CSP allowances existing.
 // ============================================================
 
 import React, { useState } from 'react';
@@ -84,7 +85,7 @@ const Contact = () => {
         }
       `}</style>
 
-      <section className="bg-surface-2-light dark:bg-surface-2-dark py-4 flex flex-col items-center justify-center text-center" id="contact" aria-label="Contact">
+      <section className="bg-surface-2-light dark:bg-surface-2-dark py-12 md:py-16 sm:py-8 flex flex-col items-center justify-center text-center" id="contact" aria-label="Contact">
         <div className="max-w-[1800px] mx-auto w-full flex flex-col items-center gap-4 px-4 md:px-8 lg:px-12">
 
           <RevealGroup staggerDelay={100} className="w-full flex flex-col items-center gap-4">
@@ -201,7 +202,7 @@ const Contact = () => {
                     {loading ? (
                       <>Sending... <span className="inline-block animate-spin">↻</span></>
                     ) : (
-                      <>Let's Talk&nbsp;<span>→</span></>
+                      "Let's Talk"
                     )}
                   </Button>
                 </div>

@@ -1,5 +1,5 @@
 'use client';
-// src/sections/Stack/index.jsx
+// src/sections/Stack/Stack.jsx
 // ============================================================
 // MY STACK SECTION — Aesthetic inline logo+name layout
 // Inspired by bold category headings + bare icon+label rows.
@@ -11,6 +11,7 @@ import React from 'react';
 // eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
 import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';
+import { ReactLogoIcon, GithubFilledIcon } from '../../components/Icons/BrandIcons';
 
 // ── Inline SVG helper ────────────────────────────────────────
 const SvgIcon = ({ children, viewBox = '0 0 128 128', size = 34 }) => (
@@ -21,14 +22,7 @@ const SvgIcon = ({ children, viewBox = '0 0 128 128', size = 34 }) => (
 
 // ── Icon definitions (same SVGs, now rendered bare — no card) ─
 const ICONS = {
-  React: () => (
-    <SvgIcon>
-      <circle cx="64" cy="64" r="11.4" fill="#61DAFB" />
-      <path fill="none" stroke="#61DAFB" strokeWidth="6" d="M64 27c21.7 0 41.7 3 56.6 7.9C136 40 144 47.1 144 55.5s-8 15.6-23.4 20.6C105.7 81 85.7 84 64 84s-41.7-3-56.6-7.9C-8 71.1-16 64 -16 55.5s8-15.6 23.4-20.6C22.3 30 42.3 27 64 27z" />
-      <path fill="none" stroke="#61DAFB" strokeWidth="6" d="M46.2 37.3c10.8-18.8 23.5-33.9 34.7-43.2C92.1-14.7 101.4-17 108 -13.2c6.6 3.8 9.1 13.6 7.3 27.2-1.7 13.2-7.8 29.4-16.9 45.5-9.1 16.1-20 30.1-30.3 39.7C57 109.8 47.6 113.3 41 109.5c-6.6-3.8-9.1-13.5-7.3-27.1 1.7-13.3 7.7-29.4 12.5-45.1z" />
-      <path fill="none" stroke="#61DAFB" strokeWidth="6" d="M46.2 73.7c-10.8-18.8-17.3-37.3-19.2-52.7C25.2 7.4 28.3-1.6 35 -5.3c6.6-3.8 16.2-.3 26.5 9.3 10.3 9.6 20.9 25.2 29.9 41.3 9.1 16.1 15.6 32.5 17.8 46.3 2.2 13.3-.4 22.4-7 26.2-6.6 3.8-16.1.2-26.3-9.3C66 99.1 57 84.6 46.2 73.7z" />
-    </SvgIcon>
-  ),
+  React: () => <ReactLogoIcon className="w-[2.125rem] h-[2.125rem] shrink-0" />,
   Nextjs: () => (
     <SvgIcon viewBox="0 0 24 24">
       <path d="M11.572 0c-.176 0-.31.001-.358.007a19.76 19.76 0 01-.364.033C7.443.346 4.25 2.185 2.228 5.012a11.875 11.875 0 00-2.119 5.243c-.096.659-.108.854-.108 1.747s.012 1.089.108 1.748c.652 4.506 3.86 8.292 8.209 9.695.779.25 1.6.422 2.534.525.363.04 1.935.04 2.299 0 1.611-.178 2.977-.577 4.323-1.264.207-.106.247-.134.219-.158-.02-.013-.9-1.193-1.955-2.62l-1.919-2.592-2.404-3.558a338.739 338.739 0 00-2.422-3.556c-.009-.002-.018 1.579-.023 3.51-.007 3.38-.01 3.515-.052 3.595a.426.426 0 01-.206.214c-.075.037-.14.044-.495.044H7.81l-.108-.068a.438.438 0 01-.157-.171l-.05-.106.006-4.703.007-4.705.072-.092a.645.645 0 01.174-.143c.096-.047.134-.051.54-.051.478 0 .558.018.682.154.035.038 1.337 1.999 2.895 4.361a10760.433 10760.433 0 004.735 7.17l1.9 2.879.096-.063a12.317 12.317 0 002.466-2.163 11.944 11.944 0 002.824-6.134c.096-.66.108-.854.108-1.748 0-.893-.012-1.088-.108-1.747-.652-4.506-3.859-8.292-8.208-9.695a12.597 12.597 0 00-2.499-.523A33.119 33.119 0 0011.572 0zm4.069 7.217c.347 0 .408.005.486.047a.473.473 0 01.237.277c.018.06.023 1.365.018 4.304l-.006 4.218-.744-1.14-.746-1.14v-3.066c0-1.982.01-3.097.023-3.15a.478.478 0 01.233-.296c.096-.05.13-.057.5-.057z" fill="currentColor" />
@@ -119,11 +113,7 @@ const ICONS = {
       <path fill="#F89939" d="M8 16v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6c0 1.7-3.6 3-8 3s-8-1.3-8-3z" />
     </SvgIcon>
   ),
-  GitHub: () => (
-    <SvgIcon viewBox="0 0 24 24">
-      <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
-    </SvgIcon>
-  ),
+  GitHub: () => <GithubFilledIcon className="w-[2.125rem] h-[2.125rem] shrink-0" />,
   Figma: () => (
     <SvgIcon viewBox="0 0 24 24">
       <path fill="#F24E1E" d="M8 24c2.2 0 4-1.8 4-4v-4H8c-2.2 0-4 1.8-4 4s1.8 4 4 4z" />
@@ -304,6 +294,7 @@ const ACCENT_COLORS = [
   '#B02618',
   '#F5DE8F',
   '#B02618',
+  '#F5DE8F',
 ];
 
 // ── Data ──────────────────────────────────────────────────────
@@ -320,14 +311,18 @@ const GROUPS = [
     ],
   },
   {
-    label: 'Backend & Cloud',
+    label: 'Backend',
     skills: [
       { name: 'Node.js', iconKey: 'Nodejs' },
-      { name: 'Docker', iconKey: 'Docker' },
-      { name: 'PostgreSQL', iconKey: 'PostgreSQL' },
-      { name: 'MongoDB', iconKey: 'MongoDB' },
       { name: 'REST API', iconKey: 'RestAPI' },
       { name: 'Postman', iconKey: 'Postman' },
+    ],
+  },
+  {
+    label: 'Databases & DevOps',
+    skills: [
+      { name: 'Docker', iconKey: 'Docker' },
+      { name: 'PostgreSQL', iconKey: 'PostgreSQL' },
     ],
   },
   {
@@ -339,24 +334,19 @@ const GROUPS = [
       { name: 'Keras', iconKey: 'Keras' },
       { name: 'Scikit-Learn', iconKey: 'ScikitLearn' },
       { name: 'NLP', emoji: '💬' },
-      { name: 'Deep Learning', emoji: '⚡' },
       { name: 'Streamlit', iconKey: 'Streamlit' },
     ],
   },
   {
-    label: 'Generative AI',
+    label: 'Languages',
     skills: [
-      { name: 'LLMs', emoji: '🧠' },
-      { name: 'OpenAI API', iconKey: 'OpenAI' },
-      { name: 'Hugging Face', iconKey: 'HuggingFace' },
-      { name: 'Prompt Eng.', emoji: '🎯' },
-      { name: 'Generative AI', emoji: '🤖' },
+      { name: 'C / C++', iconKey: 'CPlusPlus' },
+      { name: 'SQL', emoji: '🗄️' },
     ],
   },
   {
-    label: 'Languages & Tools',
+    label: 'Developer Tools',
     skills: [
-      { name: 'C / C++', iconKey: 'CPlusPlus' },
       { name: 'Git', iconKey: 'Git' },
       { name: 'GitHub', iconKey: 'GitHub' },
       { name: 'Figma', iconKey: 'Figma' },
