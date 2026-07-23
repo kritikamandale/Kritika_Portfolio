@@ -4,7 +4,6 @@ import React, { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-import RevealGroup from '../../components/RevealGroup/RevealGroup';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -178,6 +177,39 @@ const Achievements = () => {
       };
     });
 
+    // MOBILE (<768px): the pinned card-stack above is desktop-only because it
+    // needs a fixed-height arena, which would clip these long award cards on a
+    // narrow screen. Instead, each card animates in (slide up + fade + scale)
+    // as it scrolls into view — clearly visible motion, no clipping.
+    mm.add("(max-width: 767px)", () => {
+      const cards = cardsRef.current.filter(Boolean);
+      if (!cards.length) return;
+      gsap.set(cards, { clearProps: "all" });
+
+      const tweens = cards.map((card) =>
+        gsap.from(card, {
+          scrollTrigger: {
+            trigger: card,
+            start: "top 88%",
+            toggleActions: "play none none none",
+          },
+          y: 40,
+          opacity: 0,
+          scale: 0.97,
+          duration: 0.6,
+          ease: "power2.out",
+        })
+      );
+
+      return () => {
+        tweens.forEach((t) => {
+          t.scrollTrigger && t.scrollTrigger.kill();
+          t.kill();
+        });
+        gsap.set(cards, { clearProps: "all" });
+      };
+    });
+
     return () => {
       mm.revert();
       // Cleanup for mobile resize
@@ -226,37 +258,20 @@ const Achievements = () => {
             </p>
           </div>
 
-          {/* RIGHT PANEL: Stacking Arena */}
-          <div className="w-full md:w-[55%] relative flex flex-col md:block md:h-[48vh]">
-
-            {/* Mobile: plain vertical stack with a scroll-in fade, since the
-                GSAP pinned-stacking timeline below is desktop-only. */}
-            <RevealGroup staggerDelay={100} className="flex flex-col gap-6 md:hidden">
-              {CARDS.map((card, i) => (
-                <div
-                  key={i}
-                  className="w-full bg-white dark:bg-[#1a1a1a] border border-border-light dark:border-border-dark rounded-2xl p-6 flex flex-col gap-4 shadow-[0_20px_40px_-15px_rgba(58,36,24,0.10)] dark:shadow-none"
-                >
-                  <CardContent card={card} />
-                </div>
-              ))}
-            </RevealGroup>
-
-            {/* Desktop: GSAP scroll-driven stacking */}
-            <div className="hidden md:block md:relative md:h-full">
-              {CARDS.map((card, i) => (
-                <div
-                  key={i}
-                  ref={el => { cardsRef.current[i] = el; }}
-                  className="md:absolute top-0 left-0 w-full md:h-full bg-white dark:bg-[#1a1a1a] border border-border-light dark:border-border-dark rounded-2xl p-8 flex flex-col gap-4 transform-gpu shadow-[0_20px_40px_-15px_rgba(58,36,24,0.10)] dark:shadow-none"
-                  style={{ zIndex: i }}
-                >
-                  {/* Darkening Overlay for 3D depth */}
-                  <div className="card-overlay absolute inset-0 bg-[#3A2418] dark:bg-black rounded-2xl pointer-events-none z-10" style={{ opacity: 0 }} />
-                  <CardContent card={card} />
-                </div>
-              ))}
-            </div>
+          {/* RIGHT PANEL: Stacking Arena (desktop) / animated vertical stack (mobile) */}
+          <div className="w-full md:w-[55%] relative flex flex-col gap-6 md:gap-0 md:block md:h-[48vh]">
+            {CARDS.map((card, i) => (
+              <div
+                key={i}
+                ref={el => { cardsRef.current[i] = el; }}
+                className="md:absolute top-0 left-0 w-full md:h-full bg-white dark:bg-[#1a1a1a] border border-border-light dark:border-border-dark rounded-2xl p-6 md:p-8 flex flex-col gap-4 transform-gpu shadow-[0_20px_40px_-15px_rgba(58,36,24,0.10)] dark:shadow-none"
+                style={{ zIndex: i }}
+              >
+                {/* Darkening Overlay for 3D depth (desktop stacking only) */}
+                <div className="card-overlay absolute inset-0 bg-[#3A2418] dark:bg-black rounded-2xl pointer-events-none z-10" style={{ opacity: 0 }} />
+                <CardContent card={card} />
+              </div>
+            ))}
           </div>
 
         </div>

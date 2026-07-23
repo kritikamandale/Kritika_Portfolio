@@ -5,7 +5,6 @@ import Image from 'next/image';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-import RevealGroup from '../../components/RevealGroup/RevealGroup';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -78,7 +77,7 @@ const HeadingStar = () => (
 );
 
 const CertCard = ({ cert, onOpen }) => (
-  <div className="group relative flex flex-col shrink-0 w-full md:w-[360px] bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-5 lg:p-6 transition-shadow duration-300 hover:shadow-card-hover">
+  <div className="group relative flex flex-col shrink-0 w-[80vw] max-w-[340px] md:w-[360px] bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-5 lg:p-6 transition-shadow duration-300 hover:shadow-card-hover">
     <div
       className="relative mb-5 h-40 overflow-hidden rounded-lg cursor-pointer border border-border-light dark:border-border-dark bg-white dark:bg-black/20"
       onClick={() => onOpen(cert.image)}
@@ -161,13 +160,14 @@ const Certificates = () => {
     };
   }, [selectedImage]);
 
-  // Horizontal scroll — desktop only. Uses NATIVE CSS sticky for pinning
-  // (no GSAP pin) so it stays buttery-smooth with Lenis and never glitches
-  // when handing off from vertical to horizontal scrolling.
+  // Horizontal scroll — enabled on ALL viewports (mobile + desktop). Uses
+  // NATIVE CSS sticky for pinning (no GSAP pin) so it stays buttery-smooth
+  // with Lenis and never glitches when handing off from vertical to
+  // horizontal scrolling.
   useGSAP(() => {
     const mm = gsap.matchMedia();
 
-    mm.add('(min-width: 768px)', () => {
+    mm.add('all', () => {
       const section = sectionRef.current;
       const track = trackRef.current;
       if (!section || !track) return;
@@ -228,10 +228,11 @@ const Certificates = () => {
       aria-label="Certifications"
       className="relative w-full bg-bg-light dark:bg-bg-dark"
     >
-      {/* Native sticky pinning pane (desktop) / normal flow (mobile) */}
+      {/* Native sticky pinning pane — pins on all viewports so the horizontal
+          rail animation runs on mobile and desktop alike. */}
       <div
         ref={stickyRef}
-        className="md:sticky md:top-0 md:h-screen md:overflow-hidden flex flex-col justify-center py-14 md:py-0"
+        className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center"
       >
         {/* Header */}
         <div className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12 w-full mb-8 md:mb-10">
@@ -242,24 +243,18 @@ const Certificates = () => {
           </h2>
           <p className="section-subtitle !text-left !mx-0 max-w-2xl">
             Relentless learning and official accreditations across AI and Full-Stack technologies.
-            <span className="hidden md:inline"> Scroll to browse →</span>
+            <span> Scroll to browse →</span>
           </p>
         </div>
 
-        {/* Track — vertical stack (with scroll-in fade) on mobile, GSAP
-            horizontal rail on desktop */}
-        <div ref={trackRef} className="md:will-change-transform">
-          <RevealGroup staggerDelay={80} className="flex flex-col gap-6 px-4 md:hidden">
-            {CERTIFICATES.map((cert) => (
-              <CertCard key={cert.id} cert={cert} onOpen={setSelectedImage} />
-            ))}
-          </RevealGroup>
-
-          <div className="hidden md:flex md:flex-row md:w-max gap-6 px-8 lg:px-12">
-            {CERTIFICATES.map((cert) => (
-              <CertCard key={cert.id} cert={cert} onOpen={setSelectedImage} />
-            ))}
-          </div>
+        {/* Track — horizontal rail on all viewports, driven by GSAP as you scroll */}
+        <div
+          ref={trackRef}
+          className="flex flex-row gap-6 px-4 md:px-8 lg:px-12 w-max will-change-transform"
+        >
+          {CERTIFICATES.map((cert) => (
+            <CertCard key={cert.id} cert={cert} onOpen={setSelectedImage} />
+          ))}
         </div>
       </div>
 
