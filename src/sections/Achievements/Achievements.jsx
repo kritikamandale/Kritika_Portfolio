@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
@@ -177,45 +177,6 @@ const Achievements = () => {
       };
     });
 
-    // MOBILE (<768px): the pinned card-stack above is desktop-only because it
-    // needs a fixed-height arena, which would clip these long award cards on a
-    // narrow screen. Instead, each card reveals (slide up + fade + scale) as it
-    // scrolls into view. Uses scrub so the motion is tied to scroll position
-    // and self-corrects on refresh — unlike a one-shot toggle, which can fire
-    // against stale positions (before images above load) and finish unseen.
-    mm.add("(max-width: 767px)", () => {
-      const cards = cardsRef.current.filter(Boolean);
-      if (!cards.length) return;
-
-      const tweens = cards.map((card) =>
-        gsap.fromTo(
-          card,
-          { y: 50, opacity: 0, scale: 0.96 },
-          {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 92%",
-              end: "top 55%",
-              scrub: true,
-              invalidateOnRefresh: true,
-            },
-          }
-        )
-      );
-
-      return () => {
-        tweens.forEach((t) => {
-          t.scrollTrigger && t.scrollTrigger.kill();
-          t.kill();
-        });
-        gsap.set(cards, { clearProps: "all" });
-      };
-    });
-
     return () => {
       mm.revert();
       // Cleanup for mobile resize
@@ -224,6 +185,56 @@ const Achievements = () => {
       gsap.set(overlays, { clearProps: "all" });
     };
   }, { scope: containerRef });
+
+  // MOBILE (<768px) reveal — progressive enhancement, never GSAP-driven so it
+  // can't get stuck invisible from the big pinned Certificates section above
+  // shifting ScrollTrigger's math. Cards are visible by default; only ones
+  // still below the fold at mount are hidden, then faded/slid in via a plain
+  // CSS transition when they scroll into view. If IO is unavailable or a card
+  // is already in view, it simply stays visible.
+  useEffect(() => {
+    if (!window.matchMedia('(max-width: 767px)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (typeof IntersectionObserver === 'undefined') return;
+
+    const cards = cardsRef.current.filter(Boolean);
+    const hidden = [];
+
+    cards.forEach((card) => {
+      // Only pre-hide cards below the fold; anything in view stays visible.
+      if (card.getBoundingClientRect().top > window.innerHeight * 0.9) {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(40px) scale(0.97)';
+        card.style.transition =
+          'opacity 600ms cubic-bezier(0.22,1,0.36,1), transform 600ms cubic-bezier(0.22,1,0.36,1)';
+        hidden.push(card);
+      }
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0) scale(1)';
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -10% 0px' }
+    );
+
+    hidden.forEach((card) => observer.observe(card));
+
+    return () => {
+      observer.disconnect();
+      hidden.forEach((card) => {
+        card.style.opacity = '';
+        card.style.transform = '';
+        card.style.transition = '';
+      });
+    };
+  }, []);
 
   return (
     <section 

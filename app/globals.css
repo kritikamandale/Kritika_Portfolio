@@ -10,16 +10,23 @@
   /* The custom fontSize/spacing scale in tailwind.config.js is tuned for
      desktop and is rem-based throughout. Scaling the root font-size down on
      small viewports shrinks all text AND spacing proportionally sitewide,
-     instead of every section fighting oversized text/padding on mobile. */
-  @media (max-width: 640px) {
+     instead of every section fighting oversized text/padding on mobile.
+     Stepped down gradually so text and alignment stay tight on real phones. */
+  @media (max-width: 768px) {
     :root {
       font-size: 14px;
     }
   }
 
-  @media (max-width: 400px) {
+  @media (max-width: 600px) {
     :root {
       font-size: 13px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    :root {
+      font-size: 12px;
     }
   }
 
