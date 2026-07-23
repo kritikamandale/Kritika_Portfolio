@@ -212,7 +212,10 @@ const Achievements = () => {
         });
       });
 
-      const STEP = 300;
+      // Scroll distance per card. Tied to viewport height so a single momentum
+      // swipe advances just one card instead of blowing past two — each card
+      // now takes roughly a full screen of scroll to bring in.
+      const STEP = Math.round(window.innerHeight * 0.9);
       const numBeats = CARDS.length + 1;
       const animPx = STEP * numBeats;
 
