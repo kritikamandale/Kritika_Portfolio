@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
@@ -70,6 +70,7 @@ const Achievements = () => {
   const containerRef = useRef(null);
   const stickyRef = useRef(null);
   const cardsRef = useRef([]);
+  const arenaRef = useRef(null);
 
   useGSAP(() => {
     let mm = gsap.matchMedia();
@@ -177,6 +178,100 @@ const Achievements = () => {
       };
     });
 
+    // MOBILE (<768px): same pinned card-stacking as desktop — one scroll per
+    // card — but the arena height is MEASURED from the tallest card at runtime
+    // (desktop uses a fixed 48vh, which would clip these long cards on a narrow
+    // screen). A small buffer absorbs late font reflow so nothing ever clips.
+    mm.add("(max-width: 767px)", () => {
+      const cards = cardsRef.current.filter(Boolean);
+      const section = containerRef.current;
+      const sticky = stickyRef.current;
+      const arena = arenaRef.current;
+      if (cards.length === 0 || !section || !sticky || !arena) return;
+
+      // Reset, then measure natural heights while the cards are still in normal
+      // flow, and lock the arena + every card to the tallest one so the stacked
+      // (absolute) cards are uniform and never clip.
+      gsap.set(cards, { clearProps: "all" });
+      arena.style.height = '';
+      const maxH = Math.max(...cards.map((c) => c.offsetHeight));
+      const arenaH = Math.ceil(maxH * 1.06) + 8; // buffer for font reflow
+      arena.style.height = `${arenaH}px`;
+
+      const overlays = arena.querySelectorAll('.card-overlay');
+      gsap.set(overlays, { opacity: 0 });
+
+      cards.forEach((card, i) => {
+        gsap.set(card, {
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: arenaH,
+          y: i > 0 ? '120%' : '0%',
+        });
+      });
+
+      const STEP = 300;
+      const numBeats = CARDS.length + 1;
+      const animPx = STEP * numBeats;
+
+      const sizeSection = () => {
+        section.style.height = `${sticky.offsetHeight + animPx}px`;
+      };
+      sizeSection();
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: () => `+=${animPx}`,
+          scrub: true,
+          invalidateOnRefresh: true,
+          onRefresh: sizeSection,
+          snap: {
+            snapTo: 1 / numBeats,
+            duration: { min: 0.2, max: 0.4 },
+            delay: 0,
+            ease: "power2.out",
+          },
+        },
+      });
+
+      cards.forEach((card, i) => {
+        if (i === 0) return;
+        tl.to(card, { y: 0, duration: STEP, ease: "none" }, i * STEP);
+        for (let j = 0; j < i; j++) {
+          const prevCard = cards[j];
+          const overlay = prevCard.querySelector('.card-overlay');
+          const dist = Math.min(i - j, 2);
+          tl.to(prevCard, {
+            scale: 1 - 0.03 * dist,
+            y: - (8 * dist),
+            duration: STEP,
+            ease: "none",
+          }, i * STEP);
+          if (overlay) {
+            tl.to(overlay, {
+              opacity: Math.min(0.55, 0.22 * dist),
+              duration: STEP,
+              ease: "none",
+            }, i * STEP);
+          }
+        }
+      });
+      tl.to({}, { duration: STEP });
+
+      return () => {
+        section.style.height = '';
+        arena.style.height = '';
+        tl.scrollTrigger && tl.scrollTrigger.kill();
+        tl.kill();
+        gsap.set(cards, { clearProps: "all" });
+        gsap.set(overlays, { clearProps: "all" });
+      };
+    });
+
     return () => {
       mm.revert();
       // Cleanup for mobile resize
@@ -185,57 +280,6 @@ const Achievements = () => {
       gsap.set(overlays, { clearProps: "all" });
     };
   }, { scope: containerRef });
-
-  // MOBILE (<768px) reveal — plain CSS transition + IntersectionObserver, never
-  // GSAP-driven so it can't get stuck invisible. This section is lazy-loaded
-  // (React.lazy/Suspense), so its chunk often mounts while the cards are already
-  // in view; a "below the fold at mount" check would then skip them entirely and
-  // no animation would play. So instead we hide EVERY card not already scrolled
-  // past, and let the observer reveal each one: in-view cards fade in as soon as
-  // the chunk mounts, below-fold cards animate as they scroll into view. Cards
-  // already scrolled past are left untouched so they can never get stuck hidden.
-  useEffect(() => {
-    if (!window.matchMedia('(max-width: 767px)').matches) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (typeof IntersectionObserver === 'undefined') return;
-
-    const cards = cardsRef.current.filter(Boolean);
-    const hidden = [];
-
-    cards.forEach((card) => {
-      // Skip cards already scrolled past the top of the viewport.
-      if (card.getBoundingClientRect().bottom <= 0) return;
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(40px) scale(0.97)';
-      card.style.transition =
-        'opacity 600ms cubic-bezier(0.22,1,0.36,1), transform 600ms cubic-bezier(0.22,1,0.36,1)';
-      hidden.push(card);
-    });
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0) scale(1)';
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0, rootMargin: '0px 0px -8% 0px' }
-    );
-
-    hidden.forEach((card) => observer.observe(card));
-
-    return () => {
-      observer.disconnect();
-      hidden.forEach((card) => {
-        card.style.opacity = '';
-        card.style.transform = '';
-        card.style.transition = '';
-      });
-    };
-  }, []);
 
   return (
     <section 
@@ -246,10 +290,11 @@ const Achievements = () => {
       // and sets the real height explicitly (see sizeSection in useGSAP).
       className="w-full relative bg-bg-light dark:bg-bg-dark min-h-[95vh] md:h-[400vh]"
     >
-      {/* NATIVE CSS PINNING via sticky */}
-      <div ref={stickyRef} className="w-full md:sticky md:top-0 md:min-h-[95vh] flex items-center overflow-hidden py-24 md:py-0">
-        
-        <div className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12 flex flex-col md:flex-row gap-12 md:gap-20 w-full relative">
+      {/* NATIVE CSS PINNING via sticky — now on mobile too, so the card-stack
+          plays one-scroll-per-card on phones just like desktop. */}
+      <div ref={stickyRef} className="w-full sticky top-0 min-h-[90vh] md:min-h-[95vh] flex items-center overflow-hidden py-0">
+
+        <div className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12 flex flex-col md:flex-row gap-6 md:gap-20 w-full relative">
           
           {/* LEFT PANEL: Typography */}
           <div className="w-full md:w-[45%] flex flex-col z-10 justify-center">
@@ -271,13 +316,15 @@ const Achievements = () => {
               </svg>
             </h2>
             
-            <p className="text-text-secondary dark:text-text-dark-secondary leading-[1.8] text-lg font-medium">
+            {/* Hidden on mobile so the pinned card-stack has room to fit within
+                one viewport; shown from md up. */}
+            <p className="hidden md:block text-text-secondary dark:text-text-dark-secondary leading-[1.8] text-lg font-medium">
               A chronicle of high-intensity builds, competitive engineering, and national-level technical triumphs.
             </p>
           </div>
 
-          {/* RIGHT PANEL: Stacking Arena (desktop) / animated vertical stack (mobile) */}
-          <div className="w-full md:w-[55%] relative flex flex-col gap-6 md:gap-0 md:block md:h-[48vh]">
+          {/* RIGHT PANEL: Stacking Arena — pinned card-stack on both mobile & desktop */}
+          <div ref={arenaRef} className="w-full md:w-[55%] relative flex flex-col gap-6 md:gap-0 md:block md:h-[48vh]">
             {CARDS.map((card, i) => (
               <div
                 key={i}
