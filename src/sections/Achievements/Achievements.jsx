@@ -186,12 +186,14 @@ const Achievements = () => {
     };
   }, { scope: containerRef });
 
-  // MOBILE (<768px) reveal — progressive enhancement, never GSAP-driven so it
-  // can't get stuck invisible from the big pinned Certificates section above
-  // shifting ScrollTrigger's math. Cards are visible by default; only ones
-  // still below the fold at mount are hidden, then faded/slid in via a plain
-  // CSS transition when they scroll into view. If IO is unavailable or a card
-  // is already in view, it simply stays visible.
+  // MOBILE (<768px) reveal — plain CSS transition + IntersectionObserver, never
+  // GSAP-driven so it can't get stuck invisible. This section is lazy-loaded
+  // (React.lazy/Suspense), so its chunk often mounts while the cards are already
+  // in view; a "below the fold at mount" check would then skip them entirely and
+  // no animation would play. So instead we hide EVERY card not already scrolled
+  // past, and let the observer reveal each one: in-view cards fade in as soon as
+  // the chunk mounts, below-fold cards animate as they scroll into view. Cards
+  // already scrolled past are left untouched so they can never get stuck hidden.
   useEffect(() => {
     if (!window.matchMedia('(max-width: 767px)').matches) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -201,14 +203,13 @@ const Achievements = () => {
     const hidden = [];
 
     cards.forEach((card) => {
-      // Only pre-hide cards below the fold; anything in view stays visible.
-      if (card.getBoundingClientRect().top > window.innerHeight * 0.9) {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(40px) scale(0.97)';
-        card.style.transition =
-          'opacity 600ms cubic-bezier(0.22,1,0.36,1), transform 600ms cubic-bezier(0.22,1,0.36,1)';
-        hidden.push(card);
-      }
+      // Skip cards already scrolled past the top of the viewport.
+      if (card.getBoundingClientRect().bottom <= 0) return;
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(40px) scale(0.97)';
+      card.style.transition =
+        'opacity 600ms cubic-bezier(0.22,1,0.36,1), transform 600ms cubic-bezier(0.22,1,0.36,1)';
+      hidden.push(card);
     });
 
     const observer = new IntersectionObserver(
@@ -221,7 +222,7 @@ const Achievements = () => {
           }
         });
       },
-      { threshold: 0.15, rootMargin: '0px 0px -10% 0px' }
+      { threshold: 0, rootMargin: '0px 0px -8% 0px' }
     );
 
     hidden.forEach((card) => observer.observe(card));
