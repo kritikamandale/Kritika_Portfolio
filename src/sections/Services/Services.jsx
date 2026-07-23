@@ -320,7 +320,7 @@ const Services = () => {
                 Kritika<br />Mandale
               </h3>
               <p className="mt-5 text-[0.875rem] md:text-[0.9375rem] font-bold text-[#B02618] tracking-wider uppercase">
-                Web and AI Developer
+                Full Stack and AI Developer
               </p>
             </div>
           </div>

@@ -45,8 +45,8 @@ const firaCode = Fira_Code({
 
 export const metadata = {
   metadataBase: new URL('https://krimyportfolio.vercel.app'),
-  title: 'Kritika Mandale — Web & AI Developer',
-  description: 'Web and AI developer from Nagpur. I build end-to-end intelligent web products — from React UIs to ML model deployment. Open to internships and freelance.',
+  title: 'Kritika Mandale — Full Stack & AI Developer',
+  description: 'Full Stack and AI developer from Nagpur. I build end-to-end intelligent web products — from React UIs to ML model deployment. Open to internships and freelance.',
   keywords: ['Web Developer', 'AI Developer', 'React', 'Frontend', 'Portfolio'],
   authors: [{ name: 'Kritika Mandale' }],
   alternates: {
@@ -59,7 +59,7 @@ export const metadata = {
   },
   manifest: '/site.webmanifest',
   openGraph: {
-    title: 'Kritika Mandale — Web & AI Developer',
+    title: 'Kritika Mandale — Full Stack & AI Developer',
     description: 'Building intelligent web products that combine React, Node.js, and machine learning.',
     url: 'https://krimyportfolio.vercel.app/',
     siteName: 'Kritika Mandale Portfolio',
@@ -68,8 +68,8 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Kritika Mandale — Web & AI Developer',
-    description: 'Web and AI developer from Nagpur. I build end-to-end intelligent web products — from React UIs to ML model deployment. Open to internships and freelance.',
+    title: 'Kritika Mandale — Full Stack & AI Developer',
+    description: 'Full Stack and AI developer from Nagpur. I build end-to-end intelligent web products — from React UIs to ML model deployment. Open to internships and freelance.',
     images: ['/og-image.png'],
   },
 }
@@ -98,7 +98,7 @@ export default function RootLayout({ children }) {
               "@context": "https://schema.org",
               "@type": "Person",
               "name": "Kritika Mandale",
-              "jobTitle": "Web and AI Developer",
+              "jobTitle": "Full Stack and AI Developer",
               "url": "https://krimyportfolio.vercel.app/",
               "sameAs": [
                 "https://github.com/kritikamandale"

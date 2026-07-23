@@ -484,7 +484,7 @@ const HeroSection = () => {
             {/* 2. Tagline & Resume */}
             <div className="flex flex-col items-center md:items-end gap-5">
               <p className="text-[#5C3D2C] text-lg md:text-xl font-medium tracking-wide max-w-md">
-                Web and AI developer
+                Full Stack and AI developer
               </p>
               <a
                 href="/Kritika_Resume.pdf"
