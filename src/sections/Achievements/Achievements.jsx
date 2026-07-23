@@ -179,26 +179,32 @@ const Achievements = () => {
 
     // MOBILE (<768px): the pinned card-stack above is desktop-only because it
     // needs a fixed-height arena, which would clip these long award cards on a
-    // narrow screen. Instead, each card animates in (slide up + fade + scale)
-    // as it scrolls into view — clearly visible motion, no clipping.
+    // narrow screen. Instead, each card reveals (slide up + fade + scale) as it
+    // scrolls into view. Uses scrub so the motion is tied to scroll position
+    // and self-corrects on refresh — unlike a one-shot toggle, which can fire
+    // against stale positions (before images above load) and finish unseen.
     mm.add("(max-width: 767px)", () => {
       const cards = cardsRef.current.filter(Boolean);
       if (!cards.length) return;
-      gsap.set(cards, { clearProps: "all" });
 
       const tweens = cards.map((card) =>
-        gsap.from(card, {
-          scrollTrigger: {
-            trigger: card,
-            start: "top 88%",
-            toggleActions: "play none none none",
-          },
-          y: 40,
-          opacity: 0,
-          scale: 0.97,
-          duration: 0.6,
-          ease: "power2.out",
-        })
+        gsap.fromTo(
+          card,
+          { y: 50, opacity: 0, scale: 0.96 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 92%",
+              end: "top 55%",
+              scrub: true,
+              invalidateOnRefresh: true,
+            },
+          }
+        )
       );
 
       return () => {

@@ -182,9 +182,11 @@ const Certificates = () => {
       const HOLD = 500;
 
       // Pinned scroll room held at the START, before any horizontal movement
-      // begins, so the section has time to settle in view (heading + first
-      // card fully readable) before the track starts sliding.
-      const LEAD = 400;
+      // begins, so the section settles in view and the FIRST card is fully
+      // read before the track starts sliding. Larger on mobile (where a single
+      // swipe covers less absolute distance) so the first certificate holds
+      // for a couple of scrolls instead of jumping straight to the second.
+      const LEAD = Math.round(window.innerHeight * (window.innerWidth < 768 ? 1.1 : 0.5));
 
       // Grow the section tall enough that the sticky pane stays pinned for the
       // leading hold, the entire horizontal travel, and the trailing hold.
@@ -194,6 +196,9 @@ const Certificates = () => {
       sizeSection();
 
       const dist = getDistance() || 1;
+
+      // Ensure the rail always starts parked on the first card.
+      gsap.set(track, { x: 0 });
 
       const tl = gsap.timeline({
         scrollTrigger: {
