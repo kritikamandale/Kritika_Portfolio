@@ -254,7 +254,7 @@ const PROJECTS = [
     businessValue: 'Zero manual overhead. Zero fraud. Scalable security.',
     tags: ['FastAPI', 'React', 'PostgreSQL', 'DeepFace'],
     githubUrl: 'https://github.com/kritikamandale/SecureID',
-    liveUrl: '',
+    liveUrl: 'https://secureid-ten.vercel.app/',
     featured: true,
   },
   {
