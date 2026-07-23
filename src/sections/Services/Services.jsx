@@ -315,7 +315,7 @@ const Services = () => {
           <div className={`${glassCard} bento:col-start-1 bento:row-start-1 z-10`}>
             <div className="flex flex-col justify-center h-full">
               <h3
-                className="font-heading text-[2.75rem] sm:text-[3.25rem] md:text-[3.9rem] font-black leading-[1.03] bg-gradient-to-r from-[#B02618] to-[#3A2418] bg-clip-text text-transparent drop-shadow-[0_0_28px_rgba(176,38,24,0.4)]"
+                className="font-heading text-[2.75rem] sm:text-[3.25rem] md:text-[3.9rem] font-black leading-[1.03] bg-gradient-to-r from-[#B02618] to-[#3A2418] bg-clip-text text-transparent drop-shadow-[0_0_28px_rgba(176,38,24,0.4)] transform-gpu"
               >
                 Kritika<br />Mandale
               </h3>
@@ -332,7 +332,7 @@ const Services = () => {
           <div className="bento:col-start-1 bento:row-start-2 bento:row-span-2 z-10 flex flex-col gap-4 sm:gap-5 overflow-hidden min-w-0">
             {/* Upper — Contact Me */}
             <div className={`${solidCoral} flex-1`}>
-              <div className="absolute -top-6 -right-6 w-28 h-28 rounded-full bg-white/20 blur-[40px] pointer-events-none" />
+              <div className="absolute -top-6 -right-6 w-28 h-28 rounded-full bg-white/20 blur-[40px] pointer-events-none transform-gpu" />
               {/* Background icon — large faint paper-plane, purely decorative */}
               <svg
                 className="absolute -bottom-6 -right-6 w-40 h-40 text-white/10 rotate-[10deg] pointer-events-none z-0"
@@ -365,7 +365,7 @@ const Services = () => {
 
             {/* Lower — capability CTA (unchanged content) */}
             <div className={`${solidAmber} flex-1`}>
-              <div className="absolute bottom-0 right-0 w-40 h-40 rounded-full bg-white/20 blur-[50px] pointer-events-none" />
+              <div className="absolute bottom-0 right-0 w-40 h-40 rounded-full bg-white/20 blur-[50px] pointer-events-none transform-gpu" />
               <div className="relative z-10">
                 <h3 className="font-heading text-[1.4rem] sm:text-[1.7rem] md:text-[2.1rem] font-black text-[#3A2418] leading-[1.05]">
                   Build with<br />AI.<br />Scale with<br />confidence.
@@ -468,7 +468,7 @@ const Services = () => {
           {/* ── CELL 6+7 ── terracotta text (cut to content) + socials fill the rest, col3 rows2-3 ── */}
           <div className="bento:col-start-3 bento:row-start-2 bento:row-span-2 z-10 flex flex-col gap-3 overflow-hidden min-w-0">
           <div className={`${solidTerracotta} shrink-0`}>
-            <div className="absolute bottom-0 left-0 w-36 h-36 rounded-full bg-white/10 blur-[50px] pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-36 h-36 rounded-full bg-white/10 blur-[50px] pointer-events-none transform-gpu" />
             <div className="relative z-10">
               <h3 className="font-heading text-[1.6rem] sm:text-[1.8rem] md:text-[2.2rem] font-black text-white leading-[1.1]">
                 Full-stack AI development.

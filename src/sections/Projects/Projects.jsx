@@ -360,10 +360,13 @@ const ProjectCard = ({ project }) => {
           {/* drop-shadow-lg, not -2xl — a large-radius filter shadow recomputed
               against this image's full alpha silhouette on every repaint was
               a real scroll-jank cost, multiplied across every project card. */}
+          {/* transform-gpu promotes this large drop-shadowed image to its own
+              compositor layer so the filter is rasterized once instead of being
+              recomputed every frame while scrolling — the main scroll-jank fix. */}
           <img
             src="/laptop_mockup_transparent.webp"
             alt="Laptop Mockup"
-            className="relative z-10 w-full h-auto pointer-events-none drop-shadow-lg"
+            className="relative z-10 w-full h-auto pointer-events-none drop-shadow-lg transform-gpu [backface-visibility:hidden]"
             loading="lazy"
           />
         </div>
