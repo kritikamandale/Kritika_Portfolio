@@ -5,6 +5,7 @@ import Image from 'next/image';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import RevealGroup from '../../components/RevealGroup/RevealGroup';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -245,14 +246,20 @@ const Certificates = () => {
           </p>
         </div>
 
-        {/* Track — vertical stack on mobile, horizontal rail on desktop */}
-        <div
-          ref={trackRef}
-          className="flex flex-col md:flex-row gap-6 px-4 md:px-8 lg:px-12 md:w-max md:will-change-transform"
-        >
-          {CERTIFICATES.map((cert) => (
-            <CertCard key={cert.id} cert={cert} onOpen={setSelectedImage} />
-          ))}
+        {/* Track — vertical stack (with scroll-in fade) on mobile, GSAP
+            horizontal rail on desktop */}
+        <div ref={trackRef} className="md:will-change-transform">
+          <RevealGroup staggerDelay={80} className="flex flex-col gap-6 px-4 md:hidden">
+            {CERTIFICATES.map((cert) => (
+              <CertCard key={cert.id} cert={cert} onOpen={setSelectedImage} />
+            ))}
+          </RevealGroup>
+
+          <div className="hidden md:flex md:flex-row md:w-max gap-6 px-8 lg:px-12">
+            {CERTIFICATES.map((cert) => (
+              <CertCard key={cert.id} cert={cert} onOpen={setSelectedImage} />
+            ))}
+          </div>
         </div>
       </div>
 
