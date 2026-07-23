@@ -212,10 +212,11 @@ const Achievements = () => {
         });
       });
 
-      // Scroll distance per card. Tied to viewport height so a single momentum
-      // swipe advances just one card instead of blowing past two — each card
-      // now takes roughly a full screen of scroll to bring in.
-      const STEP = Math.round(window.innerHeight * 0.9);
+      // Scroll distance per card — ~half a screen, i.e. one normal swipe brings
+      // in one card. Small enough that a swipe reaches the next snap point (so
+      // it doesn't get pulled back and require repeated swipes), large enough
+      // that momentum doesn't blow past two.
+      const STEP = Math.round(window.innerHeight * 0.55);
       const numBeats = CARDS.length + 1;
       const animPx = STEP * numBeats;
 
@@ -236,6 +237,7 @@ const Achievements = () => {
             snapTo: 1 / numBeats,
             duration: { min: 0.2, max: 0.4 },
             delay: 0,
+            directional: true, // snap forward in the direction of the swipe
             ease: "power2.out",
           },
         },
