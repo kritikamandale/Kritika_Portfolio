@@ -267,6 +267,14 @@ const Achievements = () => {
       });
       tl.to({}, { duration: STEP });
 
+      // This section is lazy-loaded and sets its own (tall) height here, which
+      // pushes the Certificates section below it further down the page. If
+      // Certificates' ScrollTrigger measured its start before this ran, it would
+      // begin its horizontal scroll early — while the user is still in Awards.
+      // Refresh once on the next frame so every trigger below recomputes against
+      // the final layout.
+      requestAnimationFrame(() => ScrollTrigger.refresh());
+
       return () => {
         section.style.height = '';
         arena.style.height = '';
