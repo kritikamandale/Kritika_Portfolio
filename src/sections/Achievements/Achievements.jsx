@@ -224,7 +224,12 @@ const Achievements = () => {
       // it doesn't get pulled back and require repeated swipes), large enough
       // that momentum doesn't blow past two.
       const STEP = Math.round(window.innerHeight * 0.55);
-      const numBeats = CARDS.length + 1;
+      // N cards need exactly (N-1) transitions to walk from card 0 to the last
+      // card. Every transition is one beat / one snap interval, so 1 swipe = 1
+      // card. NO leading or trailing hold beats: card 0 is already shown at
+      // progress 0, and the last card settles exactly at progress 1 — the pin
+      // releases the instant it's fully in, with zero dead scroll on either end.
+      const numBeats = CARDS.length - 1;
       const animPx = STEP * numBeats;
 
       const sizeSection = () => {
@@ -252,7 +257,11 @@ const Achievements = () => {
 
       cards.forEach((card, i) => {
         if (i === 0) return;
-        tl.to(card, { y: 0, duration: STEP, ease: "none" }, i * STEP);
+        // Card i's transition starts at (i-1)*STEP — so card 1 slides in over
+        // the FIRST beat [0, STEP] (no dead lead-in), card 2 over the second,
+        // and so on. Previous-card scaling is anchored to the same beat.
+        const at = (i - 1) * STEP;
+        tl.to(card, { y: 0, duration: STEP, ease: "none" }, at);
         for (let j = 0; j < i; j++) {
           const prevCard = cards[j];
           const overlay = prevCard.querySelector('.card-overlay');
@@ -262,17 +271,16 @@ const Achievements = () => {
             y: - (8 * dist),
             duration: STEP,
             ease: "none",
-          }, i * STEP);
+          }, at);
           if (overlay) {
             tl.to(overlay, {
               opacity: Math.min(0.55, 0.22 * dist),
               duration: STEP,
               ease: "none",
-            }, i * STEP);
+            }, at);
           }
         }
       });
-      tl.to({}, { duration: STEP });
 
       // This section is lazy-loaded and sets its own (tall) height here, which
       // pushes the Certificates section below it further down the page. If
