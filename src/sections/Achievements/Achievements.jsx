@@ -321,7 +321,7 @@ const Achievements = () => {
       className={
         prefersReduced
           ? "w-full relative bg-bg-light dark:bg-bg-dark py-16 md:py-24"
-          : "w-full relative bg-bg-light dark:bg-bg-dark min-h-[95vh] md:h-[400vh]"
+          : "w-full relative bg-bg-light dark:bg-bg-dark min-h-[95dvh] md:h-[400vh]"
       }
     >
       {/* NATIVE CSS PINNING via sticky — now on mobile too, so the card-stack
@@ -332,7 +332,7 @@ const Achievements = () => {
         className={
           prefersReduced
             ? "w-full static overflow-visible flex items-center py-0"
-            : "w-full sticky top-0 min-h-[90vh] md:min-h-[95vh] flex items-center overflow-hidden py-0"
+            : "w-full sticky top-0 min-h-[90dvh] md:min-h-[95vh] flex items-center overflow-hidden py-0"
         }
       >
 

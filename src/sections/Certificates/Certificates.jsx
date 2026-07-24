@@ -263,7 +263,7 @@ const Certificates = () => {
         className={
           prefersReduced
             ? "static py-16 md:py-24 flex flex-col justify-center"
-            : "sticky top-0 h-screen overflow-hidden flex flex-col justify-center"
+            : "sticky top-0 h-[100dvh] md:h-screen overflow-hidden flex flex-col justify-center"
         }
       >
         {/* Header */}
