@@ -4,6 +4,7 @@ import React, { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -71,8 +72,14 @@ const Achievements = () => {
   const stickyRef = useRef(null);
   const cardsRef = useRef([]);
   const arenaRef = useRef(null);
+  const prefersReduced = usePrefersReducedMotion();
 
   useGSAP(() => {
+    // Respect prefers-reduced-motion: skip the pinned card-stack choreography
+    // entirely and let the cards render as a plain static vertical stack (see
+    // the reduced-motion className branches below).
+    if (prefersReduced) return;
+
     let mm = gsap.matchMedia();
 
     mm.add("(min-width: 768px)", () => {
@@ -292,20 +299,34 @@ const Achievements = () => {
       const overlays = document.querySelectorAll('.card-overlay');
       gsap.set(overlays, { clearProps: "all" });
     };
-  }, { scope: containerRef });
+  }, { scope: containerRef, dependencies: [prefersReduced] });
 
   return (
-    <section 
-      id="achievements" 
+    <section
+      id="achievements"
       aria-label="Hackathons & Awards"
       ref={containerRef}
       // Fallback height for the instant before JS measures the sticky pane
       // and sets the real height explicitly (see sizeSection in useGSAP).
-      className="w-full relative bg-bg-light dark:bg-bg-dark min-h-[95vh] md:h-[400vh]"
+      // Reduced motion: no pinning, so the section is just as tall as its
+      // content instead of the tall scroll runway.
+      className={
+        prefersReduced
+          ? "w-full relative bg-bg-light dark:bg-bg-dark py-16 md:py-24"
+          : "w-full relative bg-bg-light dark:bg-bg-dark min-h-[95vh] md:h-[400vh]"
+      }
     >
       {/* NATIVE CSS PINNING via sticky — now on mobile too, so the card-stack
-          plays one-scroll-per-card on phones just like desktop. */}
-      <div ref={stickyRef} className="w-full sticky top-0 min-h-[90vh] md:min-h-[95vh] flex items-center overflow-hidden py-0">
+          plays one-scroll-per-card on phones just like desktop. Reduced
+          motion: static, so the pane flows normally with the page. */}
+      <div
+        ref={stickyRef}
+        className={
+          prefersReduced
+            ? "w-full static overflow-visible flex items-center py-0"
+            : "w-full sticky top-0 min-h-[90vh] md:min-h-[95vh] flex items-center overflow-hidden py-0"
+        }
+      >
 
         <div className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12 flex flex-col md:flex-row gap-6 md:gap-20 w-full relative">
           
@@ -336,13 +357,26 @@ const Achievements = () => {
             </p>
           </div>
 
-          {/* RIGHT PANEL: Stacking Arena — pinned card-stack on both mobile & desktop */}
-          <div ref={arenaRef} className="w-full md:w-[55%] relative flex flex-col gap-6 md:gap-0 md:block md:h-[48vh]">
+          {/* RIGHT PANEL: Stacking Arena — pinned card-stack on both mobile &
+              desktop. Reduced motion: a plain vertical stack at every width. */}
+          <div
+            ref={arenaRef}
+            className={
+              prefersReduced
+                ? "w-full md:w-[55%] relative flex flex-col gap-6"
+                : "w-full md:w-[55%] relative flex flex-col gap-6 md:gap-0 md:block md:h-[48vh]"
+            }
+          >
             {CARDS.map((card, i) => (
               <div
                 key={i}
                 ref={el => { cardsRef.current[i] = el; }}
-                className="md:absolute top-0 left-0 w-full md:h-full bg-white dark:bg-[#1a1a1a] border border-border-light dark:border-border-dark rounded-2xl p-6 md:p-8 flex flex-col gap-4 transform-gpu shadow-[0_20px_40px_-15px_rgba(58,36,24,0.10)] dark:shadow-none"
+                className={
+                  (prefersReduced
+                    ? "w-full "
+                    : "md:absolute top-0 left-0 w-full md:h-full ") +
+                  "bg-white dark:bg-[#1a1a1a] border border-border-light dark:border-border-dark rounded-2xl p-6 md:p-8 flex flex-col gap-4 transform-gpu shadow-[0_20px_40px_-15px_rgba(58,36,24,0.10)] dark:shadow-none"
+                }
                 style={{ zIndex: i }}
               >
                 {/* Darkening Overlay for 3D depth (desktop stacking only) */}

@@ -2,9 +2,11 @@
 // src/sections/Certificates/Certificates.jsx
 import React, { useRef, useState } from 'react';
 import Image from 'next/image';
+import { useLenis } from 'lenis/react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -147,24 +149,38 @@ const Certificates = () => {
   const stickyRef = useRef(null);
   const trackRef = useRef(null);
   const [selectedImage, setSelectedImage] = useState(null);
+  const lenis = useLenis();
+  const prefersReduced = usePrefersReducedMotion();
 
-  // Lock body scroll when modal is open
+  // Lock scroll when the modal is open. With Lenis `syncTouch` enabled, touch
+  // scrolling is driven by Lenis rather than the browser, so a plain
+  // `overflow: hidden` on <body> no longer stops the page moving behind the
+  // modal on mobile — stop Lenis explicitly (and still set overflow for the
+  // wheel / scrollbar case).
   React.useEffect(() => {
     if (selectedImage) {
       document.body.style.overflow = 'hidden';
+      lenis?.stop();
     } else {
       document.body.style.overflow = 'unset';
+      lenis?.start();
     }
     return () => {
       document.body.style.overflow = 'unset';
+      lenis?.start();
     };
-  }, [selectedImage]);
+  }, [selectedImage, lenis]);
 
   // Horizontal scroll — enabled on ALL viewports (mobile + desktop). Uses
   // NATIVE CSS sticky for pinning (no GSAP pin) so it stays buttery-smooth
   // with Lenis and never glitches when handing off from vertical to
   // horizontal scrolling.
   useGSAP(() => {
+    // Respect prefers-reduced-motion: skip the pin + horizontal-scroll
+    // choreography and let the rail be a plain, natively swipeable row (see
+    // the reduced-motion className branches below).
+    if (prefersReduced) return;
+
     const mm = gsap.matchMedia();
 
     mm.add('all', () => {
@@ -228,7 +244,7 @@ const Certificates = () => {
     });
 
     return () => mm.revert();
-  }, { scope: sectionRef });
+  }, { scope: sectionRef, dependencies: [prefersReduced] });
 
   return (
     <section
@@ -238,10 +254,15 @@ const Certificates = () => {
       className="relative w-full bg-bg-light dark:bg-bg-dark"
     >
       {/* Native sticky pinning pane — pins on all viewports so the horizontal
-          rail animation runs on mobile and desktop alike. */}
+          rail animation runs on mobile and desktop alike. Reduced motion:
+          static pane, no pin. */}
       <div
         ref={stickyRef}
-        className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center"
+        className={
+          prefersReduced
+            ? "static py-16 md:py-24 flex flex-col justify-center"
+            : "sticky top-0 h-screen overflow-hidden flex flex-col justify-center"
+        }
       >
         {/* Header */}
         <div className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12 w-full mb-8 md:mb-10">
@@ -256,10 +277,16 @@ const Certificates = () => {
           </p>
         </div>
 
-        {/* Track — horizontal rail on all viewports, driven by GSAP as you scroll */}
+        {/* Track — horizontal rail on all viewports, driven by GSAP as you
+            scroll. Reduced motion: a plain, natively horizontally-scrollable
+            row (no GSAP translate). */}
         <div
           ref={trackRef}
-          className="flex flex-row gap-6 px-4 md:px-8 lg:px-12 w-max will-change-transform"
+          className={
+            prefersReduced
+              ? "flex flex-row gap-6 px-4 md:px-8 lg:px-12 overflow-x-auto max-w-full"
+              : "flex flex-row gap-6 px-4 md:px-8 lg:px-12 w-max will-change-transform"
+          }
         >
           {CERTIFICATES.map((cert) => (
             <CertCard key={cert.id} cert={cert} onOpen={setSelectedImage} />
