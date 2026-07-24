@@ -5,6 +5,7 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion';
+import useIsMobile from '../../hooks/useIsMobile';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -44,6 +45,32 @@ const CARDS = [
 ];
 
 
+const Rosette = ({ className }) => (
+  <svg viewBox="0 0 100 100" fill="currentColor" className={className}>
+    <g transform="translate(50, 50)">
+      <ellipse cx="0" cy="-25" rx="14" ry="25" />
+      <ellipse cx="0" cy="-25" rx="14" ry="25" transform="rotate(72)" />
+      <ellipse cx="0" cy="-25" rx="14" ry="25" transform="rotate(144)" />
+      <ellipse cx="0" cy="-25" rx="14" ry="25" transform="rotate(216)" />
+      <ellipse cx="0" cy="-25" rx="14" ry="25" transform="rotate(288)" />
+      <circle cx="0" cy="0" r="15" />
+    </g>
+  </svg>
+);
+
+const Heading = () => (
+  <>
+    <div className="bg-[#B02618]/10 text-[#B02618] text-[11px] font-bold uppercase tracking-[0.15em] py-1.5 px-4 rounded-full w-fit mb-6">
+      RECOGNITIONS
+    </div>
+
+    <h2 className="text-[clamp(2.5rem,4vw,3.5rem)] font-heading font-extrabold text-text-primary dark:text-text-dark-primary leading-[1.1] mb-6 flex items-start gap-4">
+      Hackathons & Awards
+      <Rosette className="w-8 h-8 text-[#B02618] shrink-0 mt-2" />
+    </h2>
+  </>
+);
+
 const CardContent = ({ card }) => (
   <div className="relative z-20 flex flex-col h-full">
     <span className="text-[#B02618] text-sm font-bold uppercase tracking-wider mb-2">
@@ -67,18 +94,23 @@ const CardContent = ({ card }) => (
   </div>
 );
 
+// Shared card styling used by the mobile scroll-snap pager and the reduced-motion
+// static stack (the desktop stacking arena keeps its own absolute-positioned box).
+const CARD_BOX =
+  "w-full bg-white dark:bg-[#1a1a1a] border border-border-light dark:border-border-dark rounded-2xl p-6 md:p-8 flex flex-col gap-4 shadow-[0_20px_40px_-15px_rgba(58,36,24,0.10)] dark:shadow-none";
+
 const Achievements = () => {
   const containerRef = useRef(null);
   const stickyRef = useRef(null);
   const cardsRef = useRef([]);
-  const arenaRef = useRef(null);
   const prefersReduced = usePrefersReducedMotion();
+  const isMobile = useIsMobile();
 
+  // DESKTOP ONLY (>=768px): the pinned card-stacking choreography. Untouched.
+  // Mobile now uses native CSS scroll-snap (see the render below) and never
+  // runs GSAP, so this timeline only ever builds for the desktop markup.
   useGSAP(() => {
-    // Respect prefers-reduced-motion: skip the pinned card-stack choreography
-    // entirely and let the cards render as a plain static vertical stack (see
-    // the reduced-motion className branches below).
-    if (prefersReduced) return;
+    if (prefersReduced || isMobile) return;
 
     let mm = gsap.matchMedia();
 
@@ -185,130 +217,72 @@ const Achievements = () => {
       };
     });
 
-    // MOBILE (<768px): same pinned card-stacking as desktop — one scroll per
-    // card — but the arena height is MEASURED from the tallest card at runtime
-    // (desktop uses a fixed 48vh, which would clip these long cards on a narrow
-    // screen). A small buffer absorbs late font reflow so nothing ever clips.
-    mm.add("(max-width: 767px)", () => {
-      const cards = cardsRef.current.filter(Boolean);
-      const section = containerRef.current;
-      const sticky = stickyRef.current;
-      const arena = arenaRef.current;
-      if (cards.length === 0 || !section || !sticky || !arena) return;
-
-      // Reset, then measure natural heights while the cards are still in normal
-      // flow, and lock the arena + every card to the tallest one so the stacked
-      // (absolute) cards are uniform and never clip.
-      gsap.set(cards, { clearProps: "all" });
-      arena.style.height = '';
-      const maxH = Math.max(...cards.map((c) => c.offsetHeight));
-      const arenaH = Math.ceil(maxH * 1.06) + 8; // buffer for font reflow
-      arena.style.height = `${arenaH}px`;
-
-      const overlays = arena.querySelectorAll('.card-overlay');
-      gsap.set(overlays, { opacity: 0 });
-
-      cards.forEach((card, i) => {
-        gsap.set(card, {
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: arenaH,
-          y: i > 0 ? '120%' : '0%',
-        });
-      });
-
-      // Scroll distance per card — ~half a screen, i.e. one normal swipe brings
-      // in one card. Small enough that a swipe reaches the next snap point (so
-      // it doesn't get pulled back and require repeated swipes), large enough
-      // that momentum doesn't blow past two.
-      const STEP = Math.round(window.innerHeight * 0.55);
-      // N cards need exactly (N-1) transitions to walk from card 0 to the last
-      // card. Every transition is one beat / one snap interval, so 1 swipe = 1
-      // card. NO leading or trailing hold beats: card 0 is already shown at
-      // progress 0, and the last card settles exactly at progress 1 — the pin
-      // releases the instant it's fully in, with zero dead scroll on either end.
-      const numBeats = CARDS.length - 1;
-      const animPx = STEP * numBeats;
-
-      const sizeSection = () => {
-        section.style.height = `${sticky.offsetHeight + animPx}px`;
-      };
-      sizeSection();
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: () => `+=${animPx}`,
-          scrub: true,
-          invalidateOnRefresh: true,
-          onRefresh: sizeSection,
-          snap: {
-            snapTo: 1 / numBeats,
-            duration: { min: 0.2, max: 0.4 },
-            delay: 0,
-            directional: true, // snap forward in the direction of the swipe
-            ease: "power2.out",
-          },
-        },
-      });
-
-      cards.forEach((card, i) => {
-        if (i === 0) return;
-        // Card i's transition starts at (i-1)*STEP — so card 1 slides in over
-        // the FIRST beat [0, STEP] (no dead lead-in), card 2 over the second,
-        // and so on. Previous-card scaling is anchored to the same beat.
-        const at = (i - 1) * STEP;
-        tl.to(card, { y: 0, duration: STEP, ease: "none" }, at);
-        for (let j = 0; j < i; j++) {
-          const prevCard = cards[j];
-          const overlay = prevCard.querySelector('.card-overlay');
-          const dist = Math.min(i - j, 2);
-          tl.to(prevCard, {
-            scale: 1 - 0.03 * dist,
-            y: - (8 * dist),
-            duration: STEP,
-            ease: "none",
-          }, at);
-          if (overlay) {
-            tl.to(overlay, {
-              opacity: Math.min(0.55, 0.22 * dist),
-              duration: STEP,
-              ease: "none",
-            }, at);
-          }
-        }
-      });
-
-      // This section is lazy-loaded and sets its own (tall) height here, which
-      // pushes the Certificates section below it further down the page. If
-      // Certificates' ScrollTrigger measured its start before this ran, it would
-      // begin its horizontal scroll early — while the user is still in Awards.
-      // Refresh once on the next frame so every trigger below recomputes against
-      // the final layout.
-      requestAnimationFrame(() => ScrollTrigger.refresh());
-
-      return () => {
-        section.style.height = '';
-        arena.style.height = '';
-        tl.scrollTrigger && tl.scrollTrigger.kill();
-        tl.kill();
-        gsap.set(cards, { clearProps: "all" });
-        gsap.set(overlays, { clearProps: "all" });
-      };
-    });
-
     return () => {
       mm.revert();
-      // Cleanup for mobile resize
       gsap.set(cardsRef.current, { clearProps: "all" });
       const overlays = document.querySelectorAll('.card-overlay');
       gsap.set(overlays, { clearProps: "all" });
     };
-  }, { scope: containerRef, dependencies: [prefersReduced] });
+  }, { scope: containerRef, dependencies: [prefersReduced, isMobile] });
 
+  // ── REDUCED MOTION: plain static vertical stack, no pin / snap / paging ──
+  if (prefersReduced) {
+    return (
+      <section
+        id="achievements"
+        aria-label="Hackathons & Awards"
+        className="w-full bg-bg-light dark:bg-bg-dark py-16 md:py-24"
+      >
+        <div className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12 flex flex-col gap-8">
+          <div>
+            <Heading />
+          </div>
+          <div className="flex flex-col gap-6">
+            {CARDS.map((card, i) => (
+              <div key={i} className={CARD_BOX}>
+                <CardContent card={card} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // ── MOBILE (<768px): native CSS scroll-snap pager ──
+  // One award per swipe is *guaranteed* by `scroll-snap-stop: always` (a hard
+  // flick can't cross more than one snap point). Each card is a full 100dvh
+  // snap page, so there is zero leftover scroll distance: the moment the last
+  // card is snapped, a further swipe chains straight into the next section.
+  if (isMobile) {
+    return (
+      <section
+        id="achievements"
+        aria-label="Hackathons & Awards"
+        ref={containerRef}
+        className="w-full bg-bg-light dark:bg-bg-dark"
+      >
+        <div className="max-w-[1800px] mx-auto px-4 pt-16 pb-4">
+          <Heading />
+        </div>
+
+        <div className="h-[100dvh] overflow-y-auto snap-y snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {CARDS.map((card, i) => (
+            <div
+              key={i}
+              className="snap-start snap-always min-h-[100dvh] flex items-center px-4 py-6"
+            >
+              <div className={CARD_BOX}>
+                <CardContent card={card} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  // ── DESKTOP (>=768px): pinned card-stacking arena (GSAP above) — UNCHANGED ──
   return (
     <section
       id="achievements"
@@ -316,48 +290,17 @@ const Achievements = () => {
       ref={containerRef}
       // Fallback height for the instant before JS measures the sticky pane
       // and sets the real height explicitly (see sizeSection in useGSAP).
-      // Reduced motion: no pinning, so the section is just as tall as its
-      // content instead of the tall scroll runway.
-      className={
-        prefersReduced
-          ? "w-full relative bg-bg-light dark:bg-bg-dark py-16 md:py-24"
-          : "w-full relative bg-bg-light dark:bg-bg-dark min-h-[95dvh] md:h-[400vh]"
-      }
+      className="w-full relative bg-bg-light dark:bg-bg-dark min-h-[95vh] md:h-[400vh]"
     >
-      {/* NATIVE CSS PINNING via sticky — now on mobile too, so the card-stack
-          plays one-scroll-per-card on phones just like desktop. Reduced
-          motion: static, so the pane flows normally with the page. */}
-      <div
-        ref={stickyRef}
-        className={
-          prefersReduced
-            ? "w-full static overflow-visible flex items-center py-0"
-            : "w-full sticky top-0 min-h-[90dvh] md:min-h-[95vh] flex items-center overflow-hidden py-0"
-        }
-      >
+      {/* NATIVE CSS PINNING via sticky. */}
+      <div ref={stickyRef} className="w-full sticky top-0 min-h-[90vh] md:min-h-[95vh] flex items-center overflow-hidden py-0">
 
         <div className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12 flex flex-col md:flex-row gap-6 md:gap-20 w-full relative">
-          
+
           {/* LEFT PANEL: Typography */}
           <div className="w-full md:w-[45%] flex flex-col z-10 justify-center">
-            <div className="bg-[#B02618]/10 text-[#B02618] text-[11px] font-bold uppercase tracking-[0.15em] py-1.5 px-4 rounded-full w-fit mb-6">
-              RECOGNITIONS
-            </div>
+            <Heading />
 
-            <h2 className="text-[clamp(2.5rem,4vw,3.5rem)] font-heading font-extrabold text-text-primary dark:text-text-dark-primary leading-[1.1] mb-6 flex items-start gap-4">
-              Hackathons & Awards
-              <svg viewBox="0 0 100 100" fill="currentColor" className="w-8 h-8 text-[#B02618] shrink-0 mt-2">
-                <g transform="translate(50, 50)">
-                  <ellipse cx="0" cy="-25" rx="14" ry="25" />
-                  <ellipse cx="0" cy="-25" rx="14" ry="25" transform="rotate(72)" />
-                  <ellipse cx="0" cy="-25" rx="14" ry="25" transform="rotate(144)" />
-                  <ellipse cx="0" cy="-25" rx="14" ry="25" transform="rotate(216)" />
-                  <ellipse cx="0" cy="-25" rx="14" ry="25" transform="rotate(288)" />
-                  <circle cx="0" cy="0" r="15" />
-                </g>
-              </svg>
-            </h2>
-            
             {/* Hidden on mobile so the pinned card-stack has room to fit within
                 one viewport; shown from md up. */}
             <p className="hidden md:block text-text-secondary dark:text-text-dark-secondary leading-[1.8] text-lg font-medium">
@@ -365,26 +308,13 @@ const Achievements = () => {
             </p>
           </div>
 
-          {/* RIGHT PANEL: Stacking Arena — pinned card-stack on both mobile &
-              desktop. Reduced motion: a plain vertical stack at every width. */}
-          <div
-            ref={arenaRef}
-            className={
-              prefersReduced
-                ? "w-full md:w-[55%] relative flex flex-col gap-6"
-                : "w-full md:w-[55%] relative flex flex-col gap-6 md:gap-0 md:block md:h-[48vh]"
-            }
-          >
+          {/* RIGHT PANEL: Stacking Arena */}
+          <div className="w-full md:w-[55%] relative flex flex-col gap-6 md:gap-0 md:block md:h-[48vh]">
             {CARDS.map((card, i) => (
               <div
                 key={i}
                 ref={el => { cardsRef.current[i] = el; }}
-                className={
-                  (prefersReduced
-                    ? "w-full "
-                    : "md:absolute top-0 left-0 w-full md:h-full ") +
-                  "bg-white dark:bg-[#1a1a1a] border border-border-light dark:border-border-dark rounded-2xl p-6 md:p-8 flex flex-col gap-4 transform-gpu shadow-[0_20px_40px_-15px_rgba(58,36,24,0.10)] dark:shadow-none"
-                }
+                className="md:absolute top-0 left-0 w-full md:h-full bg-white dark:bg-[#1a1a1a] border border-border-light dark:border-border-dark rounded-2xl p-6 md:p-8 flex flex-col gap-4 transform-gpu shadow-[0_20px_40px_-15px_rgba(58,36,24,0.10)] dark:shadow-none"
                 style={{ zIndex: i }}
               >
                 {/* Darkening Overlay for 3D depth (desktop stacking only) */}

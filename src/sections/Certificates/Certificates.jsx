@@ -7,6 +7,7 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion';
+import useIsMobile from '../../hooks/useIsMobile';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -79,7 +80,7 @@ const HeadingStar = () => (
 );
 
 const CertCard = ({ cert, onOpen }) => (
-  <div className="group relative flex flex-col shrink-0 w-[80vw] max-w-[340px] md:w-[360px] bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-5 lg:p-6 transition-shadow duration-300 hover:shadow-card-hover">
+  <div className="group relative flex flex-col shrink-0 snap-center snap-always w-[80vw] max-w-[340px] md:w-[360px] bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-5 lg:p-6 transition-shadow duration-300 hover:shadow-card-hover">
     <div
       className="relative mb-5 h-40 overflow-hidden rounded-lg cursor-pointer border border-border-light dark:border-border-dark bg-white dark:bg-black/20"
       onClick={() => onOpen(cert.image)}
@@ -151,6 +152,7 @@ const Certificates = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const lenis = useLenis();
   const prefersReduced = usePrefersReducedMotion();
+  const isMobile = useIsMobile();
 
   // Lock scroll when the modal is open. With Lenis `syncTouch` enabled, touch
   // scrolling is driven by Lenis rather than the browser, so a plain
@@ -171,19 +173,16 @@ const Certificates = () => {
     };
   }, [selectedImage, lenis]);
 
-  // Horizontal scroll — enabled on ALL viewports (mobile + desktop). Uses
-  // NATIVE CSS sticky for pinning (no GSAP pin) so it stays buttery-smooth
-  // with Lenis and never glitches when handing off from vertical to
-  // horizontal scrolling.
+  // DESKTOP ONLY (>=768px): pinned sticky pane + GSAP-driven horizontal rail.
+  // Untouched. Mobile now uses a native CSS x-scroll-snap rail (see render) and
+  // never runs GSAP.
   useGSAP(() => {
-    // Respect prefers-reduced-motion: skip the pin + horizontal-scroll
-    // choreography and let the rail be a plain, natively swipeable row (see
-    // the reduced-motion className branches below).
-    if (prefersReduced) return;
+    // Skip on reduced-motion and on mobile (native scroll-snap handles those).
+    if (prefersReduced || isMobile) return;
 
     const mm = gsap.matchMedia();
 
-    mm.add('all', () => {
+    mm.add('(min-width: 768px)', () => {
       const section = sectionRef.current;
       const track = trackRef.current;
       if (!section || !track) return;
@@ -192,22 +191,14 @@ const Certificates = () => {
       const getDistance = () =>
         Math.max(0, track.scrollWidth - track.parentElement.clientWidth);
 
-      const isMobile = window.innerWidth < 768;
-
       // Extra pinned scroll room held at the end (after the track finishes
       // moving) so the last card stays fully visible and readable instead of
-      // the section releasing into the next one the instant it arrives. On
-      // MOBILE this is ZERO — the moment the last certificate is flush, the pin
-      // releases and the next scroll moves into the following section, so there
-      // is no dead scroll at the end.
-      const HOLD = isMobile ? 0 : 500;
+      // the section releasing into the next one the instant it arrives.
+      const HOLD = 500;
 
       // Pinned scroll room held at the START, before any horizontal movement
       // begins, so the section settles in view and the FIRST card is fully read
-      // before the track starts sliding. On mobile this is ~one comfortable
-      // swipe (half a screen): the first certificate settles for a single
-      // gesture, then each further swipe moves ~one certificate horizontally —
-      // no long dead lead-in.
+      // before the track starts sliding.
       const LEAD = Math.round(window.innerHeight * 0.5);
 
       // Grow the section tall enough that the sticky pane stays pinned for the
@@ -246,7 +237,7 @@ const Certificates = () => {
     });
 
     return () => mm.revert();
-  }, { scope: sectionRef, dependencies: [prefersReduced] });
+  }, { scope: sectionRef, dependencies: [prefersReduced, isMobile] });
 
   return (
     <section
@@ -255,15 +246,15 @@ const Certificates = () => {
       aria-label="Certifications"
       className="relative w-full bg-bg-light dark:bg-bg-dark"
     >
-      {/* Native sticky pinning pane — pins on all viewports so the horizontal
-          rail animation runs on mobile and desktop alike. Reduced motion:
-          static pane, no pin. */}
+      {/* DESKTOP: native sticky pinning pane (GSAP drives the horizontal rail).
+          MOBILE / reduced-motion: static pane — the rail is a plain, natively
+          swipeable x-scroll-snap row, no pin. */}
       <div
         ref={stickyRef}
         className={
-          prefersReduced
+          prefersReduced || isMobile
             ? "static py-16 md:py-24 flex flex-col justify-center"
-            : "sticky top-0 h-[100dvh] md:h-screen overflow-hidden flex flex-col justify-center"
+            : "sticky top-0 h-screen overflow-hidden flex flex-col justify-center"
         }
       >
         {/* Header */}
@@ -279,15 +270,19 @@ const Certificates = () => {
           </p>
         </div>
 
-        {/* Track — horizontal rail on all viewports, driven by GSAP as you
-            scroll. Reduced motion: a plain, natively horizontally-scrollable
-            row (no GSAP translate). */}
+        {/* Track — DESKTOP: a `w-max` rail translated by GSAP as you scroll.
+            MOBILE: native horizontal scroll-snap; `scroll-snap-stop: always`
+            on each card (see CertCard) guarantees one certificate per swipe and
+            the scroller ends exactly on the last card — zero dead scroll.
+            Reduced motion: a plain horizontally-scrollable row. */}
         <div
           ref={trackRef}
           className={
             prefersReduced
               ? "flex flex-row gap-6 px-4 md:px-8 lg:px-12 overflow-x-auto max-w-full"
-              : "flex flex-row gap-6 px-4 md:px-8 lg:px-12 w-max will-change-transform"
+              : isMobile
+                ? "flex flex-row gap-6 px-4 overflow-x-auto snap-x snap-mandatory overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                : "flex flex-row gap-6 px-4 md:px-8 lg:px-12 w-max will-change-transform"
           }
         >
           {CERTIFICATES.map((cert) => (
