@@ -52,9 +52,6 @@ export const metadata = {
   alternates: {
     canonical: '/',
   },
-  verification: {
-    google: 'PASTE_MY_CODE_HERE',
-  },
   icons: {
     icon: '/favicon.svg',
     shortcut: '/favicon.svg',
@@ -94,7 +91,6 @@ export default function RootLayout({ children }) {
       className={`${fraunces.variable} ${yesevaOne.variable} ${inter.variable} ${firaCode.variable}`}
     >
       <head>
-        <meta name="google-site-verification" content="PASTE_MY_CODE_HERE" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
