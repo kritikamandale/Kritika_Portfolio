@@ -4,7 +4,7 @@ import { Resend } from 'resend';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || 'https://kritikamandale.dev,https://krimyportfolio.vercel.app,http://localhost:5173,http://localhost:3000').split(',');
+const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || 'https://kritikamandale.dev,https://www.kritikamandale.dev,https://krimyportfolio.vercel.app,http://localhost:5173,http://localhost:3000').split(',');
 
 for (const envVar of ['VERCEL_URL', 'VERCEL_BRANCH_URL', 'VERCEL_PROJECT_PRODUCTION_URL']) {
   if (process.env[envVar]) {
@@ -62,9 +62,6 @@ function getSecurityHeaders() {
 
 function applyCors(req) {
   let origin = req.headers.get('origin');
-  // No Origin header at all means this isn't a real browser fetch/XHR request
-  // (every same-origin or cross-origin browser POST with a JSON body sends one) —
-  // treat it as untrusted rather than defaulting to allowed.
   if (!origin) return null;
 
   origin = origin.trim();
@@ -74,6 +71,10 @@ function applyCors(req) {
     return origin;
   }
   
+  if (origin.endsWith('kritikamandale.dev') || origin.endsWith('vercel.app')) {
+    return origin;
+  }
+
   return ALLOWED_ORIGINS.includes(origin) ? origin : null;
 }
 
