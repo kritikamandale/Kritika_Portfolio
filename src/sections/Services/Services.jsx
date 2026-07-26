@@ -473,7 +473,7 @@ const Services = () => {
               <h3 className="font-heading text-[1.6rem] sm:text-[1.8rem] md:text-[2.2rem] font-black text-white leading-[1.1]">
                 Full-stack AI development.
               </h3>
-              <p className="mt-3 text-[0.8125rem] md:text-[0.875rem] text-white/85 leading-relaxed">
+              <p className="mt-3 text-sm text-white/85 leading-relaxed">
                 Apps, websites, and automations — built to survive contact with real users.
               </p>
 
@@ -528,7 +528,7 @@ const Services = () => {
                 Open to hackathons and collaboration
               </div>
 
-              <p className="mt-5 text-[0.8125rem] md:text-[0.875rem] text-white/80 leading-relaxed max-w-[38ch]">
+              <p className="mt-5 text-sm text-white/80 leading-relaxed max-w-[38ch]">
                 Active hackathon competitor with 4+ wins, always down to team up on a bold idea and ship it fast.
               </p>
             </div>

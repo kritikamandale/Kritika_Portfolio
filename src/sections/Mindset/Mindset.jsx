@@ -31,7 +31,7 @@ const Mindset = () => {
             <div className="flex flex-col">
               {item.quote && <span className="text-[#B02618] text-[23px] italic font-bold mb-1.5 block">{item.quote}</span>}
               <h3 className="font-serif text-[32px] font-bold text-text-primary dark:text-text-dark-primary mb-2 leading-[1.2]">{item.heading}</h3>
-              <p className="text-base leading-[1.8] text-text-secondary dark:text-text-dark-secondary">{item.text}</p>
+              <p className="text-sm leading-[1.8] text-text-secondary dark:text-text-dark-secondary">{item.text}</p>
             </div>
           </div>
         ))}

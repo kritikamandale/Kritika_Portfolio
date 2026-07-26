@@ -80,19 +80,19 @@ const GithubContributions = () => {
       subtitle={`@${USERNAME} — Contribution statistics`}
       alt
     >
-      <div className="bg-surface-light dark:bg-surface-dark rounded-2xl p-8 border border-border-light dark:border-border-dark shadow-clay dark:shadow-none flex flex-col gap-8 max-w-4xl mx-auto w-full">
+      <div className="bg-surface-light dark:bg-surface-dark rounded-2xl p-4 md:p-5 border border-border-light dark:border-border-dark shadow-clay dark:shadow-none flex flex-col gap-3 w-full">
 
         {/* ── Stats row ── */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {stats.map(({ label, value, sub, colorClass }) => (
-            <div key={label} className={`rounded-xl p-6 flex flex-col gap-1 border border-border-light dark:border-border-dark shadow-clay-sm dark:shadow-none h-full ${colorClass}`}>
+            <div key={label} className={`rounded-xl p-3 flex flex-col gap-0.5 border border-border-light dark:border-border-dark shadow-clay-sm dark:shadow-none h-full ${colorClass}`}>
               <span className="text-sm font-semibold text-text-secondary dark:text-text-dark-secondary">{label}</span>
               {isLoading ? (
-                <div className="h-10 w-20 bg-black/5 dark:bg-white/10 rounded animate-pulse my-1"></div>
+                <div className="h-7 w-20 bg-black/5 dark:bg-white/10 rounded animate-pulse my-1"></div>
               ) : error ? (
                 <span className="text-sm font-medium text-brand-red leading-[1.1] py-2">Stats unavailable</span>
               ) : (
-                <span className="font-heading text-4xl font-extrabold text-brand-orange leading-[1.1]">{value}</span>
+                <span className="font-heading text-2xl font-extrabold text-brand-orange leading-[1.1]">{value}</span>
               )}
               <span className="text-xs text-text-muted dark:text-text-dark-muted">{sub}</span>
             </div>
@@ -100,7 +100,7 @@ const GithubContributions = () => {
         </div>
 
         {/* ── Contribution Graph ── */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-semibold text-text-secondary dark:text-text-dark-secondary tracking-wide uppercase">
               Contribution Activity
@@ -110,7 +110,7 @@ const GithubContributions = () => {
             </span>
           </div>
           <div
-            className="rounded-xl border border-border-light dark:border-border-dark overflow-x-auto p-4 md:p-6"
+            className="rounded-xl border border-border-light dark:border-border-dark overflow-x-auto p-2 md:p-3"
             style={{
               background: '#ffffff',
             }}
@@ -120,7 +120,12 @@ const GithubContributions = () => {
                 background: linear-gradient(135deg, #0d1117 0%, #161b22 100%) !important;
               }
             `}</style>
-            <div className="gh-chart-container" style={{ minWidth: '680px' }}>
+            {/* Capped width: the image preserves its aspect ratio (h-auto), so
+                letting it stretch to the full-width card would blow up its
+                height proportionally. Keep it at a fixed, readable size and
+                center it — minWidth still lets it overflow-x-scroll on
+                narrow/mobile containers instead of squashing illegibly. */}
+            <div className="gh-chart-container max-w-3xl mx-auto" style={{ minWidth: '680px' }}>
               <img
                 src={`https://ghchart.rshah.org/${USERNAME}`}
                 alt={`${USERNAME}'s GitHub contribution chart`}
@@ -139,7 +144,7 @@ const GithubContributions = () => {
               </div>
             </div>
           </div>
-          <p className="text-xs text-text-muted dark:text-text-dark-muted text-center mt-1">
+          <p className="text-sm text-text-muted dark:text-text-dark-muted text-center">
             Each square represents a day. Darker shades indicate more contributions.
           </p>
         </div>
@@ -150,7 +155,7 @@ const GithubContributions = () => {
             href={`https://github.com/${USERNAME}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#B02618] hover:bg-[#8A1C10] text-white text-base font-semibold px-8 py-4 rounded-full no-underline shadow-[0_4px_16px_rgba(176,38,24,0.25)] transition-all duration-300 ease-smooth hover:-translate-y-[3px] hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(176,38,24,0.40)]"
+            className="inline-flex items-center gap-2 bg-[#B02618] hover:bg-[#8A1C10] text-white text-sm font-semibold px-5 py-2 rounded-full no-underline shadow-[0_4px_16px_rgba(176,38,24,0.25)] transition-all duration-300 ease-smooth hover:-translate-y-[3px] hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(176,38,24,0.40)]"
           >
             View Full Profile ↗
           </a>

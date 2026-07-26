@@ -1,17 +1,24 @@
 'use client';
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useLayoutEffect, useState } from 'react';
 import { Mail } from 'lucide-react';
 import Image from 'next/image';
 // eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { GithubOutlineIcon, LinkedinIcon } from '../../components/Icons/BrandIcons';
+import { GithubOutlineIcon, LinkedinIcon, TwitterIcon, TelegramIcon, HashnodeIcon } from '../../components/Icons/BrandIcons';
+
+// useLayoutEffect warns/no-ops during SSR (no DOM to measure) — fall back to
+// useEffect there; on the client we need the synchronous, pre-paint timing.
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 /* ── Data ─────────────────────────────────────────────────── */
 const SOCIAL_LINKS = [
   { icon: GithubOutlineIcon, href: 'https://github.com/kritikamandale', label: 'GitHub' },
   { icon: LinkedinIcon, href: 'https://linkedin.com/in/kritikamandale', label: 'LinkedIn' },
+  { icon: TwitterIcon, href: 'https://twitter.com/kritikamandale', label: 'Twitter' },
+  { icon: TelegramIcon, href: 'https://t.me/Kritikalog', label: 'Telegram' },
+  { icon: HashnodeIcon, href: 'https://hashnode.com/@kritikam', label: 'Hashnode' },
   { icon: Mail, href: '#contact', label: 'Email' },
 ];
 
@@ -141,8 +148,14 @@ const HeroSection = () => {
   const scrollCueRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
 
-  /* ── Detect mobile for graceful degradation ── */
-  useEffect(() => {
+  /* ── Detect mobile for graceful degradation ──
+     useLayoutEffect (not useEffect) so this resolves BEFORE the GSAP setup
+     effect below ever runs. With useEffect, the GSAP effect's first pass
+     ran with the stale default isMobile=false — building the desktop pinned
+     ScrollTrigger timeline on an actual mobile device — and only corrected
+     itself a tick later via ctx.revert(), which is where the "reveal never
+     plays on mobile" bug came from. */
+  useIsomorphicLayoutEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener('resize', checkMobile);
@@ -176,17 +189,15 @@ const HeroSection = () => {
       gsap.set(ctaBtn, { opacity: 0, scale: 0.6 });
 
       if (isMobile) {
-        // ── MOBILE: simpler fade-in, no pin ──
-        ScrollTrigger.create({
-          trigger: sectionRef.current,
-          start: 'top 80%',
-          onEnter: () => {
-            gsap.to(arcCircle, { strokeDashoffset: arcGap, duration: 1.2, ease: 'power2.out' });
-            gsap.to(photo, { opacity: 1, scale: 1, duration: 0.8, delay: 0.3, ease: 'back.out(1.7)' });
-            gsap.to(ctaBtn, { opacity: 1, scale: 1, duration: 0.6, delay: 0.6, ease: 'back.out(1.7)' });
-          },
-          once: true,
-        });
+        // ── MOBILE: Hero is the first section on the page, so it's already
+        // in view the instant the page loads — a scroll-position trigger
+        // (e.g. "top 80%") is already satisfied before the user scrolls at
+        // all, and depending on viewport height (S/M/L phones) that made the
+        // reveal fire inconsistently or before paint. Play it as a load-in
+        // instead, so it's reliably visible on every phone size.
+        gsap.to(arcCircle, { strokeDashoffset: arcGap, duration: 1.2, delay: 0.2, ease: 'power2.out' });
+        gsap.to(photo, { opacity: 1, scale: 1, duration: 0.8, delay: 0.5, ease: 'back.out(1.7)' });
+        gsap.to(ctaBtn, { opacity: 1, scale: 1, duration: 0.6, delay: 0.8, ease: 'back.out(1.7)' });
       } else {
         // ── DESKTOP: Full pinned scrub animation ──
         const tl = gsap.timeline({
@@ -353,7 +364,14 @@ const HeroSection = () => {
               LEFT COLUMN — Circle Arc + Photo + Let's Talk
               ───────────────────────────────────────────────────── */}
           <div className="relative flex items-center justify-center w-full md:w-[50%] lg:w-[50%]" style={{ marginTop: '-40px' }}>
-            <div className="relative w-full" style={{ width: svgSize, height: svgSize, maxWidth: '100%', maxHeight: '85vh' }}>
+            {/* Square regardless of column width: aspect-square ties height to
+                the actual rendered width, instead of the old fixed `height:
+                svgSize` which stayed locked at 500px even when `maxWidth:
+                100%` shrank the box on tablet — turning the circle into a
+                tall rectangle and throwing off every pixel-based coordinate
+                below it. Everything inside is now positioned in % of this
+                box, so it stays a true circle at any size. */}
+            <div className="relative w-full aspect-square mx-auto" style={{ maxWidth: svgSize, maxHeight: '85vh' }}>
 
               {/* SVG Arc / Circle */}
               <svg
@@ -408,7 +426,7 @@ const HeroSection = () => {
               <div
                 ref={photoRef}
                 className="absolute inset-0 z-0"
-                style={{ clipPath: `circle(${circleR - 16}px at ${circleCx}px ${circleCy}px)` }}
+                style={{ clipPath: `circle(${(((circleR - 16) / svgSize) * 100).toFixed(2)}% at 50% 50%)` }}
               >
                 <Image
                   src="/profile.webp"
@@ -443,10 +461,10 @@ const HeroSection = () => {
               <div
                 className="absolute rounded-full pointer-events-none"
                 style={{
-                  width: circleR * 2 + 40,
-                  height: circleR * 2 + 40,
-                  left: circleCx - circleR - 20,
-                  top: circleCy - circleR - 20,
+                  width: `${(((circleR * 2 + 40) / svgSize) * 100).toFixed(2)}%`,
+                  height: `${(((circleR * 2 + 40) / svgSize) * 100).toFixed(2)}%`,
+                  left: `${(((circleCx - circleR - 20) / svgSize) * 100).toFixed(2)}%`,
+                  top: `${(((circleCy - circleR - 20) / svgSize) * 100).toFixed(2)}%`,
                   background: 'radial-gradient(circle, rgba(176,38,24,0.08) 0%, transparent 70%)',
                   filter: 'blur(20px)',
                   zIndex: -1,
@@ -497,7 +515,7 @@ const HeroSection = () => {
             </div>
 
             {/* 3. Social Icons */}
-            <div className="flex items-center gap-3.5">
+            <div className="flex flex-wrap items-center justify-center md:justify-end gap-2.5 sm:gap-3">
               {SOCIAL_LINKS.map((social, i) => {
                 const isInternal = social.href.startsWith('#');
                 return (
@@ -507,9 +525,9 @@ const HeroSection = () => {
                     target={isInternal ? undefined : '_blank'}
                     rel={isInternal ? undefined : 'noopener noreferrer'}
                     aria-label={social.label}
-                    className="w-14 h-14 rounded-full border border-[#B02618]/15 flex items-center justify-center text-[#3A2418] hover:text-[#B02618] hover:border-[#B02618]/40 hover:bg-[#B02618]/5 transition-all duration-300"
+                    className="w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-[#B02618]/15 flex items-center justify-center text-[#3A2418] hover:text-[#B02618] hover:border-[#B02618]/40 hover:bg-[#B02618]/5 transition-all duration-300"
                   >
-                    <social.icon className="w-6 h-6" />
+                    <social.icon className="w-5 h-5 sm:w-5 sm:h-5 stroke-[1.8]" />
                   </a>
                 );
               })}

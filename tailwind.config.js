@@ -70,16 +70,16 @@ export default {
       },
 
       fontSize: {
-        'xs':   ['1.1875rem',  { lineHeight: '1rem' }], /* 19px */
-        'sm':   ['1.28125rem', { lineHeight: '1.25rem' }], /* 20.5px */
-        'base': ['1.375rem',   { lineHeight: '1.6' }], /* 22px */
-        'md':   ['1.46875rem', { lineHeight: '1.7' }], /* 23.5px */
-        'lg':   ['1.5625rem',  { lineHeight: '1.75rem' }], /* 25px */
-        'xl':   ['1.75rem',    { lineHeight: '2rem' }], /* 28px */
-        '2xl':  ['2.03125rem', { lineHeight: '2.25rem' }], /* 32.5px */
-        '3xl':  ['2.3125rem',  { lineHeight: '1.2' }], /* 37px */
-        '4xl':  ['2.875rem',   { lineHeight: '1.2' }], /* 46px */
-        '5xl':  ['3.4375rem',  { lineHeight: '1.2' }], /* 55px */
+        'xs':   ['0.75rem',    { lineHeight: '1rem' }],    /* 12px */
+        'sm':   ['0.875rem',   { lineHeight: '1.25rem' }], /* 14px */
+        'base': ['1rem',       { lineHeight: '1.6' }],     /* 16px */
+        'md':   ['1.125rem',   { lineHeight: '1.7' }],     /* 18px */
+        'lg':   ['1.25rem',    { lineHeight: '1.75rem' }], /* 20px */
+        'xl':   ['1.5rem',     { lineHeight: '2rem' }],    /* 24px */
+        '2xl':  ['1.875rem',   { lineHeight: '2.25rem' }], /* 30px */
+        '3xl':  ['2.25rem',    { lineHeight: '2.5rem' }],  /* 36px */
+        '4xl':  ['3rem',       { lineHeight: '1.15' }],    /* 48px */
+        '5xl':  ['3.75rem',    { lineHeight: '1.1' }],     /* 60px */
 
         /* Specific hardcoded font sizes used across modules */
         '11': ['0.6875rem', { lineHeight: '1.5' }],
@@ -224,7 +224,16 @@ export default {
         flyOutBubble: {
           '0%': { opacity: '0.85', transform: 'translate(var(--tx, 0px), var(--ty, 0px)) scale(1)' },
           '100%': { opacity: '0', transform: 'translate(var(--tx, 0px), var(--ty, 0px)) scale(0)' },
-        }
+        },
+        pandaBreathe: {
+          '0%, 100%': { transform: 'scaleY(1) translateY(0)' },
+          '50%':      { transform: 'scaleY(1.015) translateY(-1.5px)' },
+        },
+        pandaBounce: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '30%':      { transform: 'translateY(-4px)' },
+          '60%':      { transform: 'translateY(0)' },
+        },
       },
 
       animation: {
@@ -238,6 +247,8 @@ export default {
         'pop-in':        'popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) var(--delay, 0ms) both',
         'fly-in-bubble': 'flyInBubble 1200ms cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0ms) both',
         'fly-out-bubble':'flyOutBubble 600ms ease-out forwards',
+        'panda-breathe': 'pandaBreathe 4s ease-in-out infinite',
+        'panda-bounce':  'pandaBounce 420ms ease-out',
       },
 
     },

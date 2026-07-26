@@ -187,14 +187,14 @@
     border: 1px solid rgba(176, 38, 24, 0.20);
     padding: 0.25rem 1rem;
     border-radius: 9999px;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
   }
 
   .section-title {
     font-size: theme('fontSize.3xl.0');
     font-weight: 600;
     color: theme('colors.text.primary');
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     position: relative;
     display: inline-flex;
     align-items: center;

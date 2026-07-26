@@ -12,30 +12,35 @@ if (typeof window !== 'undefined') {
 
 const CARDS = [
   {
+    icon: '🏆',
     category: 'National Level Hackathon',
     title: 'National Finalist — Hackwise 2026, IIM Indore',
     context: 'Built Proven.io, an AI-powered platform simulating "day-in-the-life" work environments for Behavioral & Technical Readiness Audits.',
     focus: 'Bridged the gap between certifications and job-readiness by evaluating candidates on adaptability, communication, and performance under pressure.'
   },
   {
+    icon: '🥈',
     category: '30-Hour Hackathon',
     title: '1st Runner-Up — Openpools Doppelganger',
     context: 'Engineered SecureID from a blank whiteboard to a fully working prototype during a continuous 30-hour coding sprint.',
     focus: 'Integrated KYC verification, face recognition, and blockchain-based records into a single, tamper-proof student identity verification workflow.'
   },
   {
+    icon: '🚀',
     category: 'Nagpur Chapter',
     title: '1st Runner-Up — NASA Space Apps Challenge',
     context: "Developed a creative, data-driven solution utilizing NASA's open-source space and Earth datasets.",
     focus: 'Engineered data parsing pipelines to process and visualize complex open-source satellite telemetry.'
   },
   {
+    icon: '⚡',
     category: 'Blockchain Event',
     title: '1st Runner-Up — Stellar Ragnarok',
     context: 'Secured top honors by conceptualizing and building an innovative decentralized application on the blockchain.',
     focus: 'Architected secure smart contracts and seamless Web3 wallet integrations for a decentralized ecosystem.'
   },
   {
+    icon: '🥉',
     category: 'IIT Delhi · Case Competition',
     title: '3rd Place — OpVasion \'26, IIT Delhi',
     context: 'Podium finish at a national case study competition by PARIVARTAN, IIT Delhi — cracking India\'s cold chain crisis and proving food spoilage emits 28× more carbon than all direct transport.',
@@ -54,12 +59,12 @@ const CardContent = ({ card }) => (
       {card.title}
     </h3>
 
-    <p className="text-[17px] text-text-secondary dark:text-text-dark-secondary font-medium leading-relaxed mb-4">
+    <p className="text-sm text-text-secondary dark:text-text-dark-secondary font-medium leading-relaxed mb-4">
       {card.context}
     </p>
 
-    <div className="mt-6 pt-4 border-t border-divider-light dark:border-border-dark">
-      <p className="text-[16px] text-text-muted dark:text-text-dark-muted leading-relaxed">
+    <div className="mt-auto pt-4 border-t border-divider-light dark:border-border-dark">
+      <p className="text-sm text-text-muted dark:text-text-dark-muted leading-relaxed">
         <strong className="text-text-primary dark:text-text-dark-primary font-semibold mr-2">Core Focus:</strong>
         {card.focus}
       </p>
@@ -86,10 +91,21 @@ const Achievements = () => {
       const cards = cardsRef.current.filter(Boolean);
       const section = containerRef.current;
       const sticky = stickyRef.current;
-      if (cards.length === 0 || !section || !sticky) return;
+      const arena = arenaRef.current;
+      if (cards.length === 0 || !section || !sticky || !arena) return;
 
-      // 1. Setup initial states
+      // 1. Setup initial states. Arena/card height is MEASURED from the
+      // tallest card's natural content height (not a fixed vh) — a fixed
+      // height clips/overflows whenever card text is longer than whatever
+      // vh value was eyeballed at design time (e.g. after a font-size
+      // change). Mirrors the mobile branch below.
       gsap.set(cards, { clearProps: "all" });
+      arena.style.height = '';
+      const maxH = Math.max(...cards.map((c) => c.offsetHeight));
+      const arenaH = Math.ceil(maxH * 1.06) + 8;
+      arena.style.height = `${arenaH}px`;
+      gsap.set(cards, { position: 'absolute', top: 0, left: 0, width: '100%', height: arenaH });
+
       const overlays = document.querySelectorAll('.card-overlay');
       gsap.set(overlays, { opacity: 0 });
 
@@ -180,8 +196,11 @@ const Achievements = () => {
 
       return () => {
         section.style.height = '';
+        arena.style.height = '';
         tl.scrollTrigger && tl.scrollTrigger.kill();
         tl.kill();
+        gsap.set(cards, { clearProps: "all" });
+        gsap.set(overlays, { clearProps: "all" });
       };
     });
 
@@ -372,7 +391,7 @@ const Achievements = () => {
             className={
               prefersReduced
                 ? "w-full md:w-[55%] relative flex flex-col gap-6"
-                : "w-full md:w-[55%] relative flex flex-col gap-6 md:gap-0 md:block md:h-[48vh]"
+                : "w-full md:w-[55%] relative flex flex-col gap-6 md:gap-0 md:block"
             }
           >
             {CARDS.map((card, i) => (
@@ -380,13 +399,19 @@ const Achievements = () => {
                 key={i}
                 ref={el => { cardsRef.current[i] = el; }}
                 className={
-                  (prefersReduced
-                    ? "w-full "
-                    : "md:absolute top-0 left-0 w-full md:h-full ") +
+                  "w-full relative overflow-hidden group " +
                   "bg-white dark:bg-[#1a1a1a] border border-border-light dark:border-border-dark rounded-2xl p-6 md:p-8 flex flex-col gap-4 transform-gpu shadow-[0_20px_40px_-15px_rgba(58,36,24,0.10)] dark:shadow-none"
                 }
                 style={{ zIndex: i }}
               >
+                {/* Large translucent emoji watermark in bottom-right background */}
+                <div
+                  className="absolute -bottom-4 -right-2 text-7xl sm:text-8xl md:text-[10rem] pointer-events-none select-none z-0 opacity-[0.20] dark:opacity-[0.25] -rotate-12 transition-all duration-300 group-hover:opacity-[0.30] group-hover:scale-110 group-hover:-rotate-6 leading-none"
+                  aria-hidden="true"
+                >
+                  {card.icon}
+                </div>
+
                 {/* Darkening Overlay for 3D depth (desktop stacking only) */}
                 <div className="card-overlay absolute inset-0 bg-[#3A2418] dark:bg-black rounded-2xl pointer-events-none z-10" style={{ opacity: 0 }} />
                 <CardContent card={card} />

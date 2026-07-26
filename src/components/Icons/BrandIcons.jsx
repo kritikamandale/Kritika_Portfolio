@@ -42,3 +42,26 @@ export const ReactLogoIcon = ({ className = 'w-3.5 h-3.5' }) => (
     <path fill="none" stroke="#61DAFB" strokeWidth="6" d="M46.2 73.7c-10.8-18.8-17.3-37.3-19.2-52.7C25.2 7.4 28.3-1.6 35 -5.3c6.6-3.8 16.2-.3 26.5 9.3 10.3 9.6 20.9 25.2 29.9 41.3 9.1 16.1 15.6 32.5 17.8 46.3 2.2 13.3-.4 22.4-7 26.2-6.6 3.8-16.1.2-26.3-9.3C66 99.1 57 84.6 46.2 73.7z" />
   </svg>
 );
+
+// Outline Twitter/X mark — used for social link rows (Hero, Services, Contact).
+export const TwitterIcon = ({ className = 'w-5 h-5', strokeWidth = 2 }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+  </svg>
+);
+
+// Outline Telegram mark — used for social link rows (Hero, Services, Contact).
+export const TelegramIcon = ({ className = 'w-5 h-5', strokeWidth = 2 }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <line x1="22" y1="2" x2="11" y2="13" />
+    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+  </svg>
+);
+
+// Outline Hashnode mark — used for social link rows (Hero, Services, Contact).
+export const HashnodeIcon = ({ className = 'w-5 h-5', strokeWidth = 2 }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <rect x="3" y="3" width="18" height="18" rx="5" />
+    <circle cx="12" cy="12" r="4" />
+  </svg>
+);

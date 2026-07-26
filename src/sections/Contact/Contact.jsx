@@ -9,6 +9,7 @@
 import React, { useState } from 'react';
 import Button from '../../components/Button/Button';
 import RevealGroup from '../../components/RevealGroup/RevealGroup';
+import { CheckCircle2 } from 'lucide-react';
 
 const Contact = () => {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '', honeypot: '' });
@@ -85,11 +86,11 @@ const Contact = () => {
         }
       `}</style>
 
-      <section className="bg-surface-2-light dark:bg-surface-2-dark py-12 md:py-16 sm:py-8 flex flex-col items-center justify-center text-center" id="contact" aria-label="Contact">
-        <div className="max-w-[1800px] mx-auto w-full flex flex-col items-center gap-4 px-4 md:px-8 lg:px-12">
+      <section className="bg-surface-2-light dark:bg-surface-2-dark py-12 md:py-16 sm:py-8 flex flex-col items-center justify-center" id="contact" aria-label="Contact">
+        <div className="max-w-[1800px] mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-center px-4 md:px-8 lg:px-12">
 
-          <RevealGroup staggerDelay={100} className="w-full flex flex-col items-center gap-4">
-            <h2 className="font-heading text-[clamp(3rem,7vw,5.5rem)] font-light tracking-[-0.02em] leading-[1.05] text-text-primary dark:text-text-dark-primary text-center w-full">
+          <RevealGroup staggerDelay={100} className="w-full flex flex-col items-start gap-4 text-left">
+            <h2 className="font-heading text-[clamp(3rem,7vw,5.5rem)] font-light tracking-[-0.02em] leading-[1.05] text-text-primary dark:text-text-dark-primary text-left w-full">
               Let&apos;s Build Something <br /> Smart Together
             </h2>
             <p className="text-[clamp(1.125rem,2.5vw,1.5rem)] text-text-secondary dark:text-text-dark-secondary mt-2 max-w-[540px] leading-[1.5]">
@@ -98,16 +99,16 @@ const Contact = () => {
           </RevealGroup>
 
           {status.type === 'success' ? (
-            <RevealGroup staggerDelay={100} className="w-full max-w-[560px] flex flex-col items-center gap-6 p-10 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-clay-sm animate-[fadeInUp_0.4s_ease]">
-              <div className="text-4xl">🎉</div>
+            <RevealGroup staggerDelay={100} className="w-full flex flex-col items-center gap-6 p-10 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-clay-sm animate-[fadeInUp_0.4s_ease]">
+              <CheckCircle2 className="w-12 h-12 text-accent dark:text-brand-yellow stroke-[1.8]" />
               <h3 className="text-2xl font-bold text-text-primary dark:text-text-dark-primary font-heading">Thank you!</h3>
-              <p className="text-text-secondary dark:text-text-dark-secondary">{status.message}</p>
+              <p className="text-sm text-text-secondary dark:text-text-dark-secondary">{status.message}</p>
               <Button onClick={handleReset} variant="ghost" size="base">
                 Send another message
               </Button>
             </RevealGroup>
           ) : (
-            <RevealGroup staggerDelay={100} className="w-full max-w-[560px] flex flex-col items-center gap-6">
+            <RevealGroup staggerDelay={100} className="w-full flex flex-col items-center gap-6">
               {status.type === 'error' && (
                 <div
                   className="flex items-center justify-center gap-3 px-5 py-4 rounded-xl text-sm font-medium animate-[fadeInUp_0.4s_ease] w-full bg-[#B02618]/10 border border-[#B02618]/20 text-[#B02618] dark:text-[#F5DE8F]"
@@ -192,12 +193,13 @@ const Contact = () => {
                   )}
                 </div>
 
-                <div className="flex justify-center mt-6">
+                <div className="flex justify-center sm:justify-start mt-6 w-full">
                   <Button
                     type="submit"
                     variant="primary"
                     disabled={!canSubmit}
                     size="lg"
+                    className="w-full sm:w-auto justify-center"
                   >
                     {loading ? (
                       <>Sending... <span className="inline-block animate-spin">↻</span></>

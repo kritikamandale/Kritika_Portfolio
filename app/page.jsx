@@ -6,7 +6,6 @@ import AvailabilityBanner from '../src/components/AvailabilityBanner/Availabilit
 import Navbar from '../src/components/Navbar/Navbar'
 import HeroSection from '../src/sections/Hero/HeroSection'
 import About from '../src/sections/About/About'
-import Services from '../src/sections/Services/Services'
 import Stack from '../src/sections/Stack/Stack'
 import Projects from '../src/sections/Projects/Projects'
 import Experience from '../src/sections/Experience/Experience'
@@ -35,9 +34,8 @@ export default function Home() {
       <Navbar />
       <main id="main-content">
         <HeroSection />
-        <Services />
-        <Projects />
         <About />
+        <Projects />
         <Experience />
         <Stack />
         

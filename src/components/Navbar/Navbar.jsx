@@ -9,12 +9,12 @@
 import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Button from '../Button/Button';
+import PixelPanda from './PixelPanda';
 
 const NAV_LINKS = [
   { label: 'Home', href: '#hero' },
-  { label: 'Services', href: '#services' },
-  { label: 'Projects', href: '#projects' },
   { label: 'About', href: '#about' },
+  { label: 'Projects', href: '#projects' },
   { label: 'Experience', href: '#experience' },
   { label: 'Mindset', href: '/mindset', route: true },
 ];
@@ -88,9 +88,9 @@ const Navbar = () => {
   const isVisible = active === 'hero' || isHovered || menuOpen;
 
   return (
-    <nav 
+    <nav
       className={`fixed left-1/2 -translate-x-1/2 z-[100] w-max max-w-[calc(100%-2rem)] md:max-w-none md:w-max max-md:w-[calc(100%-2rem)] transition-all duration-500 ease-out bottom-8
-      ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-[150%] opacity-0 pointer-events-none'}`} 
+      ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-[150%] opacity-0 pointer-events-none'}`}
       aria-label="Primary navigation"
     >
       <div className="flex items-center justify-between gap-6 px-6 py-2.5 bg-gradient-to-r from-[#B02618] to-[#8A1C10] backdrop-blur-md rounded-full shadow-lg border-none">
@@ -151,6 +151,11 @@ const Navbar = () => {
           <span className={`block w-[22px] h-[2px] bg-white rounded-sm transition-all duration-250 ${menuOpen ? '-translate-y-[7px] -rotate-45' : ''}`} />
         </button>
       </div>
+
+      {/* Panda mascot — resting on the top edge of the pill. Placed BEFORE
+          the mobile menu in the DOM (both are position:absolute with no
+          z-index) so the menu still paints on top of it when open. */}
+      <PixelPanda />
 
       {/* Mobile dropdown menu (opens UPWARDS) */}
       <div

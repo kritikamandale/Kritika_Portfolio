@@ -10,7 +10,7 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 // Removed to fix "Cannot find package 'eslint-plugin-react-refresh'" build error.
 
 export default defineConfig([
-  globalIgnores(['dist', '.next', 'out', 'node_modules']),
+  globalIgnores(['dist/**', '.next/**', 'out/**', 'node_modules/**', 'public/**', 'scripts/**']),
   security.configs.recommended,
   {
     // Override: detect-object-injection produces false positives on all

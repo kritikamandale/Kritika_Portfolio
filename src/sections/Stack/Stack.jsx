@@ -1,28 +1,71 @@
 'use client';
 // src/sections/Stack/Stack.jsx
 // ============================================================
-// MY STACK SECTION — Aesthetic inline logo+name layout
-// Inspired by bold category headings + bare icon+label rows.
-// Category accent bars rotate between the site's brick-red and
-// warm-gold accents. Icon logos keep their real brand colors.
+// MY STACK SECTION — Circular Skill-Proficiency Layout
+// Renders technologies with circular progress rings representing
+// proficiency levels (0-100), grouped by category columns.
+// Uses site design tokens, SVG icons, and Framer Motion animations.
 // ============================================================
 
 import React from 'react';
 // eslint-disable-next-line no-unused-vars
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import SectionWrapper from '../../components/SectionWrapper/SectionWrapper';
 import { ReactLogoIcon, GithubFilledIcon } from '../../components/Icons/BrandIcons';
 
+// ============================================================
+// PROFICIENCY VALUES (0 - 100)
+// Edit these placeholder values to match your real proficiency percentages!
+// ============================================================
+const PROFICIENCY = {
+  // Frontend
+  'React': 50,
+  'Next.js': 50,
+  'TypeScript': 50,
+  'JavaScript': 75,
+  'Tailwind CSS': 75,
+  'CSS / SCSS': 75,
+
+  // Backend
+  'Node.js': 75,
+  'REST API': 75,
+  'Postman': 75,
+
+  // Databases & DevOps
+  'Docker': 30,
+  'PostgreSQL': 75,
+
+  // AI / ML
+  'Python': 80,
+  'TensorFlow': 75,
+  'PyTorch': 75,
+  'Keras': 75,
+  'Scikit-Learn': 40,
+  'NLP': 45,
+  'Streamlit': 80,
+
+  // Languages
+  'C / C++': 80,
+  'SQL': 85,
+
+  // Developer Tools
+  'Git': 65,
+  'GitHub': 65,
+  'Figma': 30,
+  'VS Code': 90,
+  'Linux': 70,
+};
+
 // ── Inline SVG helper ────────────────────────────────────────
-const SvgIcon = ({ children, viewBox = '0 0 128 128', size = 34 }) => (
+const SvgIcon = ({ children, viewBox = '0 0 128 128', size = 30 }) => (
   <svg width={size} height={size} viewBox={viewBox} xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
     {children}
   </svg>
 );
 
-// ── Icon definitions (same SVGs, now rendered bare — no card) ─
+// ── Icon definitions ─────────────────────────────────────────
 const ICONS = {
-  React: () => <ReactLogoIcon className="w-[2.125rem] h-[2.125rem] shrink-0" />,
+  React: () => <ReactLogoIcon className="w-[1.875rem] h-[1.875rem] shrink-0" />,
   Nextjs: () => (
     <SvgIcon viewBox="0 0 24 24">
       <path d="M11.572 0c-.176 0-.31.001-.358.007a19.76 19.76 0 01-.364.033C7.443.346 4.25 2.185 2.228 5.012a11.875 11.875 0 00-2.119 5.243c-.096.659-.108.854-.108 1.747s.012 1.089.108 1.748c.652 4.506 3.86 8.292 8.209 9.695.779.25 1.6.422 2.534.525.363.04 1.935.04 2.299 0 1.611-.178 2.977-.577 4.323-1.264.207-.106.247-.134.219-.158-.02-.013-.9-1.193-1.955-2.62l-1.919-2.592-2.404-3.558a338.739 338.739 0 00-2.422-3.556c-.009-.002-.018 1.579-.023 3.51-.007 3.38-.01 3.515-.052 3.595a.426.426 0 01-.206.214c-.075.037-.14.044-.495.044H7.81l-.108-.068a.438.438 0 01-.157-.171l-.05-.106.006-4.703.007-4.705.072-.092a.645.645 0 01.174-.143c.096-.047.134-.051.54-.051.478 0 .558.018.682.154.035.038 1.337 1.999 2.895 4.361a10760.433 10760.433 0 004.735 7.17l1.9 2.879.096-.063a12.317 12.317 0 002.466-2.163 11.944 11.944 0 002.824-6.134c.096-.66.108-.854.108-1.748 0-.893-.012-1.088-.108-1.747-.652-4.506-3.859-8.292-8.208-9.695a12.597 12.597 0 00-2.499-.523A33.119 33.119 0 0011.572 0zm4.069 7.217c.347 0 .408.005.486.047a.473.473 0 01.237.277c.018.06.023 1.365.018 4.304l-.006 4.218-.744-1.14-.746-1.14v-3.066c0-1.982.01-3.097.023-3.15a.478.478 0 01.233-.296c.096-.05.13-.057.5-.057z" fill="currentColor" />
@@ -69,12 +112,6 @@ const ICONS = {
       <path fill="#fff" d="M22.3 7.4c.7.4 1.3.9 1.7 1.5-1.3-.3-2.4-.4-3.4-.4-.3-.8-.7-1.6-1.2-2.3.9.2 1.9.6 2.9 1.2zm-5.8-4.5c.7 0 1.3.2 1.8.7.3.3.5.7.7 1.2-.7-.1-1.5-.1-2.3-.1-.8 0-1.5.1-2.3.2.2-.5.4-.9.7-1.2.5-.5 1.1-.8 1.4-.8zm-5.3 1.5c.3-.2.7-.4 1-.5-.5.7-.9 1.6-1.2 2.5-1 .1-1.9.3-2.8.6.9-1.2 1.9-2 3-2.6zm-5 8.7c0-4.4 3.1-7.8 6.9-8.1l-.1.1c-.8 1.2-1.3 2.9-1.5 4.6-.4.3-.7.6-1 1-.7 1-1.1 2.3-1.1 3.6 0 1 .2 2 .5 2.9-.8-.6-1.5-1.4-2.1-2.4-.6-.9-.6-1.7-.6-1.7zm4.5 6.8c-1-.9-1.4-2.1-1.4-3.3 0-1.6.6-3.1 1.7-4.1.3-.3.7-.6 1.1-.8.1-1.6.4-3.3 1.1-4.7.7-1.3 1.7-2.1 2.8-2.1 1.1 0 2.1.8 2.8 2.1.7 1.4 1.1 3.1 1.1 4.7.4.2.8.5 1.1.8 1.1 1 1.7 2.5 1.7 4.1 0 1.2-.4 2.4-1.4 3.3-1 .9-2.3 1.3-3.6 1.3h-.4c-1.2-.1-2.4-.5-3.2-1.2l-.4-.1zm7.5 3.8c-.8.5-1.8.8-2.7.8-1.7 0-3.1-.7-4-1.9.4.1.8.1 1.2.1 1.5 0 3-.4 4.1-1.3.7.4 1.5.7 2.3.9-.2.5-.5.9-.9 1.4zm4.8-3.3c-.7.9-1.7 1.5-2.9 1.7.3-.5.5-1 .6-1.6.1-.4.1-.8.1-1.2 0-1.4-.4-2.7-1.1-3.8.5.2 1 .5 1.5.9.8.7 1.4 1.6 1.8 2.6.3.4.3.9.3 1.4-.1 0-.2 0-.3 0z" />
     </SvgIcon>
   ),
-  MongoDB: () => (
-    <SvgIcon viewBox="0 0 32 32">
-      <path fill="#599636" d="M15.9 2C9.7 2 6.4 6.7 6.4 11c0 4.1 2.2 6.9 5.3 8.2l.7 9.5c0 .3.2.5.5.5h6c.3 0 .5-.2.5-.5l.7-9.5c3.1-1.3 5.3-4.1 5.3-8.2C25.4 6.7 22.1 2 15.9 2z" />
-      <path fill="#6cac48" d="M16.3 2v26.6h3c.3 0 .5-.2.5-.5l.7-9.5c3.1-1.3 5.3-4.1 5.3-8.2C25.8 6.4 21.4 2 16.3 2z" />
-    </SvgIcon>
-  ),
   Python: () => (
     <SvgIcon viewBox="0 0 32 32">
       <defs>
@@ -113,7 +150,7 @@ const ICONS = {
       <path fill="#F89939" d="M8 16v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6c0 1.7-3.6 3-8 3s-8-1.3-8-3z" />
     </SvgIcon>
   ),
-  GitHub: () => <GithubFilledIcon className="w-[2.125rem] h-[2.125rem] shrink-0" />,
+  GitHub: () => <GithubFilledIcon className="w-[1.875rem] h-[1.875rem] shrink-0" />,
   Figma: () => (
     <SvgIcon viewBox="0 0 24 24">
       <path fill="#F24E1E" d="M8 24c2.2 0 4-1.8 4-4v-4H8c-2.2 0-4 1.8-4 4s1.8 4 4 4z" />
@@ -161,16 +198,14 @@ const ICONS = {
       <path fill="#B02618" d="M8 12h16v2H8zm0 6h16v2H8zm4-3h8v2h-8z" />
     </SvgIcon>
   ),
-  HuggingFace: () => (
+  NLP: () => (
     <SvgIcon viewBox="0 0 24 24">
-      <text y="18" fontSize="18">🤗</text>
+      <path fill="#B02618" d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z" />
     </SvgIcon>
   ),
-  OpenAI: () => (
-    <SvgIcon viewBox="0 0 32 32">
-      <circle cx="16" cy="16" r="14" fill="#10a37f" opacity="0.15" />
-      <path fill="#10a37f" d="M22 10.5a6 6 0 00-11.2-2.9A6 6 0 0016 22a6 6 0 006-6 6 6 0 00-.8-3z" opacity="0.8" />
-      <circle cx="16" cy="16" r="3" fill="#10a37f" />
+  SQL: () => (
+    <SvgIcon viewBox="0 0 24 24">
+      <path fill="#00758F" d="M12 3C7.58 3 4 4.79 4 7v10c0 2.21 3.58 4 8 4s8-1.79 8-4V7c0-2.21-3.58-4-8-4zm0 2c3.87 0 6 1.3 6 2s-2.13 2-6 2-6-1.3-6-2 2.13-2 6-2zm0 14c-3.87 0-6-1.3-6-2v-2.26c1.54.8 3.68 1.26 6 1.26s4.46-.46 6-1.26V17c0 .7-2.13 2-6 2zm0-5c-3.87 0-6-1.3-6-2v-2.26c1.54.8 3.68 1.26 6 1.26s4.46-.46 6-1.26V14c0 .7-2.13 2-6 2z" />
     </SvgIcon>
   ),
 };
@@ -182,9 +217,9 @@ const EmojiPill = ({ emoji }) => (
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      width: 34,
-      height: 34,
-      fontSize: 22,
+      width: 30,
+      height: 30,
+      fontSize: 20,
       flexShrink: 0,
       lineHeight: 1,
     }}
@@ -194,64 +229,87 @@ const EmojiPill = ({ emoji }) => (
   </span>
 );
 
-// ── Single skill chip — bare logo + name, no card ─────────────
-const SkillChip = ({ name, iconKey, emoji }) => {
+// ── Circular Skill Ring Component ─────────────────────────────
+const CircularSkillRing = ({ name, iconKey, emoji, accentColor }) => {
+  const shouldReduceMotion = useReducedMotion();
+  const percent = PROFICIENCY[name] ?? 75;
   const IconComponent = iconKey ? ICONS[iconKey] : null;
+
+  const size = 76;
+  const strokeWidth = 4;
+  const center = size / 2;
+  const radius = center - strokeWidth - 2;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (percent / 100) * circumference;
 
   return (
     <motion.div
       variants={{
-        hidden: { opacity: 0, y: 18 },
-        show: { opacity: 1, y: 0 },
+        hidden: { opacity: 0, scale: 0.88, y: 12 },
+        show: { opacity: 1, scale: 1, y: 0 },
       }}
       whileHover={{ y: -4 }}
-      whileTap={{ y: -2 }}
-      transition={{ duration: 0.3, ease: 'easeOut' }}
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '10px',
-        padding: '8px 14px 8px 10px',
-        borderRadius: '10px',
-        cursor: 'default',
-        transition: 'background 200ms ease',
-        position: 'relative',
-      }}
-      className="skill-chip"
-      title={name}
+      transition={{ duration: 0.35, ease: 'easeOut' }}
+      className="flex flex-col items-center gap-2 group p-1 rounded-xl cursor-default transition-colors duration-200"
+      title={`${name}: ${percent}%`}
     >
-      {IconComponent ? (
-        <IconComponent />
-      ) : (
-        <EmojiPill emoji={emoji || '✦'} />
-      )}
-      <span
-        style={{
-          fontFamily: 'var(--font-sans)',
-          fontWeight: 500,
-          fontSize: '1.025rem',
-          color: 'var(--color-text-primary)',
-          letterSpacing: '0.01em',
-          whiteSpace: 'nowrap',
-        }}
-      >
+      <div className="relative flex items-center justify-center w-[76px] h-[76px] shrink-0">
+        <svg width={size} height={size} className="transform -rotate-90">
+          {/* Background Track Ring */}
+          <circle
+            cx={center}
+            cy={center}
+            r={radius}
+            stroke="currentColor"
+            strokeWidth={strokeWidth}
+            className="text-border-light dark:text-border-dark fill-transparent opacity-60"
+          />
+          {/* Animated Progress Ring */}
+          <motion.circle
+            cx={center}
+            cy={center}
+            r={radius}
+            stroke={accentColor || '#B02618'}
+            strokeWidth={strokeWidth}
+            strokeDasharray={circumference}
+            initial={{ strokeDashoffset: circumference }}
+            whileInView={{ strokeDashoffset: strokeDashoffset }}
+            viewport={{ once: false, margin: '-40px' }}
+            transition={{ duration: shouldReduceMotion ? 0 : 1.1, ease: 'easeOut' }}
+            strokeLinecap="round"
+            className="fill-transparent"
+          />
+        </svg>
+
+        {/* Centered Brand Icon */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          {IconComponent ? <IconComponent /> : <EmojiPill emoji={emoji || '✦'} />}
+        </div>
+
+        {/* Percentage Badge */}
+        <span className="absolute -bottom-1.5 text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-text-muted dark:text-text-dark-muted shadow-sm group-hover:border-accent group-hover:text-accent transition-colors duration-200">
+          {percent}%
+        </span>
+      </div>
+
+      {/* Tech Name Label */}
+      <span className="text-[13px] font-semibold text-text-primary dark:text-text-dark-primary text-center tracking-tight max-w-[84px] leading-tight mt-0.5">
         {name}
       </span>
     </motion.div>
   );
 };
 
-// ── Category heading — bold, warm, expressive ─────────────────
+// ── Category heading with accent bar ─────────────────────────
 const CategoryHeading = ({ label, index }) => (
   <div
     style={{
       display: 'flex',
       alignItems: 'center',
       gap: '16px',
-      marginBottom: '24px',
+      marginBottom: '18px',
     }}
   >
-    {/* accent bar — fades in with the heading */}
     <motion.div
       initial={{ opacity: 0, scaleY: 0 }}
       whileInView={{ opacity: 1, scaleY: 1 }}
@@ -266,7 +324,6 @@ const CategoryHeading = ({ label, index }) => (
         transformOrigin: 'top',
       }}
     />
-    {/* h3 slides in from the left */}
     <motion.h3
       initial={{ opacity: 0, x: -16 }}
       whileInView={{ opacity: 1, x: 0 }}
@@ -287,18 +344,18 @@ const CategoryHeading = ({ label, index }) => (
   </div>
 );
 
-// Accent bar rotation per category — alternates the two palette accents
+// Unified ring & accent color for all tech stack categories (#B02618)
 const ACCENT_COLORS = [
-  '#B02618', // brick red
-  '#F5DE8F', // warm gold
   '#B02618',
-  '#F5DE8F',
   '#B02618',
-  '#F5DE8F',
+  '#B02618',
+  '#B02618',
+  '#B02618',
+  '#B02618',
 ];
 
-// ── Data ──────────────────────────────────────────────────────
-const GROUPS = [
+// ── Stack Data Groups ────────────────────────────────────────
+const ROW1_GROUPS = [
   {
     label: 'Frontend',
     skills: [
@@ -325,23 +382,26 @@ const GROUPS = [
       { name: 'PostgreSQL', iconKey: 'PostgreSQL' },
     ],
   },
+];
+
+const ROW2_GROUPS = [
   {
     label: 'AI / ML',
     skills: [
-      { name: 'Python', iconKey: 'Python' },
       { name: 'TensorFlow', iconKey: 'TensorFlow' },
       { name: 'PyTorch', iconKey: 'PyTorch' },
       { name: 'Keras', iconKey: 'Keras' },
       { name: 'Scikit-Learn', iconKey: 'ScikitLearn' },
-      { name: 'NLP', emoji: '💬' },
+      { name: 'NLP', iconKey: 'NLP' },
       { name: 'Streamlit', iconKey: 'Streamlit' },
     ],
   },
   {
     label: 'Languages',
     skills: [
+      { name: 'Python', iconKey: 'Python' },
       { name: 'C / C++', iconKey: 'CPlusPlus' },
-      { name: 'SQL', emoji: '🗄️' },
+      { name: 'SQL', iconKey: 'SQL' },
     ],
   },
   {
@@ -356,7 +416,52 @@ const GROUPS = [
   },
 ];
 
-// ── Section ───────────────────────────────────────────────────
+// Helper to render a single category group with card container, heading separator, and 3-column skill ring grid
+const CategoryGroupCard = ({ group, gIdx }) => {
+  const accent = ACCENT_COLORS[gIdx % ACCENT_COLORS.length];
+
+  return (
+    <div className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-5 sm:p-6 shadow-clay-sm dark:shadow-none flex flex-col h-full transition-all duration-300 hover:border-black/20 dark:hover:border-white/20">
+      <CategoryHeading label={group.label} index={gIdx} />
+      
+      {/* Category Heading Separator Line */}
+      <div
+        className="w-full h-[2px] rounded-full mt-1 mb-5"
+        style={{
+          background: `linear-gradient(90deg, ${accent} 0%, rgba(176, 38, 24, 0.2) 60%, transparent 100%)`,
+        }}
+      />
+
+      <motion.div
+        variants={{
+          hidden: {},
+          show: {
+            transition: {
+              staggerChildren: 0.05,
+              delayChildren: 0.05,
+            },
+          },
+        }}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: false, margin: '-40px' }}
+        className="grid grid-cols-3 gap-y-4 gap-x-2 justify-items-center items-start flex-grow"
+      >
+        {group.skills.map((skill) => (
+          <CircularSkillRing
+            key={skill.name}
+            name={skill.name}
+            iconKey={skill.iconKey}
+            emoji={skill.emoji}
+            accentColor={accent}
+          />
+        ))}
+      </motion.div>
+    </div>
+  );
+};
+
+// ── Main Stack Component ──────────────────────────────────────
 const Stack = () => (
   <SectionWrapper
     id="stack"
@@ -365,42 +470,20 @@ const Stack = () => (
     subtitle="Tools and technologies I work with across the full product lifecycle."
     alt
   >
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '56px' }}>
-      {GROUPS.map((group, gIdx) => (
-        <div key={group.label}>
-          <CategoryHeading label={group.label} index={gIdx} />
-          <div className="stack-divider" />
-          {/* Chips cascade in as the group enters the viewport */}
-          <motion.div
-            variants={{
-              hidden: {},
-              show: {
-                transition: {
-                  staggerChildren: 0.06,
-                  delayChildren: 0.05,
-                },
-              },
-            }}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: false, margin: '-40px' }}
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '4px 8px',
-            }}
-          >
-            {group.skills.map((skill) => (
-              <SkillChip
-                key={skill.name}
-                name={skill.name}
-                iconKey={skill.iconKey}
-                emoji={skill.emoji}
-              />
-            ))}
-          </motion.div>
-        </div>
-      ))}
+    <div className="flex flex-col gap-10 lg:gap-14">
+      {/* Line 1: Frontend, Backend, Databases & DevOps */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-start">
+        {ROW1_GROUPS.map((group, idx) => (
+          <CategoryGroupCard key={group.label} group={group} gIdx={idx} />
+        ))}
+      </div>
+
+      {/* Line 2: AI / ML, Languages, Developer Tools */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-start">
+        {ROW2_GROUPS.map((group, idx) => (
+          <CategoryGroupCard key={group.label} group={group} gIdx={idx + 3} />
+        ))}
+      </div>
     </div>
   </SectionWrapper>
 );

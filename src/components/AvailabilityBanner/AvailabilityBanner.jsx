@@ -57,19 +57,22 @@ const AvailabilityBanner = () => {
         }
       `}</style>
       <div
-        className={`fixed top-0 left-0 w-full z-[110] flex items-center justify-center gap-2.5 py-2.5 px-5 bg-brand-mauve text-white font-sans text-[13px] font-medium tracking-[0.02em] motion-reduce:animate-none ${exiting ? 'animate-[slideUp_300ms_ease-in_both]' : 'animate-[slideDown_350ms_cubic-bezier(0.22,1,0.36,1)_both]'}`}
+        className={`fixed top-0 left-0 w-full z-[110] flex items-center justify-center gap-2.5 py-2.5 pl-5 pr-11 sm:pr-12 bg-brand-mauve text-white font-sans text-[12px] sm:text-[13px] font-medium tracking-[0.02em] motion-reduce:animate-none ${exiting ? 'animate-[slideUp_300ms_ease-in_both]' : 'animate-[slideDown_350ms_cubic-bezier(0.22,1,0.36,1)_both]'}`}
         role="banner"
         aria-live="polite"
       >
         <span className="w-2 h-2 rounded-full bg-brand-yellow shrink-0 animate-[customPulse_2s_ease-in-out_infinite] motion-reduce:animate-none" aria-hidden="true" />
-        <span className="text-center">
+        {/* Reserved pl/pr on the bar (above) keeps this centered block clear of
+            both the dot and the absolutely-positioned dismiss button — without
+            it, the centered text collided with the ✕ on narrow phones. */}
+        <span className="text-center leading-snug">
           Currently open to opportunities —{' '}
-          <a href="#contact" className="text-brand-yellow font-bold underline underline-offset-[3px] transition-opacity duration-150 ease hover:opacity-80" onClick={dismiss}>
+          <a href="#contact" className="text-brand-yellow font-bold underline underline-offset-[3px] transition-opacity duration-150 ease hover:opacity-80 whitespace-nowrap" onClick={dismiss}>
             Let's talk ↗
           </a>
         </span>
         <button
-          className="absolute right-4 top-1/2 -translate-y-1/2 bg-transparent border-none text-inherit opacity-60 cursor-pointer text-xs leading-none px-2 py-1 rounded transition-all duration-150 ease hover:opacity-100 hover:bg-white/12"
+          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-transparent border-none text-inherit opacity-60 cursor-pointer text-xs leading-none p-2 rounded transition-all duration-150 ease hover:opacity-100 hover:bg-white/12"
           onClick={dismiss}
           aria-label="Dismiss availability banner"
         >
