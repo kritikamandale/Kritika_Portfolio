@@ -4,7 +4,7 @@ import { Resend } from 'resend';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || 'https://krimyportfolio.vercel.app,http://localhost:5173,http://localhost:3000').split(',');
+const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || 'https://kritikamandale.dev,https://krimyportfolio.vercel.app,http://localhost:5173,http://localhost:3000').split(',');
 
 for (const envVar of ['VERCEL_URL', 'VERCEL_BRANCH_URL', 'VERCEL_PROJECT_PRODUCTION_URL']) {
   if (process.env[envVar]) {

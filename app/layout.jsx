@@ -44,13 +44,16 @@ const firaCode = Fira_Code({
 })
 
 export const metadata = {
-  metadataBase: new URL('https://krimyportfolio.vercel.app'),
-  title: 'Kritika Mandale — Full Stack & AI Developer',
-  description: 'Full Stack and AI developer from Nagpur. I build end-to-end intelligent web products — from React UIs to ML model deployment. Open to internships and freelance.',
-  keywords: ['Web Developer', 'AI Developer', 'React', 'Frontend', 'Portfolio'],
+  metadataBase: new URL('https://kritikamandale.dev'),
+  title: 'Kritika Mandale | Full Stack & AI Developer',
+  description: 'Kritika Mandale is a full stack and AI developer building projects like SkinAI and HireLens, based in Nagpur, India.',
+  keywords: ['Web Developer', 'AI Developer', 'React', 'Frontend', 'Portfolio', 'Full Stack Developer', 'Kritika Mandale'],
   authors: [{ name: 'Kritika Mandale' }],
   alternates: {
     canonical: '/',
+  },
+  verification: {
+    google: 'PASTE_MY_CODE_HERE',
   },
   icons: {
     icon: '/favicon.svg',
@@ -59,18 +62,18 @@ export const metadata = {
   },
   manifest: '/site.webmanifest',
   openGraph: {
-    title: 'Kritika Mandale — Full Stack & AI Developer',
-    description: 'Building intelligent web products that combine React, Node.js, and machine learning.',
-    url: 'https://krimyportfolio.vercel.app/',
+    title: 'Kritika Mandale | Full Stack & AI Developer',
+    description: 'Kritika Mandale is a full stack and AI developer building projects like SkinAI and HireLens, based in Nagpur, India.',
+    url: 'https://kritikamandale.dev',
     siteName: 'Kritika Mandale Portfolio',
-    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+    images: [{ url: '/og-image.webp', width: 1200, height: 630 }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Kritika Mandale — Full Stack & AI Developer',
-    description: 'Full Stack and AI developer from Nagpur. I build end-to-end intelligent web products — from React UIs to ML model deployment. Open to internships and freelance.',
-    images: ['/og-image.png'],
+    title: 'Kritika Mandale | Full Stack & AI Developer',
+    description: 'Kritika Mandale is a full stack and AI developer building projects like SkinAI and HireLens, based in Nagpur, India.',
+    images: ['/og-image.webp'],
   },
 }
 
@@ -91,6 +94,7 @@ export default function RootLayout({ children }) {
       className={`${fraunces.variable} ${yesevaOne.variable} ${inter.variable} ${firaCode.variable}`}
     >
       <head>
+        <meta name="google-site-verification" content="PASTE_MY_CODE_HERE" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -99,9 +103,11 @@ export default function RootLayout({ children }) {
               "@type": "Person",
               "name": "Kritika Mandale",
               "jobTitle": "Full Stack and AI Developer",
-              "url": "https://krimyportfolio.vercel.app/",
+              "url": "https://kritikamandale.dev",
               "sameAs": [
-                "https://github.com/kritikamandale"
+                "https://linkedin.com/in/kritikamandale",
+                "https://github.com/kritikamandale",
+                "https://instagram.com/can_did_kritika"
               ]
             })
           }}
