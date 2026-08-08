@@ -19,7 +19,7 @@ const CERTIFICATES = [
     issuer: 'Kaggle',
     date: 'Issued Feb 2026',
     skills: ['Machine Learning', 'Python', '+1 skill'],
-    image: '/certificates/kaggle.png',
+    image: '/certificates/kritika-mandale-certificate-kaggle.png',
   },
   {
     id: 'c2',
@@ -27,7 +27,7 @@ const CERTIFICATES = [
     issuer: 'Nestlé',
     date: 'Issued Mar 2025',
     skills: ['Sustainable Design'],
-    image: '/certificates/nestle.png',
+    image: '/certificates/kritika-mandale-certificate-nestle.png',
   },
   {
     id: 'c3',
@@ -35,7 +35,7 @@ const CERTIFICATES = [
     issuer: 'Postman',
     date: 'Issued Mar 2025',
     skills: ['Full-Stack Development'],
-    image: '/certificates/postman.png',
+    image: '/certificates/kritika-mandale-certificate-postman.png',
   },
   {
     id: 'c4',
@@ -44,7 +44,7 @@ const CERTIFICATES = [
     date: 'Issued Jul 2025',
     credentialId: 'iamkritical-dawp',
     skills: ['Data Analysis', 'Python'],
-    image: '/certificates/freecodecamp.png',
+    image: '/certificates/kritika-mandale-certificate-freecodecamp.png',
   },
   {
     id: 'c5',
@@ -52,7 +52,7 @@ const CERTIFICATES = [
     issuer: 'Google Cloud Skills Boost',
     date: 'Issued Mar 2025',
     skills: ['Cloud Computing'],
-    image: '/certificates/google_cloud.png',
+    image: '/certificates/kritika-mandale-certificate-google-cloud.png',
   },
   {
     id: 'c6',
@@ -61,7 +61,7 @@ const CERTIFICATES = [
     date: 'Issued Jun 2026',
     credentialId: 'z9d74azusmky',
     skills: ['Artificial Intelligence (AI)', 'Full-Stack Development', '+1 skill'],
-    image: '/certificates/claudecode.png',
+    image: '/certificates/kritika-mandale-certificate-claude-code.png',
   },
 ];
 
@@ -87,7 +87,7 @@ const CertCard = ({ cert, onOpen }) => (
     >
       <Image
         src={cert.image}
-        alt={`${cert.title} Certificate`}
+        alt={`Kritika Mandale's ${cert.title} Certificate from ${cert.issuer}`}
         fill
         sizes="(max-width: 768px) 90vw, 360px"
         className="object-contain transition-transform duration-300 group-hover:scale-105"

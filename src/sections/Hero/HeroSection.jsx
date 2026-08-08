@@ -429,8 +429,8 @@ const HeroSection = () => {
                 style={{ clipPath: `circle(${(((circleR - 16) / svgSize) * 100).toFixed(2)}% at 50% 50%)` }}
               >
                 <Image
-                  src="/profile.webp"
-                  alt="Kritika Mandale"
+                  src="/kritika-mandale-profile.webp"
+                  alt="Kritika Mandale - Full Stack & AI Developer"
                   fill
                   className="object-cover object-top"
                   sizes="(max-width: 768px) 340px, 620px"

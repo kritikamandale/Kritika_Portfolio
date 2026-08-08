@@ -99,7 +99,7 @@ const About = () => {
               </div>
 
               <p className="text-sm sm:text-base text-text-secondary dark:text-text-dark-secondary leading-relaxed">
-                I build intelligent web applications that pair AI with seamless user experiences. I handle end-to-end product development from fine-tuning ML models to shipping scalable interfaces fast. Open to internships, freelancing, and AI product builds.
+                Hi, I&apos;m Kritika Mandale. I build intelligent web applications that pair AI with seamless user experiences. I handle end-to-end product development from fine-tuning ML models to shipping scalable interfaces fast. Open to internships, freelancing, and AI product builds.
               </p>
 
               <div className="flex flex-wrap gap-2 mt-1">

@@ -17,7 +17,7 @@ const PROJECTS = [
     color: 'teal',
     title: 'SKINEST',
     subtitle: 'DERMATOLOGIST-GRADE SKINCARE AI',
-    image: '/SkinAnalysis.png',
+    image: '/kritika-mandale-project-skin-analysis.png',
     imagePosition: '30% top',
     desc: 'AI-powered skin analysis platform personalized for Indian skin tones. Features live camera skin scanning, smart product recommendations, a dermatologist review queue, and privacy-first image processing.',
     tags: ['Next.js 14', 'FastAPI', 'TensorFlow.js', 'PostgreSQL'],
@@ -30,7 +30,7 @@ const PROJECTS = [
     color: 'blue',
     title: 'OFFROAD SEGMENTATION',
     subtitle: 'AUTONOMOUS TERRAIN SEGMENTATION',
-    image: '/Offroad_segmentation.png',
+    image: '/kritika-mandale-project-offroad-segmentation.png',
     desc: 'Hackathon-winning real-time offroad terrain segmentation system. Supports photo, video, and webcam inputs with automated traversability map generation and safety scoring for autonomous navigation.',
     tags: ['PyTorch', 'SMP', 'Albumentations', 'Gemini API', 'Python'],
     githubUrl: 'https://github.com/kritikamandale/HackDaysNagpur',
@@ -42,7 +42,7 @@ const PROJECTS = [
     color: 'maroon',
     title: 'MILAP',
     subtitle: 'AI-POWERED SMART EVENT PLATFORM',
-    image: '/Milap.png',
+    image: '/kritika-mandale-project-milap.png',
     desc: 'AI-powered smart event platform connecting hosts with 10,000+ verified vendors across India. Features an AI event planning assistant, automated vendor discovery filters, budget estimation tools, and guest RSVP management.',
     tags: ['Next.js 15', 'TypeScript', 'Groq AI', 'Framer Motion', 'Prisma', 'Tailwind CSS'],
     githubUrl: 'https://github.com/kritikamandale/milap',
@@ -54,7 +54,7 @@ const PROJECTS = [
     color: 'orange',
     title: 'SNAPVERDICT',
     subtitle: 'MULTI-MODAL EVIDENCE REVIEW',
-    image: '/SnapVerdict.png',
+    image: '/kritika-mandale-project-snapverdict.png',
     desc: 'Automated visual evidence review system processing damage claims across cars, laptops, and packages. Powered by Gemini 2.5 Flash vision analysis, history-based risk assessment, a FastAPI backend, and API quota management.',
     tags: ['Python', 'FastAPI', 'Gemini API', 'Pandas'],
     githubUrl: 'https://github.com/kritikamandale/SnapVerdict',
@@ -66,7 +66,7 @@ const PROJECTS = [
     color: 'purple',
     title: 'SECUREID',
     subtitle: 'AI-POWERED STUDENT VERIFICATION',
-    image: '/secureid.png',
+    image: '/kritika-mandale-project-secureid.png',
     desc: 'Production-grade student identity management system delivering sub-2s verification times with 99.7% accuracy. Features AI facial biometrics, 100% full audit coverage, and interactive admin analytics dashboards.',
     tags: ['FastAPI', 'React', 'PostgreSQL', 'DeepFace'],
     githubUrl: 'https://github.com/kritikamandale/SecureID',
@@ -78,7 +78,7 @@ const PROJECTS = [
     color: 'yellow',
     title: 'CODECURE',
     subtitle: 'EPIDEMIC SPREAD PREDICTION',
-    image: '/Codecure.png',
+    image: '/kritika-mandale-project-codecure.png',
     desc: 'End-to-end epidemic spread forecasting system analyzing transmission dynamics using ARIMA and LSTM models. Features real-time outbreak forecasting, interactive geographic dashboards, SHAP AI explainability, and SEIR modeling.',
     tags: ['Python', 'TensorFlow', 'Streamlit', 'SHAP'],
     liveUrl: 'https://codecuree.streamlit.app',
@@ -93,7 +93,7 @@ const SECONDARY_PROJECTS = [
     color: 'mint',
     title: 'Civicsense',
     subtitle: 'AI PUBLIC TRIAGE',
-    image: '/SmartGrievance.png',
+    image: '/kritika-mandale-project-smart-grievance.png',
     desc: 'Automated public grievance triaging system using Natural Language Processing to instantly categorize and route citizen complaints. Features instant department routing, public tracking dashboards, and a secure government portal.',
     tags: ['Python', 'NLP', 'Full-Stack', 'Machine Learning'],
     githubUrl: null,
@@ -109,7 +109,7 @@ const ProjectCard = ({ project }) => {
 
   return (
     <div
-      className="group relative overflow-hidden rounded-2xl border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark-alt transition-all duration-300 ease-smooth hover:-translate-y-1.5 hover:shadow-card-hover hover:border-black/25 dark:hover:border-white/25 flex flex-col lg:flex-row w-full"
+      className="group relative overflow-hidden rounded-2xl border border-border-light dark:border-border-dark bg-bg-light dark:bg-dark-alt transition-all duration-300 ease-smooth hover:-translate-y-1.5 hover:shadow-card-hover hover:border-black/25 dark:hover:border-white/25 flex flex-col lg:flex-row w-full"
       tabIndex={0}
       role="article"
       aria-label={title}
@@ -140,7 +140,7 @@ const ProjectCard = ({ project }) => {
               <source srcSet={image.replace(/\.(png|jpg|jpeg)$/i, '.webp')} type="image/webp" />
               <img
                 src={image}
-                alt={title}
+                alt={`Kritika Mandale project screenshot - ${title}`}
                 loading="lazy"
                 className="w-full h-full object-cover transition-all duration-700 group-hover:brightness-110"
                 style={{ objectPosition: imagePosition || 'center top' }}
@@ -150,7 +150,8 @@ const ProjectCard = ({ project }) => {
 
           <img
             src="/laptop_mockup_transparent.webp"
-            alt="Laptop Mockup"
+            alt=""
+            aria-hidden="true"
             className="relative z-10 w-full h-auto pointer-events-none drop-shadow-lg transform-gpu [backface-visibility:hidden]"
             loading="lazy"
           />

@@ -192,10 +192,10 @@ const TECH_CHIPS = [
    PROJECT SHOWCASE CARD (3 thumbnails, hover-lift)
 ───────────────────────────────────────────── */
 const SHOWCASE_PROJECTS = [
-  { name: 'Skinest', image: '/SkinAnalysis.png' },
-  { name: 'Milap', image: '/Milap.png' },
-  { name: 'SnapVerdict', image: '/SnapVerdict.png' },
-  { name: 'SecureID', image: '/secureid.png' },
+  { name: 'Skinest', image: '/kritika-mandale-project-skin-analysis.png' },
+  { name: 'Milap', image: '/kritika-mandale-project-milap.png' },
+  { name: 'SnapVerdict', image: '/kritika-mandale-project-snapverdict.png' },
+  { name: 'SecureID', image: '/kritika-mandale-project-secureid.png' },
 ];
 
 const ProjectShowcaseCard = () => {
@@ -392,8 +392,8 @@ const Services = () => {
               transition={{ duration: 0.6, ease: 'easeOut' }}
             >
               <Image
-                src="/profile.webp"
-                alt="Kritika Mandale"
+                src="/kritika-mandale-profile.webp"
+                alt="Kritika Mandale - Full Stack Developer"
                 fill
                 className="object-cover object-top"
                 sizes="(max-width: 768px) 340px, 420px"
