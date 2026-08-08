@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import sharp from 'sharp';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -27,6 +26,15 @@ function findImageFiles(dir) {
 }
 
 async function optimiseImages() {
+  let sharp;
+  try {
+    const sharpModule = await import('sharp');
+    sharp = sharpModule.default;
+  } catch (err) {
+    console.warn('⚠️ sharp module could not be loaded. Skipping image optimisation during prebuild:', err.message);
+    return;
+  }
+
   if (!fs.existsSync(targetDir)) {
     console.error(`Directory not found: ${targetDir}`);
     return;

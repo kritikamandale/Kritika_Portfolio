@@ -74,6 +74,20 @@ export const metadata = {
     images: [{ url: '/og-image.webp', width: 1200, height: 630 }],
     type: 'website',
   },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || '',
+  },
   twitter: {
     card: 'summary_large_image',
     title: 'Kritika Mandale | Full Stack & AI Developer',
