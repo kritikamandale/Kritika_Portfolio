@@ -28,6 +28,8 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 body {
@@ -36,6 +38,8 @@ body {
   color: var(--color-text-secondary);
   line-height: 1.6;
   overflow-x: hidden;
+  max-width: 100vw;
+  position: relative;
   transition: background-color 300ms ease, color 300ms ease;
 }
 
@@ -217,6 +221,11 @@ hr {
 /* ── Scrollbar Styling ────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 10px;
+  height: 0px;
+}
+::-webkit-scrollbar:horizontal {
+  display: none !important;
+  height: 0 !important;
 }
 ::-webkit-scrollbar-track {
   background: var(--color-bg);
