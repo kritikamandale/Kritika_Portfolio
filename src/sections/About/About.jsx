@@ -42,7 +42,6 @@ const CARDS = [
     icon: Trophy,
     title: 'Proven under pressure',
     desc: 'From Openpools to NASA Space Apps, I thrive in high-stakes environments and deliver winning solutions under tight deadlines.',
-    barColor: 'bg-accent',
     iconBg: 'bg-accent/10',
     iconColor: 'text-accent',
   },
@@ -50,7 +49,6 @@ const CARDS = [
     icon: Brain,
     title: 'AI-first thinking',
     desc: 'I architect intelligent systems, leveraging LLMs and ML models to solve real-world problems, not just write code.',
-    barColor: 'bg-brand-yellow',
     iconBg: 'bg-brand-yellow/15',
     iconColor: 'text-brand-yellow',
   },
@@ -58,7 +56,6 @@ const CARDS = [
     icon: Users,
     title: 'Community builder',
     desc: 'Co-coordinating HackronyX and leading student tech communities taught me that the best innovations come from collaboration.',
-    barColor: 'bg-brand-yellow',
     iconBg: 'bg-brand-yellow/20',
     iconColor: 'text-brand-yellow',
   },
@@ -66,7 +63,6 @@ const CARDS = [
     icon: Layers,
     title: 'End-to-end ownership',
     desc: 'I close the full loop, from fine-tuning ML models to deploying scalable web interfaces that users love.',
-    barColor: 'bg-brand-slate',
     iconBg: 'bg-brand-slate/10',
     iconColor: 'text-brand-slate',
   },
@@ -138,8 +134,7 @@ const About = () => {
                   key={i}
                   className={`bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-5 sm:p-6 flex flex-col gap-3 transition-all duration-300 relative overflow-hidden h-full hover:-translate-y-1 hover:shadow-clay-lg dark:hover:shadow-none hover:border-black/25 dark:hover:border-white/25`}
                 >
-                  <div className={`absolute top-0 left-0 right-0 h-1 ${card.barColor}`} />
-                  <div className="flex items-center gap-2.5 mt-1">
+                  <div className="flex items-center gap-2.5">
                     <div className={`p-2 rounded-xl ${card.iconBg} ${card.iconColor} shrink-0`}>
                       <IconComp className="w-5 h-5 stroke-[2.2]" />
                     </div>

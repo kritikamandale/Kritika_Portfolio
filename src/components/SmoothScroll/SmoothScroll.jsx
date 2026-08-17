@@ -10,7 +10,7 @@ if (typeof window !== 'undefined') {
 }
 
 // Lenis drives scroll itself, so it doesn't know about the browser's native
-// "jump to #hash on load" behaviour — after a full page navigation (e.g.
+// "jump to #hash on load" behaviour - after a full page navigation (e.g.
 // clicking a section link from a different route, like /mindset back to
 // "/#experience"), the native jump can fire before layout has settled and
 // then get silently overridden once Lenis takes over, landing back at the
@@ -46,7 +46,7 @@ const HashScrollOnLoad = () => {
 // because Lenis smooths the wheel into a clean, monotonic position that
 // scrub/snap can follow. On MOBILE, touch input was left to the browser's
 // native ballistic fling (Lenis only smoothed the wheel), so the same
-// scrub/snap timelines fought the momentum — cards skipped or stuck, and the
+// scrub/snap timelines fought the momentum - cards skipped or stuck, and the
 // horizontal certificate rail triggered mid-fling. Driving Lenis from
 // gsap.ticker and forwarding every Lenis scroll into ScrollTrigger.update
 // makes touch flow through the exact same smoothed loop as the wheel, so the
@@ -85,7 +85,7 @@ const SmoothScroll = ({ children }) => {
       // autoRaf disabled: Lenis is driven from gsap.ticker in LenisGsapBridge
       // so GSAP and Lenis share one animation loop (no two-RAF jitter).
       // syncTouch normalises touch input through Lenis the same way smoothWheel
-      // normalises the wheel — this is what makes the scrub/snap timelines
+      // normalises the wheel - this is what makes the scrub/snap timelines
       // behave identically on mobile and desktop.
       options={{
         lerp: 0.1,

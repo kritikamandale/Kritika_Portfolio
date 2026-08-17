@@ -1,8 +1,8 @@
 'use client';
 // src/sections/Contact/Contact.jsx
 // ============================================================
-// CONTACT SECTION — single pill CTA, centred editorial layout
-// Bot mitigation is a honeypot field only — hCaptcha is not wired up
+// CONTACT SECTION - single pill CTA, centred editorial layout
+// Bot mitigation is a honeypot field only - hCaptcha is not wired up
 // (see .env.example) despite the env vars/CSP allowances existing.
 // ============================================================
 

@@ -8,7 +8,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { GithubOutlineIcon, LinkedinIcon, TwitterIcon, TelegramIcon, HashnodeIcon } from '../../components/Icons/BrandIcons';
 
-// useLayoutEffect warns/no-ops during SSR (no DOM to measure) — fall back to
+// useLayoutEffect warns/no-ops during SSR (no DOM to measure) - fall back to
 // useEffect there; on the client we need the synchronous, pre-paint timing.
 const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
@@ -151,8 +151,8 @@ const HeroSection = () => {
   /* ── Detect mobile for graceful degradation ──
      useLayoutEffect (not useEffect) so this resolves BEFORE the GSAP setup
      effect below ever runs. With useEffect, the GSAP effect's first pass
-     ran with the stale default isMobile=false — building the desktop pinned
-     ScrollTrigger timeline on an actual mobile device — and only corrected
+     ran with the stale default isMobile=false - building the desktop pinned
+     ScrollTrigger timeline on an actual mobile device - and only corrected
      itself a tick later via ctx.revert(), which is where the "reveal never
      plays on mobile" bug came from. */
   useIsomorphicLayoutEffect(() => {
@@ -180,7 +180,7 @@ const HeroSection = () => {
       const arcGap = circumference * 0.30; // 30% always hidden
       gsap.set(arcCircle, {
         strokeDasharray: circumference,
-        strokeDashoffset: circumference * 0.92, // nearly invisible — tiny hint at top
+        strokeDashoffset: circumference * 0.92, // nearly invisible - tiny hint at top
       });
 
       // Photo starts hidden
@@ -190,7 +190,7 @@ const HeroSection = () => {
 
       if (isMobile) {
         // ── MOBILE: Hero is the first section on the page, so it's already
-        // in view the instant the page loads — a scroll-position trigger
+        // in view the instant the page loads - a scroll-position trigger
         // (e.g. "top 80%") is already satisfied before the user scrolls at
         // all, and depending on viewport height (S/M/L phones) that made the
         // reveal fire inconsistently or before paint. Play it as a load-in
@@ -361,13 +361,13 @@ const HeroSection = () => {
 
 
           {/* ─────────────────────────────────────────────────────
-              LEFT COLUMN — Circle Arc + Photo + Let's Talk
+              LEFT COLUMN - Circle Arc + Photo + Let's Talk
               ───────────────────────────────────────────────────── */}
           <div className="relative flex items-center justify-center w-full md:w-[50%] lg:w-[50%]" style={{ marginTop: '-40px' }}>
             {/* Square regardless of column width: aspect-square ties height to
                 the actual rendered width, instead of the old fixed `height:
                 svgSize` which stayed locked at 500px even when `maxWidth:
-                100%` shrank the box on tablet — turning the circle into a
+                100%` shrank the box on tablet - turning the circle into a
                 tall rectangle and throwing off every pixel-based coordinate
                 below it. Everything inside is now positioned in % of this
                 box, so it stays a true circle at any size. */}
@@ -422,7 +422,7 @@ const HeroSection = () => {
                 </defs>
               </svg>
 
-              {/* Profile Photo — masked inside the circle */}
+              {/* Profile Photo - masked inside the circle */}
               <div
                 ref={photoRef}
                 className="absolute inset-0 z-0"
@@ -440,7 +440,7 @@ const HeroSection = () => {
                 <div className="absolute inset-0 bg-gradient-to-br from-[#B02618]/5 to-[#F5DE8F]/5 pointer-events-none" />
               </div>
 
-              {/* "Let's talk" CTA — positioned at the arc endpoint */}
+              {/* "Let's talk" CTA - positioned at the arc endpoint */}
               <a
                 ref={ctaBtnRef}
                 href="#contact"
@@ -474,7 +474,7 @@ const HeroSection = () => {
           </div>
 
           {/* ─────────────────────────────────────────────────────
-              RIGHT COLUMN — Name, Tagline, Social Icons, Nav
+              RIGHT COLUMN - Name, Tagline, Social Icons, Nav
               ───────────────────────────────────────────────────── */}
           <div
             ref={rightColRef}

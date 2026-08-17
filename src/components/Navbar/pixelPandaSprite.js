@@ -1,6 +1,6 @@
 // src/components/Navbar/pixelPandaSprite.js
 // ============================================================
-// CUTE PIXEL PANDA — 16x18 pixel art with natural vertical bamboo
+// CUTE PIXEL PANDA - 16x18 pixel art with natural vertical bamboo
 // ============================================================
 
 export const GRID_COLS = 16;
@@ -14,7 +14,7 @@ export const COLORS = {
   D: '#1b4332', // dark bamboo joint
 };
 
-// Standard Head & Ears (Rows 0-4) — 16 columns each
+// Standard Head & Ears (Rows 0-4) - 16 columns each
 const BASE_HEAD_TOP = [
   '...KK......KK...', // 0 ear tips
   '..KKKK....KKKK..', // 1 ear base
@@ -66,7 +66,7 @@ function buildFrame(r5, r6, r7, feetRow) {
   ];
 }
 
-// Bamboo Frame — Long vertical green bamboo shoot (Rows 3-16)
+// Bamboo Frame - Long vertical green bamboo shoot (Rows 3-16)
 const BAMBOO_HEAD_TOP = [
   '...KK......KK...', // 0 ear tips
   '..KKKK....KKKK..', // 1 ear base
@@ -93,7 +93,7 @@ const BAMBOO_BODY = [
   '.KKKKKKKKKKKKGKK.', // 16 bamboo bottom
 ];
 
-// Waving Arm Variants — Raised right paw waving high next to ear (Rows 0-4)
+// Waving Arm Variants - Raised right paw waving high next to ear (Rows 0-4)
 const WAVE_HEAD_TOP_A = [
   '...KK......KK.KK', // Raised paw right
   '..KKKK....KKKKKK',
@@ -110,7 +110,7 @@ const WAVE_HEAD_TOP_B = [
   'KWWWWWWWWWWWWWWK',
 ];
 
-// Public frame set — every frame has exactly 18 rows of 16 columns
+// Public frame set - every frame has exactly 18 rows of 16 columns
 export const FRAMES = {
   idle: buildFrame(EYES_OPEN_R5, EYES_OPEN_R6, EYES_OPEN_R7, FEET_REST),
   blink: buildFrame(EYES_CLOSED_R5, EYES_CLOSED_R6, EYES_CLOSED_R7, FEET_REST),

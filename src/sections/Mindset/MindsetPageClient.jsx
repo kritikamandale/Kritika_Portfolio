@@ -27,9 +27,9 @@ const MindsetPageClient = () => {
       <AvailabilityBanner />
       <Navbar />
       <main id="main-content">
-        {/* Visually-hidden — gives this standalone page a single proper <h1> for
+        {/* Visually-hidden - gives this standalone page a single proper <h1> for
             SEO/a11y, ordered before the section's own <h2> title. */}
-        <h1 className="sr-only">Mindset — Kritika Mandale</h1>
+        <h1 className="sr-only">Mindset - Kritika Mandale</h1>
         <Mindset />
       </main>
       <Footer />

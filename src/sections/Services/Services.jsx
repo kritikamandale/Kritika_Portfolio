@@ -10,10 +10,10 @@ import { GithubOutlineIcon, LinkedinIcon, GithubFilledIcon, ReactLogoIcon } from
 /* ─────────────────────────────────────────────
    SHARED STYLE HELPERS
 ───────────────────────────────────────────── */
-// Shared corner radius for every top-level bento card — keep in sync across all cells.
+// Shared corner radius for every top-level bento card - keep in sync across all cells.
 const cardRadius = 'rounded-[1.75rem]';
 
-// No backdrop-filter here on purpose — a live backdrop blur forces the
+// No backdrop-filter here on purpose - a live backdrop blur forces the
 // browser to recomposite this (large, always-mounted) card continuously
 // while the page scrolls, which was the main source of scroll jank in this
 // section. A near-opaque background keeps the same "glass card" read
@@ -105,7 +105,7 @@ const SOCIALS = [
   },
 ];
 
-// Single social link — monochrome, turns brand colour on hover, clickable
+// Single social link - monochrome, turns brand colour on hover, clickable
 const SocialLink = ({ social }) => {
   const isInternal = social.href.startsWith('#') || social.href.startsWith('mailto:');
   return (
@@ -124,7 +124,7 @@ const SocialLink = ({ social }) => {
 };
 
 /* ─────────────────────────────────────────────
-   TECH CHIP ICONS (subset — self-contained, no cross-file deps)
+   TECH CHIP ICONS (subset - self-contained, no cross-file deps)
 ───────────────────────────────────────────── */
 const TechIcon = ({ children, viewBox = '0 0 128 128' }) => (
   <svg className="w-3.5 h-3.5 shrink-0" viewBox={viewBox} xmlns="http://www.w3.org/2000/svg">
@@ -311,7 +311,7 @@ const Services = () => {
             relative z-10
           "
         >
-          {/* ── CELL 1 ── name / tagline — glass, col1 row1 ── */}
+          {/* ── CELL 1 ── name / tagline - glass, col1 row1 ── */}
           <div className={`${glassCard} bento:col-start-1 bento:row-start-1 z-10`}>
             <div className="flex flex-col justify-center h-full">
               <h3
@@ -330,10 +330,10 @@ const Services = () => {
 
           {/* ── CELL 3 ── contact CTA + capability CTA, col1 rows2-3 (split in two) ── */}
           <div className="bento:col-start-1 bento:row-start-2 bento:row-span-2 z-10 flex flex-col gap-4 sm:gap-5 overflow-hidden min-w-0">
-            {/* Upper — Contact Me */}
+            {/* Upper - Contact Me */}
             <div className={`${solidCoral} flex-1`}>
               <div className="absolute -top-6 -right-6 w-28 h-28 rounded-full bg-white/20 blur-[40px] pointer-events-none transform-gpu" />
-              {/* Background icon — large faint paper-plane, purely decorative */}
+              {/* Background icon - large faint paper-plane, purely decorative */}
               <svg
                 className="absolute -bottom-6 -right-6 w-40 h-40 text-white/10 rotate-[10deg] pointer-events-none z-0"
                 viewBox="0 0 24 24"
@@ -363,7 +363,7 @@ const Services = () => {
               </a>
             </div>
 
-            {/* Lower — capability CTA (unchanged content) */}
+            {/* Lower - capability CTA (unchanged content) */}
             <div className={`${solidAmber} flex-1`}>
               <div className="absolute bottom-0 right-0 w-40 h-40 rounded-full bg-white/20 blur-[50px] pointer-events-none transform-gpu" />
               <div className="relative z-10">
@@ -383,7 +383,7 @@ const Services = () => {
                location card fills the remaining height with no gap and its
                bottom edge lines up with col1/col3) ── */}
           <div className="bento:col-start-2 bento:row-start-2 bento:row-span-2 z-10 flex flex-col gap-4 sm:gap-5 overflow-hidden min-w-0">
-            {/* portrait — static photo */}
+            {/* portrait - static photo */}
             <motion.div
               className={`relative overflow-hidden ${cardRadius} border border-[rgba(176,38,24,0.18)] dark:border-[rgba(176,38,24,0.25)] aspect-square shrink-0 bg-[#e2d5c3] dark:bg-[#2a180f]`}
               initial={reduceMotion ? false : { opacity: 0, scale: 0.96 }}
@@ -400,7 +400,7 @@ const Services = () => {
               />
             </motion.div>
 
-            {/* location — dark card w/ map + scan line, fills remaining height */}
+            {/* location - dark card w/ map + scan line, fills remaining height */}
             <div className={`relative overflow-hidden ${cardRadius} p-8 flex-1 text-[#FDFAF0] flex flex-col justify-between min-h-[10.3125rem]`}>
               {/* vintage world map background */}
               <Image
@@ -474,7 +474,7 @@ const Services = () => {
                 Full-stack AI development.
               </h3>
               <p className="mt-3 text-sm text-white/85 leading-relaxed">
-                Apps, websites, and automations — built to survive contact with real users.
+                Apps, websites, and automations, built to survive contact with real users.
               </p>
 
               {/* tech marquee */}
@@ -534,7 +534,7 @@ const Services = () => {
             </div>
           </div>
 
-            {/* socials — fills the remaining space below the red card, no extra grid growth */}
+            {/* socials - fills the remaining space below the red card, no extra grid growth */}
             <div id="connect" className="flex-1 flex flex-col justify-center gap-4 min-h-0 scroll-mt-24">
               <div>
                 <span className="inline-block px-3 py-1 rounded-full text-[0.6875rem] font-bold uppercase tracking-widest border bg-[#B02618]/10 border-[#B02618]/20 text-[#B02618] dark:bg-[#B02618]/20 w-fit">

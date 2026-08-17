@@ -63,10 +63,10 @@ const AvailabilityBanner = () => {
       >
         <span className="w-2 h-2 rounded-full bg-brand-yellow shrink-0 animate-[customPulse_2s_ease-in-out_infinite] motion-reduce:animate-none" aria-hidden="true" />
         {/* Reserved pl/pr on the bar (above) keeps this centered block clear of
-            both the dot and the absolutely-positioned dismiss button — without
+            both the dot and the absolutely-positioned dismiss button - without
             it, the centered text collided with the ✕ on narrow phones. */}
         <span className="text-center leading-snug">
-          Currently open to opportunities —{' '}
+          Currently open to opportunities -{' '}
           <a href="#contact" className="text-brand-yellow font-bold underline underline-offset-[3px] transition-opacity duration-150 ease hover:opacity-80 whitespace-nowrap" onClick={dismiss}>
             Let's talk ↗
           </a>

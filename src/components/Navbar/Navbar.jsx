@@ -48,7 +48,7 @@ const Navbar = () => {
   /* ── Active section detection ── */
   useEffect(() => {
     // Old browsers without IntersectionObserver: skip active-link tracking
-    // rather than throwing — the nav itself still works fine without it.
+    // rather than throwing - the nav itself still works fine without it.
     if (typeof IntersectionObserver === 'undefined') return;
 
     const sectionIds = NAV_LINKS.filter((l) => !l.route).map((l) => l.href.slice(1));
@@ -152,7 +152,7 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Panda mascot — resting on the top edge of the pill. Placed BEFORE
+      {/* Panda mascot - resting on the top edge of the pill. Placed BEFORE
           the mobile menu in the DOM (both are position:absolute with no
           z-index) so the menu still paints on top of it when open. */}
       <PixelPanda />

@@ -46,7 +46,7 @@ function isRateLimited(ip) {
 
 function getSecurityHeaders() {
   // Content-Security-Policy for this route is set in vercel.json (matches this
-  // path via the "/api/(.*)" header block) — not duplicated here to avoid two
+  // path via the "/api/(.*)" header block) - not duplicated here to avoid two
   // different CSP values for the same response.
   return {
     'X-Frame-Options': 'DENY',
@@ -122,8 +122,8 @@ export async function POST(request) {
 
   // x-forwarded-for is a comma-separated hop chain; each proxy APPENDS to the
   // end, so client-supplied entries (spoofable) sit at the front and the
-  // trustworthy value — appended by Vercel's own edge, which the client
-  // cannot forge — is always the LAST entry.
+  // trustworthy value - appended by Vercel's own edge, which the client
+  // cannot forge - is always the LAST entry.
   const xff = (request.headers.get('x-forwarded-for') ?? '').toString().split(',');
   const ip = (xff[xff.length - 1] || 'unknown').trim();
 
@@ -197,10 +197,10 @@ export async function POST(request) {
 
   try {
     const { data, error: resendError } = await resend.emails.send({
-      from: `Kritika Mandale – Portfolio Inquiry <${fromEmail}>`,
+      from: `Kritika Mandale - Portfolio Inquiry <${fromEmail}>`,
       to: toEmail,
       replyTo: email,
-      subject: `New Inquiry: ${subject || 'Connection Request'} — ${name}`,
+      subject: `New Inquiry: ${subject || 'Connection Request'} - ${name}`,
       html: `
         <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:15px;color:#333;line-height:1.6;max-width:600px">
           <h2 style="margin-top:0;font-size:20px;color:#111">New Inquiry from Your Portfolio</h2>

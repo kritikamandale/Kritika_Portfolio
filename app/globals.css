@@ -44,7 +44,7 @@
     @apply bg-bg-dark text-text-dark-primary;
   }
 
-  /* Fluid hero typography — cannot be a Tailwind token */
+  /* Fluid hero typography - cannot be a Tailwind token */
   .text-hero {
     font-size: clamp(3.5rem, 8vw, 6rem);
     line-height: 1.05;
@@ -82,7 +82,7 @@
   }
 
   /* Weight steps down the heading hierarchy so the type scale reads as
-     intentional rather than flat — h1 carries the most presence. */
+     intentional rather than flat - h1 carries the most presence. */
   h1 { font-weight: 700; }
   h2 { font-weight: 600; }
   h3, h4, h5, h6 { font-weight: 500; }
@@ -174,7 +174,7 @@
   }
 
   /* ── Section Heading Shared Style ─────────────────────────── */
-  /* Pill-shaped eyebrow badge — stays in the body sans font, not Fraunces. */
+  /* Pill-shaped eyebrow badge - stays in the body sans font, not Fraunces. */
   .section-label {
     display: inline-block;
     font-family: theme('fontFamily.sans');
@@ -228,7 +228,7 @@
   }
 
   /* Explicit Fraunces utility for one-off heading-styled elements that
-     aren't real h1–h6 tags (e.g. a styled span/div acting as a title). */
+     aren't real h1-h6 tags (e.g. a styled span/div acting as a title). */
   .fraunces-heading {
     font-family: theme('fontFamily.heading');
     font-optical-sizing: auto;
@@ -238,7 +238,7 @@
       "WONK" 0;
   }
 
-  /* Hero name only — "Kritika Mandale". Not used anywhere else on the site. */
+  /* Hero name only - "Kritika Mandale". Not used anywhere else on the site. */
   .name-yeseva {
     font-family: var(--font-yeseva), "Yeseva One", serif;
     font-weight: 400;
@@ -275,7 +275,7 @@
 }
 
 /* ── Scrollbar Styling ────────────────────────────────────── */
-/* Firefox has no ::-webkit-scrollbar equivalent — style it via the
+/* Firefox has no ::-webkit-scrollbar equivalent - style it via the
    standard scrollbar-color/scrollbar-width properties instead. */
 html {
   scrollbar-width: thin;

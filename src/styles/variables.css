@@ -1,6 +1,6 @@
 /* src/styles/variables.css */
 /* ============================================================
-   DESIGN TOKENS — Brick Red / Warm Gold / Cocoa Theme
+   DESIGN TOKENS - Brick Red / Warm Gold / Cocoa Theme
    ============================================================ */
 
 :root {
@@ -42,7 +42,7 @@
   /* ── Typography ─────────────────────────────────────────
      Primary values use next/font CSS variables (set on <html>
      by app/layout.jsx). System fonts are the fallback chain.
-     Fonts are self-hosted at build time — no CDN requests.
+     Fonts are self-hosted at build time - no CDN requests.
   ──────────────────────────────────────────────────────── */
   --font-sans:    var(--font-sans-next,    'Inter',    system-ui, sans-serif);
   --font-heading: var(--font-heading-next, 'Fraunces', Georgia, serif);
@@ -137,7 +137,7 @@
 }
 
 /* ============================================================
-   DARK MODE — [data-theme="dark"] on <html>
+   DARK MODE - [data-theme="dark"] on <html>
    Deep cocoa #1c1008 as base. Accent palette: gold on cocoa.
    ============================================================ */
 [data-theme="dark"] {

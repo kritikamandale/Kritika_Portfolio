@@ -79,9 +79,9 @@ Portfolio/
 
 ## 📝 Available Scripts
 
-- `npm run dev` – Starts the Next.js development server.
-- `npm run build` – Pre-renders the website via Static Site Generation (SSG) into the static `out/` folder.
-- `npm run start` – Starts a production Next.js server locally.
-- `npm run lint` – Runs ESLint syntax and code quality checks.
+- `npm run dev` - Starts the Next.js development server.
+- `npm run build` - Pre-renders the website via Static Site Generation (SSG) into the static `out/` folder.
+- `npm run start` - Starts a production Next.js server locally.
+- `npm run lint` - Runs ESLint syntax and code quality checks.
 
 ---

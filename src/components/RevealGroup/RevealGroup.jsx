@@ -1,10 +1,10 @@
 'use client';
 // src/components/RevealGroup/RevealGroup.jsx
 // ============================================================
-// REVEAL GROUP — IntersectionObserver stagger wrapper
+// REVEAL GROUP - IntersectionObserver stagger wrapper
 // Observes the container; when it enters the viewport each
 // direct child animates in with index × staggerDelay offset.
-// Uses only native CSS + vanilla JS — no animation libraries.
+// Uses only native CSS + vanilla JS - no animation libraries.
 // ============================================================
 
 import React, { useRef, useEffect } from 'react';

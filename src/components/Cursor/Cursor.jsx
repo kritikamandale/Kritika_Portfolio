@@ -1,14 +1,14 @@
 'use client';
 // src/components/Cursor/Cursor.jsx
 // ============================================================
-// CUSTOM CURSOR — desktop only (hover: hover) & (pointer: fine)
-// .cursorDot  — 8px solid circle, follows exact mouse position
-// .cursorRing — 32px outline circle, lerps behind the dot
-// Trail dots  — 7 fading dots with increasing delay offsets,
+// CUSTOM CURSOR - desktop only (hover: hover) & (pointer: fine)
+// .cursorDot  - 8px solid circle, follows exact mouse position
+// .cursorRing - 32px outline circle, lerps behind the dot
+// Trail dots  - 7 fading dots with increasing delay offsets,
 //               forming a pumpkin-spice comet tail.
 // Scales ring on [data-hover] / a / button elements.
 // All elements start off-screen (opacity 0) and only appear
-// after the first real mousemove — no top-left flash.
+// after the first real mousemove - no top-left flash.
 // ============================================================
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -17,7 +17,7 @@ const isDesktopPointer = () =>
   typeof window !== 'undefined' &&
   window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-// 7 trail dots — lerp factors slow progressively to create spread
+// 7 trail dots - lerp factors slow progressively to create spread
 const TRAIL_COUNT     = 7;
 const TRAIL_LERPS     = [0.10, 0.085, 0.072, 0.062, 0.053, 0.046, 0.040];
 const TRAIL_SIZES     = [7,    6,     5,     4.5,   4,     3.5,   3];
@@ -99,7 +99,7 @@ const Cursor = () => {
         : `translate(${ringX}px, ${ringY}px) translate(-50%, -50%) scale(1)`;
       ring.style.borderColor = isHovering ? 'rgba(176,38,24,0.7)' : '';
 
-      // Trail dots — each follows the one ahead
+      // Trail dots - each follows the one ahead
       for (let i = 0; i < TRAIL_COUNT; i++) {
         const srcX = i === 0 ? mouseX : trailX[i - 1];
         const srcY = i === 0 ? mouseY : trailY[i - 1];
@@ -135,7 +135,7 @@ const Cursor = () => {
 
   return (
     <>
-      {/* Dot — snaps exactly to pointer, invisible until first move */}
+      {/* Dot - snaps exactly to pointer, invisible until first move */}
       <div
         ref={dotRef}
         aria-hidden="true"
@@ -146,7 +146,7 @@ const Cursor = () => {
         className="fixed top-0 left-0 w-2.5 h-2.5 rounded-full bg-accent pointer-events-none z-[9999] will-change-transform hidden md:block transition-opacity duration-150"
       />
 
-      {/* Ring — lerps behind dot, scales on hover targets */}
+      {/* Ring - lerps behind dot, scales on hover targets */}
       <div
         ref={ringRef}
         aria-hidden="true"
@@ -157,7 +157,7 @@ const Cursor = () => {
         className="fixed top-0 left-0 w-8 h-8 rounded-full border-2 border-accent bg-transparent pointer-events-none z-[9998] will-change-transform transition-[transform,border-color,opacity] duration-200 ease hidden md:block"
       />
 
-      {/* Comet trail — orange dots fading out behind the cursor */}
+      {/* Comet trail - orange dots fading out behind the cursor */}
       {Array.from({ length: TRAIL_COUNT }, (_, i) => (
         <div
           key={i}

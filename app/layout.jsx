@@ -5,7 +5,7 @@ import SmoothScroll from '../src/components/SmoothScroll/SmoothScroll'
 
 // ─── Self-hosted Google Fonts via next/font ───────────────────────────────────
 // Fonts are downloaded at build time and served as first-party static assets.
-// No external network request is made at runtime — eliminates the Google Fonts
+// No external network request is made at runtime - eliminates the Google Fonts
 // CDN dependency entirely and removes the need for preconnect hints.
 
 const fraunces = Fraunces({
@@ -24,7 +24,7 @@ const yesevaOne = Yeseva_One({
   style: ['normal'],
   variable: '--font-yeseva',
   display: 'swap',
-  preload: false, // used on a single hero element only — not on critical path
+  preload: false, // used on a single hero element only - not on critical path
 })
 
 const inter = Inter({
@@ -40,7 +40,7 @@ const firaCode = Fira_Code({
   weight: ['400', '500'],
   variable: '--font-mono-next',
   display: 'swap',
-  preload: false, // monospace font — not on critical path
+  preload: false, // monospace font - not on critical path
 })
 
 export const metadata = {

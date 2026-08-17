@@ -14,36 +14,36 @@ const CARDS = [
   {
     icon: '🏆',
     category: 'National Level Hackathon',
-    title: 'National Finalist — Hackwise 2026, IIM Indore',
+    title: 'National Finalist - Hackwise 2026, IIM Indore',
     context: 'Built Proven.io, an AI-powered platform simulating "day-in-the-life" work environments for Behavioral & Technical Readiness Audits.',
     focus: 'Bridged the gap between certifications and job-readiness by evaluating candidates on adaptability, communication, and performance under pressure.'
   },
   {
     icon: '🥈',
     category: '30-Hour Hackathon',
-    title: '1st Runner-Up — Openpools Doppelganger',
+    title: '1st Runner-Up - Openpools Doppelganger',
     context: 'Engineered SecureID from a blank whiteboard to a fully working prototype during a continuous 30-hour coding sprint.',
     focus: 'Integrated KYC verification, face recognition, and blockchain-based records into a single, tamper-proof student identity verification workflow.'
   },
   {
     icon: '🚀',
     category: 'Nagpur Chapter',
-    title: '1st Runner-Up — NASA Space Apps Challenge',
+    title: '1st Runner-Up - NASA Space Apps Challenge',
     context: "Developed a creative, data-driven solution utilizing NASA's open-source space and Earth datasets.",
     focus: 'Engineered data parsing pipelines to process and visualize complex open-source satellite telemetry.'
   },
   {
     icon: '⚡',
     category: 'Blockchain Event',
-    title: '1st Runner-Up — Stellar Ragnarok',
+    title: '1st Runner-Up - Stellar Ragnarok',
     context: 'Secured top honors by conceptualizing and building an innovative decentralized application on the blockchain.',
     focus: 'Architected secure smart contracts and seamless Web3 wallet integrations for a decentralized ecosystem.'
   },
   {
     icon: '🥉',
     category: 'IIT Delhi · Case Competition',
-    title: '3rd Place — OpVasion \'26, IIT Delhi',
-    context: 'Podium finish at a national case study competition by PARIVARTAN, IIT Delhi — cracking India\'s cold chain crisis and proving food spoilage emits 28× more carbon than all direct transport.',
+    title: '3rd Place - OpVasion \'26, IIT Delhi',
+    context: 'Podium finish at a national case study competition by PARIVARTAN, IIT Delhi - cracking India\'s cold chain crisis and proving food spoilage emits 28× more carbon than all direct transport.',
     focus: 'Applied systems-thinking as a tech engineer to build a carbon strategy framework that outpaced conventional business analysis.'
   }
 ];
@@ -95,7 +95,7 @@ const Achievements = () => {
       if (cards.length === 0 || !section || !sticky || !arena) return;
 
       // 1. Setup initial states. Arena/card height is MEASURED from the
-      // tallest card's natural content height (not a fixed vh) — a fixed
+      // tallest card's natural content height (not a fixed vh) - a fixed
       // height clips/overflows whenever card text is longer than whatever
       // vh value was eyeballed at design time (e.g. after a font-size
       // change). Mirrors the mobile branch below.
@@ -123,8 +123,8 @@ const Achievements = () => {
 
       // The section's height is driven explicitly from JS: sticky-pane height
       // (however tall it actually renders) plus the scroll distance the
-      // animation needs. This guarantees the whole animation — including the
-      // final hold — completes *before* native CSS sticky un-pins, instead of
+      // animation needs. This guarantees the whole animation - including the
+      // final hold - completes *before* native CSS sticky un-pins, instead of
       // racing/overlapping with the un-pin the way a bare `md:h-[Nvh]` class
       // (tied to "bottom bottom") would.
       const sizeSection = () => {
@@ -165,7 +165,7 @@ const Achievements = () => {
 
         // Scale down, push up slightly, and dim previous cards.
         // Distance is capped at 2 "steps back" so cards further back in the
-        // stack don't keep drifting/shrinking — they settle just behind the
+        // stack don't keep drifting/shrinking - they settle just behind the
         // last visible card instead of fanning out above the viewport.
         for (let j = 0; j < i; j++) {
           const prevCard = cards[j];
@@ -190,7 +190,7 @@ const Achievements = () => {
       });
 
       // 4. Hold on the last card for one more full beat before the section
-      // releases — without this, the final card arrives exactly as the
+      // releases - without this, the final card arrives exactly as the
       // pinned scroll range ends, so it's yanked away before it can be read.
       tl.to({}, { duration: STEP });
 
@@ -204,8 +204,8 @@ const Achievements = () => {
       };
     });
 
-    // MOBILE (<768px): same pinned card-stacking as desktop — one scroll per
-    // card — but the arena height is MEASURED from the tallest card at runtime
+    // MOBILE (<768px): same pinned card-stacking as desktop - one scroll per
+    // card - but the arena height is MEASURED from the tallest card at runtime
     // (desktop uses a fixed 48vh, which would clip these long cards on a narrow
     // screen). A small buffer absorbs late font reflow so nothing ever clips.
     mm.add("(max-width: 767px)", () => {
@@ -238,7 +238,7 @@ const Achievements = () => {
         });
       });
 
-      // Scroll distance per card — ~half a screen, i.e. one normal swipe brings
+      // Scroll distance per card - ~half a screen, i.e. one normal swipe brings
       // in one card. Small enough that a swipe reaches the next snap point (so
       // it doesn't get pulled back and require repeated swipes), large enough
       // that momentum doesn't blow past two.
@@ -246,7 +246,7 @@ const Achievements = () => {
       // N cards need exactly (N-1) transitions to walk from card 0 to the last
       // card. Every transition is one beat / one snap interval, so 1 swipe = 1
       // card. NO leading or trailing hold beats: card 0 is already shown at
-      // progress 0, and the last card settles exactly at progress 1 — the pin
+      // progress 0, and the last card settles exactly at progress 1 - the pin
       // releases the instant it's fully in, with zero dead scroll on either end.
       const numBeats = CARDS.length - 1;
       const animPx = STEP * numBeats;
@@ -276,7 +276,7 @@ const Achievements = () => {
 
       cards.forEach((card, i) => {
         if (i === 0) return;
-        // Card i's transition starts at (i-1)*STEP — so card 1 slides in over
+        // Card i's transition starts at (i-1)*STEP - so card 1 slides in over
         // the FIRST beat [0, STEP] (no dead lead-in), card 2 over the second,
         // and so on. Previous-card scaling is anchored to the same beat.
         const at = (i - 1) * STEP;
@@ -304,7 +304,7 @@ const Achievements = () => {
       // This section is lazy-loaded and sets its own (tall) height here, which
       // pushes the Certificates section below it further down the page. If
       // Certificates' ScrollTrigger measured its start before this ran, it would
-      // begin its horizontal scroll early — while the user is still in Awards.
+      // begin its horizontal scroll early - while the user is still in Awards.
       // Refresh once on the next frame so every trigger below recomputes against
       // the final layout.
       requestAnimationFrame(() => ScrollTrigger.refresh());
@@ -343,7 +343,7 @@ const Achievements = () => {
           : "w-full relative bg-bg-light dark:bg-bg-dark min-h-[95dvh] md:h-[400vh]"
       }
     >
-      {/* NATIVE CSS PINNING via sticky — now on mobile too, so the card-stack
+      {/* NATIVE CSS PINNING via sticky - now on mobile too, so the card-stack
           plays one-scroll-per-card on phones just like desktop. Reduced
           motion: static, so the pane flows normally with the page. */}
       <div
@@ -384,7 +384,7 @@ const Achievements = () => {
             </p>
           </div>
 
-          {/* RIGHT PANEL: Stacking Arena — pinned card-stack on both mobile &
+          {/* RIGHT PANEL: Stacking Arena - pinned card-stack on both mobile &
               desktop. Reduced motion: a plain vertical stack at every width. */}
           <div
             ref={arenaRef}

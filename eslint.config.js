@@ -6,7 +6,7 @@ import noUnsanitized from 'eslint-plugin-no-unsanitized'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 // eslint-plugin-react-refresh is a Vite-only plugin (it inserts HMR boundaries).
-// This project uses Next.js — react-refresh is managed by Next.js internally.
+// This project uses Next.js - react-refresh is managed by Next.js internally.
 // Removed to fix "Cannot find package 'eslint-plugin-react-refresh'" build error.
 
 export default defineConfig([

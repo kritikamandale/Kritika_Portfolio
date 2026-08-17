@@ -19,7 +19,7 @@ const MESSAGES = [
 // Horizontal anchor as a % of the pill's own width (the pill is `w-max`, so
 // this scales with however wide the nav ends up). Sits just left of the
 // divider/Resume button, over the gap after "Mindset". Tweak this value to
-// reposition — it's the one number this whole placement hinges on.
+// reposition - it's the one number this whole placement hinges on.
 const LEFT_PERCENT = '78%';
 
 // How far the bamboo log's bottom edge sinks into the navbar's top edge.

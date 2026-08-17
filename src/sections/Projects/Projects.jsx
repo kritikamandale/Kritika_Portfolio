@@ -1,7 +1,7 @@
 'use client';
 // src/sections/Projects/Projects.jsx
 // ============================================================
-// PROJECTS SECTION — Asymmetric Bento Grid
+// PROJECTS SECTION - Asymmetric Bento Grid
 // ── Edit: PROJECTS array below ─────────────────────────────
 // ============================================================
 
@@ -18,7 +18,7 @@ const PROJECTS = [
     title: 'SKINEST',
     subtitle: 'DERMATOLOGIST-GRADE SKINCARE AI',
     image: '/kritika-mandale-project-skin-analysis.png',
-    imagePosition: '30% top',
+    imagePosition: 'left top',
     desc: 'AI-powered skin analysis platform personalized for Indian skin tones. Features live camera skin scanning, smart product recommendations, a dermatologist review queue, and privacy-first image processing.',
     tags: ['Next.js 14', 'FastAPI', 'TensorFlow.js', 'PostgreSQL'],
     githubUrl: 'https://github.com/kritikamandale/skin-analysis-platform',
@@ -249,7 +249,7 @@ const Projects = () => {
           {expanded ? '↑ Show Less' : '↓ View All Projects'}
         </button>
 
-        {/* GitHub button — appears after expanding */}
+        {/* GitHub button - appears after expanding */}
         <div
           style={{
             opacity: expanded ? 1 : 0,

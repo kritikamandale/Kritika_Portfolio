@@ -23,7 +23,7 @@ for (let i = 0; i < pixels.length; i += 4) {
   const g = pixels[i + 1];
   const b = pixels[i + 2];
 
-  // Chroma-key: pure green screen — high G, low R and B
+  // Chroma-key: pure green screen - high G, low R and B
   if (g > 100 && r < 120 && b < 120 && g > r * 1.4 && g > b * 1.4) {
     pixels[i + 3] = 0; // transparent
   }

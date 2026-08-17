@@ -77,7 +77,7 @@ const GithubContributions = () => {
       id="github"
       label="Open Source"
       title="GitHub Activity"
-      subtitle={`@${USERNAME} — Contribution statistics`}
+      subtitle={`@${USERNAME} - Contribution statistics`}
       alt
     >
       <div className="bg-surface-light dark:bg-surface-dark rounded-2xl p-4 md:p-5 border border-border-light dark:border-border-dark shadow-clay dark:shadow-none flex flex-col gap-3 w-full">
@@ -123,7 +123,7 @@ const GithubContributions = () => {
             {/* Capped width: the image preserves its aspect ratio (h-auto), so
                 letting it stretch to the full-width card would blow up its
                 height proportionally. Keep it at a fixed, readable size and
-                center it — minWidth still lets it overflow-x-scroll on
+                center it - minWidth still lets it overflow-x-scroll on
                 narrow/mobile containers instead of squashing illegibly. */}
             <div className="gh-chart-container max-w-3xl mx-auto" style={{ minWidth: '680px' }}>
               <img
@@ -140,7 +140,7 @@ const GithubContributions = () => {
                 className="hidden items-center justify-center text-text-muted dark:text-text-dark-muted text-sm py-8"
                 style={{ display: 'none' }}
               >
-                Contribution graph unavailable — check back later.
+                Contribution graph unavailable - check back later.
               </div>
             </div>
           </div>

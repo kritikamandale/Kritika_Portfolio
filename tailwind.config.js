@@ -177,7 +177,7 @@ export default {
         // Zoom-immune variant for the Services bento grid: activates at the
         // same real width as `xl` (1024px) for genuine small/touch devices,
         // OR whenever the device is mouse + hover capable (i.e. an actual
-        // desktop/laptop) — a signal browser zoom cannot change, unlike
+        // desktop/laptop) - a signal browser zoom cannot change, unlike
         // viewport width. Keeps the 3-column bento layout stable across
         // 70%-110% zoom on any real desktop, without affecting phones/tablets.
         'bento': { raw: '(min-width: 1024px), (hover: hover) and (pointer: fine)' },

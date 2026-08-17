@@ -1,4 +1,4 @@
-// One-off script — generates public/og-image.png (1200x630) for social share
+// One-off script - generates public/og-image.png (1200x630) for social share
 // previews (Open Graph / Twitter card), matching the site's brick-red/cocoa
 // palette. Run with: node scripts/generate-og-image.mjs
 import sharp from 'sharp';
@@ -25,7 +25,7 @@ const svg = `
   <rect x="80" y="150" width="90" height="8" rx="4" fill="url(#accent)"/>
   <text x="80" y="300" font-family="Georgia, 'Times New Roman', serif" font-size="88" font-weight="700" fill="#FBF6E8">Kritika Mandale</text>
   <text x="80" y="360" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="600" letter-spacing="2" fill="#F5DE8F">FULL STACK &amp; AI DEVELOPER</text>
-  <text x="80" y="430" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#D4B896">Building intelligent web products — from React UIs to ML model deployment.</text>
+  <text x="80" y="430" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#D4B896">Building intelligent web products - from React UIs to ML model deployment.</text>
   <circle cx="1080" cy="120" r="60" fill="none" stroke="#B02618" stroke-width="4" opacity="0.5"/>
   <circle cx="1000" cy="520" r="90" fill="none" stroke="#F5DE8F" stroke-width="3" opacity="0.35"/>
 </svg>

@@ -1,7 +1,7 @@
 'use client';
 // src/components/Preloader/Preloader.jsx
 // ============================================================
-// PRELOADER — pure CSS + vanilla JS, no animation libraries.
+// PRELOADER - pure CSS + vanilla JS, no animation libraries.
 // Phases:  counting → hundred → bubbles → exit → done
 // Exit: container fades to opacity:0 / visibility:hidden over
 //       400ms. onComplete fires at start of exit so App.jsx

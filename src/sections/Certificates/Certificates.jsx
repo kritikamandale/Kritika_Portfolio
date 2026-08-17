@@ -42,7 +42,6 @@ const CERTIFICATES = [
     title: 'Data Analysis with Python',
     issuer: 'freeCodeCamp',
     date: 'Issued Jul 2025',
-    credentialId: 'iamkritical-dawp',
     skills: ['Data Analysis', 'Python'],
     image: '/certificates/kritika-mandale-certificate-freecodecamp.png',
   },
@@ -59,7 +58,6 @@ const CERTIFICATES = [
     title: 'Claude Code in Action',
     issuer: 'Anthropic',
     date: 'Issued Jun 2026',
-    credentialId: 'z9d74azusmky',
     skills: ['Artificial Intelligence (AI)', 'Full-Stack Development', '+1 skill'],
     image: '/certificates/kritika-mandale-certificate-claude-code.png',
   },
@@ -106,12 +104,6 @@ const CertCard = ({ cert, onOpen }) => (
       <div className="text-xs text-text-muted dark:text-text-dark-muted mb-2">
         {cert.date}
       </div>
-
-      {cert.credentialId && (
-        <div className="text-[11px] font-mono text-text-muted dark:text-text-dark-muted mb-2 line-clamp-1">
-          ID {cert.credentialId}
-        </div>
-      )}
     </div>
 
     <div className="flex flex-wrap gap-2 mb-4 mt-auto pt-2">
@@ -155,7 +147,7 @@ const Certificates = () => {
   // Lock scroll when the modal is open. With Lenis `syncTouch` enabled, touch
   // scrolling is driven by Lenis rather than the browser, so a plain
   // `overflow: hidden` on <body> no longer stops the page moving behind the
-  // modal on mobile — stop Lenis explicitly (and still set overflow for the
+  // modal on mobile - stop Lenis explicitly (and still set overflow for the
   // wheel / scrollbar case).
   React.useEffect(() => {
     if (selectedImage) {
@@ -171,7 +163,7 @@ const Certificates = () => {
     };
   }, [selectedImage, lenis]);
 
-  // Horizontal scroll — enabled on ALL viewports (mobile + desktop). Uses
+  // Horizontal scroll - enabled on ALL viewports (mobile + desktop). Uses
   // NATIVE CSS sticky for pinning (no GSAP pin) so it stays buttery-smooth
   // with Lenis and never glitches when handing off from vertical to
   // horizontal scrolling.
@@ -197,7 +189,7 @@ const Certificates = () => {
       // Extra pinned scroll room held at the end (after the track finishes
       // moving) so the last card stays fully visible and readable instead of
       // the section releasing into the next one the instant it arrives. On
-      // MOBILE this is ZERO — the moment the last certificate is flush, the pin
+      // MOBILE this is ZERO - the moment the last certificate is flush, the pin
       // releases and the next scroll moves into the following section, so there
       // is no dead scroll at the end.
       const HOLD = isMobile ? 0 : 500;
@@ -206,7 +198,7 @@ const Certificates = () => {
       // begins, so the section settles in view and the FIRST card is fully read
       // before the track starts sliding. On mobile this is ~one comfortable
       // swipe (half a screen): the first certificate settles for a single
-      // gesture, then each further swipe moves ~one certificate horizontally —
+      // gesture, then each further swipe moves ~one certificate horizontally -
       // no long dead lead-in.
       const LEAD = Math.round(window.innerHeight * 0.5);
 
@@ -233,9 +225,9 @@ const Certificates = () => {
         },
       });
 
-      tl.to({}, { duration: LEAD }) // lead-in — plain vertical scroll first
+      tl.to({}, { duration: LEAD }) // lead-in - plain vertical scroll first
         .to(track, { x: -dist, ease: 'none', duration: dist })
-        .to({}, { duration: HOLD }); // hold — track stays parked at its final x
+        .to({}, { duration: HOLD }); // hold - track stays parked at its final x
 
       return () => {
         section.style.height = '';
@@ -255,7 +247,7 @@ const Certificates = () => {
       aria-label="Certifications"
       className="relative w-full bg-bg-light dark:bg-bg-dark"
     >
-      {/* Native sticky pinning pane — pins on all viewports so the horizontal
+      {/* Native sticky pinning pane - pins on all viewports so the horizontal
           rail animation runs on mobile and desktop alike. Reduced motion:
           static pane, no pin. */}
       <div
@@ -268,9 +260,9 @@ const Certificates = () => {
       >
         {/* Header */}
         <div className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12 w-full mb-8 md:mb-10">
-          <span className="section-label">Continuous Upskilling</span>
+          <span className="section-label">Certifications</span>
           <h2 className="section-title !mb-3 flex items-center gap-3">
-            Validated Expertise
+            Certificates & Credentials
             <HeadingStar />
           </h2>
           <p className="section-subtitle !text-left !mx-0 max-w-2xl">
@@ -279,7 +271,7 @@ const Certificates = () => {
           </p>
         </div>
 
-        {/* Track — horizontal rail on all viewports, driven by GSAP as you
+        {/* Track - horizontal rail on all viewports, driven by GSAP as you
             scroll. Reduced motion: a plain, natively horizontally-scrollable
             row (no GSAP translate). */}
         <div

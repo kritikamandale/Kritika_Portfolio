@@ -10,7 +10,7 @@
 
 import { useEffect, useRef } from 'react';
 
-const RADIUS = 60;   // px — attraction zone around the element
+const RADIUS = 60;   // px - attraction zone around the element
 const LERP   = 0.30; // interpolation factor (0 = no movement, 1 = instant)
 
 const useMagnetic = () => {

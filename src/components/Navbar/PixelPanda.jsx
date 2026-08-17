@@ -1,7 +1,7 @@
 'use client';
 // src/components/Navbar/PixelPanda.jsx
 // ============================================================
-// PIXEL PANDA — a small code-generated pixel-art companion that
+// PIXEL PANDA - a small code-generated pixel-art companion that
 // lives on the navbar. No image assets: the sprite is drawn to
 // a <canvas> each frame from the data in pixelPandaSprite.js.
 //
