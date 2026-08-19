@@ -1,5 +1,4 @@
-'use client';
-import React, { Suspense, lazy } from 'react'
+import React from 'react'
 import Preloader from '../src/components/Preloader/Preloader'
 import Cursor from '../src/components/Cursor/Cursor'
 import AvailabilityBanner from '../src/components/AvailabilityBanner/AvailabilityBanner'
@@ -12,11 +11,9 @@ import Experience from '../src/sections/Experience/Experience'
 import Contact from '../src/sections/Contact/Contact'
 import Footer from '../src/components/Footer/Footer'
 import PageClient from '../src/components/PageClient/PageClient'
-
-// Lazy loaded heavy sections
-const GithubContributions = lazy(() => import('../src/sections/GithubContributions/GithubContributions'))
-const Achievements = lazy(() => import('../src/sections/Achievements/Achievements'))
-const Certificates = lazy(() => import('../src/sections/Certificates/Certificates'))
+import Mindset from '../src/sections/Mindset/Mindset'
+// Client wrapper that holds ssr:false dynamic() imports (not allowed in Server Components)
+import LazySections from '../src/components/LazySections/LazySections'
 
 export default function Home() {
   return (
@@ -38,18 +35,9 @@ export default function Home() {
         <Projects />
         <Experience />
         <Stack />
-        
-        <Suspense fallback={<div style={{ height: '400px', background: 'var(--color-background-secondary)' }} />}>
-          <GithubContributions />
-        </Suspense>
+        <Mindset />
 
-        <Suspense fallback={<div style={{ height: '100vh', background: 'var(--color-background-secondary)' }} />}>
-          <Achievements />
-        </Suspense>
-
-        <Suspense fallback={<div style={{ height: '50vh', background: 'var(--color-background-secondary)' }} />}>
-          <Certificates />
-        </Suspense>
+        <LazySections />
 
         <Contact />
       </main>
@@ -57,3 +45,4 @@ export default function Home() {
     </>
   )
 }
+

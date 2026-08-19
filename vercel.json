@@ -1,6 +1,18 @@
 {
   "framework": "nextjs",
   "buildCommand": "npm run build",
+  "redirects": [
+    {
+      "source": "/mindset",
+      "destination": "/#mindset",
+      "permanent": true
+    },
+    {
+      "source": "/mindset/",
+      "destination": "/#mindset",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",

@@ -16,7 +16,7 @@ const NAV_LINKS = [
   { label: 'About', href: '#about' },
   { label: 'Projects', href: '#projects' },
   { label: 'Experience', href: '#experience' },
-  { label: 'Mindset', href: '/mindset', route: true },
+  { label: 'Mindset', href: '#mindset' },
 ];
 
 const Navbar = () => {
@@ -25,11 +25,10 @@ const Navbar = () => {
   const [menuOpen, setMenu] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  // Route-based links (e.g. /mindset) navigate to a real page; hash links
-  // (e.g. #hero) scroll within the homepage. When we're not on the homepage,
-  // hash links need a leading "/" so they navigate back home first.
+  // All links are hash-based and scroll within the homepage. When we're not on
+  // the homepage, hash links need a leading "/" so they navigate home first.
   const resolveHref = (href) => (href.startsWith('#') && pathname !== '/' ? `/${href}` : href);
-  const isLinkActive = (link) => (link.route ? pathname === link.href : active === link.href.slice(1));
+  const isLinkActive = (link) => active === link.href.slice(1);
 
   /* ── Hover top space detection ── */
   useEffect(() => {
