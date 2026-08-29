@@ -9,8 +9,6 @@
 
 import React, { useState, useEffect } from 'react';
 
-const STORAGE_KEY = 'availability_banner_dismissed';
-
 const AvailabilityBanner = () => {
   const [visible, setVisible] = useState(false);
   const [exiting, setExiting] = useState(false);
@@ -22,16 +20,12 @@ const AvailabilityBanner = () => {
   }, [visible]);
 
   useEffect(() => {
-    // Don't show if already dismissed this session
-    if (sessionStorage.getItem(STORAGE_KEY)) return;
-
     const timer = setTimeout(() => setVisible(true), 3000);
     return () => clearTimeout(timer);
   }, []);
 
   const dismiss = () => {
     setExiting(true);
-    sessionStorage.setItem(STORAGE_KEY, '1');
     window.dispatchEvent(new CustomEvent('banner-change', { detail: { visible: false } }));
     setTimeout(() => setVisible(false), 350); // wait for slide-out
   };
@@ -67,7 +61,7 @@ const AvailabilityBanner = () => {
             it, the centered text collided with the ✕ on narrow phones. */}
         <span className="text-center leading-snug">
           Currently open to opportunities -{' '}
-          <a href="#contact" className="text-brand-yellow font-bold underline underline-offset-[3px] transition-opacity duration-150 ease hover:opacity-80 whitespace-nowrap" onClick={dismiss}>
+          <a href="#contact" className="text-brand-yellow font-bold underline underline-offset-[3px] transition-opacity duration-150 ease hover:opacity-80 whitespace-nowrap">
             Let's talk ↗
           </a>
         </span>

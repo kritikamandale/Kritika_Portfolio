@@ -5,7 +5,6 @@ import Image from 'next/image';
 // eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { GithubOutlineIcon, LinkedinIcon, TwitterIcon, TelegramIcon, HashnodeIcon } from '../../components/Icons/BrandIcons';
 
 // useLayoutEffect warns/no-ops during SSR (no DOM to measure) - fall back to
@@ -148,13 +147,7 @@ const HeroSection = () => {
   const scrollCueRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
 
-  /* ── Detect mobile for graceful degradation ──
-     useLayoutEffect (not useEffect) so this resolves BEFORE the GSAP setup
-     effect below ever runs. With useEffect, the GSAP effect's first pass
-     ran with the stale default isMobile=false - building the desktop pinned
-     ScrollTrigger timeline on an actual mobile device - and only corrected
-     itself a tick later via ctx.revert(), which is where the "reveal never
-     plays on mobile" bug came from. */
+  /* ── Detect mobile for dynamic SVG geometry ── */
   useIsomorphicLayoutEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
@@ -162,97 +155,93 @@ const HeroSection = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  /* ── GSAP ScrollTrigger animation ── */
+  /* ── GSAP animation on load ── */
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
+    let playHandler = null;
+    let timerId = null;
+
     const ctx = gsap.context(() => {
       const arcCircle = arcRef.current;
       const photo = photoRef.current;
       const ctaBtn = ctaBtnRef.current;
-      const scrollCue = scrollCueRef.current;
 
       if (!arcCircle || !photo || !ctaBtn) return;
 
       // Get the SVG circle's circumference for stroke animation
       const circumference = arcCircle.getTotalLength();
-      // Arc covers 70% of the circle (greater than semi, not full)
-      // Start with ~8% visible at the top, animate to 70%
-      const arcGap = circumference * 0.30; // 30% always hidden
+      // Arc covers 70% of the circle (30% hidden)
+      const arcGap = circumference * 0.30;
+
+      // Initial state:
+      // 1. Arc stroke starts nearly invisible at top (sweeps clockwise to arcGap)
       gsap.set(arcCircle, {
         strokeDasharray: circumference,
-        strokeDashoffset: circumference * 0.92, // nearly invisible - tiny hint at top
+        strokeDashoffset: circumference * 0.92,
       });
 
-      // Photo starts hidden
-      gsap.set(photo, { opacity: 0, scale: 0.5 });
-      // CTA button starts hidden
-      gsap.set(ctaBtn, { opacity: 0, scale: 0.6 });
+      // 2. Photo starts at center of circle: scale 0, opacity 0
+      gsap.set(photo, {
+        opacity: 0,
+        scale: 0,
+        transformOrigin: '50% 50%',
+      });
 
-      if (isMobile) {
-        // ── MOBILE: Hero is the first section on the page, so it's already
-        // in view the instant the page loads - a scroll-position trigger
-        // (e.g. "top 80%") is already satisfied before the user scrolls at
-        // all, and depending on viewport height (S/M/L phones) that made the
-        // reveal fire inconsistently or before paint. Play it as a load-in
-        // instead, so it's reliably visible on every phone size.
-        gsap.to(arcCircle, { strokeDashoffset: arcGap, duration: 1.2, delay: 0.2, ease: 'power2.out' });
-        gsap.to(photo, { opacity: 1, scale: 1, duration: 0.8, delay: 0.5, ease: 'back.out(1.7)' });
-        gsap.to(ctaBtn, { opacity: 1, scale: 1, duration: 0.6, delay: 0.8, ease: 'back.out(1.7)' });
-      } else {
-        // ── DESKTOP: Full pinned scrub animation ──
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top top',
-            end: '+=300%', // 3 viewport scrolls: ~2 for animation, ~1 for pause
-            pin: pinRef.current,
-            scrub: 0.8,
-            anticipatePin: 1,
-          },
-        });
+      // 3. Red "Let's talk" CTA button starts hidden at its endpoint
+      gsap.set(ctaBtn, {
+        opacity: 0,
+        scale: 0,
+        transformOrigin: 'center center',
+      });
 
-        // ─── Scroll cue fades out immediately ───
-        tl.to(scrollCue, {
-          opacity: 0,
-          y: 20,
-          ease: 'power2.in',
-          duration: 0.15,
-        }, 0);
+      let hasPlayed = false;
+      const playAnimation = () => {
+        if (hasPlayed) return;
+        hasPlayed = true;
 
-        // ─── ARC TRACE (0% → 50%): Arc color draws from top to Let's Talk endpoint ───
+        const tl = gsap.timeline();
+
+        // Arc moves in circular direction (clockwise)
         tl.to(arcCircle, {
           strokeDashoffset: arcGap,
-          ease: 'none',
-          duration: 1,
+          duration: 1.4,
+          ease: 'power2.out',
         }, 0);
 
-        // ─── PHOTO REVEAL (15% → 55%): Image appears while arc is drawing ───
+        // Simultaneously, photo comes from center and expands to full circle
         tl.to(photo, {
           opacity: 1,
           scale: 1,
+          duration: 1.2,
           ease: 'power3.out',
-          duration: 0.6,
-        }, 0.15);
+        }, 0.1);
 
-        // ─── CTA REVEAL (50% → 75%): "Let's Talk" appears once arc reaches its endpoint ───
+        // Red "Let's talk" button animates in at arc endpoint
         tl.to(ctaBtn, {
           opacity: 1,
           scale: 1,
+          duration: 0.6,
           ease: 'back.out(1.7)',
-          duration: 0.5,
-        }, 0.5);
+        }, 0.7);
+      };
 
-        // Removed RIGHT COL DIM to keep name opaque
+      playHandler = playAnimation;
 
-        // ─── PAUSE SPACER: ~1 viewport scroll of pinned dead time before unpinning ───
-        // All animations complete by ~1.0. This empty tween extends the timeline
-        // so the section stays pinned for one additional scroll-worth with nothing changing.
-        tl.to({}, { duration: 1 }, 1.0);
+      if (typeof window !== 'undefined' && window.__preloaderDone) {
+        playAnimation();
+      } else {
+        window.addEventListener('preloader-exit', playAnimation);
+        timerId = setTimeout(playAnimation, 3600);
       }
     }, sectionRef);
 
-    return () => ctx.revert();
-  }, [isMobile]);
+    return () => {
+      ctx.revert();
+      if (typeof window !== 'undefined' && playHandler) {
+        window.removeEventListener('preloader-exit', playHandler);
+      }
+      if (timerId) clearTimeout(timerId);
+    };
+  }, []);
 
   /* ── SVG arc parameters ── */
   const svgSize = isMobile ? 320 : 500;

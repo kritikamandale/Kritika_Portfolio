@@ -32,8 +32,12 @@ const Preloader = ({ onComplete }) => {
     const t2 = setTimeout(() => setPhase('bubbles'), 2400);
     const t3 = setTimeout(() => {
       setPhase('exit');
+      if (typeof window !== 'undefined') {
+        window.__preloaderDone = true;
+        window.dispatchEvent(new CustomEvent('preloader-exit'));
+      }
       if (onComplete) onComplete();
-    }, 3800);
+    }, 3600);
     const t4 = setTimeout(() => setPhase('done'), 4200);
 
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };

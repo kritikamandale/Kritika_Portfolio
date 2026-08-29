@@ -79,7 +79,7 @@ const HeadingStar = () => (
 const CertCard = ({ cert, onOpen }) => (
   <div className="group relative flex flex-col shrink-0 w-[80vw] max-w-[340px] md:w-[360px] bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-5 lg:p-6 transition-shadow duration-300 hover:shadow-card-hover">
     <div
-      className="relative mb-5 h-40 overflow-hidden rounded-lg cursor-pointer border border-border-light dark:border-border-dark bg-white dark:bg-black/20"
+      className="relative mb-4 h-40 overflow-hidden rounded-lg cursor-pointer border border-border-light dark:border-border-dark bg-white dark:bg-black/20"
       onClick={() => onOpen(cert.image)}
       title="Click to view full certificate"
     >
@@ -106,7 +106,7 @@ const CertCard = ({ cert, onOpen }) => (
       </div>
     </div>
 
-    <div className="flex flex-wrap gap-2 mb-4 mt-auto pt-2">
+    <div className="flex flex-wrap gap-2 mt-auto pt-2">
       {cert.skills.map((skill) => (
         <span
           key={skill}
@@ -117,8 +117,8 @@ const CertCard = ({ cert, onOpen }) => (
       ))}
     </div>
 
-    <div className="mt-auto pt-4 border-t border-divider-light dark:border-divider-dark">
-      {cert.link ? (
+    {cert.link && (
+      <div className="mt-3 pt-3 border-t border-divider-light dark:border-divider-dark">
         <a
           href={cert.link}
           className="text-[13px] font-bold text-brand-orange hover:text-brand-red transition-colors flex items-center gap-1 w-fit"
@@ -127,12 +127,8 @@ const CertCard = ({ cert, onOpen }) => (
         >
           Show credential ↗
         </a>
-      ) : (
-        <span className="text-[13px] font-bold text-text-muted dark:text-text-dark-muted flex items-center gap-1">
-          Credential verified
-        </span>
-      )}
-    </div>
+      </div>
+    )}
   </div>
 );
 
