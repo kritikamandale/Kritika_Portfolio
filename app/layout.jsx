@@ -71,7 +71,7 @@ export const metadata = {
     description: 'Kritika Mandale is a full stack and AI developer building projects like SkinAI and HireLens, based in Nagpur, India.',
     url: 'https://kritikamandale.dev',
     siteName: 'Kritika Mandale Portfolio',
-    images: [{ url: '/kritika-mandale-og-image.webp', width: 1200, height: 630, alt: 'Kritika Mandale Portfolio' }],
+    images: [{ url: '/kritika-mandale-og-image.webp?v=2', width: 1200, height: 630, alt: 'Kritika Mandale Portfolio' }],
     type: 'website',
   },
   robots: {
@@ -92,7 +92,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Kritika Mandale | Full Stack & AI Developer',
     description: 'Kritika Mandale is a full stack and AI developer building projects like SkinAI and HireLens, based in Nagpur, India.',
-    images: ['/kritika-mandale-og-image.webp'],
+    images: ['/kritika-mandale-og-image.webp?v=2'],
   },
 }
 
