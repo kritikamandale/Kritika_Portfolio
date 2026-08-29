@@ -196,15 +196,8 @@ const Certificates = () => {
       // MOBILE this is ZERO - the moment the last certificate is flush, the pin
       // releases and the next scroll moves into the following section, so there
       // is no dead scroll at the end.
-      const HOLD = isMobile ? 0 : 500;
-
-      // Pinned scroll room held at the START, before any horizontal movement
-      // begins, so the section settles in view and the FIRST card is fully read
-      // before the track starts sliding. On mobile this is ~one comfortable
-      // swipe (half a screen): the first certificate settles for a single
-      // gesture, then each further swipe moves ~one certificate horizontally -
-      // no long dead lead-in.
-      const LEAD = Math.round(window.innerHeight * 0.5);
+      const HOLD = isMobile ? 0 : 300;
+      const LEAD = isMobile ? 150 : 300;
 
       // Grow the section tall enough that the sticky pane stays pinned for the
       // leading hold, the entire horizontal travel, and the trailing hold.
@@ -228,7 +221,7 @@ const Certificates = () => {
       });
 
       tl.to({}, { duration: LEAD }) // lead-in - plain vertical scroll first
-        .to(track, { x: () => -getDistance(), ease: 'none', duration: 1 })
+        .to(track, { x: () => -getDistance(), ease: 'none', duration: () => getDistance() || 1 }) // smooth 1:1 horizontal scroll pacing
         .to({}, { duration: HOLD }); // hold - track stays parked at its final x
 
       return () => {
