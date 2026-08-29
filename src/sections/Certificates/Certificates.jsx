@@ -159,6 +159,14 @@ const Certificates = () => {
     };
   }, [selectedImage, lenis]);
 
+  // Refresh ScrollTrigger after layout settles & certificate images load
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 600);
+    return () => clearTimeout(timer);
+  }, []);
+
   // Horizontal scroll - enabled on ALL viewports (mobile + desktop). Uses
   // NATIVE CSS sticky for pinning (no GSAP pin) so it stays buttery-smooth
   // with Lenis and never glitches when handing off from vertical to
@@ -178,7 +186,7 @@ const Certificates = () => {
 
       // Horizontal distance the track must travel so the last card ends flush.
       const getDistance = () =>
-        Math.max(0, track.scrollWidth - track.parentElement.clientWidth);
+        Math.max(0, track.scrollWidth - (track.parentElement?.clientWidth || window.innerWidth));
 
       const isMobile = window.innerWidth < 768;
 
@@ -205,8 +213,6 @@ const Certificates = () => {
       };
       sizeSection();
 
-      const dist = getDistance() || 1;
-
       // Ensure the rail always starts parked on the first card.
       gsap.set(track, { x: 0 });
 
@@ -217,12 +223,12 @@ const Certificates = () => {
           end: () => `+=${LEAD + getDistance() + HOLD}`,
           scrub: 1,
           invalidateOnRefresh: true,
-          onRefresh: sizeSection,
+          onRefreshInit: sizeSection,
         },
       });
 
       tl.to({}, { duration: LEAD }) // lead-in - plain vertical scroll first
-        .to(track, { x: -dist, ease: 'none', duration: dist })
+        .to(track, { x: () => -getDistance(), ease: 'none', duration: 1 })
         .to({}, { duration: HOLD }); // hold - track stays parked at its final x
 
       return () => {
